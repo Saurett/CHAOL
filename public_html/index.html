@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>CHAOL</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://www.gstatic.com/firebasejs/3.6.8/firebase.js"></script>
+        <script src="JS/FireBase_app.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <div class="cointainer">
+            <input id="input_email" type="email" placeholder="Correo electrónico">
+            <input id="input_contrasena" type="password" placeholder="Contraseña">
+            <button id="button_iniciarsesion" type="button" class="btn btn-action">Iniciar Sesión</button>
+            <button id="button_registrar" type="button" class="btn btn-secondary">Registrarse</button>
+            <button id="button_cerrarsesion" type="button" class="btn btn-action hide">Cerrar Sesión</button>
+
+        </div>
+        <script>
+            const input_email = document.getElementById('input_email');
+            const input_contrasena = document.getElementById('input_contrasena');
+            const button_iniciarsesion = document.getElementById('button_iniciarsesion');
+            const button_registrar = document.getElementById('button_registrar');
+            const button_cerrarsesion = document.getElementById('button_cerrarsesion');
+            
+            //Registrar
+            button_registrar.addEventListener('click', e => {
+                //Obtener valores
+                const email = input_email.value;
+                const password = input_contrasena.value;
+                const auth = firebase.auth();
+
+                //Realizar registro
+                const respuesta = auth.createUserWithEmailAndPassword(email, password);
+                respuesta.catch(e => console.log(e.message));
+            });
+            
+            //Iniciar sesión
+            button_iniciarsesion.addEventListener('click', e => {
+                //Obtener valores
+                const email = input_email.value;
+                const password = input_contrasena.value;
+                const auth = firebase.auth();
+
+                //Realizar registro
+                const respuesta = auth.signInWithEmailAndPassword(email, password);
+                respuesta.catch(e => console.log(e.message));
+            });
+            
+            //Cerrar Sesión
+            button_cerrarsesion.addEventListener('click', e => {
+                firebase.auth().signOut();
+            });
+            
+        </script>
+    </body>
+</html>
