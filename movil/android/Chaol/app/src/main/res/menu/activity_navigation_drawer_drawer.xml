@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <item
+        android:id="@+id/menu_title_admin"
+        android:title="Administración">
+        <menu>
+            <item
+                android:icon="@drawable/ic_menu_share"
+                android:title="Clientes" />
+            <item
+                android:icon="@drawable/ic_menu_share"
+                android:title="Transportistas" />
+            <item
+                android:icon="@drawable/ic_menu_share"
+                android:title="Choferes" />
+            <item
+                android:icon="@drawable/ic_menu_share"
+                android:title="Tractores" />
+            <item
+                android:icon="@drawable/ic_menu_share"
+                android:title="Remolqques" />
+        </menu>
+    </item>
+    <item android:title="Fletes">
+        <menu>
+            <item
+                android:icon="@drawable/ic_menu_share"
+                android:title="Agenda" />
+        </menu>
+    </item>
+
+    <item android:title="Cuentas">
+        <menu>
+            <item
+                android:icon="@mipmap/ic_account_circle_white_48dp"
+                android:title="Mi perfil" />
+            <item
+                android:icon="@drawable/ic_menu_send"
+                android:title="Cerrar Sessión" />
+        </menu>
+    </item>
+</menu>
