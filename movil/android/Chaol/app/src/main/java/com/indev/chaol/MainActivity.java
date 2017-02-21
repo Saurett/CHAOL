@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void openNavigation() {
-        Intent intent = new Intent(this, NavigationDrawer.class);
+        Intent intent = new Intent(this, NavigationDrawerActivity.class);
         startActivity(intent);
     }
 }

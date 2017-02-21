@@ -1,53 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-    <group>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <group android:checkableBehavior="single">
+            <item
+                android:icon="@mipmap/ic_dashboard_white_48dp"
+                android:title="Inicio" />
+        </group>
         <item
-            android:icon="@mipmap/ic_dashboard_white_48dp"
-            android:title="Inicio"></item>
+            android:id="@+id/menu_title_administracion"
+            android:title="Administración">
+            <menu>
+                <group
+                    android:id="@+id/submenu_administracion"
+                    android:checkableBehavior="single">
+                    <item
+                        android:icon="@mipmap/ic_person_white_48dp"
+                        android:title="Clientes" />
+                    <item
+                        android:icon="@mipmap/ic_person_outline_white_48dp"
+                        android:title="Transportistas" />
+                    <item
+                        android:icon="@mipmap/ic_people_white_48dp"
+                        android:title="Choferes" />
+                    <item
+                        android:icon="@mipmap/ic_local_shipping_white_48dp"
+                        android:title="Tractores" />
+                    <item
+                        android:icon="@mipmap/ic_directions_bus_white_48dp"
+                        android:title="Remolques" />
+                </group>
+            </menu>
+        </item>
+        <item
+            android:id="@+id/menu_title_fletes"
+            android:title="Fletes">
+            <menu>
+                <group
+                    android:id="@+id/submenu_fletes"
+                    android:checkableBehavior="single">
+                    <item
+                        android:icon="@mipmap/ic_view_agenda_white_48dp"
+                        android:title="Agenda" />
+                </group>
+            </menu>
+        </item>
+        <item
+            android:id="@+id/menu_title_cuentas"
+            android:title="Cuentas">
+            <menu>
+                <group
+                    android:id="@+id/submenu_cuentas"
+                    android:checkableBehavior="single">
+                    <item
+                        android:icon="@mipmap/ic_account_circle_white_48dp"
+                        android:title="Mi perfil" />
+                    <item
+                        android:icon="@mipmap/ic_power_settings_new_white_48dp"
+                        android:title="Cerrar Sessión" />
+                </group>
+            </menu>
+        </item>
     </group>
-    <item
-        android:id="@+id/menu_title_admin"
-        android:title="Administración">
-        <menu>
-            <item
-                android:icon="@mipmap/ic_person_white_48dp"
-                android:title="Clientes" />
-            <item
-                android:icon="@mipmap/ic_person_outline_white_48dp"
-                android:title="Transportistas" />
-            <item
-                android:icon="@mipmap/ic_people_white_48dp"
-                android:title="Choferes" />
-            <item
-                android:icon="@mipmap/ic_local_shipping_white_48dp"
-                android:title="Tractores" />
-            <item
-                android:icon="@mipmap/ic_directions_bus_white_48dp"
-                android:title="Remolques" />
-        </menu>
-    </item>
-    <item
-        android:id="@+id/menu_title_fletes"
-        android:title="Fletes">
-        <menu>
-            <item
-                android:icon="@mipmap/ic_view_agenda_white_48dp"
-                android:title="Agenda" />
-        </menu>
-    </item>
 
-    <item
-        android:id="@+id/menu_title_cuentas"
-        android:title="Cuentas">
-        <menu>
-            <item
-                android:icon="@mipmap/ic_account_circle_white_48dp"
-                android:title="Mi perfil" />
-            <item
-                android:icon="@mipmap/ic_power_settings_new_white_48dp"
-                android:title="Cerrar Sessión" />
-        </menu>
-    </item>
 </menu>
