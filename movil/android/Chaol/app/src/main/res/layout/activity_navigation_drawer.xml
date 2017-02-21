@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="@color/colorDivider"
+    android:background="@color/colorIcons"
     tools:openDrawer="start">
 
     <include
@@ -21,8 +21,9 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         android:background="@color/colorIcons"
-        app:itemTextColor="@color/colorPrimaryDark"
-        app:itemIconTint="@color/colorPrimaryDark"
+        app:itemTextColor="@color/drawer_item"
+        app:itemIconTint="@color/drawer_item"
+        app:itemBackground="@drawable/nav_item_drawable"
         app:menu="@menu/activity_navigation_drawer_drawer" />
 
 </android.support.v4.widget.DrawerLayout>

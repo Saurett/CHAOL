@@ -12,10 +12,10 @@
         android:title="Administración">
         <menu>
             <item
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@mipmap/ic_person_white_48dp"
                 android:title="Clientes" />
             <item
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@mipmap/ic_person_outline_white_48dp"
                 android:title="Transportistas" />
             <item
                 android:icon="@mipmap/ic_people_white_48dp"
