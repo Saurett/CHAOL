@@ -14,7 +14,7 @@
 
     <style name="MenuItemTitleStyle">
         <item name="android:textColor">@color/colorPrimary</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">15sp</item>
     </style>
 
 </resources>

@@ -44,10 +44,21 @@ public class NavigationDrawer extends AppCompatActivity
 
         //Configura el color de los titulos del menu
         Menu menu = navigationView.getMenu();
-        MenuItem tools = menu.findItem(R.id.menu_title_admin);
-        SpannableString s = new SpannableString(tools.getTitle());
-        s.setSpan(new TextAppearanceSpan(this, R.style.MenuItemTitleStyle), 0, s.length(), 0);
-        tools.setTitle(s);
+
+        MenuItem miAdmin = menu.findItem(R.id.menu_title_admin);
+        SpannableString ssAdmin = new SpannableString(miAdmin.getTitle());
+        ssAdmin.setSpan(new TextAppearanceSpan(this, R.style.MenuItemTitleStyle), 0, ssAdmin.length(), 0);
+        miAdmin.setTitle(ssAdmin);
+
+        MenuItem miFletes = menu.findItem(R.id.menu_title_fletes);
+        SpannableString ssFletes = new SpannableString(miFletes.getTitle());
+        ssFletes.setSpan(new TextAppearanceSpan(this, R.style.MenuItemTitleStyle), 0, ssFletes.length(), 0);
+        miFletes.setTitle(ssFletes);
+
+        MenuItem miCuentas = menu.findItem(R.id.menu_title_cuentas);
+        SpannableString ssCuentas = new SpannableString(miCuentas.getTitle());
+        ssCuentas.setSpan(new TextAppearanceSpan(this, R.style.MenuItemTitleStyle), 0, ssCuentas.length(), 0);
+        miCuentas.setTitle(ssCuentas);
 
         navigationView.setNavigationItemSelectedListener(this);
     }

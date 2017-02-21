@@ -2,6 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+    <group>
+        <item
+            android:icon="@mipmap/ic_dashboard_white_48dp"
+            android:title="Inicio"></item>
+    </group>
     <item
         android:id="@+id/menu_title_admin"
         android:title="Administración">
@@ -13,31 +18,35 @@
                 android:icon="@drawable/ic_menu_share"
                 android:title="Transportistas" />
             <item
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@mipmap/ic_people_white_48dp"
                 android:title="Choferes" />
             <item
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@mipmap/ic_local_shipping_white_48dp"
                 android:title="Tractores" />
             <item
-                android:icon="@drawable/ic_menu_share"
-                android:title="Remolqques" />
+                android:icon="@mipmap/ic_directions_bus_white_48dp"
+                android:title="Remolques" />
         </menu>
     </item>
-    <item android:title="Fletes">
+    <item
+        android:id="@+id/menu_title_fletes"
+        android:title="Fletes">
         <menu>
             <item
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@mipmap/ic_view_agenda_white_48dp"
                 android:title="Agenda" />
         </menu>
     </item>
 
-    <item android:title="Cuentas">
+    <item
+        android:id="@+id/menu_title_cuentas"
+        android:title="Cuentas">
         <menu>
             <item
                 android:icon="@mipmap/ic_account_circle_white_48dp"
                 android:title="Mi perfil" />
             <item
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@mipmap/ic_power_settings_new_white_48dp"
                 android:title="Cerrar Sessión" />
         </menu>
     </item>
