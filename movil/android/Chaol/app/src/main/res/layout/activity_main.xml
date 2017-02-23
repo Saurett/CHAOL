@@ -1,31 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorIcons"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.indev.chaol.MainActivity">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin">
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:layout_marginBottom="40dp"
+                android:layout_marginBottom="60dp"
+                android:layout_marginTop="50dp"
                 android:background="@drawable/logo_chaol_full"></ImageView>
 
             <EditText
@@ -34,7 +37,6 @@
                 android:layout_height="40dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="20dp"
-                android:layout_marginTop="20dp"
                 android:background="@color/colorIcons"
                 android:hint="Usuario"
                 android:inputType="text"
@@ -42,7 +44,7 @@
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimaryDark"
                 android:textColorHint="@color/colorSecondaryText"
-                android:textSize="20sp" />
+                android:textSize="15sp" />
 
             <EditText
                 android:id="@+id/txt_login_password"
@@ -56,55 +58,65 @@
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimaryDark"
                 android:textColorHint="@color/colorSecondaryText"
-                android:textSize="20sp" />
+                android:textSize="15sp" />
 
             <Button
                 android:id="@+id/btn_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:layout_marginTop="20dp"
                 android:background="@color/colorSecondaryAccent"
-                android:text="Ingresar" />
+                android:text="Ingresar"
+                android:textColor="@color/colorIcons" />
 
             <Button
                 android:id="@+id/btn_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:background="@color/colorAccent"
-                android:text="Registrarse" />
+                android:text="Registrarse"
+                android:textColor="@color/colorIcons" />
 
             <Button
                 android:id="@+id/btn_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:background="@null"
-                android:text="No recuerdo mi contraseña"
-                />
+                android:textColor="@color/colorPrimaryDark"
+                android:text="No recuerdo mi contraseña" />
 
-            <RelativeLayout
-                android:layout_marginBottom="1dp"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                >
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentBottom="true"
-                    android:orientation="vertical"
-                    >
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="10dp"
-                        android:background="@color/colorSecondaryDivider"/>
-                    <View
-                        android:layout_marginTop="10dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="10dp"
-                        android:background="@color/colorSecondaryDivider"/>
-
-                </LinearLayout>
-            </RelativeLayout>
         </LinearLayout>
-    </ScrollView>
-</RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="bottom"
+                android:orientation="vertical">
+
+                <View
+                    android:id="@+id/view2"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@color/colorSecondaryDivider" />
+
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/colorSecondaryDivider" />
+
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>
