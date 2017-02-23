@@ -47,6 +47,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         openNavigation();
     }
 
+    /**
+     * @autor saurett / InDev
+     * Inicia el navigationDrawer
+     */
     private void openNavigation() {
         Intent intent = new Intent(this, NavigationDrawerActivity.class);
         startActivity(intent);
