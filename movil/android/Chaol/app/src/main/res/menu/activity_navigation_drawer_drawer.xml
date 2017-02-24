@@ -4,7 +4,7 @@
         <group android:checkableBehavior="single">
             <item
                 android:icon="@mipmap/ic_dashboard_white_48dp"
-                android:title="Inicio" />
+                android:title="@string/default_item_menu_title_inicio_name" />
         </group>
         <item
             android:id="@+id/menu_title_administracion"

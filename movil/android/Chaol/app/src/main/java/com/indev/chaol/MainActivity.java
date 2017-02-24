@@ -11,7 +11,7 @@ import android.widget.EditText;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText txtUsername, txtPassword;
-    private Button btnLogin,btnForgotPassword;
+    private Button btnLogin, btnRegister, btnForgotPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //Se inicializan los compotentes a utilizar
         btnLogin = (Button) findViewById(R.id.btn_login);
+        btnRegister = (Button) findViewById(R.id.btn_register);
         btnForgotPassword = (Button) findViewById(R.id.btn_forgot_password);
 
         this.setStyles();

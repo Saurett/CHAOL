@@ -1,10 +1,24 @@
 <resources>
-    <string name="app_name">Chaol</string>
-    <string name="title_activity_navigation_drawer">CHAOL</string>
+    <string name="app_name">CHAOL</string>
+    <string name="title_activity_navigation_drawer">Inicio</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
-    <string name="default_forgot_password">No recuerdo mi contraseña</string>
+
+    <!--Login-->
+    <string name="default_btn_forgot_password_name">No recuerdo mi contraseña</string>
+    <string name="default_btn_login_name">Ingresar</string>
+    <string name="default_btn_register_name">Registrarse</string>
+    <string name="default_hint_txt_username_name">Usuario</string>
+    <string name="default_hint_txt_password_name">Contraseña</string>
+
+    <!--Navigation Drawer-->
+
+
+
+    <!--Item Menu -->
+    <string name="default_item_menu_title_inicio_name">Inicio</string>
+
 </resources>

@@ -46,9 +46,9 @@ public class NavigationDrawerActivity extends AppCompatActivity
          * Asigna colores a los titulos del menu, debe de ur antes
          * de setNavigationItemSelectedListener(this);
          * */
-        setMenuTitleColor(menu,R.id.menu_title_administracion);
-        setMenuTitleColor(menu,R.id.menu_title_fletes);
-        setMenuTitleColor(menu,R.id.menu_title_cuentas);
+        setMenuTitleColor(menu, R.id.menu_title_administracion);
+        setMenuTitleColor(menu, R.id.menu_title_fletes);
+        setMenuTitleColor(menu, R.id.menu_title_cuentas);
 
         navigationView.setNavigationItemSelectedListener(this);
     }
@@ -88,10 +88,9 @@ public class NavigationDrawerActivity extends AppCompatActivity
     }
 
     /**
-     * @autor saurett / InDev
      * @param menu
-     * @param id
-     * Configura el color de los Titulos del menu.
+     * @param id   Configura el color de los Titulos del menu.
+     * @autor saurett / InDev
      */
     private void setMenuTitleColor(Menu menu, int id) {
         MenuItem menuItem = menu.findItem(id);
@@ -105,7 +104,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
