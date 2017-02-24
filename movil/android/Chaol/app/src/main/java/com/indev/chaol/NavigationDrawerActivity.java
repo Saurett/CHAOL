@@ -2,6 +2,8 @@ package com.indev.chaol;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -11,6 +13,9 @@ import android.text.SpannableString;
 import android.text.style.TextAppearanceSpan;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.indev.chaol.fragments.MainPanelFragment;
+import com.indev.chaol.utils.Constans;
 
 public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -51,6 +56,12 @@ public class NavigationDrawerActivity extends AppCompatActivity
         setMenuTitleColor(menu, R.id.menu_title_cuentas);
 
         navigationView.setNavigationItemSelectedListener(this);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        FragmentTransaction mainFragment = fragmentManager.beginTransaction();
+        mainFragment.add(R.id.fragment_main_container, new MainPanelFragment(), Constans.FRAGMENT_MAIN_PANEL);
+        mainFragment.commit();
     }
 
     @Override

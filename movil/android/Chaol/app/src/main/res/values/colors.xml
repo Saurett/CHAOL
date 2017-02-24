@@ -11,5 +11,6 @@
     <color name="colorIcons">#FFFFFF</color>
     <color name="colorDivider">#BDBDBD</color>
     <color name="colorSecondaryDivider">#5D4037</color>
+    <color name="colorBorder">#03A9F4</color>
 </resources>
 
