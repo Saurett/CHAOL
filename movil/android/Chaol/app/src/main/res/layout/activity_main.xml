@@ -25,71 +25,84 @@
             android:paddingRight="@dimen/activity_horizontal_margin">
 
             <ImageView
+                android:id="@+id/imageView2"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:layout_marginBottom="60dp"
+                android:layout_marginBottom="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="50dp"
                 android:background="@drawable/logo_chaol_full"></ImageView>
 
-            <EditText
-                android:id="@+id/txt_login_username"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="20dp"
-                android:background="@color/colorIcons"
-                android:hint="Usuario"
-                android:inputType="text"
-                android:maxLines="1"
-                android:textAlignment="center"
-                android:textColor="@color/colorPrimaryDark"
-                android:textColorHint="@color/colorSecondaryText"
-                android:textSize="15sp" />
 
-            <EditText
-                android:id="@+id/txt_login_password"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginBottom="20dp"
-                android:background="@color/colorIcons"
+                android:layout_height="wrap_content"
+                android:hint="Usuario"
+                android:theme="@style/AppTheme.LoginChaol">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/txt_login_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="20dp"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textSize="15sp"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:hint="Contraseña"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:textAlignment="center"
-                android:textColor="@color/colorPrimaryDark"
-                android:textColorHint="@color/colorSecondaryText"
-                android:textSize="15sp" />
+                android:theme="@style/AppTheme.LoginChaol">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/txt_login_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="20dp"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:textSize="15sp" />
+            </android.support.design.widget.TextInputLayout>
 
             <Button
                 android:id="@+id/btn_login"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="20dp"
                 android:background="@color/colorSecondaryAccent"
                 android:text="Ingresar"
-                android:textColor="@color/colorIcons" />
+                android:textAllCaps="false"
+                android:textColor="@color/colorIcons"
+                android:textSize="15sp" />
 
             <Button
                 android:id="@+id/btn_register"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_marginBottom="10dp"
                 android:background="@color/colorAccent"
                 android:text="Registrarse"
-                android:textColor="@color/colorIcons" />
+                android:textAllCaps="false"
+                android:textColor="@color/colorIcons"
+                android:textSize="15sp" />
 
             <Button
-                android:id="@+id/btn_password"
+                android:id="@+id/btn_forgot_password"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_marginBottom="10dp"
                 android:background="@null"
+                android:text="@string/default_forgot_password"
+                android:textAllCaps="false"
                 android:textColor="@color/colorPrimaryDark"
-                android:text="No recuerdo mi contraseña" />
+                android:textSize="15sp" />
 
         </LinearLayout>
-
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -104,13 +117,11 @@
                 android:orientation="vertical">
 
                 <View
-                    android:id="@+id/view2"
                     android:layout_width="match_parent"
                     android:layout_height="10dp"
                     android:background="@color/colorSecondaryDivider" />
 
                 <View
-                    android:id="@+id/view"
                     android:layout_width="match_parent"
                     android:layout_height="10dp"
                     android:layout_marginTop="10dp"

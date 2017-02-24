@@ -1,6 +1,7 @@
 package com.indev.chaol;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -10,7 +11,7 @@ import android.widget.EditText;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText txtUsername, txtPassword;
-    private Button btnLogin;
+    private Button btnLogin,btnForgotPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,10 +20,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //Se inicializan los compotentes a utilizar
         btnLogin = (Button) findViewById(R.id.btn_login);
+        btnForgotPassword = (Button) findViewById(R.id.btn_forgot_password);
+
+        this.setStyles();
 
         //Se asignar "this" para direccionar al evento onClick de View.OnClickListener
         btnLogin.setOnClickListener(this);
-
     }
 
     //Metodo implementado del View.OnClickListener
@@ -54,5 +57,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void openNavigation() {
         Intent intent = new Intent(this, NavigationDrawerActivity.class);
         startActivity(intent);
+    }
+
+    private void setStyles() {
+        btnForgotPassword.setPaintFlags(btnForgotPassword.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
     }
 }
