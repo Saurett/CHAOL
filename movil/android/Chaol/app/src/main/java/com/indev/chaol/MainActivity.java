@@ -18,20 +18,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        /**Se defire la orientación de la pantalla**/
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT);
 
-        //Se inicializan los compotentes a utilizar
+        /**Se inicializan los compotentes a utilizar**/
         btnLogin = (Button) findViewById(R.id.btn_login);
         btnRegister = (Button) findViewById(R.id.btn_register);
         btnForgotPassword = (Button) findViewById(R.id.btn_forgot_password);
 
         this.setStyles();
 
-        //Se asignar "this" para direccionar al evento onClick de View.OnClickListener
+        /**Se asignar "this" para direccionar al evento onClick de View.OnClickListener**/
         btnLogin.setOnClickListener(this);
+        btnRegister.setOnClickListener(this);
     }
 
-    //Metodo implementado del View.OnClickListener
+    /**Metodo implementado del View.OnClickListener**/
     @Override
     public void onClick(View view) {
         int id = view.getId();
@@ -40,25 +43,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_login:
                 validationLogin();
                 break;
+            case R.id.btn_register:
+                openRegister();
+                break;
             default:
                 break;
         }
     }
 
-    //Valida los elementos del login
+    /**Valida los elementos del login**/
     public void validationLogin() {
         openNavigation();
     }
 
-    /**
-     * @autor saurett / InDev
-     * Inicia el navigationDrawer
-     */
+    /**Inicia el NavigationDrawerActivity y sale del login**/
     private void openNavigation() {
         Intent intent = new Intent(this, NavigationDrawerActivity.class);
         startActivity(intent);
     }
 
+    private void openRegister() {
+        Intent intent = new Intent(this, MainRegisterActivity.class);
+        startActivity(intent);
+    }
+
+    /**Asiga el estilo de subrayado al texto del boton**/
     private void setStyles() {
         btnForgotPassword.setPaintFlags(btnForgotPassword.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
     }

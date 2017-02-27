@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">CHAOL</string>
     <string name="title_activity_navigation_drawer">Inicio</string>
+    <string name="title_activity_main_register">REGISTRAR</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -15,7 +16,6 @@
     <string name="default_hint_txt_password_name">Contraseña</string>
 
     <!--Navigation Drawer-->
-
 
 
     <!--Item Menu -->

@@ -14,15 +14,19 @@ import java.util.HashMap;
 public final class Constants {
 
     //region FRAGMENT TAGS
+    /**Fragmentos principales**/
     public static final String FRAGMENT_MAIN_PANEL = "fragment_main_panel";
 
-    /**
-     * Contenido del FRAGMENT_MAIN_PANEL
-     **/
+    /**Contenido del FRAGMENT_MAIN_PANEL**/
     public static final String PANEL_FLETES_CONTAINER = "panel_fletes_container";
     public static final String PANEL_CLIENTES_CONTAINER = "panel_clientes_container";
     public static final String PANEL_TRANSPORTISTAS_CONTAINER = "panel_transportistas_container";
 
+    /**Fragmento secundario para registro de clientes**/
+    public static final String FRAGMENT_MAIN_REGISTER = "fragment_main_panel";
+
+
+    /**Contiene el TAG que le corresponde a cada ITEM del Menu**/
     public static final HashMap<Integer, String> ITEM_MENU_FRAGMENT;
     static {
         ITEM_MENU_FRAGMENT = new HashMap<>();
@@ -36,6 +40,7 @@ public final class Constants {
         ITEM_MENU_FRAGMENT.put(R.id.menu_item_perfil,FRAGMENT_MAIN_PANEL);
     }
 
+    /**Contiene el fragmento que le corresponde a cada TAG de Fragment**/
     public static final HashMap<String, Fragment> TAG_FRAGMENT;
     static {
         TAG_FRAGMENT = new HashMap<>();
