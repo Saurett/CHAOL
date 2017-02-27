@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //Metodo implementado del View.OnClickListener
     @Override
     public void onClick(View view) {
-
         int id = view.getId();
 
         switch (id) {
@@ -44,7 +43,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             default:
                 break;
         }
-
     }
 
     //Valida los elementos del login
