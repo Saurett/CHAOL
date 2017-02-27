@@ -3,11 +3,14 @@ package com.indev.chaol.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.indev.chaol.R;
+import com.indev.chaol.utils.Constants;
 
 
 /**
@@ -21,13 +24,15 @@ public class MainPanelFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_main_panel, container, false);
 
-        /*
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 
         FragmentTransaction mainFragment = fragmentManager.beginTransaction();
-        mainFragment.add(R.id.fragment_main_container, new MainPanelFragment(), Constans.FRAGMENT_MAIN_PANEL);
+
+        mainFragment.add(R.id.panel_fletes_container, new PanelFletesFragment(), Constants.PANEL_FLETES_CONTAINER);
+        mainFragment.add(R.id.panel_clientes_container, new PanelClientesFragment(), Constants.PANEL_CLIENTES_CONTAINER);
+        mainFragment.add(R.id.panel_transportistas_container, new PanelTransportistasFragment(), Constants.PANEL_TRANSPORTISTAS_CONTAINER);
+
         mainFragment.commit();
-        */
 
         return view;
     }

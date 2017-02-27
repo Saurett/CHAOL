@@ -15,7 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.indev.chaol.fragments.MainPanelFragment;
-import com.indev.chaol.utils.Constans;
+import com.indev.chaol.utils.Constants;
 
 public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -60,7 +60,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         FragmentTransaction mainFragment = fragmentManager.beginTransaction();
-        mainFragment.add(R.id.fragment_main_container, new MainPanelFragment(), Constans.FRAGMENT_MAIN_PANEL);
+        mainFragment.add(R.id.fragment_main_container, new MainPanelFragment(), Constants.FRAGMENT_MAIN_PANEL);
         mainFragment.commit();
     }
 
