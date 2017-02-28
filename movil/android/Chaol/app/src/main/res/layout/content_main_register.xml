@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_navigation_drawer"
     android:layout_width="match_parent"
-    android:background="@color/colorIcons"
     android:layout_height="match_parent"
+    android:background="@color/colorIcons"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -14,11 +14,23 @@
     tools:context="com.indev.chaol.MainRegisterActivity"
     tools:showIn="@layout/app_bar_main_register">
 
-    <FrameLayout
-        android:id="@+id/fragment_main_register_container"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@null"
-        android:layout_centerInParent="true"></FrameLayout>
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <FrameLayout
+                android:id="@+id/fragment_main_register_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:background="@null"></FrameLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </RelativeLayout>
