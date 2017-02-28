@@ -20,6 +20,8 @@ import com.indev.chaol.utils.Constants;
 public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static MenuItem lastMenuItem;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +50,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
     public void onPreRender(NavigationView navigationView) {
         Menu menu = navigationView.getMenu();
 
-        onNavigationItemSelected(navigationView.getMenu().getItem(0));
+        onNavigationItemSelected((lastMenuItem != null) ? lastMenuItem : navigationView.getMenu().getItem(0));
 
         setMenuTitleColor(menu, R.id.menu_title_administracion);
         setMenuTitleColor(menu, R.id.menu_title_fletes);
@@ -107,6 +109,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        lastMenuItem = item;
+
         switch (id) {
             case R.id.menu_item_inicio:
                 setTitle(item.getTitle());
@@ -116,6 +120,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
             case R.id.menu_item_clientes:
                 setTitle(item.getTitle());
                 this.closeFragment(this.getLastFragment());
+                this.openFragment(Constants.ITEM_MENU_FRAGMENT.get(id));
                 break;
             case R.id.menu_item_transportistas:
                 setTitle(item.getTitle());
