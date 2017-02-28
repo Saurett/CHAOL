@@ -67,7 +67,7 @@
                 android:text="Nombre o Razón Social"
                 android:textAlignment="textEnd"
                 android:textColor="@color/colorPrimaryText"
-                android:textSize="15sp" />
+                android:textSize="14sp" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -76,8 +76,8 @@
                 android:layout_marginRight="20dp"
                 android:layout_weight="1"
                 android:hint="Nombre o Razón Social"
-                android:textColor="@color/colorPrimaryText"
-                android:textSize="15sp" />
+                android:textSize="14sp"
+                android:theme="@style/AppTheme.Form" />
 
 
         </LinearLayout>
@@ -96,7 +96,7 @@
                 android:text="RFC"
                 android:textAlignment="textEnd"
                 android:textColor="@color/colorPrimaryText"
-                android:textSize="15sp" />
+                android:textSize="14sp" />
 
             <EditText
                 android:id="@+id/editText3"
@@ -106,8 +106,8 @@
                 android:layout_marginRight="20dp"
                 android:layout_weight="1"
                 android:hint="RFC"
-                android:textColor="@color/colorPrimaryText"
-                android:textSize="15sp" />
+                android:textSize="14sp"
+                android:theme="@style/AppTheme.Form" />
 
 
         </LinearLayout>
@@ -126,7 +126,7 @@
                 android:text="Calle"
                 android:textAlignment="textEnd"
                 android:textColor="@color/colorPrimaryText"
-                android:textSize="15sp" />
+                android:textSize="14sp" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -135,8 +135,8 @@
                 android:layout_marginRight="20dp"
                 android:layout_weight="1"
                 android:hint="Calle"
-                android:textColor="@color/colorPrimaryText"
-                android:textSize="15sp" />
+                android:textSize="14sp"
+                android:theme="@style/AppTheme.Form" />
 
 
         </LinearLayout>
@@ -155,7 +155,7 @@
                 android:text="Número Interior"
                 android:textAlignment="textEnd"
                 android:textColor="@color/colorPrimaryText"
-                android:textSize="15sp" />
+                android:textSize="14sp" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -164,8 +164,8 @@
                 android:layout_marginRight="20dp"
                 android:layout_weight="1"
                 android:hint="Número Interior"
-                android:textColor="@color/colorPrimaryText"
-                android:textSize="15sp" />
+                android:textSize="14sp"
+                android:theme="@style/AppTheme.Form" />
 
 
         </LinearLayout>
@@ -184,7 +184,7 @@
                 android:text="Número Exterior"
                 android:textAlignment="textEnd"
                 android:textColor="@color/colorPrimaryText"
-                android:textSize="15sp" />
+                android:textSize="14sp" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -193,8 +193,8 @@
                 android:layout_marginRight="20dp"
                 android:layout_weight="1"
                 android:hint="Número Exterior"
-                android:textColor="@color/colorPrimaryText"
-                android:textSize="15sp" />
+                android:textSize="14sp"
+                android:theme="@style/AppTheme.Form" />
 
         </LinearLayout>
 
@@ -213,7 +213,7 @@
                 android:text="Método de Pago"
                 android:textAlignment="textEnd"
                 android:textColor="@color/colorPrimaryText"
-                android:textSize="15sp" />
+                android:textSize="14sp" />
 
             <EditText
                 android:id="@+id/editText2"
@@ -223,8 +223,8 @@
                 android:layout_marginRight="20dp"
                 android:layout_weight="1"
                 android:hint="Método de Pago"
-                android:textColor="@color/colorPrimaryText"
-                android:textSize="15sp" />
+                android:textSize="14sp"
+                android:theme="@style/AppTheme.Form" />
 
 
         </LinearLayout>
@@ -244,7 +244,7 @@
                 android:text="Teléfono"
                 android:textAlignment="textEnd"
                 android:textColor="@color/colorPrimaryText"
-                android:textSize="15sp" />
+                android:textSize="14sp" />
 
             <EditText
                 android:id="@+id/editText"
@@ -254,8 +254,8 @@
                 android:layout_marginRight="20dp"
                 android:layout_weight="1"
                 android:hint="Teléfono"
-                android:textColor="@color/colorPrimaryText"
-                android:textSize="15sp" />
+                android:textSize="14sp"
+                android:theme="@style/AppTheme.Form" />
 
 
         </LinearLayout>
@@ -275,7 +275,7 @@
                 android:text="Celular"
                 android:textAlignment="textEnd"
                 android:textColor="@color/colorPrimaryText"
-                android:textSize="15sp" />
+                android:textSize="14sp" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -284,8 +284,8 @@
                 android:layout_marginRight="20dp"
                 android:layout_weight="1"
                 android:hint="Celular"
-                android:textColor="@color/colorPrimaryText"
-                android:textSize="15sp" />
+                android:textSize="14sp"
+                android:theme="@style/AppTheme.Form" />
         </LinearLayout>
 
         <LinearLayout
@@ -304,7 +304,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:scaleType="center"
-                android:src="@mipmap/ic_done_white_48dp"
+                android:src="@mipmap/ic_done_white_18dp"
                 app:backgroundTint="@color/colorPrimary" />
 
         </LinearLayout>

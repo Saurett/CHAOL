@@ -54,7 +54,7 @@
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
-                android:text="Flete por cotizar"
+                android:text="Clientes registrados"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="15sp" />
 
@@ -65,6 +65,7 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginTop="10dp"
+            android:visibility="invisible"
             android:paddingLeft="20dp">
 
             <android.support.design.widget.FloatingActionButton
@@ -101,6 +102,7 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginTop="10dp"
+            android:visibility="invisible"
             android:paddingLeft="20dp">
 
             <android.support.design.widget.FloatingActionButton
@@ -137,6 +139,7 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginTop="10dp"
+            android:visibility="invisible"
             android:paddingLeft="20dp">
 
             <android.support.design.widget.FloatingActionButton

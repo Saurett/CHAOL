@@ -21,7 +21,7 @@
             android:layout_height="40dp"
             android:background="@color/colorPrimaryDark"
             android:paddingStart="20dp"
-            android:text="FLETES- fragmento"
+            android:text="FLETES"
             android:textAlignment="textStart"
             android:textColor="@color/colorIcons" />
 
@@ -36,7 +36,7 @@
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginRight="5dp"
-                app:backgroundTint="@color/colorPrimaryDark"
+                app:backgroundTint="@color/colorPanelFletesUno"
                 app:elevation="0dp" />
 
             <TextView
@@ -72,7 +72,7 @@
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginRight="5dp"
-                app:backgroundTint="@color/colorPrimaryDark"
+                app:backgroundTint="@color/colorPanelFletesDos"
                 app:elevation="0dp" />
 
             <TextView
@@ -90,7 +90,7 @@
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
-                android:text="Cotizaciones por confirmar"
+                android:text="Esperando transportista"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="15sp" />
 
@@ -108,7 +108,7 @@
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginRight="5dp"
-                app:backgroundTint="@color/colorPrimaryDark"
+                app:backgroundTint="@color/colorPanelFletesTres"
                 app:elevation="0dp" />
 
             <TextView
@@ -126,7 +126,7 @@
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
-                android:text="Solicitudes de transportistas pendientes"
+                android:text="Transportista por confirmar"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="15sp" />
 
@@ -144,7 +144,7 @@
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginRight="5dp"
-                app:backgroundTint="@color/colorPrimaryDark"
+                app:backgroundTint="@color/colorPanelFletesCuatro"
                 app:elevation="0dp" />
 
             <TextView
@@ -162,7 +162,43 @@
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
-                android:text="Asignaciones de chofer pendientes"
+                android:text="Unidades por asignar"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20dp">
+
+            <android.support.design.widget.FloatingActionButton
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="5dp"
+                app:backgroundTint="@color/colorPanelFletesCinco"
+                app:elevation="0dp"
+                android:id="@+id/floatingActionButton" />
+
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:text="4"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:text="En progreso"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="15sp" />
 

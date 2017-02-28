@@ -36,7 +36,7 @@
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginRight="5dp"
-                app:backgroundTint="@color/colorPrimaryDark"
+                app:backgroundTint="@color/colorPanelTransportistasUno"
                 app:elevation="0dp" />
 
             <TextView
@@ -54,7 +54,7 @@
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
-                android:text="Flete por cotizar"
+                android:text="Transportistas por autorizar"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="15sp" />
 
@@ -72,7 +72,7 @@
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginRight="5dp"
-                app:backgroundTint="@color/colorPrimaryDark"
+                app:backgroundTint="@color/colorPanelTransportistasDos"
                 app:elevation="0dp" />
 
             <TextView
@@ -90,7 +90,7 @@
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
-                android:text="Cotizaciones por confirmar"
+                android:text="Transportistas autorizados"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="15sp" />
 
@@ -101,6 +101,7 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginTop="10dp"
+            android:visibility="invisible"
             android:paddingLeft="20dp">
 
             <android.support.design.widget.FloatingActionButton
@@ -137,6 +138,7 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginTop="10dp"
+            android:visibility="invisible"
             android:paddingLeft="20dp">
 
             <android.support.design.widget.FloatingActionButton

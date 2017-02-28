@@ -61,7 +61,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            //super.onBackPressed();
         }
     }
 
@@ -140,6 +140,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
             case R.id.menu_item_perfil:
                 setTitle(item.getTitle());
                 this.closeFragment(this.getLastFragment());
+                this.openFragment(Constants.ITEM_MENU_FRAGMENT.get(id));
                 break;
             case R.id.menu_item_cerrar_session:
                 finish();

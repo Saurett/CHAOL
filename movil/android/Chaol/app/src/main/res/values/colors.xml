@@ -12,5 +12,18 @@
     <color name="colorDivider">#BDBDBD</color>
     <color name="colorSecondaryDivider">#5D4037</color>
     <color name="colorBorder">#03A9F4</color>
+
+    <!--Colores apartado para los paneles-->
+    <color name="colorPanelFletesUno">#800080</color>
+    <color name="colorPanelFletesDos">#ffa500</color>
+    <color name="colorPanelFletesTres">#ffff00</color>
+    <color name="colorPanelFletesCuatro">#008000</color>
+    <color name="colorPanelFletesCinco">#0000ff</color>
+
+    <color name="colorPanelTransportistasUno">#ffff00</color>
+    <color name="colorPanelTransportistasDos">#0000ff</color>
+
+
+
 </resources>
 

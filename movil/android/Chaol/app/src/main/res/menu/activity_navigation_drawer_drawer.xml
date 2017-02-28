@@ -6,7 +6,7 @@
                 android:id="@+id/menu_item_inicio"
                 android:icon="@mipmap/ic_dashboard_white_48dp"
                 android:checked="true"
-                android:title="@string/default_item_menu_title_inicio_name" />
+                android:title="@string/default_item_menu_title_inicio" />
         </group>
         <item
             android:id="@+id/menu_title_administracion"
