@@ -32,74 +32,130 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="50dp"
-                android:src="@drawable/logo_chaol_full"/>
+                android:src="@drawable/logo_chaol_full" />
 
-            <android.support.design.widget.TextInputLayout
+            <LinearLayout
+                android:id="@+id/form_forgot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/default_hint_txt_username_name"
-                android:theme="@style/AppTheme.LoginChaol">
+                android:orientation="vertical"
+                android:visibility="gone">
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/txt_login_username"
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="20dp"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:textSize="15sp" />
-            </android.support.design.widget.TextInputLayout>
+                    android:layout_height="wrap_content"
+                    android:hint="@string/default_hint_txt_email"
+                    android:theme="@style/AppTheme.LoginChaol">
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/default_hint_txt_password_name"
-                android:theme="@style/AppTheme.LoginChaol">
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/txt_login_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="20dp"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1"
+                        android:textSize="15sp" />
+                </android.support.design.widget.TextInputLayout>
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/txt_login_password"
+                <Button
+                    android:id="@+id/btn_send_email"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginBottom="20dp"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
+                    android:layout_height="30dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/colorAccent"
+                    android:text="Recuperar"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorIcons"
                     android:textSize="15sp" />
-            </android.support.design.widget.TextInputLayout>
 
-            <Button
-                android:id="@+id/btn_login"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="20dp"
-                android:background="@color/colorSecondaryAccent"
-                android:text="@string/default_btn_login_name"
-                android:textAllCaps="false"
-                android:textColor="@color/colorIcons"
-                android:textSize="15sp" />
+                <Button
+                    android:id="@+id/btn_back_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@null"
+                    android:text="Regresar"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="15sp" />
 
-            <Button
-                android:id="@+id/btn_register"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginBottom="10dp"
-                android:background="@color/colorAccent"
-                android:text="@string/default_btn_register_name"
-                android:textAllCaps="false"
-                android:textColor="@color/colorIcons"
-                android:textSize="15sp" />
+            </LinearLayout>
 
-            <Button
-                android:id="@+id/btn_forgot_password"
+            <LinearLayout
+                android:id="@+id/form_login"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginBottom="10dp"
-                android:background="@null"
-                android:text="@string/default_btn_forgot_password_name"
-                android:textAllCaps="false"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="15sp" />
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/default_hint_txt_username_name"
+                    android:theme="@style/AppTheme.LoginChaol">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/txt_login_username"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="20dp"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:textSize="15sp" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/default_hint_txt_password_name"
+                    android:theme="@style/AppTheme.LoginChaol">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/txt_login_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="20dp"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:textSize="15sp" />
+                </android.support.design.widget.TextInputLayout>
+
+                <Button
+                    android:id="@+id/btn_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/colorSecondaryAccent"
+                    android:text="@string/default_btn_login_name"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorIcons"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/btn_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/colorAccent"
+                    android:text="@string/default_btn_register_name"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorIcons"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/btn_forgot_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@null"
+                    android:text="@string/default_btn_forgot_password_name"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

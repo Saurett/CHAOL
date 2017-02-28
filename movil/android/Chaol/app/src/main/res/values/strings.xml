@@ -14,6 +14,7 @@
     <string name="default_btn_register_name">Registrarse</string>
     <string name="default_hint_txt_username_name">Usuario</string>
     <string name="default_hint_txt_password_name">Contraseña</string>
+    <string name="default_hint_txt_email">Correo Electronico</string>
 
     <!--Navigation Drawer-->
 
