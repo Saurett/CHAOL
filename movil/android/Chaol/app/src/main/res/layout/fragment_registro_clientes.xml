@@ -64,6 +64,7 @@
                 android:layout_height="20dp"
                 android:layout_marginRight="2dp"
                 android:layout_weight="1"
+
                 android:text="Nombre o Razón Social"
                 android:textAlignment="textEnd"
                 android:textColor="@color/colorPrimaryText"
@@ -76,6 +77,8 @@
                 android:layout_marginRight="20dp"
                 android:layout_weight="1"
                 android:hint="Nombre o Razón Social"
+                android:inputType="text"
+                android:maxLines="1"
                 android:textSize="14sp"
                 android:theme="@style/AppTheme.Form" />
 
@@ -106,6 +109,8 @@
                 android:layout_marginRight="20dp"
                 android:layout_weight="1"
                 android:hint="RFC"
+                android:inputType="text"
+                android:maxLines="1"
                 android:textSize="14sp"
                 android:theme="@style/AppTheme.Form" />
 
@@ -135,6 +140,8 @@
                 android:layout_marginRight="20dp"
                 android:layout_weight="1"
                 android:hint="Calle"
+                android:inputType="text"
+                android:maxLines="1"
                 android:textSize="14sp"
                 android:theme="@style/AppTheme.Form" />
 
@@ -164,6 +171,8 @@
                 android:layout_marginRight="20dp"
                 android:layout_weight="1"
                 android:hint="Número Interior"
+                android:inputType="text"
+                android:maxLines="1"
                 android:textSize="14sp"
                 android:theme="@style/AppTheme.Form" />
 
@@ -193,6 +202,8 @@
                 android:layout_marginRight="20dp"
                 android:layout_weight="1"
                 android:hint="Número Exterior"
+                android:inputType="text"
+                android:maxLines="1"
                 android:textSize="14sp"
                 android:theme="@style/AppTheme.Form" />
 
@@ -223,6 +234,8 @@
                 android:layout_marginRight="20dp"
                 android:layout_weight="1"
                 android:hint="Método de Pago"
+                android:inputType="text"
+                android:maxLines="1"
                 android:textSize="14sp"
                 android:theme="@style/AppTheme.Form" />
 
@@ -254,6 +267,8 @@
                 android:layout_marginRight="20dp"
                 android:layout_weight="1"
                 android:hint="Teléfono"
+                android:inputType="number"
+                android:maxLines="1"
                 android:textSize="14sp"
                 android:theme="@style/AppTheme.Form" />
 
@@ -284,6 +299,37 @@
                 android:layout_marginRight="20dp"
                 android:layout_weight="1"
                 android:hint="Celular"
+                android:inputType="number"
+                android:maxLines="1"
+                android:textSize="14sp"
+                android:theme="@style/AppTheme.Form" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginLeft="2dp"
+                android:layout_weight="1"
+                android:text="Correo Electronico"
+                android:textAlignment="textEnd"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="14sp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:hint="Correo Electronico"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
                 android:textSize="14sp"
                 android:theme="@style/AppTheme.Form" />
         </LinearLayout>

@@ -9,7 +9,7 @@ import com.indev.chaol.fragments.ListadoRemolquesFragment;
 import com.indev.chaol.fragments.ListadoTractoresFragment;
 import com.indev.chaol.fragments.ListadoTransportistasFragment;
 import com.indev.chaol.fragments.MainPanelFragment;
-import com.indev.chaol.fragments.RegistroClientesFragment;
+import com.indev.chaol.fragments.MainPerfilesFragment;
 
 import java.util.HashMap;
 
@@ -51,6 +51,11 @@ public final class Constants {
     public static final String PANEL_TRANSPORTISTAS_CONTAINER = "panel_transportistas_container";
 
     /**
+     * Fragmento principal para perfiles
+     **/
+    public static final String FRAGMENT_MAIN_PERFILES = "fragment_main_perfiles";
+
+    /**
      * Fragmento secundario para registro de clientes
      **/
     public static final String FRAGMENT_MAIN_REGISTER = "fragment_main_register";
@@ -78,7 +83,7 @@ public final class Constants {
         ITEM_MENU_FRAGMENT.put(R.id.menu_item_tractores, FRAGMENT_LISTADO_TRACTORES);
         ITEM_MENU_FRAGMENT.put(R.id.menu_item_remolques, FRAGMENT_LISTADO_REMOLQUES);
         ITEM_MENU_FRAGMENT.put(R.id.menu_item_agenda, FRAGMENT_LISTADO_CLIENTES);
-        ITEM_MENU_FRAGMENT.put(R.id.menu_item_perfil, FRAGMENT_MAIN_REGISTER);
+        ITEM_MENU_FRAGMENT.put(R.id.menu_item_perfil, FRAGMENT_MAIN_PERFILES);
     }
 
     /**
@@ -89,7 +94,7 @@ public final class Constants {
     static {
         TAG_FRAGMENT = new HashMap<>();
         TAG_FRAGMENT.put(FRAGMENT_MAIN_PANEL, new MainPanelFragment());
-        TAG_FRAGMENT.put(FRAGMENT_MAIN_REGISTER, new RegistroClientesFragment());
+        TAG_FRAGMENT.put(FRAGMENT_MAIN_PERFILES, new MainPerfilesFragment());
         TAG_FRAGMENT.put(FRAGMENT_LISTADO_CLIENTES, new ListadoClientesFragment());
         TAG_FRAGMENT.put(FRAGMENT_LISTADO_TRANSPORTISTAS, new ListadoTransportistasFragment());
         TAG_FRAGMENT.put(FRAGMENT_LISTADO_CHOFERES, new ListadoChoferesFragment());
