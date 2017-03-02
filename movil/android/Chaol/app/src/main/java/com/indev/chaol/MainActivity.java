@@ -8,6 +8,7 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -95,8 +96,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * Inicia el NavigationDrawerActivity y sale del login
      **/
     private void openNavigation() {
-        Intent intent = new Intent(this, NavigationDrawerActivity.class);
-        startActivity(intent);
+        try {
+            Intent intent = new Intent(this, NavigationDrawerActivity.class);
+            startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.i("Tag", e.getMessage() + "PTM");
+        }
     }
 
     private void openRegister() {

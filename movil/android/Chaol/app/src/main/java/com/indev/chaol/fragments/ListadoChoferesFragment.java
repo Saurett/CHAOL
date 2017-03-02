@@ -17,12 +17,12 @@ import com.indev.chaol.utils.Constants;
  * Created by saurett on 24/02/2017.
  */
 
-public class ListadoClientesFragment extends Fragment {
+public class ListadoChoferesFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_listado_clientes, container, false);
+        View view = inflater.inflate(R.layout.fragment_listado_choferes, container, false);
 
         return view;
     }
@@ -32,7 +32,7 @@ public class ListadoClientesFragment extends Fragment {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 
         FragmentTransaction mainFragment = fragmentManager.beginTransaction();
-        mainFragment.add(R.id.listado_clientes_container, new ClientesFragment(), Constants.FRAGMENT_CLIENTES);
+        mainFragment.add(R.id.listado_choferes_container, new ChoferesFragment(), Constants.FRAGMENT_CHOFERES);
         mainFragment.commit();
 
         super.onStart();

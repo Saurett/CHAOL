@@ -13,8 +13,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.indev.chaol.R;
-import com.indev.chaol.adapters.ClientesAdapter;
-import com.indev.chaol.models.Clientes;
+import com.indev.chaol.adapters.ChoferesAdapter;
+import com.indev.chaol.models.Choferes;
 import com.indev.chaol.utils.Constants;
 
 import java.util.ArrayList;
@@ -25,21 +25,21 @@ import java.util.List;
  * Created by saurett on 24/02/2017.
  */
 
-public class ClientesFragment extends Fragment implements View.OnClickListener {
+public class ChoferesFragment extends Fragment implements View.OnClickListener {
 
-    private static List<Clientes> clientesList;
-    private static RecyclerView recyclerViewClientes;
-    private ClientesAdapter clientesAdapter;
+    private static List<Choferes> choferesList;
+    private static RecyclerView recyclerViewChoferes;
+    private ChoferesAdapter choferesAdapter;
     private ProgressDialog pDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_clientes, container, false);
+        View view = inflater.inflate(R.layout.fragment_choferes, container, false);
 
-        recyclerViewClientes = (RecyclerView) view.findViewById(R.id.recycler_view_clientes);
-        clientesAdapter = new ClientesAdapter();
-        clientesAdapter.setOnClickListener(this);
+        recyclerViewChoferes = (RecyclerView) view.findViewById(R.id.recycler_view_choferes);
+        choferesAdapter = new ChoferesAdapter();
+        choferesAdapter.setOnClickListener(this);
 
         return view;
     }
@@ -47,7 +47,7 @@ public class ClientesFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
-        AsyncCallWS wsTaskList = new AsyncCallWS(Constants.WS_KEY_BUSCAR_CLIENTES);
+        AsyncCallWS wsTaskList = new AsyncCallWS(Constants.WS_KEY_BUSCAR_CHOFERES);
         wsTaskList.execute();
         super.onCreate(savedInstanceState);
     }
@@ -65,20 +65,18 @@ public class ClientesFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
 
-        Toast.makeText(getContext(), "Boton de fletes, añadir fletes", Toast.LENGTH_SHORT).show();
-
     }
 
     private class AsyncCallWS extends AsyncTask<Void, Void, Boolean> {
 
         private Integer webServiceOperation;
-        private List<Clientes> tempClientesList;
+        private List<Choferes> tempChoferesList;
         private String textError;
 
         private AsyncCallWS(Integer wsOperation) {
             webServiceOperation = wsOperation;
             textError = "";
-            tempClientesList = new ArrayList<>();
+            tempChoferesList = new ArrayList<>();
         }
 
         @Override
@@ -97,17 +95,17 @@ public class ClientesFragment extends Fragment implements View.OnClickListener {
 
             try {
                 switch (webServiceOperation) {
-                    case Constants.WS_KEY_BUSCAR_CLIENTES:
+                    case Constants.WS_KEY_BUSCAR_CHOFERES:
 
-                        tempClientesList = new ArrayList<>();
-                        List<Clientes> clientes = new ArrayList<>();
+                        tempChoferesList = new ArrayList<>();
+                        List<Choferes> choferes = new ArrayList<>();
 
-                        clientes.add(new Clientes("Francisco Javier Díaz Saurett"));
-                        clientes.add(new Clientes("Fred Gomez Leyva"));
-                        clientes.add(new Clientes("Jorge Chaol Strayer"));
-                        clientes.add(new Clientes("Carlos Moreno Cantinflas"));
+                        choferes.add(new Choferes("Lola la trailera"));
+                        choferes.add(new Choferes("Nacho ghost raider"));
+                        choferes.add(new Choferes("Roman Kenshi"));
+                        choferes.add(new Choferes("Jorge Strayer"));
 
-                        tempClientesList.addAll(clientes);
+                        tempChoferesList.addAll(choferes);
 
                         validOperation = true;
 
@@ -124,18 +122,18 @@ public class ClientesFragment extends Fragment implements View.OnClickListener {
         @Override
         protected void onPostExecute(final Boolean success) {
             try {
-                clientesList = new ArrayList<>();
+                choferesList = new ArrayList<>();
                 pDialog.dismiss();
                 if (success) {
 
-                    if (tempClientesList.size() > 0) {
-                        clientesList.addAll(tempClientesList);
-                        clientesAdapter.addAll(clientesList);
+                    if (tempChoferesList.size() > 0) {
+                        choferesList.addAll(tempChoferesList);
+                        choferesAdapter.addAll(choferesList);
 
-                        recyclerViewClientes.setAdapter(clientesAdapter);
+                        recyclerViewChoferes.setAdapter(choferesAdapter);
 
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-                        recyclerViewClientes.setLayoutManager(linearLayoutManager);
+                        recyclerViewChoferes.setLayoutManager(linearLayoutManager);
 
                     } else {
                         Toast.makeText(getActivity(), "La lista se encuentra vacía", Toast.LENGTH_SHORT).show();

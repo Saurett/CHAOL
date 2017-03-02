@@ -13,8 +13,9 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.indev.chaol.R;
-import com.indev.chaol.adapters.ClientesAdapter;
-import com.indev.chaol.models.Clientes;
+import com.indev.chaol.adapters.TractoresAdapter;
+import com.indev.chaol.models.Choferes;
+import com.indev.chaol.models.Tractores;
 import com.indev.chaol.utils.Constants;
 
 import java.util.ArrayList;
@@ -25,21 +26,21 @@ import java.util.List;
  * Created by saurett on 24/02/2017.
  */
 
-public class ClientesFragment extends Fragment implements View.OnClickListener {
+public class TractoresFragment extends Fragment implements View.OnClickListener {
 
-    private static List<Clientes> clientesList;
-    private static RecyclerView recyclerViewClientes;
-    private ClientesAdapter clientesAdapter;
+    private static List<Tractores> tractoresList;
+    private static RecyclerView recyclerViewTractores;
+    private TractoresAdapter tractoresAdapter;
     private ProgressDialog pDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_clientes, container, false);
+        View view = inflater.inflate(R.layout.fragment_tractores, container, false);
 
-        recyclerViewClientes = (RecyclerView) view.findViewById(R.id.recycler_view_clientes);
-        clientesAdapter = new ClientesAdapter();
-        clientesAdapter.setOnClickListener(this);
+        recyclerViewTractores = (RecyclerView) view.findViewById(R.id.recycler_view_tractores);
+        tractoresAdapter = new TractoresAdapter();
+        tractoresAdapter.setOnClickListener(this);
 
         return view;
     }
@@ -47,7 +48,7 @@ public class ClientesFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
-        AsyncCallWS wsTaskList = new AsyncCallWS(Constants.WS_KEY_BUSCAR_CLIENTES);
+        AsyncCallWS wsTaskList = new AsyncCallWS(Constants.WS_KEY_BUSCAR_TRACTORES);
         wsTaskList.execute();
         super.onCreate(savedInstanceState);
     }
@@ -65,20 +66,18 @@ public class ClientesFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
 
-        Toast.makeText(getContext(), "Boton de fletes, añadir fletes", Toast.LENGTH_SHORT).show();
-
     }
 
     private class AsyncCallWS extends AsyncTask<Void, Void, Boolean> {
 
         private Integer webServiceOperation;
-        private List<Clientes> tempClientesList;
+        private List<Tractores> tempTractoresList;
         private String textError;
 
         private AsyncCallWS(Integer wsOperation) {
             webServiceOperation = wsOperation;
             textError = "";
-            tempClientesList = new ArrayList<>();
+            tempTractoresList = new ArrayList<>();
         }
 
         @Override
@@ -97,17 +96,16 @@ public class ClientesFragment extends Fragment implements View.OnClickListener {
 
             try {
                 switch (webServiceOperation) {
-                    case Constants.WS_KEY_BUSCAR_CLIENTES:
+                    case Constants.WS_KEY_BUSCAR_TRACTORES:
 
-                        tempClientesList = new ArrayList<>();
-                        List<Clientes> clientes = new ArrayList<>();
+                        tempTractoresList = new ArrayList<>();
+                        List<Tractores> tractores = new ArrayList<>();
 
-                        clientes.add(new Clientes("Francisco Javier Díaz Saurett"));
-                        clientes.add(new Clientes("Fred Gomez Leyva"));
-                        clientes.add(new Clientes("Jorge Chaol Strayer"));
-                        clientes.add(new Clientes("Carlos Moreno Cantinflas"));
+                        tractores.add(new Tractores("John Deere"));
+                        tractores.add(new Tractores("Massey Ferguson"));
+                        tractores.add(new Tractores("Lamborghini"));
 
-                        tempClientesList.addAll(clientes);
+                        tempTractoresList.addAll(tractores);
 
                         validOperation = true;
 
@@ -124,18 +122,18 @@ public class ClientesFragment extends Fragment implements View.OnClickListener {
         @Override
         protected void onPostExecute(final Boolean success) {
             try {
-                clientesList = new ArrayList<>();
+                tractoresList = new ArrayList<>();
                 pDialog.dismiss();
                 if (success) {
 
-                    if (tempClientesList.size() > 0) {
-                        clientesList.addAll(tempClientesList);
-                        clientesAdapter.addAll(clientesList);
+                    if (tempTractoresList.size() > 0) {
+                        tractoresList.addAll(tempTractoresList);
+                        tractoresAdapter.addAll(tractoresList);
 
-                        recyclerViewClientes.setAdapter(clientesAdapter);
+                        recyclerViewTractores.setAdapter(tractoresAdapter);
 
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-                        recyclerViewClientes.setLayoutManager(linearLayoutManager);
+                        recyclerViewTractores.setLayoutManager(linearLayoutManager);
 
                     } else {
                         Toast.makeText(getActivity(), "La lista se encuentra vacía", Toast.LENGTH_SHORT).show();

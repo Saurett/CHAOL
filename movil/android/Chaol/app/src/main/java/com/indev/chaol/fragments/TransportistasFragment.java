@@ -13,8 +13,9 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.indev.chaol.R;
-import com.indev.chaol.adapters.ClientesAdapter;
+import com.indev.chaol.adapters.TransportistasAdapter;
 import com.indev.chaol.models.Clientes;
+import com.indev.chaol.models.Transportistas;
 import com.indev.chaol.utils.Constants;
 
 import java.util.ArrayList;
@@ -25,21 +26,21 @@ import java.util.List;
  * Created by saurett on 24/02/2017.
  */
 
-public class ClientesFragment extends Fragment implements View.OnClickListener {
+public class TransportistasFragment extends Fragment implements View.OnClickListener {
 
-    private static List<Clientes> clientesList;
-    private static RecyclerView recyclerViewClientes;
-    private ClientesAdapter clientesAdapter;
+    private static List<Transportistas> transportistasList;
+    private static RecyclerView recyclerViewTransportistas;
+    private TransportistasAdapter transportistasAdapter;
     private ProgressDialog pDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_clientes, container, false);
+        View view = inflater.inflate(R.layout.fragment_transportistas, container, false);
 
-        recyclerViewClientes = (RecyclerView) view.findViewById(R.id.recycler_view_clientes);
-        clientesAdapter = new ClientesAdapter();
-        clientesAdapter.setOnClickListener(this);
+        recyclerViewTransportistas = (RecyclerView) view.findViewById(R.id.recycler_view_transportistas);
+        transportistasAdapter = new TransportistasAdapter();
+        transportistasAdapter.setOnClickListener(this);
 
         return view;
     }
@@ -47,7 +48,7 @@ public class ClientesFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
-        AsyncCallWS wsTaskList = new AsyncCallWS(Constants.WS_KEY_BUSCAR_CLIENTES);
+        AsyncCallWS wsTaskList = new AsyncCallWS(Constants.WS_KEY_BUSCAR_TRANSPORTISTAS);
         wsTaskList.execute();
         super.onCreate(savedInstanceState);
     }
@@ -65,20 +66,18 @@ public class ClientesFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
 
-        Toast.makeText(getContext(), "Boton de fletes, añadir fletes", Toast.LENGTH_SHORT).show();
-
     }
 
     private class AsyncCallWS extends AsyncTask<Void, Void, Boolean> {
 
         private Integer webServiceOperation;
-        private List<Clientes> tempClientesList;
+        private List<Transportistas> tempTransportistasList;
         private String textError;
 
         private AsyncCallWS(Integer wsOperation) {
             webServiceOperation = wsOperation;
             textError = "";
-            tempClientesList = new ArrayList<>();
+            tempTransportistasList = new ArrayList<>();
         }
 
         @Override
@@ -97,17 +96,17 @@ public class ClientesFragment extends Fragment implements View.OnClickListener {
 
             try {
                 switch (webServiceOperation) {
-                    case Constants.WS_KEY_BUSCAR_CLIENTES:
+                    case Constants.WS_KEY_BUSCAR_TRANSPORTISTAS:
 
-                        tempClientesList = new ArrayList<>();
-                        List<Clientes> clientes = new ArrayList<>();
+                        tempTransportistasList = new ArrayList<>();
+                        List<Transportistas> transportes = new ArrayList<>();
 
-                        clientes.add(new Clientes("Francisco Javier Díaz Saurett"));
-                        clientes.add(new Clientes("Fred Gomez Leyva"));
-                        clientes.add(new Clientes("Jorge Chaol Strayer"));
-                        clientes.add(new Clientes("Carlos Moreno Cantinflas"));
+                        transportes.add(new Transportistas("Transportes CHAOL"));
+                        transportes.add(new Transportistas("Transportes LOAHC"));
+                        transportes.add(new Transportistas("Transportes Leyva"));
+                        transportes.add(new Transportistas("Transportes Saurett"));
 
-                        tempClientesList.addAll(clientes);
+                        tempTransportistasList.addAll(transportes);
 
                         validOperation = true;
 
@@ -124,18 +123,18 @@ public class ClientesFragment extends Fragment implements View.OnClickListener {
         @Override
         protected void onPostExecute(final Boolean success) {
             try {
-                clientesList = new ArrayList<>();
+                transportistasList = new ArrayList<>();
                 pDialog.dismiss();
                 if (success) {
 
-                    if (tempClientesList.size() > 0) {
-                        clientesList.addAll(tempClientesList);
-                        clientesAdapter.addAll(clientesList);
+                    if (tempTransportistasList.size() > 0) {
+                        transportistasList.addAll(tempTransportistasList);
+                        transportistasAdapter.addAll(transportistasList);
 
-                        recyclerViewClientes.setAdapter(clientesAdapter);
+                        recyclerViewTransportistas.setAdapter(transportistasAdapter);
 
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-                        recyclerViewClientes.setLayoutManager(linearLayoutManager);
+                        recyclerViewTransportistas.setLayoutManager(linearLayoutManager);
 
                     } else {
                         Toast.makeText(getActivity(), "La lista se encuentra vacía", Toast.LENGTH_SHORT).show();

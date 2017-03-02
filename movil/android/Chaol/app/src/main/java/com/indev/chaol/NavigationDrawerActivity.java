@@ -20,6 +20,7 @@ import com.indev.chaol.utils.Constants;
 public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    /**Variable que almacena el ultimo item que fue seleccionado en el navigation**/
     private static MenuItem lastMenuItem;
 
     @Override
@@ -125,18 +126,22 @@ public class NavigationDrawerActivity extends AppCompatActivity
             case R.id.menu_item_transportistas:
                 setTitle(item.getTitle());
                 this.closeFragment(this.getLastFragment());
+                this.openFragment(Constants.ITEM_MENU_FRAGMENT.get(id));
                 break;
             case R.id.menu_item_choferes:
                 setTitle(item.getTitle());
                 this.closeFragment(this.getLastFragment());
+                this.openFragment(Constants.ITEM_MENU_FRAGMENT.get(id));
                 break;
             case R.id.menu_item_tractores:
                 setTitle(item.getTitle());
                 this.closeFragment(this.getLastFragment());
+                this.openFragment(Constants.ITEM_MENU_FRAGMENT.get(id));
                 break;
             case R.id.menu_item_remolques:
                 setTitle(item.getTitle());
                 this.closeFragment(this.getLastFragment());
+                this.openFragment(Constants.ITEM_MENU_FRAGMENT.get(id));
                 break;
             case R.id.menu_item_agenda:
                 setTitle(item.getTitle());
@@ -148,6 +153,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 this.openFragment(Constants.ITEM_MENU_FRAGMENT.get(id));
                 break;
             case R.id.menu_item_cerrar_session:
+                /**Si se crean mas elementos al cerrar session, se creara un metodo**/
+                lastMenuItem = null;
                 finish();
                 break;
         }
@@ -157,7 +164,9 @@ public class NavigationDrawerActivity extends AppCompatActivity
         return true;
     }
 
-    /**Valida el tag enviado y cierra si existe el fragmento**/
+    /**
+     * Valida el tag enviado y cierra si existe el fragmento
+     **/
     private void closeFragment(String tag) {
         Fragment fragment = getSupportFragmentManager().findFragmentByTag(tag);
         if (fragment != null)
@@ -165,7 +174,9 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
     }
 
-    /**Abre el fragmento mediante el tag seleccionado**/
+    /**
+     * Abre el fragmento mediante el tag seleccionado
+     **/
     private void openFragment(String tag) {
         FragmentTransaction mainFragment = getSupportFragmentManager().beginTransaction();
         mainFragment.add(R.id.fragment_main_container, Constants.TAG_FRAGMENT.get(tag), tag);
@@ -173,7 +184,9 @@ public class NavigationDrawerActivity extends AppCompatActivity
         mainFragment.commit();
     }
 
-    /**Obtiene el ultimo fragmento mediante almacenamiento por BackStackEntry en fragmentManager**/
+    /**
+     * Obtiene el ultimo fragmento mediante almacenamiento por BackStackEntry en fragmentManager
+     **/
     private String getLastFragment() {
         String name = "";
 
