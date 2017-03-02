@@ -31,6 +31,7 @@ public class MainPanelFragment extends Fragment {
         mainFragment.add(R.id.panel_fletes_container, new PanelFletesFragment(), Constants.PANEL_FLETES_CONTAINER);
         mainFragment.add(R.id.panel_clientes_container, new PanelClientesFragment(), Constants.PANEL_CLIENTES_CONTAINER);
         mainFragment.add(R.id.panel_transportistas_container, new PanelTransportistasFragment(), Constants.PANEL_TRANSPORTISTAS_CONTAINER);
+        mainFragment.add(R.id.panel_choferes_container, new PanelChoferesFragment(), Constants.PANEL_CHOFERES_CONTAINER);
 
         mainFragment.commit();
 

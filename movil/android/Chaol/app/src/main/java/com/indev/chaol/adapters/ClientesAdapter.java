@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.indev.chaol.R;
+import com.indev.chaol.fragments.ClientesFragment;
 import com.indev.chaol.models.Clientes;
 
 import java.util.ArrayList;
@@ -57,7 +58,15 @@ public class ClientesAdapter extends RecyclerView.Adapter<ClientesAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final Clientes item = clientes.get(position);
 
+        item.setPosition(position);
+
         holder.txtNombre.setText(item.getNombre());
+        holder.btnEliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ClientesFragment.onListenerAction(item);
+            }
+        });
     }
 
     @Override

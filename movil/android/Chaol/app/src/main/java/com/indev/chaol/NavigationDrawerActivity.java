@@ -15,13 +15,16 @@ import android.text.style.TextAppearanceSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
 import com.indev.chaol.utils.Constants;
 
 public class NavigationDrawerActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, NavigationDrawerInterface {
 
     /**Variable que almacena el ultimo item que fue seleccionado en el navigation**/
     private static MenuItem lastMenuItem;
+    /**Variable global para tener acceso al navigationDrawer**/
+    private static NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +39,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
 
         /**Siempre antes de  "navigationView.setNavigationItemSelectedListener(this)" **/
         this.onPreRender(navigationView);
@@ -90,18 +93,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
         */
 
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * @param menu
-     * @param id   Configura el color de los Titulos del menu.
-     * @autor saurett / InDev
-     */
-    private void setMenuTitleColor(Menu menu, int id) {
-        MenuItem menuItem = menu.findItem(id);
-        SpannableString ss = new SpannableString(menuItem.getTitle());
-        ss.setSpan(new TextAppearanceSpan(this, R.style.MenuItemTitleStyle), 0, ss.length(), 0);
-        menuItem.setTitle(ss);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -165,6 +156,18 @@ public class NavigationDrawerActivity extends AppCompatActivity
     }
 
     /**
+     * @param menu
+     * @param id   Configura el color de los Titulos del menu.
+     * @autor saurett / InDev
+     */
+    private void setMenuTitleColor(Menu menu, int id) {
+        MenuItem menuItem = menu.findItem(id);
+        SpannableString ss = new SpannableString(menuItem.getTitle());
+        ss.setSpan(new TextAppearanceSpan(this, R.style.MenuItemTitleStyle), 0, ss.length(), 0);
+        menuItem.setTitle(ss);
+    }
+
+    /**
      * Valida el tag enviado y cierra si existe el fragmento
      **/
     private void closeFragment(String tag) {
@@ -202,5 +205,17 @@ public class NavigationDrawerActivity extends AppCompatActivity
         }
 
         return name;
+    }
+
+    @Override
+    public void onChangeMainFragment(int idView) {
+        try {
+            MenuItem menuItem = navigationView.getMenu().findItem(idView);
+            onNavigationItemSelected(menuItem);
+            /**Forza el checkItem solo debe usarse de forma manual**/
+            navigationView.setCheckedItem(idView);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

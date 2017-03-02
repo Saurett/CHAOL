@@ -49,6 +49,7 @@ public final class Constants {
     public static final String PANEL_FLETES_CONTAINER = "panel_fletes_container";
     public static final String PANEL_CLIENTES_CONTAINER = "panel_clientes_container";
     public static final String PANEL_TRANSPORTISTAS_CONTAINER = "panel_transportistas_container";
+    public static final String PANEL_CHOFERES_CONTAINER = "panel_choferes_container";
 
     /**
      * Fragmento principal para perfiles

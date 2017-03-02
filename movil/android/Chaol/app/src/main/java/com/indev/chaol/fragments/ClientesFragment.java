@@ -25,11 +25,12 @@ import java.util.List;
  * Created by saurett on 24/02/2017.
  */
 
-public class ClientesFragment extends Fragment implements View.OnClickListener {
+public class ClientesFragment extends Fragment implements View.OnClickListener{
 
     private static List<Clientes> clientesList;
     private static RecyclerView recyclerViewClientes;
     private ClientesAdapter clientesAdapter;
+    private static ClientesAdapter adapter;
     private ProgressDialog pDialog;
 
     @Override
@@ -67,6 +68,11 @@ public class ClientesFragment extends Fragment implements View.OnClickListener {
 
         Toast.makeText(getContext(), "Boton de fletes, añadir fletes", Toast.LENGTH_SHORT).show();
 
+    }
+
+    public static void onListenerAction(Clientes clientes) {
+        clientesList.remove(clientes.getPosition());
+        adapter.removeItem(clientes.getPosition());
     }
 
     private class AsyncCallWS extends AsyncTask<Void, Void, Boolean> {
@@ -144,6 +150,9 @@ public class ClientesFragment extends Fragment implements View.OnClickListener {
                     String tempText = (textError.isEmpty() ? "La lista  se encuentra vacía" : textError);
                     Toast.makeText(getActivity(), tempText, Toast.LENGTH_SHORT).show();
                 }
+
+                adapter = clientesAdapter;
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

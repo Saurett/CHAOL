@@ -11,6 +11,7 @@ public class Clientes implements Serializable {
     private int cve;
     private int id;
     private String nombre;
+    private int position;
 
     public Clientes() {
 
@@ -42,5 +43,13 @@ public class Clientes implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 }

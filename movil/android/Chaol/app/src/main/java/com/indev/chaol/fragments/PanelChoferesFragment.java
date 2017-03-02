@@ -16,7 +16,7 @@ import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
  * Created by saurett on 24/02/2017.
  */
 
-public class PanelTransportistasFragment extends Fragment implements View.OnClickListener {
+public class PanelChoferesFragment extends Fragment implements View.OnClickListener {
 
     private Button btnTitulo;
     private static NavigationDrawerInterface activityInterface;
@@ -24,9 +24,9 @@ public class PanelTransportistasFragment extends Fragment implements View.OnClic
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_panel_transportistas, container, false);
+        View view = inflater.inflate(R.layout.fragment_panel_choferes, container, false);
 
-        btnTitulo = (Button) view.findViewById(R.id.btn_titulo_transportistas);
+        btnTitulo = (Button) view.findViewById(R.id.btn_titulo_choferes);
 
         btnTitulo.setOnClickListener(this);
 
@@ -51,8 +51,8 @@ public class PanelTransportistasFragment extends Fragment implements View.OnClic
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn_titulo_transportistas:
-                activityInterface.onChangeMainFragment(R.id.menu_item_transportistas);
+            case R.id.btn_titulo_choferes:
+                activityInterface.onChangeMainFragment(R.id.menu_item_choferes);
                 break;
         }
     }

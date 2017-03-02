@@ -23,6 +23,8 @@
     <color name="colorPanelTransportistasUno">#ffff00</color>
     <color name="colorPanelTransportistasDos">#0000ff</color>
 
+    <color name="colorPanelChoferesUno">#800080</color>
+
 
 
 </resources>
