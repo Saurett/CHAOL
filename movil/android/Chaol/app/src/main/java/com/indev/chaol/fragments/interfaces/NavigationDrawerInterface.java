@@ -8,4 +8,6 @@ public interface NavigationDrawerInterface {
 
     /**Permite cambiar de fragmento declarado en el menu**/
     void onChangeMainFragment(int idView);
+    /**Permite eliminar todos los fragmentos secundarios que existan**/
+    void removeSecondaryFragment();
 }

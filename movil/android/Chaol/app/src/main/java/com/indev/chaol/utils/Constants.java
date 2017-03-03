@@ -11,7 +11,9 @@ import com.indev.chaol.fragments.ListadoTransportistasFragment;
 import com.indev.chaol.fragments.MainPanelFragment;
 import com.indev.chaol.fragments.MainPerfilesFragment;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by saurett on 24/02/2017.
@@ -69,6 +71,17 @@ public final class Constants {
     public static final String FRAGMENT_CHOFERES = "fragment_choferes";
     public static final String FRAGMENT_TRACTORES = "fragment_tractores";
     public static final String FRAGMENT_REMOLQUES = "fragment_remolques";
+
+    /**Colección de fragmentos secundarios**/
+    public static final List<String>  SECONDARY_TAG_FRAGMENTS;
+    static {
+        SECONDARY_TAG_FRAGMENTS = new ArrayList<>();
+        SECONDARY_TAG_FRAGMENTS.add(FRAGMENT_CLIENTES);
+        SECONDARY_TAG_FRAGMENTS.add(FRAGMENT_TRANSPORTISTAS);
+        SECONDARY_TAG_FRAGMENTS.add(FRAGMENT_CHOFERES);
+        SECONDARY_TAG_FRAGMENTS.add(FRAGMENT_TRACTORES);
+        SECONDARY_TAG_FRAGMENTS.add(FRAGMENT_REMOLQUES);
+    }
 
     /**
      * Contiene el TAG que le corresponde a cada ITEM del Menu

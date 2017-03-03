@@ -18,12 +18,18 @@ import android.view.MenuItem;
 import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
 import com.indev.chaol.utils.Constants;
 
+import java.util.List;
+
 public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, NavigationDrawerInterface {
 
-    /**Variable que almacena el ultimo item que fue seleccionado en el navigation**/
+    /**
+     * Variable que almacena el ultimo item que fue seleccionado en el navigation
+     **/
     private static MenuItem lastMenuItem;
-    /**Variable global para tener acceso al navigationDrawer**/
+    /**
+     * Variable global para tener acceso al navigationDrawer
+     **/
     private static NavigationView navigationView;
 
     @Override
@@ -207,6 +213,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         return name;
     }
 
+    /**Interface la cual permite abrir un fragmento en una vista principal del menu**/
     @Override
     public void onChangeMainFragment(int idView) {
         try {
@@ -218,4 +225,17 @@ public class NavigationDrawerActivity extends AppCompatActivity
             e.printStackTrace();
         }
     }
+
+    /**Interface para remover fragmentos secundarios**/
+    @Override
+    public void removeSecondaryFragment() {
+        List<String> secondaryFragments = Constants.SECONDARY_TAG_FRAGMENTS;
+
+        for (String tag :
+                secondaryFragments) {
+            closeFragment(tag);
+        }
+    }
+
+
 }

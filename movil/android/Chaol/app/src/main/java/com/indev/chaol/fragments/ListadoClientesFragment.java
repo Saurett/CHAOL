@@ -32,7 +32,7 @@ public class ListadoClientesFragment extends Fragment {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 
         FragmentTransaction mainFragment = fragmentManager.beginTransaction();
-        mainFragment.add(R.id.listado_clientes_container, new ClientesFragment(), Constants.FRAGMENT_CLIENTES);
+        mainFragment.replace(R.id.listado_clientes_container, new ClientesFragment(), Constants.FRAGMENT_CLIENTES);
         mainFragment.commit();
 
         super.onStart();

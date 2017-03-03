@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.indev.chaol.R;
+import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
 import com.indev.chaol.utils.Constants;
 
 
@@ -18,6 +19,8 @@ import com.indev.chaol.utils.Constants;
  */
 
 public class ListadoChoferesFragment extends Fragment {
+
+    private NavigationDrawerInterface activityInterface;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -29,10 +32,13 @@ public class ListadoChoferesFragment extends Fragment {
 
     @Override
     public void onStart() {
+        /**Remueve los fragmentos secundarios**/
+        activityInterface.removeSecondaryFragment();
+
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 
         FragmentTransaction mainFragment = fragmentManager.beginTransaction();
-        mainFragment.add(R.id.listado_choferes_container, new ChoferesFragment(), Constants.FRAGMENT_CHOFERES);
+        mainFragment.replace(R.id.listado_choferes_container, new ChoferesFragment(), Constants.FRAGMENT_CHOFERES);
         mainFragment.commit();
 
         super.onStart();
@@ -47,7 +53,7 @@ public class ListadoChoferesFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-
+            activityInterface = (NavigationDrawerInterface) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString() + "debe implementar");
         }
