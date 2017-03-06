@@ -25,6 +25,10 @@
 
     <color name="colorPanelChoferesUno">#800080</color>
 
+    <color name="colorPanelTractoresUno">#800080</color>
+
+    <color name="colorPanelRemolquesUno">#800080</color>
+
 
 
 </resources>

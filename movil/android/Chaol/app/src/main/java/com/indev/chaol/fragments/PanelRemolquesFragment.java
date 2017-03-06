@@ -21,22 +21,22 @@ import com.indev.chaol.utils.Constants;
  * Created by saurett on 24/02/2017.
  */
 
-public class PanelChoferesFragment extends Fragment implements View.OnClickListener {
+public class PanelRemolquesFragment extends Fragment implements View.OnClickListener {
 
     private Button btnTitulo;
     private static NavigationDrawerInterface activityInterface;
-    private static FloatingActionButton fabChoferes;
+    private static FloatingActionButton fabRemolques;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_panel_choferes, container, false);
+        View view = inflater.inflate(R.layout.fragment_panel_remolques, container, false);
 
-        btnTitulo = (Button) view.findViewById(R.id.btn_titulo_choferes);
-        fabChoferes = (FloatingActionButton) view.findViewById(R.id.fab_panel_choferes);
+        btnTitulo = (Button) view.findViewById(R.id.btn_titulo_remolques);
+        fabRemolques = (FloatingActionButton) view.findViewById(R.id.fab_panel_remolques);
 
         btnTitulo.setOnClickListener(this);
-        fabChoferes.setOnClickListener(this);
+        fabRemolques.setOnClickListener(this);
 
         return view;
     }
@@ -59,13 +59,13 @@ public class PanelChoferesFragment extends Fragment implements View.OnClickListe
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn_titulo_choferes:
-                activityInterface.onChangeMainFragment(R.id.menu_item_choferes);
+            case R.id.btn_titulo_remolques:
+                activityInterface.onChangeMainFragment(R.id.menu_item_remolques);
                 break;
-            case R.id.fab_panel_choferes:
+            case R.id.fab_panel_remolques:
                 DecodeExtraParams extraParams = new DecodeExtraParams();
 
-                extraParams.setTituloActividad("Choferes");
+                extraParams.setTituloActividad("Remolques");
                 extraParams.setTituloFormulario("Nuevo");
                 extraParams.setAccionFragmento(Constants.ACCION_REGISTRAR);
                 extraParams.setFragmentTag(Constants.FRAGMENT_MAIN_REGISTER);

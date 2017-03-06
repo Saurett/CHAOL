@@ -1,15 +1,20 @@
 package com.indev.chaol.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.indev.chaol.MainRegisterActivity;
 import com.indev.chaol.R;
 import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
+import com.indev.chaol.models.DecodeExtraParams;
+import com.indev.chaol.utils.Constants;
 
 
 /**
@@ -20,6 +25,7 @@ public class PanelClientesFragment extends Fragment implements View.OnClickListe
 
     private Button btnTitulo;
     private static NavigationDrawerInterface activityInterface;
+    private static FloatingActionButton fabClientes;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -27,10 +33,17 @@ public class PanelClientesFragment extends Fragment implements View.OnClickListe
         View view = inflater.inflate(R.layout.fragment_panel_clientes, container, false);
 
         btnTitulo = (Button) view.findViewById(R.id.btn_titulo_clientes);
+        fabClientes = (FloatingActionButton) view.findViewById(R.id.fab_panel_clientes);
 
         btnTitulo.setOnClickListener(this);
+        fabClientes.setOnClickListener(this);
 
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 
     @Override
@@ -53,6 +66,18 @@ public class PanelClientesFragment extends Fragment implements View.OnClickListe
         switch (view.getId()) {
             case R.id.btn_titulo_clientes:
                 activityInterface.onChangeMainFragment(R.id.menu_item_clientes);
+                break;
+            case R.id.fab_panel_clientes:
+                DecodeExtraParams extraParams = new DecodeExtraParams();
+
+                extraParams.setTituloActividad("Clientes");
+                extraParams.setTituloFormulario("Nuevo");
+                extraParams.setAccionFragmento(Constants.ACCION_REGISTRAR);
+                extraParams.setFragmentTag(Constants.FRAGMENT_MAIN_REGISTER);
+
+                Intent intent = new Intent(getActivity(), MainRegisterActivity.class);
+                intent.putExtra(Constants.KEY_MAIN_DECODE, extraParams);
+                startActivity(intent);
                 break;
         }
     }

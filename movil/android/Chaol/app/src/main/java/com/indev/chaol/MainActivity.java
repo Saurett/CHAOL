@@ -5,14 +5,14 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
+
+import com.indev.chaol.models.DecodeExtraParams;
+import com.indev.chaol.utils.Constants;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -51,6 +51,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnForgotPassword.setOnClickListener(this);
         btnSendEmail.setOnClickListener(this);
         btnBack.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 
     /**
@@ -105,8 +110,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /**Inicia el MainRegisterActivity añadiendole extraParams**/
     private void openRegister() {
+        DecodeExtraParams extraParams = new DecodeExtraParams();
+
+        extraParams.setTituloActividad("Registrar usuario");
+        extraParams.setTituloFormulario("Nuevo");
+        extraParams.setAccionFragmento(Constants.ACCION_REGISTRAR);
+        extraParams.setFragmentTag(Constants.FRAGMENT_MAIN_REGISTER);
+
         Intent intent = new Intent(this, MainRegisterActivity.class);
+        intent.putExtra(Constants.KEY_MAIN_DECODE, extraParams);
         startActivity(intent);
     }
 

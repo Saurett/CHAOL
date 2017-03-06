@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/panel_clientes"
+        android:id="@+id/panel_remolques"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="8dp"
@@ -16,12 +16,12 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/btn_titulo_clientes"
+            android:id="@+id/btn_titulo_remolques"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="@color/colorPrimaryDark"
             android:paddingStart="20dp"
-            android:text="CLIENTES"
+            android:text="REMOLQUES"
             android:textAlignment="textStart"
             android:textColor="@color/colorIcons" />
 
@@ -36,7 +36,7 @@
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginRight="5dp"
-                app:backgroundTint="@color/colorPrimaryDark"
+                app:backgroundTint="@color/colorPanelTractoresUno"
                 app:elevation="0dp" />
 
             <TextView
@@ -54,7 +54,7 @@
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
-                android:text="Clientes registrados"
+                android:text="Remolques por asignar"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="15sp" />
 
@@ -65,45 +65,8 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginTop="10dp"
-            android:paddingLeft="20dp"
-            android:visibility="invisible">
-
-            <android.support.design.widget.FloatingActionButton
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
-                android:layout_marginRight="5dp"
-                app:backgroundTint="@color/colorPrimaryDark"
-                app:elevation="0dp" />
-
-            <TextView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="5dp"
-                android:text="2"
-                android:textAlignment="center"
-                android:textColor="@color/colorPrimaryText"
-                android:textSize="15sp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="5dp"
-                android:text="Cotizaciones por confirmar"
-                android:textColor="@color/colorPrimaryText"
-                android:textSize="15sp" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="20dp"
-            android:visibility="invisible">
+            android:visibility="visible"
+            android:paddingLeft="20dp">
 
             <android.support.design.widget.FloatingActionButton
                 android:layout_width="20dp"
@@ -128,7 +91,7 @@
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
-                android:text="Solicitudes de transportistas pendientes"
+                android:text="Remolques asignados"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="15sp" />
 
@@ -139,8 +102,44 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginTop="10dp"
-            android:paddingLeft="20dp"
-            android:visibility="invisible">
+            android:visibility="invisible"
+            android:paddingLeft="20dp">
+
+            <android.support.design.widget.FloatingActionButton
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="5dp"
+                app:backgroundTint="@color/colorPrimaryDark"
+                app:elevation="0dp" />
+
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:text="4"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:text="Asignaciones de chofer pendientes"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:visibility="invisible"
+            android:paddingLeft="20dp">
 
             <android.support.design.widget.FloatingActionButton
                 android:layout_width="20dp"
@@ -172,7 +171,7 @@
         </LinearLayout>
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_panel_clientes"
+            android:id="@+id/fab_panel_remolques"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="end|bottom"

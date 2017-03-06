@@ -10,6 +10,7 @@ import com.indev.chaol.fragments.ListadoTractoresFragment;
 import com.indev.chaol.fragments.ListadoTransportistasFragment;
 import com.indev.chaol.fragments.MainPanelFragment;
 import com.indev.chaol.fragments.MainPerfilesFragment;
+import com.indev.chaol.fragments.RegistroClientesFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,6 +21,14 @@ import java.util.List;
  */
 
 public final class Constants {
+
+    /**Key Extraparam**/
+    public static String KEY_MAIN_DECODE = "key_main_decode";
+
+    /**Acciones generales**/
+    public static final int ACCION_REGISTRAR = 1;
+    public static final int ACCION_EDITAR = 2;
+    public static final int ACCION_BUSCAR = 3;
 
     /**
      * Identificadores para buscar
@@ -52,6 +61,8 @@ public final class Constants {
     public static final String PANEL_CLIENTES_CONTAINER = "panel_clientes_container";
     public static final String PANEL_TRANSPORTISTAS_CONTAINER = "panel_transportistas_container";
     public static final String PANEL_CHOFERES_CONTAINER = "panel_choferes_container";
+    public static final String PANEL_TRACTORES_CONTAINER = "panel_tractores_container";
+    public static final String PANEL_REMOLQUES_CONTAINER = "panel_remolques_container";
 
     /**
      * Fragmento principal para perfiles
@@ -114,6 +125,7 @@ public final class Constants {
         TAG_FRAGMENT.put(FRAGMENT_LISTADO_CHOFERES, new ListadoChoferesFragment());
         TAG_FRAGMENT.put(FRAGMENT_LISTADO_TRACTORES, new ListadoTractoresFragment());
         TAG_FRAGMENT.put(FRAGMENT_LISTADO_REMOLQUES, new ListadoRemolquesFragment());
+        TAG_FRAGMENT.put(FRAGMENT_MAIN_REGISTER, new RegistroClientesFragment());
     }
 
 
