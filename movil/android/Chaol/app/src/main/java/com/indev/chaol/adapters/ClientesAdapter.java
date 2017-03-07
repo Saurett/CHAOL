@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.indev.chaol.R;
 import com.indev.chaol.fragments.ClientesFragment;
 import com.indev.chaol.models.Clientes;
+import com.indev.chaol.models.DecodeItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,14 +58,18 @@ public class ClientesAdapter extends RecyclerView.Adapter<ClientesAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final Clientes item = clientes.get(position);
+        /**Llenar el objeto que sera enviado al fragmento**/
+        final DecodeItem decodeItem = new DecodeItem();
 
-        item.setPosition(position);
+        decodeItem.setItemModel(item);
+        decodeItem.setPosition(position);
 
         holder.txtNombre.setText(item.getNombre());
         holder.btnEliminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ClientesFragment.onListenerAction(item);
+                decodeItem.setIdView(view.getId());
+                ClientesFragment.onListenerAction(decodeItem);
             }
         });
     }

@@ -8,6 +8,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.indev.chaol.R;
+import com.indev.chaol.fragments.ClientesFragment;
+import com.indev.chaol.fragments.TransportistasFragment;
+import com.indev.chaol.models.DecodeItem;
 import com.indev.chaol.models.Transportistas;
 
 import java.util.ArrayList;
@@ -21,6 +24,10 @@ public class TransportistasAdapter extends RecyclerView.Adapter<TransportistasAd
 
     View.OnClickListener onClickListener;
     List<Transportistas> transportistas = new ArrayList<>();
+
+    public static void onListenerAction(DecodeItem decodeItem) {
+
+    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -56,8 +63,20 @@ public class TransportistasAdapter extends RecyclerView.Adapter<TransportistasAd
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final Transportistas item = transportistas.get(position);
+        /**Llenar el objeto que sera enviado al fragmento**/
+        final DecodeItem decodeItem = new DecodeItem();
+
+        decodeItem.setItemModel(item);
+        decodeItem.setPosition(position);
 
         holder.txtNombre.setText(item.getNombre());
+        holder.btnEliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                decodeItem.setIdView(view.getId());
+                TransportistasFragment.onListenerAction(decodeItem);
+            }
+        });
     }
 
     @Override

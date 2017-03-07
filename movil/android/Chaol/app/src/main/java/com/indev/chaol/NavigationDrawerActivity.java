@@ -1,5 +1,8 @@
 package com.indev.chaol;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -8,20 +11,32 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.TextAppearanceSpan;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
+import com.indev.chaol.fragments.ChoferesFragment;
+import com.indev.chaol.fragments.ClientesFragment;
+import com.indev.chaol.fragments.RemolquesFragment;
+import com.indev.chaol.fragments.TractoresFragment;
+import com.indev.chaol.fragments.TransportistasFragment;
 import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
+import com.indev.chaol.models.Clientes;
+import com.indev.chaol.models.DecodeItem;
 import com.indev.chaol.utils.Constants;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class NavigationDrawerActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, NavigationDrawerInterface {
+        implements NavigationView.OnNavigationItemSelectedListener, NavigationDrawerInterface, DialogInterface.OnClickListener {
 
     /**
      * Variable que almacena el ultimo item que fue seleccionado en el navigation
@@ -31,6 +46,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
      * Variable global para tener acceso al navigationDrawer
      **/
     private static NavigationView navigationView;
+    private ProgressDialog pDialog;
+    private static DecodeItem _decodeItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -213,7 +230,9 @@ public class NavigationDrawerActivity extends AppCompatActivity
         return name;
     }
 
-    /**Interface la cual permite abrir un fragmento en una vista principal del menu**/
+    /**
+     * Interface la cual permite abrir un fragmento en una vista principal del menu
+     **/
     @Override
     public void onChangeMainFragment(int idView) {
         try {
@@ -226,7 +245,9 @@ public class NavigationDrawerActivity extends AppCompatActivity
         }
     }
 
-    /**Interface para remover fragmentos secundarios**/
+    /**
+     * Interface para remover fragmentos secundarios
+     **/
     @Override
     public void removeSecondaryFragment() {
         List<String> secondaryFragments = Constants.SECONDARY_TAG_FRAGMENTS;
@@ -237,5 +258,136 @@ public class NavigationDrawerActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    public void showQuestion(DecodeItem decodeItem) {
+        _decodeItem = decodeItem;
 
+        AlertDialog.Builder ad = new AlertDialog.Builder(this);
+
+        ad.setTitle("Eliminar");
+        ad.setMessage("¿Esta seguro que desea elminar?");
+        ad.setCancelable(false);
+        ad.setNegativeButton("Cancelar", this);
+        ad.setPositiveButton("Aceptar", this);
+        ad.show();
+    }
+
+
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        int operation = 0;
+
+        switch (which) {
+            case DialogInterface.BUTTON_POSITIVE:
+                switch (_decodeItem.getIdView()) {
+                    case R.id.item_btn_eliminar_cliente:
+                        operation = Constants.WS_KEY_ELIMINAR_CLIENTES;
+                        break;
+                    case R.id.item_btn_eliminar_transportista:
+                        operation = Constants.WS_KEY_ELIMINAR_TRANSPORTISTAS;
+                        break;
+                    case R.id.item_btn_eliminar_chofer:
+                        operation = Constants.WS_KEY_ELIMINAR_CHOFERES;
+                        break;
+                    case R.id.item_btn_eliminar_tractor:
+                        operation = Constants.WS_KEY_ELIMINAR_TRACTORES;
+                        break;
+                    case R.id.item_btn_eliminar_remolque:
+                        operation = Constants.WS_KEY_ELIMINAR_REMOLQUES;
+                        break;
+                }
+
+                AsyncCallWS wsDeleteClientes = new AsyncCallWS(operation);
+                wsDeleteClientes.execute();
+
+                break;
+        }
+    }
+
+    private class AsyncCallWS extends AsyncTask<Void, Void, Boolean> {
+
+        private Integer webServiceOperation;
+        private String textError;
+
+        public AsyncCallWS(Integer wsOperation) {
+            webServiceOperation = wsOperation;
+            textError = "";
+        }
+
+        @Override
+        protected void onPreExecute() {
+            pDialog = new ProgressDialog(NavigationDrawerActivity.this);
+            pDialog.setMessage(getString(R.string.default_loading_msg));
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+
+            Boolean validOperation = false;
+
+            try {
+                switch (webServiceOperation) {
+                    case Constants.WS_KEY_ELIMINAR_CLIENTES:
+                        //TODO Eliminar desde el servidor
+                        validOperation = true;
+                        break;
+                    case Constants.WS_KEY_ELIMINAR_TRANSPORTISTAS:
+                        //TODO Eliminar desde el servidor
+                        validOperation = true;
+                        break;
+                    case Constants.WS_KEY_ELIMINAR_CHOFERES:
+                        //TODO Eliminar desde el servidor
+                        validOperation = true;
+                        break;
+                    case Constants.WS_KEY_ELIMINAR_TRACTORES:
+                        //TODO Eliminar desde el servidor
+                        validOperation = true;
+                        break;
+                    case Constants.WS_KEY_ELIMINAR_REMOLQUES:
+                        //TODO Eliminar desde el servidor
+                        validOperation = true;
+                        break;
+                }
+            } catch (Exception e) {
+                textError = e.getMessage();
+                validOperation = false;
+            }
+
+            return validOperation;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            try {
+                pDialog.dismiss();
+                if (success) {
+                    switch (webServiceOperation) {
+                        case Constants.WS_KEY_ELIMINAR_CLIENTES:
+                            ClientesFragment.deleteItem(_decodeItem);
+                            break;
+                        case Constants.WS_KEY_ELIMINAR_TRANSPORTISTAS:
+                            TransportistasFragment.deleteItem(_decodeItem);
+                            break;
+                        case Constants.WS_KEY_ELIMINAR_CHOFERES:
+                            ChoferesFragment.deleteItem(_decodeItem);
+                            break;
+                        case Constants.WS_KEY_ELIMINAR_TRACTORES:
+                            TractoresFragment.deleteItem(_decodeItem);
+                            break;
+                        case Constants.WS_KEY_ELIMINAR_REMOLQUES:
+                            RemolquesFragment.deleteItem(_decodeItem);
+                            break;
+                    }
+                } else {
+                    String tempText = (textError.isEmpty() ? "La lista  se encuentra vacía" : textError);
+                    Toast.makeText(getApplicationContext(), tempText, Toast.LENGTH_SHORT).show();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

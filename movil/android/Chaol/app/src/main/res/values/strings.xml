@@ -22,5 +22,6 @@
     <!--Item Menu -->
     <string name="default_item_menu_title_inicio">Inicio</string>
     <string name="default_item_menu_title_perfil">Mi perfil</string>
+    <string name="default_loading_msg">Por favor espera un momento</string>
 
 </resources>

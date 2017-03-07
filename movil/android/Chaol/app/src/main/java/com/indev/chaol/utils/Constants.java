@@ -30,19 +30,20 @@ public final class Constants {
     public static final int ACCION_EDITAR = 2;
     public static final int ACCION_BUSCAR = 3;
 
-    /**
-     * Identificadores para buscar
-     **/
+    /**Identificadores para buscar**/
     public static final int WS_KEY_BUSCAR_CLIENTES = 1;
+    public static final int WS_KEY_ELIMINAR_CLIENTES = 10;
     public static final int WS_KEY_BUSCAR_TRANSPORTISTAS = 2;
+    public static final int WS_KEY_ELIMINAR_TRANSPORTISTAS = 20;
     public static final int WS_KEY_BUSCAR_CHOFERES = 3;
+    public static final int WS_KEY_ELIMINAR_CHOFERES = 30;
     public static final int WS_KEY_BUSCAR_TRACTORES = 4;
+    public static final int WS_KEY_ELIMINAR_TRACTORES = 40;
     public static final int WS_KEY_BUSCAR_REMOLQUES = 5;
+    public static final int WS_KEY_ELIMINAR_REMOLQUES = 50;
 
     //region FRAGMENT TAGS
-    /**
-     * Fragmentos principales de panel
-     **/
+    /**Fragmentos principales de panel**/
     public static final String FRAGMENT_MAIN_PANEL = "fragment_main_panel";
 
     /**

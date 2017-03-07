@@ -8,7 +8,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.indev.chaol.R;
+import com.indev.chaol.fragments.ClientesFragment;
+import com.indev.chaol.fragments.TractoresFragment;
 import com.indev.chaol.models.Choferes;
+import com.indev.chaol.models.DecodeItem;
 import com.indev.chaol.models.Tractores;
 
 import java.util.ArrayList;
@@ -57,8 +60,20 @@ public class TractoresAdapter extends RecyclerView.Adapter<TractoresAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final Tractores item = tractores.get(position);
+        /**Llenar el objeto que sera enviado al fragmento**/
+        final DecodeItem decodeItem = new DecodeItem();
+
+        decodeItem.setItemModel(item);
+        decodeItem.setPosition(position);
 
         holder.txtNombre.setText(item.getNombre());
+        holder.btnEliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                decodeItem.setIdView(view.getId());
+                TractoresFragment.onListenerAction(decodeItem);
+            }
+        });
     }
 
     @Override

@@ -14,7 +14,9 @@ import android.widget.Toast;
 
 import com.indev.chaol.R;
 import com.indev.chaol.adapters.ChoferesAdapter;
+import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
 import com.indev.chaol.models.Choferes;
+import com.indev.chaol.models.DecodeItem;
 import com.indev.chaol.utils.Constants;
 
 import java.util.ArrayList;
@@ -30,7 +32,9 @@ public class ChoferesFragment extends Fragment implements View.OnClickListener {
     private static List<Choferes> choferesList;
     private static RecyclerView recyclerViewChoferes;
     private ChoferesAdapter choferesAdapter;
+    private static ChoferesAdapter adapter;
     private ProgressDialog pDialog;
+    private static NavigationDrawerInterface navigationDrawerInterface;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,7 +60,7 @@ public class ChoferesFragment extends Fragment implements View.OnClickListener {
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-
+            navigationDrawerInterface = (NavigationDrawerInterface) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString() + "debe implementar");
         }
@@ -65,6 +69,15 @@ public class ChoferesFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
 
+    }
+
+    public static void onListenerAction(DecodeItem decodeItem) {
+        navigationDrawerInterface.showQuestion(decodeItem);
+    }
+
+    public static void deleteItem(DecodeItem decodeItem) {
+        choferesList.remove(decodeItem.getPosition());
+        adapter.removeItem(decodeItem.getPosition());
     }
 
     private class AsyncCallWS extends AsyncTask<Void, Void, Boolean> {
@@ -142,6 +155,8 @@ public class ChoferesFragment extends Fragment implements View.OnClickListener {
                     String tempText = (textError.isEmpty() ? "La lista  se encuentra vacía" : textError);
                     Toast.makeText(getActivity(), tempText, Toast.LENGTH_SHORT).show();
                 }
+
+                adapter = choferesAdapter;
             } catch (Exception e) {
                 e.printStackTrace();
             }

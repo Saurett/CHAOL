@@ -1,10 +1,14 @@
 package com.indev.chaol.fragments;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,7 +18,9 @@ import android.widget.Toast;
 
 import com.indev.chaol.R;
 import com.indev.chaol.adapters.ClientesAdapter;
+import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
 import com.indev.chaol.models.Clientes;
+import com.indev.chaol.models.DecodeItem;
 import com.indev.chaol.utils.Constants;
 
 import java.util.ArrayList;
@@ -25,13 +31,14 @@ import java.util.List;
  * Created by saurett on 24/02/2017.
  */
 
-public class ClientesFragment extends Fragment implements View.OnClickListener{
+public class ClientesFragment extends Fragment implements View.OnClickListener {
 
     private static List<Clientes> clientesList;
     private static RecyclerView recyclerViewClientes;
     private ClientesAdapter clientesAdapter;
     private static ClientesAdapter adapter;
     private ProgressDialog pDialog;
+    private static NavigationDrawerInterface navigationDrawerInterface;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,7 +64,7 @@ public class ClientesFragment extends Fragment implements View.OnClickListener{
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-
+            navigationDrawerInterface = (NavigationDrawerInterface) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString() + "debe implementar");
         }
@@ -65,14 +72,16 @@ public class ClientesFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-
         Toast.makeText(getContext(), "Boton de fletes, añadir fletes", Toast.LENGTH_SHORT).show();
-
     }
 
-    public static void onListenerAction(Clientes clientes) {
-        clientesList.remove(clientes.getPosition());
-        adapter.removeItem(clientes.getPosition());
+    public static void onListenerAction(DecodeItem decodeItem) {
+        navigationDrawerInterface.showQuestion(decodeItem);
+    }
+
+    public static void deleteItem(DecodeItem decodeItem) {
+        clientesList.remove(decodeItem.getPosition());
+        adapter.removeItem(decodeItem.getPosition());
     }
 
     private class AsyncCallWS extends AsyncTask<Void, Void, Boolean> {
@@ -104,7 +113,6 @@ public class ClientesFragment extends Fragment implements View.OnClickListener{
             try {
                 switch (webServiceOperation) {
                     case Constants.WS_KEY_BUSCAR_CLIENTES:
-
                         tempClientesList = new ArrayList<>();
                         List<Clientes> clientes = new ArrayList<>();
 
@@ -116,7 +124,6 @@ public class ClientesFragment extends Fragment implements View.OnClickListener{
                         tempClientesList.addAll(clientes);
 
                         validOperation = true;
-
                         break;
                 }
             } catch (Exception e) {
@@ -133,21 +140,26 @@ public class ClientesFragment extends Fragment implements View.OnClickListener{
                 clientesList = new ArrayList<>();
                 pDialog.dismiss();
                 if (success) {
+                    switch (webServiceOperation) {
+                        case Constants.WS_KEY_BUSCAR_CLIENTES:
 
-                    if (tempClientesList.size() > 0) {
-                        clientesList.addAll(tempClientesList);
-                        clientesAdapter.addAll(clientesList);
+                            if (tempClientesList.size() > 0) {
+                                clientesList.addAll(tempClientesList);
+                                clientesAdapter.addAll(clientesList);
 
-                        recyclerViewClientes.setAdapter(clientesAdapter);
+                                recyclerViewClientes.setAdapter(clientesAdapter);
 
-                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-                        recyclerViewClientes.setLayoutManager(linearLayoutManager);
+                                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+                                recyclerViewClientes.setLayoutManager(linearLayoutManager);
 
-                    } else {
-                        Toast.makeText(getActivity(), "La lista se encuentra vacía", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getActivity(), "La lista se encuentra vacía", Toast.LENGTH_SHORT).show();
+                            }
+                            break;
                     }
+
                 } else {
-                    String tempText = (textError.isEmpty() ? "La lista  se encuentra vacía" : textError);
+                    String tempText = (textError.isEmpty() ? "Error desconocido" : textError);
                     Toast.makeText(getActivity(), tempText, Toast.LENGTH_SHORT).show();
                 }
 

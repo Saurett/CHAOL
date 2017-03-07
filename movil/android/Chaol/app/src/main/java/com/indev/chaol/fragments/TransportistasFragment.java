@@ -13,8 +13,11 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.indev.chaol.R;
+import com.indev.chaol.adapters.ClientesAdapter;
 import com.indev.chaol.adapters.TransportistasAdapter;
+import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
 import com.indev.chaol.models.Clientes;
+import com.indev.chaol.models.DecodeItem;
 import com.indev.chaol.models.Transportistas;
 import com.indev.chaol.utils.Constants;
 
@@ -31,7 +34,9 @@ public class TransportistasFragment extends Fragment implements View.OnClickList
     private static List<Transportistas> transportistasList;
     private static RecyclerView recyclerViewTransportistas;
     private TransportistasAdapter transportistasAdapter;
+    private static TransportistasAdapter adapter;
     private ProgressDialog pDialog;
+    private static NavigationDrawerInterface navigationDrawerInterface;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,7 +52,6 @@ public class TransportistasFragment extends Fragment implements View.OnClickList
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         AsyncCallWS wsTaskList = new AsyncCallWS(Constants.WS_KEY_BUSCAR_TRANSPORTISTAS);
         wsTaskList.execute();
         super.onCreate(savedInstanceState);
@@ -57,7 +61,7 @@ public class TransportistasFragment extends Fragment implements View.OnClickList
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-
+            navigationDrawerInterface = (NavigationDrawerInterface) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString() + "debe implementar");
         }
@@ -66,6 +70,15 @@ public class TransportistasFragment extends Fragment implements View.OnClickList
     @Override
     public void onClick(View v) {
 
+    }
+
+    public static void onListenerAction(DecodeItem decodeItem) {
+        navigationDrawerInterface.showQuestion(decodeItem);
+    }
+
+    public static void deleteItem(DecodeItem decodeItem) {
+        transportistasList.remove(decodeItem.getPosition());
+        adapter.removeItem(decodeItem.getPosition());
     }
 
     private class AsyncCallWS extends AsyncTask<Void, Void, Boolean> {
@@ -143,6 +156,9 @@ public class TransportistasFragment extends Fragment implements View.OnClickList
                     String tempText = (textError.isEmpty() ? "La lista  se encuentra vacía" : textError);
                     Toast.makeText(getActivity(), tempText, Toast.LENGTH_SHORT).show();
                 }
+
+                adapter = transportistasAdapter;
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

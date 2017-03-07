@@ -8,7 +8,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.indev.chaol.R;
+import com.indev.chaol.fragments.RemolquesFragment;
 import com.indev.chaol.models.Choferes;
+import com.indev.chaol.models.DecodeItem;
 import com.indev.chaol.models.Remolques;
 
 import java.util.ArrayList;
@@ -18,7 +20,7 @@ import java.util.List;
 /**
  * Created by saurett on 14/01/2016.
  */
-public class RemolquesAdapter extends RecyclerView.Adapter<RemolquesAdapter.ViewHolder>{
+public class RemolquesAdapter extends RecyclerView.Adapter<RemolquesAdapter.ViewHolder> {
 
     View.OnClickListener onClickListener;
     List<Remolques> remolques = new ArrayList<>();
@@ -42,11 +44,17 @@ public class RemolquesAdapter extends RecyclerView.Adapter<RemolquesAdapter.View
         this.onClickListener = onClickListener;
     }
 
-    public Remolques getItemByPosition(int position) { return remolques.get(position);}
+    public Remolques getItemByPosition(int position) {
+        return remolques.get(position);
+    }
 
-    public void addAll(List<Remolques> _remolques) { this.remolques.addAll(_remolques);}
+    public void addAll(List<Remolques> _remolques) {
+        this.remolques.addAll(_remolques);
+    }
 
-    public void remove(int position) { this.remolques.remove(position);}
+    public void remove(int position) {
+        this.remolques.remove(position);
+    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -57,8 +65,20 @@ public class RemolquesAdapter extends RecyclerView.Adapter<RemolquesAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final Remolques item = remolques.get(position);
+        /**Llenar el objeto que sera enviado al fragmento**/
+        final DecodeItem decodeItem = new DecodeItem();
+
+        decodeItem.setItemModel(item);
+        decodeItem.setPosition(position);
 
         holder.txtNombre.setText(item.getNombre());
+        holder.btnEliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                decodeItem.setIdView(view.getId());
+                RemolquesFragment.onListenerAction(decodeItem);
+            }
+        });
     }
 
     @Override
