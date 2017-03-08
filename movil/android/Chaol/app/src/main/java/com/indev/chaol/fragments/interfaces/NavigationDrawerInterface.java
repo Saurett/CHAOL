@@ -12,6 +12,12 @@ public interface NavigationDrawerInterface {
     void onChangeMainFragment(int idView);
     /**Permite eliminar todos los fragmentos secundarios que existan**/
     void removeSecondaryFragment();
-    /**Permite mostrar el dialogo de prguntas**/
-    void showQuestion(DecodeItem decodeItem);
+    /**Permite mostrar el dialogo de preguntas**/
+    void showQuestion();
+    /**Permte abrir una actividad externa enviando parametros en el DecodeItem**/
+    void openExternalActivity(int action, Class<?> externalActivity);
+    /**Permite transferir los valores seleccionados en DecodeItem*/
+    void setDecodeItem(DecodeItem decodeItem);
+    /**Permite obtener los ultimos valores seleccionados en DecodeItem**/
+    DecodeItem getDecodeItem();
 }

@@ -21,15 +21,11 @@ public class MainPerfilesFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_perfiles, container, false);
 
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-
         FragmentTransaction mainFragment = fragmentManager.beginTransaction();
-
         mainFragment.add(R.id.panel_perfiles_container, new RegistroClientesFragment(), Constants.FRAGMENT_MAIN_REGISTER);
-
         mainFragment.commit();
 
         return view;

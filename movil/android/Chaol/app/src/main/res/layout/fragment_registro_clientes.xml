@@ -71,6 +71,7 @@
                 android:textSize="14sp" />
 
             <EditText
+                android:id="@+id/txt_clientes_nombre"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="2dp"
@@ -342,7 +343,7 @@
             android:orientation="vertical">
 
             <android.support.design.widget.FloatingActionButton
-                android:id="@+id/fab_panel_clientes"
+                android:id="@+id/fab_clientes"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="end|bottom"

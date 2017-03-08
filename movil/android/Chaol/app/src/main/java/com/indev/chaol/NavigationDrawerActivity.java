@@ -2,6 +2,7 @@ package com.indev.chaol;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -13,13 +14,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.TextAppearanceSpan;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.indev.chaol.fragments.ChoferesFragment;
@@ -28,11 +27,10 @@ import com.indev.chaol.fragments.RemolquesFragment;
 import com.indev.chaol.fragments.TractoresFragment;
 import com.indev.chaol.fragments.TransportistasFragment;
 import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
-import com.indev.chaol.models.Clientes;
+import com.indev.chaol.models.DecodeExtraParams;
 import com.indev.chaol.models.DecodeItem;
 import com.indev.chaol.utils.Constants;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class NavigationDrawerActivity extends AppCompatActivity
@@ -130,32 +128,32 @@ public class NavigationDrawerActivity extends AppCompatActivity
             case R.id.menu_item_inicio:
                 setTitle(item.getTitle());
                 this.closeFragment(this.getLastFragment());
-                this.openFragment(Constants.ITEM_MENU_FRAGMENT.get(id));
+                this.openFragment(Constants.ITEM_FRAGMENT.get(id));
                 break;
             case R.id.menu_item_clientes:
                 setTitle(item.getTitle());
                 this.closeFragment(this.getLastFragment());
-                this.openFragment(Constants.ITEM_MENU_FRAGMENT.get(id));
+                this.openFragment(Constants.ITEM_FRAGMENT.get(id));
                 break;
             case R.id.menu_item_transportistas:
                 setTitle(item.getTitle());
                 this.closeFragment(this.getLastFragment());
-                this.openFragment(Constants.ITEM_MENU_FRAGMENT.get(id));
+                this.openFragment(Constants.ITEM_FRAGMENT.get(id));
                 break;
             case R.id.menu_item_choferes:
                 setTitle(item.getTitle());
                 this.closeFragment(this.getLastFragment());
-                this.openFragment(Constants.ITEM_MENU_FRAGMENT.get(id));
+                this.openFragment(Constants.ITEM_FRAGMENT.get(id));
                 break;
             case R.id.menu_item_tractores:
                 setTitle(item.getTitle());
                 this.closeFragment(this.getLastFragment());
-                this.openFragment(Constants.ITEM_MENU_FRAGMENT.get(id));
+                this.openFragment(Constants.ITEM_FRAGMENT.get(id));
                 break;
             case R.id.menu_item_remolques:
                 setTitle(item.getTitle());
                 this.closeFragment(this.getLastFragment());
-                this.openFragment(Constants.ITEM_MENU_FRAGMENT.get(id));
+                this.openFragment(Constants.ITEM_FRAGMENT.get(id));
                 break;
             case R.id.menu_item_agenda:
                 setTitle(item.getTitle());
@@ -164,7 +162,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
             case R.id.menu_item_perfil:
                 setTitle(item.getTitle());
                 this.closeFragment(this.getLastFragment());
-                this.openFragment(Constants.ITEM_MENU_FRAGMENT.get(id));
+                this.openFragment(Constants.ITEM_FRAGMENT.get(id));
                 break;
             case R.id.menu_item_cerrar_session:
                 /**Si se crean mas elementos al cerrar session, se creara un metodo**/
@@ -259,9 +257,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
     }
 
     @Override
-    public void showQuestion(DecodeItem decodeItem) {
-        _decodeItem = decodeItem;
-
+    public void showQuestion() {
         AlertDialog.Builder ad = new AlertDialog.Builder(this);
 
         ad.setTitle("Eliminar");
@@ -272,14 +268,13 @@ public class NavigationDrawerActivity extends AppCompatActivity
         ad.show();
     }
 
-
     @Override
     public void onClick(DialogInterface dialog, int which) {
         int operation = 0;
 
         switch (which) {
             case DialogInterface.BUTTON_POSITIVE:
-                switch (_decodeItem.getIdView()) {
+                switch (this.getDecodeItem().getIdView()) {
                     case R.id.item_btn_eliminar_cliente:
                         operation = Constants.WS_KEY_ELIMINAR_CLIENTES;
                         break;
@@ -303,6 +298,32 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 break;
         }
     }
+
+    @Override
+    public void openExternalActivity(int action, Class<?> externalActivity) {
+        DecodeExtraParams extraParams = new DecodeExtraParams();
+
+        extraParams.setTituloActividad(getString(Constants.TITLE_ACTIVITY.get(this.getDecodeItem().getIdView())));
+        extraParams.setTituloFormulario(getString(Constants.TITLE_FORM_ACTION.get(action)));
+        extraParams.setAccionFragmento(action);
+        extraParams.setFragmentTag(Constants.ITEM_FRAGMENT.get(this.getDecodeItem().getIdView()));
+        extraParams.setDecodeItem(this.getDecodeItem());
+
+        Intent intent = new Intent(this,externalActivity);
+        intent.putExtra(Constants.KEY_MAIN_DECODE, extraParams);
+        startActivity(intent);
+    }
+
+    @Override
+    public void setDecodeItem(DecodeItem decodeItem) {
+        _decodeItem = decodeItem;
+    }
+
+    @Override
+    public DecodeItem getDecodeItem() {
+        return _decodeItem;
+    }
+
 
     private class AsyncCallWS extends AsyncTask<Void, Void, Boolean> {
 
@@ -366,19 +387,19 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 if (success) {
                     switch (webServiceOperation) {
                         case Constants.WS_KEY_ELIMINAR_CLIENTES:
-                            ClientesFragment.deleteItem(_decodeItem);
+                            ClientesFragment.deleteItem(getDecodeItem());
                             break;
                         case Constants.WS_KEY_ELIMINAR_TRANSPORTISTAS:
-                            TransportistasFragment.deleteItem(_decodeItem);
+                            TransportistasFragment.deleteItem(getDecodeItem());
                             break;
                         case Constants.WS_KEY_ELIMINAR_CHOFERES:
-                            ChoferesFragment.deleteItem(_decodeItem);
+                            ChoferesFragment.deleteItem(getDecodeItem());
                             break;
                         case Constants.WS_KEY_ELIMINAR_TRACTORES:
-                            TractoresFragment.deleteItem(_decodeItem);
+                            TractoresFragment.deleteItem(getDecodeItem());
                             break;
                         case Constants.WS_KEY_ELIMINAR_REMOLQUES:
-                            RemolquesFragment.deleteItem(_decodeItem);
+                            RemolquesFragment.deleteItem(getDecodeItem());
                             break;
                     }
                 } else {

@@ -74,6 +74,13 @@ public class ChoferesAdapter extends RecyclerView.Adapter<ChoferesAdapter.ViewHo
                 ChoferesFragment.onListenerAction(decodeItem);
             }
         });
+        holder.btnEditar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                decodeItem.setIdView(view.getId());
+                ChoferesFragment.onListenerAction(decodeItem);
+            }
+        });
     }
 
     @Override

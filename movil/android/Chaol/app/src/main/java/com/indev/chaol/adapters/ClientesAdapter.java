@@ -72,6 +72,13 @@ public class ClientesAdapter extends RecyclerView.Adapter<ClientesAdapter.ViewHo
                 ClientesFragment.onListenerAction(decodeItem);
             }
         });
+        holder.btnEditar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                decodeItem.setIdView(view.getId());
+                ClientesFragment.onListenerAction(decodeItem);
+            }
+        });
     }
 
     @Override

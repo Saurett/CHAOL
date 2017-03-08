@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.indev.chaol.MainRegisterActivity;
 import com.indev.chaol.R;
 import com.indev.chaol.adapters.TractoresAdapter;
 import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
@@ -72,8 +73,19 @@ public class TractoresFragment extends Fragment implements View.OnClickListener 
 
     }
 
+    /**Permite redireccionar a los metodos correspondientes dependiendo la cción deseada**/
     public static void onListenerAction(DecodeItem decodeItem) {
-        navigationDrawerInterface.showQuestion(decodeItem);
+        /**Inicializa DecodeItem en la activity principal**/
+        navigationDrawerInterface.setDecodeItem(decodeItem);
+
+        switch (decodeItem.getIdView()) {
+            case R.id.item_btn_editar_tractor:
+                navigationDrawerInterface.openExternalActivity(Constants.ACCION_EDITAR,MainRegisterActivity.class);
+                break;
+            case R.id.item_btn_eliminar_tractor:
+                navigationDrawerInterface.showQuestion();
+                break;
+        }
     }
 
     public static void deleteItem(DecodeItem decodeItem) {

@@ -77,6 +77,13 @@ public class TransportistasAdapter extends RecyclerView.Adapter<TransportistasAd
                 TransportistasFragment.onListenerAction(decodeItem);
             }
         });
+        holder.btnEditar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                decodeItem.setIdView(view.getId());
+                TransportistasFragment.onListenerAction(decodeItem);
+            }
+        });
     }
 
     @Override

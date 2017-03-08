@@ -1,6 +1,8 @@
 package com.indev.chaol.models;
 
 
+import com.indev.chaol.utils.Constants;
+
 import java.io.Serializable;
 
 /**
@@ -13,16 +15,19 @@ public class DecodeExtraParams implements Serializable {
     private String tituloFormulario;
     private int accionFragmento;
     private String fragmentTag;
+    private DecodeItem decodeItem;
 
     public DecodeExtraParams() {
-
+        this.accionFragmento = Constants.ACCION_SIN_DEFINIR;
     }
 
-    public DecodeExtraParams(String _tituloActividad, String _tituloFormulario, int _accionFragmento, String _fragmentTag) {
+    public DecodeExtraParams(String _tituloActividad, String _tituloFormulario, int _accionFragmento,
+                             String _fragmentTag, DecodeItem _decodeItem) {
         this.tituloActividad = _tituloActividad;
         this.tituloFormulario = _tituloFormulario;
         this.accionFragmento = _accionFragmento;
         this.fragmentTag = _fragmentTag;
+        this.decodeItem = _decodeItem;
     }
 
     public String getTituloActividad() {
@@ -56,5 +61,13 @@ public class DecodeExtraParams implements Serializable {
 
     public void setFragmentTag(String fragmentTag) {
         this.fragmentTag = fragmentTag;
+    }
+
+    public DecodeItem getDecodeItem() {
+        return decodeItem;
+    }
+
+    public void setDecodeItem(DecodeItem decodeItem) {
+        this.decodeItem = decodeItem;
     }
 }

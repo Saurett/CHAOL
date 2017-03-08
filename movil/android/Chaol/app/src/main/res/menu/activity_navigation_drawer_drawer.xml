@@ -10,7 +10,7 @@
         </group>
         <item
             android:id="@+id/menu_title_administracion"
-            android:title="Administración">
+            android:title="@string/default_item_menu_title_administracion">
             <menu>
                 <group
                     android:id="@+id/submenu_administracion"
@@ -18,30 +18,29 @@
                     <item
                         android:id="@+id/menu_item_clientes"
                         android:icon="@mipmap/ic_person_white_48dp"
-
-                        android:title="Clientes" />
+                        android:title="@string/default_item_menu_title_clientes" />
                     <item
                         android:id="@+id/menu_item_transportistas"
                         android:icon="@mipmap/ic_person_outline_white_48dp"
-                        android:title="Transportistas" />
+                        android:title="@string/default_item_menu_title_transportistas" />
                     <item
                         android:id="@+id/menu_item_choferes"
                         android:icon="@mipmap/ic_people_white_48dp"
-                        android:title="Choferes" />
+                        android:title="@string/default_item_menu_title_choferes" />
                     <item
                         android:id="@+id/menu_item_tractores"
                         android:icon="@mipmap/ic_local_shipping_white_48dp"
-                        android:title="Tractores" />
+                        android:title="@string/default_item_menu_title_tractores" />
                     <item
                         android:id="@+id/menu_item_remolques"
                         android:icon="@mipmap/ic_directions_bus_white_48dp"
-                        android:title="Remolques" />
+                        android:title="@string/default_item_menu_title_remolques" />
                 </group>
             </menu>
         </item>
         <item
             android:id="@+id/menu_title_fletes"
-            android:title="Fletes">
+            android:title="@string/default_item_menu_title_fletes">
             <menu>
                 <group
                     android:id="@+id/submenu_fletes"
@@ -49,13 +48,13 @@
                     <item
                         android:id="@+id/menu_item_agenda"
                         android:icon="@mipmap/ic_view_agenda_white_48dp"
-                        android:title="Agenda" />
+                        android:title="@string/default_item_menu_title_agenda" />
                 </group>
             </menu>
         </item>
         <item
             android:id="@+id/menu_title_cuentas"
-            android:title="Cuentas">
+            android:title="@string/default_item_menu_title_cuentas">
             <menu>
                 <group
                     android:id="@+id/submenu_cuentas"
@@ -63,11 +62,11 @@
                     <item
                         android:id="@+id/menu_item_perfil"
                         android:icon="@mipmap/ic_account_circle_white_48dp"
-                        android:title="Mi perfil" />
+                        android:title="@string/default_item_menu_title_perfil" />
                     <item
                         android:id="@+id/menu_item_cerrar_session"
                         android:icon="@mipmap/ic_power_settings_new_white_48dp"
-                        android:title="Cerrar Sessión" />
+                        android:title="@string/default_item_menu_title_cerrar_session" />
                 </group>
             </menu>
         </item>

@@ -26,6 +26,7 @@ public final class Constants {
     public static String KEY_MAIN_DECODE = "key_main_decode";
 
     /**Acciones generales**/
+    public static final int ACCION_SIN_DEFINIR = 0;
     public static final int ACCION_REGISTRAR = 1;
     public static final int ACCION_EDITAR = 2;
     public static final int ACCION_BUSCAR = 3;
@@ -70,9 +71,7 @@ public final class Constants {
      **/
     public static final String FRAGMENT_MAIN_PERFILES = "fragment_main_perfiles";
 
-    /**
-     * Fragmento secundario para registro de clientes
-     **/
+    /**Fragmento secundario de formularios**/
     public static final String FRAGMENT_MAIN_REGISTER = "fragment_main_register";
 
     /**
@@ -95,28 +94,25 @@ public final class Constants {
         SECONDARY_TAG_FRAGMENTS.add(FRAGMENT_REMOLQUES);
     }
 
-    /**
-     * Contiene el TAG que le corresponde a cada ITEM del Menu
-     **/
-    public static final HashMap<Integer, String> ITEM_MENU_FRAGMENT;
-
+    /**Contiene el TAG que le corresponde a cada ITEM que abra fragmentos**/
+    public static final HashMap<Integer, String> ITEM_FRAGMENT;
     static {
-        ITEM_MENU_FRAGMENT = new HashMap<>();
-        ITEM_MENU_FRAGMENT.put(R.id.menu_item_inicio, FRAGMENT_MAIN_PANEL);
-        ITEM_MENU_FRAGMENT.put(R.id.menu_item_clientes, FRAGMENT_LISTADO_CLIENTES);
-        ITEM_MENU_FRAGMENT.put(R.id.menu_item_transportistas, FRAGMENT_LISTADO_TRANSPORTISTAS);
-        ITEM_MENU_FRAGMENT.put(R.id.menu_item_choferes, FRAGMENT_LISTADO_CHOFERES);
-        ITEM_MENU_FRAGMENT.put(R.id.menu_item_tractores, FRAGMENT_LISTADO_TRACTORES);
-        ITEM_MENU_FRAGMENT.put(R.id.menu_item_remolques, FRAGMENT_LISTADO_REMOLQUES);
-        ITEM_MENU_FRAGMENT.put(R.id.menu_item_agenda, FRAGMENT_LISTADO_CLIENTES);
-        ITEM_MENU_FRAGMENT.put(R.id.menu_item_perfil, FRAGMENT_MAIN_PERFILES);
+        ITEM_FRAGMENT = new HashMap<>();
+        ITEM_FRAGMENT.put(R.id.menu_item_inicio, FRAGMENT_MAIN_PANEL);
+        ITEM_FRAGMENT.put(R.id.menu_item_clientes, FRAGMENT_LISTADO_CLIENTES);
+        ITEM_FRAGMENT.put(R.id.menu_item_transportistas, FRAGMENT_LISTADO_TRANSPORTISTAS);
+        ITEM_FRAGMENT.put(R.id.menu_item_choferes, FRAGMENT_LISTADO_CHOFERES);
+        ITEM_FRAGMENT.put(R.id.menu_item_tractores, FRAGMENT_LISTADO_TRACTORES);
+        ITEM_FRAGMENT.put(R.id.menu_item_remolques, FRAGMENT_LISTADO_REMOLQUES);
+        ITEM_FRAGMENT.put(R.id.menu_item_agenda, FRAGMENT_LISTADO_CLIENTES);
+        ITEM_FRAGMENT.put(R.id.menu_item_perfil, FRAGMENT_MAIN_PERFILES);
+        ITEM_FRAGMENT.put(R.id.item_btn_editar_cliente, FRAGMENT_MAIN_REGISTER);
     }
 
     /**
      * Contiene el fragmento que le corresponde a cada TAG de Fragment
      **/
     public static final HashMap<String, Fragment> TAG_FRAGMENT;
-
     static {
         TAG_FRAGMENT = new HashMap<>();
         TAG_FRAGMENT.put(FRAGMENT_MAIN_PANEL, new MainPanelFragment());
@@ -129,6 +125,23 @@ public final class Constants {
         TAG_FRAGMENT.put(FRAGMENT_MAIN_REGISTER, new RegistroClientesFragment());
     }
 
+    /**Contiene el titulo correspondiente a la acción origen de ciertos botones**/
+    public static final HashMap<Integer, Integer> TITLE_ACTIVITY;
+    static {
+        TITLE_ACTIVITY = new HashMap<>();
+        TITLE_ACTIVITY.put(R.id.item_btn_editar_cliente,R.string.default_item_menu_title_clientes);
+        TITLE_ACTIVITY.put(R.id.item_btn_editar_transportista,R.string.default_item_menu_title_transportistas);
+        TITLE_ACTIVITY.put(R.id.item_btn_editar_chofer,R.string.default_item_menu_title_choferes);
+        TITLE_ACTIVITY.put(R.id.item_btn_editar_tractor,R.string.default_item_menu_title_tractores);
+        TITLE_ACTIVITY.put(R.id.item_btn_editar_remolque,R.string.default_item_menu_title_remolques);
+    }
 
+    /**Contiene el titulo correspondiente a la acción del formulario**/
+    public static final HashMap<Integer,Integer> TITLE_FORM_ACTION;
+    static {
+        TITLE_FORM_ACTION = new HashMap<>();
+        TITLE_FORM_ACTION.put(Constants.ACCION_REGISTRAR,R.string.default_form_title_new);
+        TITLE_FORM_ACTION.put(Constants.ACCION_EDITAR,R.string.default_form_title_edit);
+    }
     //endregion
 }

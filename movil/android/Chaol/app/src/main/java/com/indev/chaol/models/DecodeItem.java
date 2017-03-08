@@ -1,10 +1,12 @@
 package com.indev.chaol.models;
 
+import java.io.Serializable;
+
 /**
  * Created by jvier on 07/03/2017.
  */
 
-public class DecodeItem {
+public class DecodeItem implements Serializable {
 
     private int position;
     private Object itemModel;

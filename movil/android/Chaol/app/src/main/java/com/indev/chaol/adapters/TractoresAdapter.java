@@ -74,6 +74,13 @@ public class TractoresAdapter extends RecyclerView.Adapter<TractoresAdapter.View
                 TractoresFragment.onListenerAction(decodeItem);
             }
         });
+        holder.btnEditar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                decodeItem.setIdView(view.getId());
+                TractoresFragment.onListenerAction(decodeItem);
+            }
+        });
     }
 
     @Override

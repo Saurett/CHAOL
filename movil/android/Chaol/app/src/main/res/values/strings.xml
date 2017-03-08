@@ -21,7 +21,25 @@
 
     <!--Item Menu -->
     <string name="default_item_menu_title_inicio">Inicio</string>
+    <string name="default_item_menu_title_administracion">Administración</string>
+    <string name="default_item_menu_title_clientes">Clientes</string>
+    <string name="default_item_menu_title_transportistas">Transportistas</string>
+    <string name="default_item_menu_title_choferes">Choferes</string>
+    <string name="default_item_menu_title_tractores">Tractores</string>
+    <string name="default_item_menu_title_remolques">Remolques</string>
+    <string name="default_item_menu_title_fletes">Fletes</string>
+    <string name="default_item_menu_title_agenda">Agenda</string>
+    <string name="default_item_menu_title_cuentas">Cuentas</string>
     <string name="default_item_menu_title_perfil">Mi perfil</string>
+    <string name="default_item_menu_title_cerrar_session">Cerrar Sessión</string>
+
+    <!--MainRegisterActivity-->
+
+    <!--Loading Message-->
     <string name="default_loading_msg">Por favor espera un momento</string>
+
+    <!--Form title-->
+    <string name="default_form_title_edit">Editar</string>
+    <string name="default_form_title_new">Nuevo</string>
 
 </resources>

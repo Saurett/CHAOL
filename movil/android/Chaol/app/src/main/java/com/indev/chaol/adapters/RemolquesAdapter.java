@@ -79,6 +79,13 @@ public class RemolquesAdapter extends RecyclerView.Adapter<RemolquesAdapter.View
                 RemolquesFragment.onListenerAction(decodeItem);
             }
         });
+        holder.btnEditar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                decodeItem.setIdView(view.getId());
+                RemolquesFragment.onListenerAction(decodeItem);
+            }
+        });
     }
 
     @Override
