@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@null"
     android:orientation="vertical">
 
@@ -33,19 +33,19 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
                 <!--Fragmento para traer el listado de clientes-->
                 <FrameLayout
                     android:id="@+id/listado_remolques_container"
-                    android:layout_marginBottom="70dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@null"
-                    android:layout_centerInParent="true"></FrameLayout>
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="70dp"
+                    android:background="@null"></FrameLayout>
 
             </LinearLayout>
 
@@ -58,18 +58,18 @@
         android:layout_height="match_parent">
 
         <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_listado_remolques"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:scaleType="center"
-            android:src="@mipmap/ic_add_white_18dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginRight="40dp"
             android:layout_marginBottom="40dp"
+            android:layout_marginRight="40dp"
+            android:scaleType="center"
+            android:src="@mipmap/ic_add_white_18dp"
             app:backgroundTint="@color/colorPrimary" />
 
     </RelativeLayout>
-
 
 
 </FrameLayout>
