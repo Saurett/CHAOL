@@ -10,7 +10,11 @@ import com.indev.chaol.fragments.ListadoTractoresFragment;
 import com.indev.chaol.fragments.ListadoTransportistasFragment;
 import com.indev.chaol.fragments.MainPanelFragment;
 import com.indev.chaol.fragments.MainPerfilesFragment;
+import com.indev.chaol.fragments.RegistroChoferesFragment;
 import com.indev.chaol.fragments.RegistroClientesFragment;
+import com.indev.chaol.fragments.RegistroRemolquesFragment;
+import com.indev.chaol.fragments.RegistroTractoresFragment;
+import com.indev.chaol.fragments.RegistroTransportistasFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -73,6 +77,10 @@ public final class Constants {
 
     /**Fragmento secundario de formularios**/
     public static final String FRAGMENT_MAIN_REGISTER = "fragment_main_register";
+    public static final String FRAGMENT_TRANSPORTISTAS_REGISTER = "fragment_transportistas_register";
+    public static final String FRAGMENT_CHOFERES_REGISTER = "fragment_choferes_register";
+    public static final String FRAGMENT_TRACTORES_REGISTER = "fragment_tractores_register";
+    public static final String FRAGMENT_REMOLQUES_REGISTER = "fragment_remolques_register";
 
     /**
      * Fragmentos secundario para listados
@@ -107,6 +115,10 @@ public final class Constants {
         ITEM_FRAGMENT.put(R.id.menu_item_agenda, FRAGMENT_LISTADO_CLIENTES);
         ITEM_FRAGMENT.put(R.id.menu_item_perfil, FRAGMENT_MAIN_PERFILES);
         ITEM_FRAGMENT.put(R.id.item_btn_editar_cliente, FRAGMENT_MAIN_REGISTER);
+        ITEM_FRAGMENT.put(R.id.item_btn_editar_transportista, FRAGMENT_TRANSPORTISTAS_REGISTER);
+        ITEM_FRAGMENT.put(R.id.item_btn_editar_chofer, FRAGMENT_CHOFERES_REGISTER);
+        ITEM_FRAGMENT.put(R.id.item_btn_editar_tractor, FRAGMENT_TRACTORES_REGISTER);
+        ITEM_FRAGMENT.put(R.id.item_btn_editar_remolque, FRAGMENT_REMOLQUES_REGISTER);
     }
 
     /**
@@ -123,6 +135,10 @@ public final class Constants {
         TAG_FRAGMENT.put(FRAGMENT_LISTADO_TRACTORES, new ListadoTractoresFragment());
         TAG_FRAGMENT.put(FRAGMENT_LISTADO_REMOLQUES, new ListadoRemolquesFragment());
         TAG_FRAGMENT.put(FRAGMENT_MAIN_REGISTER, new RegistroClientesFragment());
+        TAG_FRAGMENT.put(FRAGMENT_TRANSPORTISTAS_REGISTER, new RegistroTransportistasFragment());
+        TAG_FRAGMENT.put(FRAGMENT_CHOFERES_REGISTER, new RegistroChoferesFragment());
+        TAG_FRAGMENT.put(FRAGMENT_TRACTORES_REGISTER, new RegistroTractoresFragment());
+        TAG_FRAGMENT.put(FRAGMENT_REMOLQUES_REGISTER, new RegistroRemolquesFragment());
     }
 
     /**Contiene el titulo correspondiente a la acción origen de ciertos botones**/

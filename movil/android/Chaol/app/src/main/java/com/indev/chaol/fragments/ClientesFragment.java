@@ -76,14 +76,16 @@ public class ClientesFragment extends Fragment implements View.OnClickListener {
         Toast.makeText(getContext(), "Boton de fletes, añadir fletes", Toast.LENGTH_SHORT).show();
     }
 
-    /**Permite redireccionar a los metodos correspondientes dependiendo la cción deseada**/
+    /**
+     * Permite redireccionar a los metodos correspondientes dependiendo la cción deseada
+     **/
     public static void onListenerAction(DecodeItem decodeItem) {
         /**Inicializa DecodeItem en la activity principal**/
         navigationDrawerInterface.setDecodeItem(decodeItem);
 
         switch (decodeItem.getIdView()) {
             case R.id.item_btn_editar_cliente:
-                navigationDrawerInterface.openExternalActivity(Constants.ACCION_EDITAR,MainRegisterActivity.class);
+                navigationDrawerInterface.openExternalActivity(Constants.ACCION_EDITAR, MainRegisterActivity.class);
                 break;
             case R.id.item_btn_eliminar_cliente:
                 navigationDrawerInterface.showQuestion();

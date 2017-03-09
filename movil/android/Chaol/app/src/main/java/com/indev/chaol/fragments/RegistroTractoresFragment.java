@@ -11,8 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.indev.chaol.R;
-import com.indev.chaol.models.Clientes;
 import com.indev.chaol.models.DecodeExtraParams;
+import com.indev.chaol.models.Tractores;
 import com.indev.chaol.utils.Constants;
 
 
@@ -20,7 +20,7 @@ import com.indev.chaol.utils.Constants;
  * Created by saurett on 24/02/2017.
  */
 
-public class RegistroClientesFragment extends Fragment {
+public class RegistroTractoresFragment extends Fragment {
 
     private Button btnTitulo;
     private EditText txtNombre;
@@ -30,17 +30,13 @@ public class RegistroClientesFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_registro_clientes, container, false);
+        View view = inflater.inflate(R.layout.fragment_registro_tractores, container, false);
 
-        btnTitulo = (Button) view.findViewById(R.id.btn_titulo_clientes);
-        txtNombre = (EditText) view.findViewById(R.id.txt_clientes_nombre);
-        fabClientes = (FloatingActionButton) view.findViewById(R.id.fab_clientes);
+        btnTitulo = (Button) view.findViewById(R.id.btn_titulo_tractores);
+        txtNombre = (EditText) view.findViewById(R.id.txt_tractores_nombre);
+        fabClientes = (FloatingActionButton) view.findViewById(R.id.fab_tractores);
 
-        try {
-            _MAIN_DECODE = (DecodeExtraParams) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        _MAIN_DECODE = (DecodeExtraParams) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
 
         this.onPreRender();
 
@@ -66,10 +62,10 @@ public class RegistroClientesFragment extends Fragment {
         switch (_MAIN_DECODE.getAccionFragmento()) {
             case Constants.ACCION_EDITAR:
                 /**Obtiene el item selecionado en el fragmento de lista**/
-                Clientes clientes = (Clientes) _MAIN_DECODE.getDecodeItem().getItemModel();
+                Tractores tractores = (Tractores) _MAIN_DECODE.getDecodeItem().getItemModel();
 
                 /**Asigna valores del item seleccionado**/
-                txtNombre.setText(clientes.getNombre());
+                txtNombre.setText(tractores.getNombre());
 
                 /**Modifica valores predeterminados de ciertos elementos**/
                 btnTitulo.setText(getString(Constants.TITLE_FORM_ACTION.get(_MAIN_DECODE.getAccionFragmento())));
