@@ -65,19 +65,19 @@
                 android:layout_marginRight="2dp"
                 android:layout_weight="1"
 
-                android:text="Nombre o Razón Social"
+                android:text="Número Economico"
                 android:textAlignment="textEnd"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="14sp" />
 
             <EditText
-                android:id="@+id/txt_remolques_nombre"
+                android:id="@+id/txt_remolques_num_economico"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="20dp"
                 android:layout_weight="1"
-                android:hint="Nombre o Razón Social"
+                android:hint="Número Economico"
                 android:inputType="text"
                 android:maxLines="1"
                 android:textSize="14sp"
@@ -97,19 +97,52 @@
                 android:layout_height="20dp"
                 android:layout_marginRight="2dp"
                 android:layout_weight="1"
-                android:text="RFC"
+                android:text="Marca"
                 android:textAlignment="textEnd"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="14sp" />
 
             <EditText
-                android:id="@+id/editText3"
+                android:id="@+id/txt_remolques_marca"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="20dp"
                 android:layout_weight="1"
-                android:hint="RFC"
+                android:hint="Marca"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textSize="14sp"
+                android:theme="@style/AppTheme.Form" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20dp">
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:text="Modelo"
+                android:textAlignment="textEnd"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/txt_remolques_modelo"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:hint="Modelo"
                 android:inputType="text"
                 android:maxLines="1"
                 android:textSize="14sp"
@@ -129,18 +162,19 @@
                 android:layout_height="20dp"
                 android:layout_marginRight="2dp"
                 android:layout_weight="1"
-                android:text="Calle"
+                android:text="Número de Serie"
                 android:textAlignment="textEnd"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="14sp" />
 
             <EditText
+                android:id="@+id/text_remolques_num_serie"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="20dp"
                 android:layout_weight="1"
-                android:hint="Calle"
+                android:hint="Número de Serie"
                 android:inputType="text"
                 android:maxLines="1"
                 android:textSize="14sp"
@@ -160,49 +194,19 @@
                 android:layout_height="20dp"
                 android:layout_marginRight="2dp"
                 android:layout_weight="1"
-                android:text="Número Interior"
+                android:text="Placas"
                 android:textAlignment="textEnd"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="14sp" />
 
             <EditText
+                android:id="@+id/txt_remolques_placas"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="20dp"
                 android:layout_weight="1"
-                android:hint="Número Interior"
-                android:inputType="text"
-                android:maxLines="1"
-                android:textSize="14sp"
-                android:theme="@style/AppTheme.Form" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="20dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:layout_marginRight="2dp"
-                android:layout_weight="1"
-                android:text="Número Exterior"
-                android:textAlignment="textEnd"
-                android:textColor="@color/colorPrimaryText"
-                android:textSize="14sp" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="20dp"
-                android:layout_weight="1"
-                android:hint="Número Exterior"
+                android:hint="Placas"
                 android:inputType="text"
                 android:maxLines="1"
                 android:textSize="14sp"
@@ -222,19 +226,19 @@
                 android:layout_height="20dp"
                 android:layout_marginRight="2dp"
                 android:layout_weight="1"
-                android:text="Método de Pago"
+                android:text="ID GPS"
                 android:textAlignment="textEnd"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="14sp" />
 
             <EditText
-                android:id="@+id/editText2"
+                android:id="@+id/txt_remolques_id_gps"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="20dp"
                 android:layout_weight="1"
-                android:hint="Método de Pago"
+                android:hint="ID GPS"
                 android:inputType="text"
                 android:maxLines="1"
                 android:textSize="14sp"
@@ -250,89 +254,29 @@
             android:paddingLeft="20dp">
 
             <TextView
-                android:id="@+id/textView4"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:layout_marginRight="2dp"
                 android:layout_weight="1"
-                android:text="Teléfono"
+                android:text="Tipo Remolque"
                 android:textAlignment="textEnd"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="14sp" />
 
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/txt_remolques_tipo_remolque"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="20dp"
                 android:layout_weight="1"
-                android:hint="Teléfono"
-                android:inputType="number"
+                android:hint="Tipo Remolque"
+                android:inputType="text"
                 android:maxLines="1"
                 android:textSize="14sp"
                 android:theme="@style/AppTheme.Form" />
 
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="20dp">
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:layout_marginLeft="2dp"
-                android:layout_weight="1"
-                android:text="Celular"
-                android:textAlignment="textEnd"
-                android:textColor="@color/colorPrimaryText"
-                android:textSize="14sp" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="20dp"
-                android:layout_weight="1"
-                android:hint="Celular"
-                android:inputType="number"
-                android:maxLines="1"
-                android:textSize="14sp"
-                android:theme="@style/AppTheme.Form" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="20dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:layout_marginLeft="2dp"
-                android:layout_weight="1"
-                android:text="Correo Electronico"
-                android:textAlignment="textEnd"
-                android:textColor="@color/colorPrimaryText"
-                android:textSize="14sp" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="20dp"
-                android:layout_weight="1"
-                android:hint="Correo Electronico"
-                android:inputType="textEmailAddress"
-                android:maxLines="1"
-                android:textSize="14sp"
-                android:theme="@style/AppTheme.Form" />
         </LinearLayout>
 
         <LinearLayout

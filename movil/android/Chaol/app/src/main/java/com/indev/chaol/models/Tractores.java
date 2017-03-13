@@ -10,14 +10,14 @@ public class Tractores implements Serializable {
 
     private int cve;
     private int id;
-    private String nombre;
+    private String numEconomico;
 
     public Tractores() {
 
     }
 
-    public Tractores(String _nombre) {
-        this.nombre = _nombre;
+    public  Tractores(String _numEconomico) {
+        this.numEconomico = _numEconomico;
     }
 
     public int getCve() {
@@ -36,11 +36,11 @@ public class Tractores implements Serializable {
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getNumEconomico() {
+        return numEconomico;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNumEconomico(String numEconomico) {
+        this.numEconomico = numEconomico;
     }
 }

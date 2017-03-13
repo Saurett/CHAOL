@@ -36,16 +36,27 @@ public final class Constants {
     public static final int ACCION_BUSCAR = 3;
 
     /**Identificadores para buscar**/
+    public static final int WS_KEY_PRE_RENDER = 0;
     public static final int WS_KEY_BUSCAR_CLIENTES = 1;
     public static final int WS_KEY_ELIMINAR_CLIENTES = 10;
+    public static final int WS_KEY_EDITAR_CLIENTES = 11;
+    public static final int WS_KEY_AGREGAR_CLIENTES = 12;
     public static final int WS_KEY_BUSCAR_TRANSPORTISTAS = 2;
     public static final int WS_KEY_ELIMINAR_TRANSPORTISTAS = 20;
+    public static final int WS_KEY_EDITAR_TRANSPORTISTAS = 21;
+    public static final int WS_KEY_AGREGAR_TRANSPORTISTAS = 22;
     public static final int WS_KEY_BUSCAR_CHOFERES = 3;
     public static final int WS_KEY_ELIMINAR_CHOFERES = 30;
+    public static final int WS_KEY_EDITAR_CHOFERES = 31;
+    public static final int WS_KEY_AGREGAR_CHOFERES = 32;
     public static final int WS_KEY_BUSCAR_TRACTORES = 4;
     public static final int WS_KEY_ELIMINAR_TRACTORES = 40;
+    public static final int WS_KEY_EDITAR_TRACTORES = 41;
+    public static final int WS_KEY_AGREGAR_TRACTORES = 42;
     public static final int WS_KEY_BUSCAR_REMOLQUES = 5;
     public static final int WS_KEY_ELIMINAR_REMOLQUES = 50;
+    public static final int WS_KEY_EDITAR_REMOLQUES = 51;
+    public static final int WS_KEY_AGREGAR_REMOLQUES = 52;
 
     //region FRAGMENT TAGS
     /**Fragmentos principales de panel**/
@@ -124,6 +135,11 @@ public final class Constants {
         ITEM_FRAGMENT.put(R.id.fab_listado_choferes, FRAGMENT_CHOFERES_REGISTER);
         ITEM_FRAGMENT.put(R.id.fab_listado_tractores, FRAGMENT_TRACTORES_REGISTER);
         ITEM_FRAGMENT.put(R.id.fab_listado_remolques, FRAGMENT_REMOLQUES_REGISTER);
+        ITEM_FRAGMENT.put(R.id.fab_panel_clientes, FRAGMENT_MAIN_REGISTER);
+        ITEM_FRAGMENT.put(R.id.fab_panel_transportistas, FRAGMENT_TRANSPORTISTAS_REGISTER);
+        ITEM_FRAGMENT.put(R.id.fab_panel_choferes, FRAGMENT_CHOFERES_REGISTER);
+        ITEM_FRAGMENT.put(R.id.fab_panel_tractores, FRAGMENT_TRACTORES_REGISTER);
+        ITEM_FRAGMENT.put(R.id.fab_panel_remolques, FRAGMENT_REMOLQUES_REGISTER);
     }
 
     /**
@@ -160,6 +176,11 @@ public final class Constants {
         TITLE_ACTIVITY.put(R.id.fab_listado_choferes, R.string.default_item_menu_title_choferes);
         TITLE_ACTIVITY.put(R.id.fab_listado_tractores, R.string.default_item_menu_title_tractores);
         TITLE_ACTIVITY.put(R.id.fab_listado_remolques, R.string.default_item_menu_title_remolques);
+        TITLE_ACTIVITY.put(R.id.fab_panel_clientes, R.string.default_item_menu_title_clientes);
+        TITLE_ACTIVITY.put(R.id.fab_panel_transportistas, R.string.default_item_menu_title_transportistas);
+        TITLE_ACTIVITY.put(R.id.fab_panel_choferes, R.string.default_item_menu_title_choferes);
+        TITLE_ACTIVITY.put(R.id.fab_panel_tractores, R.string.default_item_menu_title_tractores);
+        TITLE_ACTIVITY.put(R.id.fab_panel_remolques, R.string.default_item_menu_title_remolques);
     }
 
     /**Contiene el titulo correspondiente a la acción del formulario**/

@@ -8,9 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.indev.chaol.R;
-import com.indev.chaol.fragments.ClientesFragment;
 import com.indev.chaol.fragments.TractoresFragment;
-import com.indev.chaol.models.Choferes;
 import com.indev.chaol.models.DecodeItem;
 import com.indev.chaol.models.Tractores;
 
@@ -28,14 +26,14 @@ public class TractoresAdapter extends RecyclerView.Adapter<TractoresAdapter.View
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txtNombre;
+        TextView txtNumEconomico;
         Button btnEditar;
         Button btnEliminar;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            txtNombre = (TextView) itemView.findViewById(R.id.item_nombre_tractor);
+            txtNumEconomico = (TextView) itemView.findViewById(R.id.item_num_economico_tractor);
             btnEditar = (Button) itemView.findViewById(R.id.item_btn_editar_tractor);
             btnEliminar = (Button) itemView.findViewById(R.id.item_btn_eliminar_tractor);
         }
@@ -66,7 +64,7 @@ public class TractoresAdapter extends RecyclerView.Adapter<TractoresAdapter.View
         decodeItem.setItemModel(item);
         decodeItem.setPosition(position);
 
-        holder.txtNombre.setText(item.getNombre());
+        holder.txtNumEconomico.setText(item.getNumEconomico());
         holder.btnEliminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

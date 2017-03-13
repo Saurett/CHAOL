@@ -65,10 +65,10 @@ public class PanelTransportistasFragment extends Fragment implements View.OnClic
             case R.id.fab_panel_transportistas:
                 DecodeExtraParams extraParams = new DecodeExtraParams();
 
-                extraParams.setTituloActividad("Transportistas");
-                extraParams.setTituloFormulario("Nuevo");
+                extraParams.setTituloActividad(getString(Constants.TITLE_ACTIVITY.get(view.getId())));
+                extraParams.setTituloFormulario(getString(R.string.default_form_title_new));
                 extraParams.setAccionFragmento(Constants.ACCION_REGISTRAR);
-                extraParams.setFragmentTag(Constants.FRAGMENT_MAIN_REGISTER);
+                extraParams.setFragmentTag(Constants.ITEM_FRAGMENT.get(view.getId()));
 
                 Intent intent = new Intent(getActivity(), MainRegisterActivity.class);
                 intent.putExtra(Constants.KEY_MAIN_DECODE, extraParams);

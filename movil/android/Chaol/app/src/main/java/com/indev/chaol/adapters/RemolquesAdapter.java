@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.indev.chaol.R;
 import com.indev.chaol.fragments.RemolquesFragment;
-import com.indev.chaol.models.Choferes;
 import com.indev.chaol.models.DecodeItem;
 import com.indev.chaol.models.Remolques;
 
@@ -27,14 +26,14 @@ public class RemolquesAdapter extends RecyclerView.Adapter<RemolquesAdapter.View
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txtNombre;
+        TextView txtNumEconomico;
         Button btnEditar;
         Button btnEliminar;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            txtNombre = (TextView) itemView.findViewById(R.id.item_nombre_remolque);
+            txtNumEconomico = (TextView) itemView.findViewById(R.id.item_num_economico_remolque);
             btnEditar = (Button) itemView.findViewById(R.id.item_btn_editar_remolque);
             btnEliminar = (Button) itemView.findViewById(R.id.item_btn_eliminar_remolque);
         }
@@ -71,7 +70,7 @@ public class RemolquesAdapter extends RecyclerView.Adapter<RemolquesAdapter.View
         decodeItem.setItemModel(item);
         decodeItem.setPosition(position);
 
-        holder.txtNombre.setText(item.getNombre());
+        holder.txtNumEconomico.setText(item.getNumEconomico());
         holder.btnEliminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

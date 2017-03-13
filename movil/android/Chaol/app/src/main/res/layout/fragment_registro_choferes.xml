@@ -97,20 +97,277 @@
                 android:layout_height="20dp"
                 android:layout_marginRight="2dp"
                 android:layout_weight="1"
-                android:text="RFC"
+                android:text="Empresa Transportista"
                 android:textAlignment="textEnd"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="14sp" />
 
             <EditText
-                android:id="@+id/editText3"
+                android:id="@+id/txt_choferes_empresa"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="20dp"
                 android:layout_weight="1"
-                android:hint="RFC"
+                android:hint="Empresa Transportista"
                 android:inputType="text"
+                android:maxLines="1"
+                android:textSize="14sp"
+                android:theme="@style/AppTheme.Form" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:text="Número Licencia"
+                android:textAlignment="textEnd"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/txt_choferes_licencia"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:hint="Número Licencia"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textSize="14sp"
+                android:theme="@style/AppTheme.Form" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:text="No. Seguro Social"
+                android:textAlignment="textEnd"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/txt_choferes_nss"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:hint="No. Seguro Social"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textSize="14sp"
+                android:theme="@style/AppTheme.Form" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:text="CURP"
+                android:textAlignment="textEnd"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/txt_choferes_curp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:hint="CURP"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textSize="14sp"
+                android:theme="@style/AppTheme.Form" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:text="Pais"
+                android:textAlignment="textEnd"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/txt_choferes_pais"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:hint="Pais"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textSize="14sp"
+                android:theme="@style/AppTheme.Form" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:text="Estado"
+                android:textAlignment="textEnd"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/txt_choferes_estado"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:hint="Estado"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textSize="14sp"
+                android:theme="@style/AppTheme.Form" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:text="Ciudad"
+                android:textAlignment="textEnd"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/txt_choferes_ciudad"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:hint="Ciudad"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textSize="14sp"
+                android:theme="@style/AppTheme.Form" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:text="Colonia"
+                android:textAlignment="textEnd"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/txt_choferes_colonia"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:hint="Colonia"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textSize="14sp"
+                android:theme="@style/AppTheme.Form" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:text="Codigo Postal"
+                android:textAlignment="textEnd"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/txt_choferes_codigo_postal"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:hint="Codigo Postal"
+                android:inputType="number"
+                android:maxLength="5"
                 android:maxLines="1"
                 android:textSize="14sp"
                 android:theme="@style/AppTheme.Form" />
@@ -135,6 +392,7 @@
                 android:textSize="14sp" />
 
             <EditText
+                android:id="@+id/txt_choferes_calle"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="2dp"
@@ -166,6 +424,7 @@
                 android:textSize="14sp" />
 
             <EditText
+                android:id="@+id/txt_choferes_num_int"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="2dp"
@@ -197,6 +456,7 @@
                 android:textSize="14sp" />
 
             <EditText
+                android:id="@+id/txt_choferes_num_ext"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="2dp"
@@ -210,38 +470,6 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="20dp">
-
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:layout_marginRight="2dp"
-                android:layout_weight="1"
-                android:text="Método de Pago"
-                android:textAlignment="textEnd"
-                android:textColor="@color/colorPrimaryText"
-                android:textSize="14sp" />
-
-            <EditText
-                android:id="@+id/editText2"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="20dp"
-                android:layout_weight="1"
-                android:hint="Método de Pago"
-                android:inputType="text"
-                android:maxLines="1"
-                android:textSize="14sp"
-                android:theme="@style/AppTheme.Form" />
-
-
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -261,7 +489,7 @@
                 android:textSize="14sp" />
 
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/txt_choferes_telefono"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="2dp"
@@ -283,23 +511,53 @@
             android:paddingLeft="20dp">
 
             <TextView
-                android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:layout_marginLeft="2dp"
                 android:layout_weight="1"
-                android:text="Celular"
+                android:text="Celular (Opción 1)"
                 android:textAlignment="textEnd"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="14sp" />
 
             <EditText
+                android:id="@+id/txt_choferes_celular_opc1"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="20dp"
                 android:layout_weight="1"
-                android:hint="Celular"
+                android:hint="Celular (Opción 1)"
+                android:inputType="number"
+                android:maxLines="1"
+                android:textSize="14sp"
+                android:theme="@style/AppTheme.Form" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginLeft="2dp"
+                android:layout_weight="1"
+                android:text="Celular (Opción 2)"
+                android:textAlignment="textEnd"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/txt_choferes_celular_opc2"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:hint="Celular (Opción 2)"
                 android:inputType="number"
                 android:maxLines="1"
                 android:textSize="14sp"
@@ -323,6 +581,7 @@
                 android:textSize="14sp" />
 
             <EditText
+                android:id="@+id/txt_choferes_correo_electronico"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="2dp"

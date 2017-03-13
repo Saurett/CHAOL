@@ -35,11 +35,26 @@
 
     <!--MainRegisterActivity-->
 
-    <!--Loading Message-->
+    <!--AlertDialog-->
     <string name="default_loading_msg">Por favor espera un momento</string>
+    <string name="default_alert_dialog_aceptar">Aceptar</string>
+    <string name="default_alert_dialog_cancelar">Cancelar</string>
 
     <!--Form title-->
     <string name="default_form_title_edit">Editar</string>
     <string name="default_form_title_new">Nuevo</string>
+
+    <!--Spinner metodo pago-->
+
+    <string-array name="spinner_metodo_pago">
+        <item>Efectivo</item>
+        <item>Cheque</item>
+        <item>Transferencia Electrónica</item>
+        <item>Tarjeta de Crédito</item>
+        <item>Direro Electrónico</item>
+        <item>Tarjeta de Débito</item>
+        <item>NA</item>
+        <item>Otros</item>
+    </string-array>
 
 </resources>
