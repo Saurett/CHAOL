@@ -1,0 +1,28 @@
+/* 
+    Created on : 23/02/2017, 09:01:14 PM
+    Author     : Fred Gz
+*/
+@font-face{
+    font-family: 'Roboto';
+    src: url(../font/Roboto-Regular.ttf);
+}
+
+html, body, body > div{
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    font-family: 'Roboto';
+    font-size: 12pt;
+}
+
+input{
+    margin-bottom: 15px;
+    border: none;
+    padding:5px; 
+    border-radius: 2px;
+}
+
+a{
+    text-decoration: underline;
+}
+

@@ -1,0 +1,11 @@
+{
+  "hosting": {
+    "public": "sandbox",
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
