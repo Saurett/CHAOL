@@ -71,8 +71,8 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        AsyncCallWS wsSpinnerState = new AsyncCallWS(Constants.WS_KEY_PRE_RENDER);
-        wsSpinnerState.execute();
+        AsyncCallWS ws = new AsyncCallWS(Constants.WS_KEY_PRE_RENDER);
+        ws.execute();
     }
 
     @Override
@@ -261,13 +261,13 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
             metodosPagoList.add("Otros");
 
             metodosPagos.add(new MetodosPagos(1, "Efectivo"));
-            metodosPagos.add(new MetodosPagos(1, "Cheque"));
-            metodosPagos.add(new MetodosPagos(1, "Transferencia Electronica"));
-            metodosPagos.add(new MetodosPagos(1, "Tarjeta de Crédito"));
-            metodosPagos.add(new MetodosPagos(1, "Dinero Electrónico"));
-            metodosPagos.add(new MetodosPagos(1, "Tarjeta de Débito"));
-            metodosPagos.add(new MetodosPagos(1, "NA"));
-            metodosPagos.add(new MetodosPagos(1, "Otros"));
+            metodosPagos.add(new MetodosPagos(2, "Cheque"));
+            metodosPagos.add(new MetodosPagos(3, "Transferencia Electronica"));
+            metodosPagos.add(new MetodosPagos(4, "Tarjeta de Crédito"));
+            metodosPagos.add(new MetodosPagos(5, "Dinero Electrónico"));
+            metodosPagos.add(new MetodosPagos(6, "Tarjeta de Débito"));
+            metodosPagos.add(new MetodosPagos(7, "NA"));
+            metodosPagos.add(new MetodosPagos(8, "Otros"));
         }
     }
 }

@@ -11,26 +11,38 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.indev.chaol.R;
 import com.indev.chaol.models.DecodeExtraParams;
+import com.indev.chaol.models.MetodosPagos;
 import com.indev.chaol.models.Remolques;
+import com.indev.chaol.models.TiposRemolques;
 import com.indev.chaol.utils.Constants;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
  * Created by saurett on 24/02/2017.
  */
 
-public class RegistroRemolquesFragment extends Fragment implements View.OnClickListener, DialogInterface.OnClickListener {
+public class RegistroRemolquesFragment extends Fragment implements View.OnClickListener, DialogInterface.OnClickListener, AdapterView.OnItemSelectedListener {
 
     private Button btnTitulo;
     private EditText txtNumEconomico;
+    private Spinner spinnerTipoRemolque;
     private FloatingActionButton fabRemolques;
     private ProgressDialog pDialog;
+
+    private static List<String> tiposRemolquesList;
+    private List<TiposRemolques> tiposRemolques;
 
     private static DecodeExtraParams _MAIN_DECODE = new DecodeExtraParams();
 
@@ -40,9 +52,14 @@ public class RegistroRemolquesFragment extends Fragment implements View.OnClickL
 
         btnTitulo = (Button) view.findViewById(R.id.btn_titulo_remolques);
         txtNumEconomico = (EditText) view.findViewById(R.id.txt_remolques_num_economico);
+
+        spinnerTipoRemolque = (Spinner) view.findViewById(R.id.spinner_remolques_tipo_remolque);
+
         fabRemolques = (FloatingActionButton) view.findViewById(R.id.fab_remolques);
 
         fabRemolques.setOnClickListener(this);
+
+        spinnerTipoRemolque.setOnItemSelectedListener(this);
 
         _MAIN_DECODE = (DecodeExtraParams) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
 
@@ -54,6 +71,9 @@ public class RegistroRemolquesFragment extends Fragment implements View.OnClickL
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        AsyncCallWS ws = new AsyncCallWS(Constants.WS_KEY_PRE_RENDER);
+        ws.execute();
     }
 
     @Override
@@ -125,6 +145,16 @@ public class RegistroRemolquesFragment extends Fragment implements View.OnClickL
         }
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
     private class AsyncCallWS extends AsyncTask<Void, Void, Boolean> {
 
         private Integer webServiceOperation;
@@ -151,6 +181,10 @@ public class RegistroRemolquesFragment extends Fragment implements View.OnClickL
 
             try {
                 switch (webServiceOperation) {
+                    case Constants.WS_KEY_PRE_RENDER:
+                        this.onCargarTiposRemolques();
+                        validOperation = true;
+                        break;
                     case Constants.WS_KEY_EDITAR_REMOLQUES:
                         //TODO Eliminar desde el servidor
                         validOperation = true;
@@ -174,6 +208,18 @@ public class RegistroRemolquesFragment extends Fragment implements View.OnClickL
                 pDialog.dismiss();
                 if (success) {
                     switch (webServiceOperation) {
+                        case Constants.WS_KEY_PRE_RENDER:
+                            ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
+                                    R.layout.text_spinner, tiposRemolquesList);
+
+                            /*
+                            int selectionState = (null != _PROFILE_MANAGER.getAddressProfile().getIdItemState())
+                                    ? _PROFILE_MANAGER.getAddressProfile().getIdItemState() : 0;
+                                    */
+
+                            spinnerTipoRemolque.setAdapter(adapter);
+                            spinnerTipoRemolque.setSelection(0);
+                            break;
                         case Constants.WS_KEY_EDITAR_REMOLQUES:
                             getActivity().finish();
                             Toast.makeText(getContext(), "Editado correctamente...", Toast.LENGTH_SHORT).show();
@@ -190,6 +236,18 @@ public class RegistroRemolquesFragment extends Fragment implements View.OnClickL
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+
+        private void onCargarTiposRemolques() {
+            tiposRemolquesList = new ArrayList<>();
+            tiposRemolques = new ArrayList<>();
+            tiposRemolquesList.add("Seleccione ...");
+
+            //TODO Metodo para llamar al servidor
+            tiposRemolquesList.add("Frios");
+
+            tiposRemolques.add(new TiposRemolques(1, "Frios"));
+
         }
     }
 
