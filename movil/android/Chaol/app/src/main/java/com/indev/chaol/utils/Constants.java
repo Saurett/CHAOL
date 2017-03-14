@@ -57,6 +57,8 @@ public final class Constants {
     public static final int WS_KEY_ELIMINAR_REMOLQUES = 50;
     public static final int WS_KEY_EDITAR_REMOLQUES = 51;
     public static final int WS_KEY_AGREGAR_REMOLQUES = 52;
+    public static final int WS_KEY_REGISTER_ACTIVITY = 100;
+    public static final int WS_KEY_NAVIGATION_ACTIVITY = 101;
 
     //region FRAGMENT TAGS
     /**Fragmentos principales de panel**/

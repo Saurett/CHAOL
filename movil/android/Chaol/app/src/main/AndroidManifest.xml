@@ -8,20 +8,25 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:largeHeap="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".NavigationDrawerActivity"
             android:label="@string/title_activity_navigation_drawer"
+            android:largeHeap="true"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".MainRegisterActivity"
+        <activity
+            android:name=".MainRegisterActivity"
             android:label="@string/title_activity_navigation_drawer"
-            ></activity>
+            android:largeHeap="true"
+            android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>
