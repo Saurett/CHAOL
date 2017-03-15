@@ -2,12 +2,12 @@ package com.indev.chaol;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.graphics.Paint;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -27,9 +27,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        /**Se defire la orientación de la pantalla**/
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT);
 
         /**Se inicializan los compotentes a utilizar**/
         formForgot = (LinearLayout) findViewById(R.id.form_forgot);
@@ -54,6 +51,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnForgotPassword.setOnClickListener(this);
         btnSendEmail.setOnClickListener(this);
         btnBack.setOnClickListener(this);
+
+        Log.i("Log", "Check create action - MainActivity");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // The activity is about to become visible.
+        Log.i("Log", "Check start action - MainActivity");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i("Log", "Check resume action - MainActivity");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.i("Log", "Check pause action - MainActivity");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i("Log", "Check stop action - MainActivity");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.i("Log", "Check restart action - MainActivity");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i("Log", "Check destroy action - MainActivity");
     }
 
     /**
@@ -101,8 +137,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * Inicia el NavigationDrawerActivity y sale del login
      **/
     private void openNavigation() {
-        Intent intent = new Intent(MainActivity.this, NavigationDrawerActivity.class);
-        MainActivity.this.startActivity(intent);
+        Intent intent = new Intent(this, NavigationDrawerActivity.class);
+        startActivity(intent);
     }
 
     /**Inicia el MainRegisterActivity añadiendole extraParams**/
@@ -114,9 +150,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         extraParams.setAccionFragmento(Constants.ACCION_REGISTRAR);
         extraParams.setFragmentTag(Constants.FRAGMENT_MAIN_REGISTER);
 
-        Intent registerIntent = new Intent(MainActivity.this, MainRegisterActivity.class);
+        Intent registerIntent = new Intent(this, MainRegisterActivity.class);
         registerIntent.putExtra(Constants.KEY_MAIN_DECODE, extraParams);
-        MainActivity.this.startActivity(registerIntent);
+        startActivity(registerIntent);
     }
 
     /**

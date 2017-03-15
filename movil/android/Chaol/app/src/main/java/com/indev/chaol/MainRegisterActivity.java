@@ -1,6 +1,5 @@
 package com.indev.chaol;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -13,58 +12,67 @@ import android.view.MenuItem;
 import com.indev.chaol.models.DecodeExtraParams;
 import com.indev.chaol.utils.Constants;
 
-import java.io.File;
-
 public class MainRegisterActivity extends AppCompatActivity {
 
     private static DecodeExtraParams _MAIN_DECODE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        try {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_main_register);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main_register);
 
-            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main_register);
-            setSupportActionBar(toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main_register);
+        setSupportActionBar(toolbar);
 
-            ActionBar ab = getSupportActionBar();
-            ab.setDisplayHomeAsUpEnabled(true);
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
 
-            _MAIN_DECODE = (DecodeExtraParams) getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
+        _MAIN_DECODE = (DecodeExtraParams) getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
 
-            setTitle(_MAIN_DECODE.getTituloActividad());
+        setTitle(_MAIN_DECODE.getTituloActividad());
 
-            /**Adinistrar los fragmentos dinamicos**/
-            closeFragment(_MAIN_DECODE.getFragmentTag());
-            openFragment(_MAIN_DECODE.getFragmentTag());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        /**Adinistrar los fragmentos dinamicos**/
+        closeFragment(_MAIN_DECODE.getFragmentTag());
+        openFragment(_MAIN_DECODE.getFragmentTag());
+
+        Log.i("Log", "Check create action - MainRegisterActivity");
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         // The activity is about to become visible.
+        Log.i("Log", "Check start action - MainRegisterActivity");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i("Log", "Check resume action - MainRegisterActivity");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.i("Log", "Check Pause Action");
+        Log.i("Log", "Check pause action - MainRegisterActivity");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.i("Log", "Check stop Action");
+        Log.i("Log", "Check stop action - MainRegisterActivity");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.i("Log", "Check restart action - MainRegisterActivity");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.i("Log", "Check Destroy Action");
+        Log.i("Log", "Check destroy action - MainRegisterActivity");
     }
 
     @Override
@@ -79,6 +87,7 @@ public class MainRegisterActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
         closeFragment(_MAIN_DECODE.getFragmentTag());
         finish();
     }
