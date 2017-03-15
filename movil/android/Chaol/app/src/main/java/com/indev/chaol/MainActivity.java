@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      **/
     private void openNavigation() {
         Intent intent = new Intent(MainActivity.this, NavigationDrawerActivity.class);
-        startActivity(intent);
+        MainActivity.this.startActivity(intent);
     }
 
     /**Inicia el MainRegisterActivity añadiendole extraParams**/
@@ -114,9 +114,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         extraParams.setAccionFragmento(Constants.ACCION_REGISTRAR);
         extraParams.setFragmentTag(Constants.FRAGMENT_MAIN_REGISTER);
 
-        Intent intent = new Intent(MainActivity.this, MainRegisterActivity.class);
-        intent.putExtra(Constants.KEY_MAIN_DECODE, extraParams);
-        startActivity(intent);
+        Intent registerIntent = new Intent(MainActivity.this, MainRegisterActivity.class);
+        registerIntent.putExtra(Constants.KEY_MAIN_DECODE, extraParams);
+        MainActivity.this.startActivity(registerIntent);
     }
 
     /**

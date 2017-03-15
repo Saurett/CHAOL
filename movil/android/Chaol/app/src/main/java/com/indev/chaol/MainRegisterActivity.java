@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.indev.chaol.models.DecodeExtraParams;
@@ -37,9 +38,6 @@ public class MainRegisterActivity extends AppCompatActivity {
             /**Adinistrar los fragmentos dinamicos**/
             closeFragment(_MAIN_DECODE.getFragmentTag());
             openFragment(_MAIN_DECODE.getFragmentTag());
-
-            trimCache(getApplicationContext());
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -48,39 +46,25 @@ public class MainRegisterActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        trimCache(getApplicationContext());
         // The activity is about to become visible.
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.i("Log", "Check Pause Action");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i("Log", "Check stop Action");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-    }
-
-    public static void trimCache(Context context) {
-        try {
-            File dir = context.getCacheDir();
-            if (dir != null && dir.isDirectory()) {
-                deleteDir(dir);
-            }
-        } catch (Exception e) {
-            // TODO: handle exception
-        }
-    }
-
-    public static boolean deleteDir(File dir) {
-        if (dir != null && dir.isDirectory()) {
-            String[] children = dir.list();
-            for (int i = 0; i < children.length; i++) {
-                boolean success = deleteDir(new File(dir, children[i]));
-                if (!success) {
-                    return false;
-                }
-            }
-        }
-
-        // The directory is now empty so delete it
-        return dir.delete();
+        Log.i("Log", "Check Destroy Action");
     }
 
     @Override
