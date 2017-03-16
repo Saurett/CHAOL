@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -138,6 +139,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      **/
     private void openNavigation() {
         Intent intent = new Intent(this, NavigationDrawerActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP) ;
         startActivity(intent);
     }
 
@@ -150,9 +152,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         extraParams.setAccionFragmento(Constants.ACCION_REGISTRAR);
         extraParams.setFragmentTag(Constants.FRAGMENT_MAIN_REGISTER);
 
-        Intent registerIntent = new Intent(this, MainRegisterActivity.class);
-        registerIntent.putExtra(Constants.KEY_MAIN_DECODE, extraParams);
-        startActivity(registerIntent);
+        Intent intent = new Intent(this, MainRegisterActivity.class);
+        intent.putExtra(Constants.KEY_MAIN_DECODE, extraParams);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP) ;
+        startActivity(intent);
     }
 
     /**

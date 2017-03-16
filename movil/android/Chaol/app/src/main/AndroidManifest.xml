@@ -19,11 +19,9 @@
         <activity
             android:name=".NavigationDrawerActivity"
             android:label="@string/title_activity_navigation_drawer"
-            android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MainRegisterActivity"
-            android:launchMode="singleTask"
             android:label="@string/title_activity_navigation_drawer"/>
     </application>
 
