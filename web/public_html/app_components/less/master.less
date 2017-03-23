@@ -11,16 +11,17 @@ and open the template in the editor.
 /*IMPORTACIONES*/
 @import "base/estilos.less";
 @import "../../bower_components/font-awesome/less/font-awesome.less";
+@import "utilerias//bootstrap-calendar.less";
 
-body{
+body {
     padding-left: 54px !important;
     background: @Background;
     min-height: 100% !important;
     height: auto;
-    padding-right: 0; 
+    padding-right: 0;
 }
 
-header{
+header {
     padding: 10px 0;
     color: @Text_Icons;
     background-color: @Dark_Primary_Color;
@@ -28,8 +29,8 @@ header{
     z-index: 1;
 }
 
-#div_usuario a{
-    cursor:pointer;
+#div_usuario a {
+    cursor: pointer;
     text-decoration: none;
 }
 
@@ -37,12 +38,12 @@ header{
     vertical-align: middle;
 }
 
-#div_usuario span{
+#div_usuario span {
     padding-right: 10px;
 }
 
 /*MENU*/
-nav{
+nav {
     box-shadow: 0 4px 5px @Sombra;
     position: absolute;
     z-index: 2;
@@ -54,34 +55,34 @@ nav{
     transition: left 0.5s cubic-bezier(0.45, 0.05, 0.55, 0.95) 0s;
 }
 
-nav.cerrado{
+nav.cerrado {
     left: -177px;
 }
 
-nav.cerrado a{
+nav.cerrado a {
     cursor: none;
     pointer-events: none;
 }
 
-nav.abierto{
+nav.abierto {
     left: 0;
 }
 
-nav.abierto a{
+nav.abierto a {
     cursor: pointer;
     pointer-events: initial;
 }
 
-nav ul li{
+nav ul li {
     list-style: none;
 }
 
-nav li{
+nav li {
     padding: 0.5em 1em;
     transition: background-color 0.2s cubic-bezier(0.45, 0.05, 0.55, 0.95) 0s;
 }
 
-nav li li{
+nav li li {
     padding: 0.5em 1em;
 }
 
@@ -102,38 +103,37 @@ nav > div > ul > li.li-hijo:hover {
 nav.cerrado .li-hijo:hover {
 }
 
-nav li a{
+nav li a {
     display: block;
     height: 100%;
     width: 100%;
 }
 
-nav li a:hover{
+nav li a:hover {
     text-decoration: none;
-    color:#ffffff;
+    color: #ffffff;
 }
 
-nav .activo{
-
+nav .activo {
 }
 
-nav .li-padre{
-    color: @Secondary_Text
+nav .li-padre {
+    color: @Secondary_Text;
 }
 
-#button_menu{
+#button_menu {
     color: @Dark_Primary_Color;
     cursor: pointer;
     margin: 18px 0;
 }
 
-#div_menu_opciones{
+#div_menu_opciones {
     transition: opacity 0.5s ease-in-out 0s;
 }
 
 /*FIN MENU*/
 @media only screen and (max-width: 425px) {
-    #img_usuario{
+    #img_usuario {
         display: none;
     }
 }

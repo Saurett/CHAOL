@@ -23,12 +23,12 @@ and open the template in the editor.
 @Sombra: #757575;
 @Background: #CFD8DC;
 
-@font-face{
+@font-face {
     font-family: 'Roboto';
     src: url(../fuentes/Roboto-Regular.ttf);
 }
 
-html, body, body > div{
+html, body {
     height: 100%;
     padding: 0;
     margin: 0;
@@ -37,26 +37,31 @@ html, body, body > div{
     z-index: 1;
 }
 
-h1{
+h1 {
     font-size: 20pt;
 }
 
-h2{
+h2 {
     font-size: 15pt;
 }
 
-input{
+input {
     margin-bottom: 15px;
     border: 1px solid @Divider_Color;
-    padding:5px; 
+    padding: 5px;
     border-radius: 2px;
 }
 
-a{
+a {
     color: inherit;
     transition: color 0.2s ease-in-out 0s;
 }
 
-i{
+i {
     vertical-align: middle;
+}
+
+button:focus.accordion-btn {
+    border:none !important;
+    outline:none !important;
 }

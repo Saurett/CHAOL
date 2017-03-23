@@ -93,8 +93,7 @@ q:after {
   src: url(../fuentes/Roboto-Regular.ttf);
 }
 html,
-body,
-body > div {
+body {
   height: 100%;
   padding: 0;
   margin: 0;
@@ -120,6 +119,10 @@ a {
 }
 i {
   vertical-align: middle;
+}
+button:focus.accordion-btn {
+  border: none !important;
+  outline: none !important;
 }
 .btn-success,
 .btn-danger,
@@ -225,6 +228,57 @@ i {
 .pagination > li > span {
   border: none;
   border-radius: 5px;
+}
+/*ACCORDION*/
+.card {
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: .25rem;
+  margin-bottom: 0.5em;
+}
+.card-header:first-child {
+  border-radius: calc(-0.75rem) calc(-0.75rem) 0 0;
+}
+.card-header {
+  padding: .75rem 1.25rem;
+  margin-bottom: 0;
+  background-color: #f7f7f9;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+.mb-0 {
+  margin-bottom: 0 !important;
+}
+.accordion-btn {
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+}
+.card-block {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  padding: 1.25rem;
+}
+/*PROGRESS VERTICAL*/
+body > div {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  font-family: 'Roboto';
+  font-size: 12pt;
+  z-index: 1;
 }
 body {
   background-image: url(../imagenes/fondos/Clientes.jpg);

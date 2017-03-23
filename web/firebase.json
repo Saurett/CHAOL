@@ -1,11 +1,5 @@
 {
   "hosting": {
-    "public": "sandbox",
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
-    ]
+    "public": "sandbox"
   }
 }

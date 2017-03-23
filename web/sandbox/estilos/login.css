@@ -1,63 +1,332 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
 /* 
-    Created on : 23/02/2017, 09:13:55 PM
+    Created on : 2/03/2017, 11:31:18 PM
     Author     : Fred Gz
 */
-
-
-body{
-    background-image: url(../imagenes/Clientes.jpg);
-    background-size: 100% 100%;
+/*IMPORTACIONES*/
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2/03/2017, 10:54:52 PM
+    Author     : Fred Gz
+*/
+/*IMPORTACIONES*/
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2/03/2017, 10:54:04 PM
+    Author     : Fred Gz
+*/
+/*IMPORTACIONES*/
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2/03/2017, 10:54:36 PM
+    Author     : Fred Gz
+*/
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ol,
+ul,
+li,
+pre,
+code,
+address,
+variable,
+form,
+fieldset,
+blockquote {
+  padding: 0;
+  margin: 0;
+  font-size: 100%;
+  font-weight: normal;
 }
-
-#div_principal{
-    padding: 0;
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
 }
-
-#div_principal > div{
-    padding: 0;
-    margin: 0;
-    height: 100%;
+td,
+th,
+caption {
+  font-weight: normal;
+  text-align: left;
 }
-
-#div_izquierdo{
-    display:flex;
-    align-items: flex-end;
-    background-color: rgba(255,255,255,0.5);
+img,
+fieldset {
+  border: 0;
 }
-
-#div_izquierdo_lineas{
-    padding: 0;
-    margin-bottom: 10px;
+ol {
+  padding-left: 1.4em;
+  list-style: decimal;
 }
-
-#div_izquierdo_lineas div:not(.clearfix){
-    height: 15px;
-    background-color: #5D4037;
-    margin-bottom: 20px;
-    bottom: 0;
+ul {
+  padding-left: 1.4em;
+  list-style: square;
 }
-
-#div_izquierdo_lineas img{
-    max-width: 60%;
-    margin-bottom: 30px;
+q:before,
+q:after {
+  content: '';
 }
-
-#div_derecho{
-    background-color: #0288D1;
-    display: flex;
-    align-items: center;
+/*Colores Primarios*/
+@font-face {
+  font-family: 'Roboto';
+  src: url(../fuentes/Roboto-Regular.ttf);
 }
-
-a{
-    color: #B3E5FC;
+html,
+body {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  font-family: 'Roboto';
+  font-size: 12pt;
+  z-index: 1;
 }
-
-a:hover{
-    color:#03A9F4;
+h1 {
+  font-size: 20pt;
 }
-
+h2 {
+  font-size: 15pt;
+}
+input {
+  margin-bottom: 15px;
+  border: 1px solid #BDBDBD;
+  padding: 5px;
+  border-radius: 2px;
+}
+a {
+  color: inherit;
+  transition: color 0.2s ease-in-out 0s;
+}
+i {
+  vertical-align: middle;
+}
+button:focus.accordion-btn {
+  border: none !important;
+  outline: none !important;
+}
+.btn-success,
+.btn-danger,
+.btn-default {
+  background-image: none;
+  border: none;
+  border-radius: 2px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+.btn-success {
+  background-color: #4BAE4F;
+}
+.btn-danger {
+  background-color: #FF5252;
+}
+.no-padding {
+  padding: 0;
+}
+.no-margin {
+  margin: 0;
+}
+.margin-bottom-20 {
+  margin-bottom: 20px;
+}
+.text-blue {
+  color: #03A9F4;
+}
+.opacity-0 {
+  opacity: 0;
+}
+.opacity-1 {
+  opacity: 1;
+}
+.hidden {
+  visibility: collapse;
+}
+.vertical-bottom {
+  vertical-align: bottom;
+}
+.titulo-ruta {
+  background: white;
+  color: #0288D1;
+  height: 40px;
+}
+.titulo-ruta h2 {
+  line-height: 40px;
+}
+.titulo-seccion {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.titulo-seccion {
+  color: #757575;
+}
+.caja {
+  border: 1px solid #03A9F4;
+  padding: 0;
+  margin-bottom: 30px;
+}
+.caja-titulo {
+  background: #0288D1;
+  color: white;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.caja-titulo a {
+  cursor: pointer;
+}
+.caja-titulo a:hover {
+  text-decoration: none;
+  color: inherit;
+}
+.caja-contenido {
+  color: #212121;
+  background: white;
+  padding-top: 20px;
+  padding-bottom: 10px;
+  min-height: 140px;
+}
+.caja-contenido > div:first-child {
+  min-height: 130px;
+}
+.caja-contenido i {
+  color: #0288D1;
+}
+.caja-contenido table thead tr td {
+  color: #757575;
+}
+.caja-contenido table tbody tr:not(:last-child) {
+  border-bottom: 1px solid #BDBDBD;
+}
+.caja-contenido table tbody tr td:first-child {
+  width: 5%;
+}
+.caja-contenido table tbody tr td {
+  padding: 5px 0;
+}
+.caja-contenido table tbody tr td:last-child i {
+  color: #FF5252 !important;
+}
+.pagination > li > a,
+.pagination > li > span {
+  border: none;
+  border-radius: 5px;
+}
+/*ACCORDION*/
+.card {
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: .25rem;
+  margin-bottom: 0.5em;
+}
+.card-header:first-child {
+  border-radius: calc(-0.75rem) calc(-0.75rem) 0 0;
+}
+.card-header {
+  padding: .75rem 1.25rem;
+  margin-bottom: 0;
+  background-color: #f7f7f9;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+.mb-0 {
+  margin-bottom: 0 !important;
+}
+.accordion-btn {
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+}
+.card-block {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  padding: 1.25rem;
+}
+/*PROGRESS VERTICAL*/
+body > div {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  font-family: 'Roboto';
+  font-size: 12pt;
+  z-index: 1;
+}
+body {
+  background-image: url(../imagenes/fondos/Clientes.jpg);
+  background-size: 100% 100%;
+}
+input {
+  border: none !important;
+}
+#div_principal {
+  padding: 0;
+}
+#div_principal > div {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
+#div_izquierdo {
+  display: flex;
+  align-items: flex-end;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+#div_izquierdo_lineas {
+  padding: 0;
+  margin-bottom: 10px;
+}
+#div_izquierdo_lineas div:not(.clearfix) {
+  height: 15px;
+  background-color: #5D4037;
+  margin-bottom: 20px;
+  bottom: 0;
+}
+#div_izquierdo_lineas img {
+  max-width: 60%;
+  margin-bottom: 30px;
+}
+#div_derecho {
+  background-color: #0288D1;
+  display: flex;
+  align-items: center;
+}
+a {
+  color: #B3E5FC;
+}
+a:hover {
+  color: #03A9F4;
+}
 @media only screen and (max-width: 425px) {
-    #img_logo{
-        max-width: 100% !important;
-    }
+  #img_logo {
+    max-width: 100% !important;
+  }
 }
