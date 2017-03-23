@@ -3,6 +3,7 @@ package com.indev.chaol.utils;
 import android.support.v4.app.Fragment;
 
 import com.indev.chaol.R;
+import com.indev.chaol.fragments.ListadoAgendaFragment;
 import com.indev.chaol.fragments.ListadoChoferesFragment;
 import com.indev.chaol.fragments.ListadoClientesFragment;
 import com.indev.chaol.fragments.ListadoRemolquesFragment;
@@ -28,6 +29,15 @@ public final class Constants {
 
     /**Key Extraparam**/
     public static String KEY_MAIN_DECODE = "key_main_decode";
+
+    /**Dias de la semana**/
+    public static String LUNES = "Lun.";
+    public static String MARTES = "Mar.";
+    public static String MIERCOLES = "Mié.";
+    public static String JUEVES = "Jue.";
+    public static String VIERNES = "Vié.";
+    public static String SABADO = "Sab.";
+    public static String DOMINGO = "Dom.";
 
     /**Acciones generales**/
     public static final int ACCION_SIN_DEFINIR = 0;
@@ -72,6 +82,7 @@ public final class Constants {
     public static final String FRAGMENT_LISTADO_CHOFERES = "fragment_listado_choferes";
     public static final String FRAGMENT_LISTADO_TRACTORES = "fragment_listado_tractores";
     public static final String FRAGMENT_LISTADO_REMOLQUES = "fragment_listado_remolques";
+    public static final String FRAGMENT_LISTADO_AGENDA = "fragment_listado_agenda";
 
     /**
      * Contenido del FRAGMENT_MAIN_PANEL
@@ -103,6 +114,7 @@ public final class Constants {
     public static final String FRAGMENT_CHOFERES = "fragment_choferes";
     public static final String FRAGMENT_TRACTORES = "fragment_tractores";
     public static final String FRAGMENT_REMOLQUES = "fragment_remolques";
+    public static final String FRAGMENT_AGENDA = "fragment_agenda";
 
     /**Colección de fragmentos secundarios**/
     public static final List<String>  SECONDARY_TAG_FRAGMENTS;
@@ -113,6 +125,7 @@ public final class Constants {
         SECONDARY_TAG_FRAGMENTS.add(FRAGMENT_CHOFERES);
         SECONDARY_TAG_FRAGMENTS.add(FRAGMENT_TRACTORES);
         SECONDARY_TAG_FRAGMENTS.add(FRAGMENT_REMOLQUES);
+        SECONDARY_TAG_FRAGMENTS.add(FRAGMENT_AGENDA);
     }
 
     /**Contiene el TAG que le corresponde a cada ITEM que abra fragmentos**/
@@ -125,7 +138,7 @@ public final class Constants {
         ITEM_FRAGMENT.put(R.id.menu_item_choferes, FRAGMENT_LISTADO_CHOFERES);
         ITEM_FRAGMENT.put(R.id.menu_item_tractores, FRAGMENT_LISTADO_TRACTORES);
         ITEM_FRAGMENT.put(R.id.menu_item_remolques, FRAGMENT_LISTADO_REMOLQUES);
-        ITEM_FRAGMENT.put(R.id.menu_item_agenda, FRAGMENT_LISTADO_CLIENTES);
+        ITEM_FRAGMENT.put(R.id.menu_item_agenda, FRAGMENT_LISTADO_AGENDA);
         ITEM_FRAGMENT.put(R.id.menu_item_perfil, FRAGMENT_MAIN_PERFILES);
         ITEM_FRAGMENT.put(R.id.item_btn_editar_cliente, FRAGMENT_MAIN_REGISTER);
         ITEM_FRAGMENT.put(R.id.item_btn_editar_transportista, FRAGMENT_TRANSPORTISTAS_REGISTER);
@@ -156,6 +169,7 @@ public final class Constants {
         TAG_FRAGMENT.put(FRAGMENT_LISTADO_TRANSPORTISTAS, new ListadoTransportistasFragment());
         TAG_FRAGMENT.put(FRAGMENT_LISTADO_CHOFERES, new ListadoChoferesFragment());
         TAG_FRAGMENT.put(FRAGMENT_LISTADO_TRACTORES, new ListadoTractoresFragment());
+        TAG_FRAGMENT.put(FRAGMENT_LISTADO_AGENDA, new ListadoAgendaFragment());
         TAG_FRAGMENT.put(FRAGMENT_LISTADO_REMOLQUES, new ListadoRemolquesFragment());
         TAG_FRAGMENT.put(FRAGMENT_MAIN_REGISTER, new RegistroClientesFragment());
         TAG_FRAGMENT.put(FRAGMENT_TRANSPORTISTAS_REGISTER, new RegistroTransportistasFragment());

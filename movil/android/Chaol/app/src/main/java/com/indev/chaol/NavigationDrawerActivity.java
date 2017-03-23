@@ -159,6 +159,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
             case R.id.menu_item_agenda:
                 setTitle(item.getTitle());
                 this.closeFragment(this.getLastFragment());
+                this.openFragment(Constants.ITEM_FRAGMENT.get(id));
                 break;
             case R.id.menu_item_perfil:
                 setTitle(item.getTitle());
