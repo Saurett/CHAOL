@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@null"
+    android:clipToPadding="false"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/registro_fletes"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/border_form"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_titulo_fletes"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimaryDark"
+            android:paddingStart="20dp"
+            android:text="NUEVO"
+            android:textAlignment="textStart"
+            android:textColor="@color/colorIcons" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:padding="20dp">
+
+            <com.beardedhen.androidbootstrap.BootstrapProgressBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:animated="true"
+                app:bootstrapBrand="success"
+                app:bootstrapProgress="78"
+                app:striped="true" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/btn_datos_generales"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@color/colorPrimaryDark"
+                    android:text="Datos Generales" />
+
+                <!--Datos Generales-->
+                <LinearLayout
+                    android:id="@+id/linear_datos_generales"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border_form"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:paddingLeft="20dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"
+                            android:layout_marginRight="2dp"
+                            android:layout_weight="1"
+
+                            android:text="Nombre o Razón Social"
+                            android:textAlignment="textEnd"
+                            android:textColor="@color/colorPrimaryText"
+                            android:textSize="14sp" />
+
+                        <EditText
+                            android:id="@+id/txt_clientes_nombre"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_weight="1"
+                            android:hint="Nombre o Razón Social"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:textSize="14sp"
+                            android:theme="@style/AppTheme.Form" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="10dp"
+                        android:paddingLeft="20dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"
+                            android:layout_marginRight="2dp"
+                            android:layout_weight="1"
+                            android:text="RFC"
+                            android:textAlignment="textEnd"
+                            android:textColor="@color/colorPrimaryText"
+                            android:textSize="14sp" />
+
+                        <EditText
+                            android:id="@+id/txt_clientes_rfc"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_weight="1"
+                            android:hint="RFC"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:textSize="14sp"
+                            android:theme="@style/AppTheme.Form" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="10dp"
+                        android:paddingLeft="20dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"
+                            android:layout_marginRight="2dp"
+                            android:layout_weight="1"
+                            android:text="Pais"
+                            android:textAlignment="textEnd"
+                            android:textColor="@color/colorPrimaryText"
+                            android:textSize="14sp" />
+
+                        <EditText
+                            android:id="@+id/txt_clientes_pais"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_weight="1"
+                            android:hint="Pais"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:textSize="14sp"
+                            android:theme="@style/AppTheme.Form" />
+
+
+                    </LinearLayout>
+                </LinearLayout>
+                <!--Botón Datos Cotización-->
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
+
+                <Button
+                    android:id="@+id/btn_cotizacion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Cotización" />
+
+            </LinearLayout>
+            <!--Cotización-->
+            <LinearLayout
+                android:id="@+id/linear_cotización"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/border_form"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_marginRight="2dp"
+                        android:layout_weight="1"
+
+                        android:text="Nombre o Razón Social"
+                        android:textAlignment="textEnd"
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="1"
+                        android:hint="Nombre o Razón Social"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:textSize="14sp"
+                        android:theme="@style/AppTheme.Form" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_marginRight="2dp"
+                        android:layout_weight="1"
+                        android:text="RFC"
+                        android:textAlignment="textEnd"
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="1"
+                        android:hint="RFC"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:textSize="14sp"
+                        android:theme="@style/AppTheme.Form" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_marginRight="2dp"
+                        android:layout_weight="1"
+                        android:text="Pais"
+                        android:textAlignment="textEnd"
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="1"
+                        android:hint="Pais"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:textSize="14sp"
+                        android:theme="@style/AppTheme.Form" />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+            <!--Botón Solicitud Transportista-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
+
+                <Button
+                    android:id="@+id/btn_solicitud_transportista"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Solicitud Transportista" />
+
+            </LinearLayout>
+            <!--Solicitud Transportista-->
+            <LinearLayout
+                android:id="@+id/linear_solicitud_transportista"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/border_form"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_marginRight="2dp"
+                        android:layout_weight="1"
+
+                        android:text="Nombre o Razón Social"
+                        android:textAlignment="textEnd"
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="1"
+                        android:hint="Nombre o Razón Social"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:textSize="14sp"
+                        android:theme="@style/AppTheme.Form" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_fletes"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="end|bottom"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:scaleType="center"
+                android:src="@mipmap/ic_done_white_18dp"
+                app:backgroundTint="@color/colorPrimary" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

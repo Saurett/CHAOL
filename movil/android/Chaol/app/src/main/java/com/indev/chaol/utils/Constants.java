@@ -13,6 +13,7 @@ import com.indev.chaol.fragments.MainPanelFragment;
 import com.indev.chaol.fragments.MainPerfilesFragment;
 import com.indev.chaol.fragments.RegistroChoferesFragment;
 import com.indev.chaol.fragments.RegistroClientesFragment;
+import com.indev.chaol.fragments.RegistroFletesFragment;
 import com.indev.chaol.fragments.RegistroRemolquesFragment;
 import com.indev.chaol.fragments.RegistroTractoresFragment;
 import com.indev.chaol.fragments.RegistroTransportistasFragment;
@@ -67,6 +68,10 @@ public final class Constants {
     public static final int WS_KEY_ELIMINAR_REMOLQUES = 50;
     public static final int WS_KEY_EDITAR_REMOLQUES = 51;
     public static final int WS_KEY_AGREGAR_REMOLQUES = 52;
+    public static final int WS_KEY_BUSCAR_FLETES = 6;
+    public static final int WS_KEY_ELIMINAR_FLETES = 60;
+    public static final int WS_KEY_EDITAR_FLETES = 61;
+    public static final int WS_KEY_AGREGAR_FLETES = 62;
     public static final int WS_KEY_REGISTER_ACTIVITY = 100;
     public static final int WS_KEY_NAVIGATION_ACTIVITY = 101;
 
@@ -105,6 +110,7 @@ public final class Constants {
     public static final String FRAGMENT_CHOFERES_REGISTER = "fragment_choferes_register";
     public static final String FRAGMENT_TRACTORES_REGISTER = "fragment_tractores_register";
     public static final String FRAGMENT_REMOLQUES_REGISTER = "fragment_remolques_register";
+    public static final String FRAGMENT_FLETES_REGISTER = "fragment_fletes_register";
 
     /**
      * Fragmentos secundario para listados
@@ -155,6 +161,7 @@ public final class Constants {
         ITEM_FRAGMENT.put(R.id.fab_panel_choferes, FRAGMENT_CHOFERES_REGISTER);
         ITEM_FRAGMENT.put(R.id.fab_panel_tractores, FRAGMENT_TRACTORES_REGISTER);
         ITEM_FRAGMENT.put(R.id.fab_panel_remolques, FRAGMENT_REMOLQUES_REGISTER);
+        ITEM_FRAGMENT.put(R.id.fab_panel_fletes, FRAGMENT_FLETES_REGISTER);
     }
 
     /**
@@ -176,6 +183,7 @@ public final class Constants {
         TAG_FRAGMENT.put(FRAGMENT_CHOFERES_REGISTER, new RegistroChoferesFragment());
         TAG_FRAGMENT.put(FRAGMENT_TRACTORES_REGISTER, new RegistroTractoresFragment());
         TAG_FRAGMENT.put(FRAGMENT_REMOLQUES_REGISTER, new RegistroRemolquesFragment());
+        TAG_FRAGMENT.put(FRAGMENT_FLETES_REGISTER, new RegistroFletesFragment());
     }
 
     /**Contiene el titulo correspondiente a la acción origen de ciertos botones**/
@@ -197,6 +205,7 @@ public final class Constants {
         TITLE_ACTIVITY.put(R.id.fab_panel_choferes, R.string.default_item_menu_title_choferes);
         TITLE_ACTIVITY.put(R.id.fab_panel_tractores, R.string.default_item_menu_title_tractores);
         TITLE_ACTIVITY.put(R.id.fab_panel_remolques, R.string.default_item_menu_title_remolques);
+        TITLE_ACTIVITY.put(R.id.fab_panel_fletes, R.string.default_item_menu_title_fletes);
     }
 
     /**Contiene el titulo correspondiente a la acción del formulario**/

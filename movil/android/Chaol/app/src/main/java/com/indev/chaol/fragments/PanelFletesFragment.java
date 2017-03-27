@@ -1,15 +1,20 @@
 package com.indev.chaol.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.Button;
 
+import com.indev.chaol.MainRegisterActivity;
 import com.indev.chaol.R;
+import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
+import com.indev.chaol.models.DecodeExtraParams;
+import com.indev.chaol.utils.Constants;
 
 
 /**
@@ -18,6 +23,8 @@ import com.indev.chaol.R;
 
 public class PanelFletesFragment extends Fragment implements View.OnClickListener {
 
+    private Button btnTitulo;
+    private static NavigationDrawerInterface activityInterface;
     private FloatingActionButton fabFletes;
 
     @Override
@@ -25,7 +32,10 @@ public class PanelFletesFragment extends Fragment implements View.OnClickListene
 
         View view = inflater.inflate(R.layout.fragment_panel_fletes, container, false);
 
+        btnTitulo = (Button) view.findViewById(R.id.btn_titulo_fletes);
         fabFletes = (FloatingActionButton) view.findViewById(R.id.fab_panel_fletes);
+
+        btnTitulo.setOnClickListener(this);
         fabFletes.setOnClickListener(this);
 
 
@@ -41,16 +51,30 @@ public class PanelFletesFragment extends Fragment implements View.OnClickListene
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-
+            activityInterface = (NavigationDrawerInterface) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString() + "debe implementar");
         }
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_titulo_fletes:
+                activityInterface.onChangeMainFragment(R.id.menu_item_agenda);
+                break;
+            case R.id.fab_panel_fletes:
+                DecodeExtraParams extraParams = new DecodeExtraParams();
 
-        Toast.makeText(getContext(), "Boton de fletes, añadir fletes", Toast.LENGTH_SHORT).show();
+                extraParams.setTituloActividad(getString(Constants.TITLE_ACTIVITY.get(view.getId())));
+                extraParams.setTituloFormulario(getString(R.string.default_form_title_new));
+                extraParams.setAccionFragmento(Constants.ACCION_REGISTRAR);
+                extraParams.setFragmentTag(Constants.ITEM_FRAGMENT.get(view.getId()));
 
+                Intent intent = new Intent(getActivity(), MainRegisterActivity.class);
+                intent.putExtra(Constants.KEY_MAIN_DECODE, extraParams);
+                startActivity(intent);
+                break;
+        }
     }
 }
