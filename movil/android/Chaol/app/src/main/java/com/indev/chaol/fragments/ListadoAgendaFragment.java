@@ -59,20 +59,12 @@ public class ListadoAgendaFragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onStart() {
+        super.onStart();
+
         /**Remueve los fragmentos secundarios**/
         activityInterface.removeSecondaryFragment();
-        mvcAgenda.clearSelection();
-/*
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-
-        FragmentTransaction mainFragment = fragmentManager.beginTransaction();
-        mainFragment.replace(R.id.listado_tractores_container, new TractoresFragment(), Constants.FRAGMENT_TRACTORES);
-        mainFragment.commit();
-
-        */
-
-
-        super.onStart();
+        this.openFragment(mvcAgenda.getSelectedDate());
+        //mvcAgenda.clearSelection();
     }
 
     @Override
@@ -92,6 +84,7 @@ public class ListadoAgendaFragment extends Fragment implements View.OnClickListe
 
     public void onPreRender() {
         this.setCurrentDate();
+        this.openFragment(mvcAgenda.getSelectedDate());
     }
 
     public void setCurrentDate() {
@@ -152,7 +145,7 @@ public class ListadoAgendaFragment extends Fragment implements View.OnClickListe
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 
         FragmentTransaction mainFragment = fragmentManager.beginTransaction();
-        mainFragment.replace(R.id.listado_agenda_container, new RemolquesFragment(), Constants.FRAGMENT_REMOLQUES);
+        mainFragment.replace(R.id.listado_agenda_container, new AgendasFragment(), Constants.FRAGMENT_AGENDA);
         mainFragment.commit();
     }
 }

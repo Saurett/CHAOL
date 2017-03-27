@@ -34,7 +34,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="10dp"
@@ -42,9 +42,9 @@
 
                     <TextView
                         android:id="@+id/txt_selected_day"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="22Mier."
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:text="22\nMier."
                         android:textStyle="bold"
                         android:textColor="@color/colorDivider" />
 
@@ -52,11 +52,8 @@
                     <FrameLayout
                         android:id="@+id/listado_agenda_container"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_centerInParent="true"
-                        android:layout_marginBottom="70dp"
+                        android:layout_height="wrap_content"
                         android:background="@null" />
-
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
