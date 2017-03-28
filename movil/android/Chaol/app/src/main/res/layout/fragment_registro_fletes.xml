@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 app:animated="true"
                 app:bootstrapBrand="success"
-                app:bootstrapProgress="10"
+                app:bootstrapProgress="1"
                 app:striped="true" />
 
         </LinearLayout>
@@ -91,7 +91,7 @@
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="20dp"
                         android:layout_weight="1"
-                        android:hint="Nombre o Razón Social"
+                        android:hint="ID FLETE"
                         android:inputType="text"
                         android:maxLines="1"
                         android:textSize="14sp"
@@ -124,7 +124,7 @@
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="20dp"
                         android:layout_weight="1"
-                        android:hint="RFC"
+                        android:hint="Cliente"
                         android:inputType="text"
                         android:maxLines="1"
                         android:textSize="14sp"
@@ -156,7 +156,7 @@
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="20dp"
                         android:layout_weight="1"
-                        android:hint="Pais"
+                        android:hint="Fecha salida"
                         android:inputType="text"
                         android:maxLines="1"
                         android:textSize="14sp"
@@ -188,7 +188,7 @@
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="20dp"
                         android:layout_weight="1"
-                        android:hint="Estado"
+                        android:hint="Hora salida"
                         android:inputType="text"
                         android:maxLines="1"
                         android:textSize="14sp"
@@ -220,7 +220,7 @@
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="20dp"
                         android:layout_weight="1"
-                        android:hint="Ciudad"
+                        android:hint="Bodega de carga"
                         android:inputType="text"
                         android:maxLines="1"
                         android:textSize="14sp"
@@ -252,7 +252,7 @@
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="20dp"
                         android:layout_weight="1"
-                        android:hint="Colonia"
+                        android:hint="Dirección"
                         android:inputType="text"
                         android:maxLines="1"
                         android:textSize="14sp"
@@ -284,7 +284,7 @@
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="20dp"
                         android:layout_weight="1"
-                        android:hint="Codigo Postal"
+                        android:hint="Estado"
                         android:inputType="number"
                         android:maxLength="5"
                         android:maxLines="1"
@@ -317,7 +317,7 @@
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="20dp"
                         android:layout_weight="1"
-                        android:hint="Calle"
+                        android:hint="Tipo remolque"
                         android:inputType="text"
                         android:maxLines="1"
                         android:textSize="14sp"
@@ -349,7 +349,7 @@
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="20dp"
                         android:layout_weight="1"
-                        android:hint="Número Interior"
+                        android:hint="Carga"
                         android:inputType="text"
                         android:maxLines="1"
                         android:textSize="14sp"
@@ -382,7 +382,7 @@
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="20dp"
                         android:layout_weight="1"
-                        android:hint="Número Exterior"
+                        android:hint="Número de embarque"
                         android:inputType="text"
                         android:maxLines="1"
                         android:textSize="14sp"
@@ -409,16 +409,17 @@
                         android:textColor="@color/colorPrimaryText"
                         android:textSize="14sp" />
 
-                    <Spinner
-                        android:id="@+id/spinner_clientes_metodo_pago"
+                    <EditText
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="20dp"
                         android:layout_weight="1"
+                        android:hint="Destinatario"
+                        android:inputType="text"
                         android:maxLines="1"
+                        android:textSize="14sp"
                         android:theme="@style/AppTheme.Form" />
-
 
                 </LinearLayout>
 
@@ -445,7 +446,7 @@
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="20dp"
                         android:layout_weight="1"
-                        android:hint="Teléfono"
+                        android:hint="Bodega descarga"
                         android:inputType="number"
                         android:maxLines="1"
                         android:textSize="14sp"
@@ -465,7 +466,7 @@
                         android:layout_height="20dp"
                         android:layout_marginLeft="2dp"
                         android:layout_weight="1"
-                        android:text="Direccion"
+                        android:text="Dirección"
                         android:textAlignment="textEnd"
                         android:textColor="@color/colorPrimaryText"
                         android:textSize="14sp" />
@@ -477,7 +478,7 @@
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="20dp"
                         android:layout_weight="1"
-                        android:hint="Celular"
+                        android:hint="Dirección"
                         android:inputType="number"
                         android:maxLines="1"
                         android:textSize="14sp"
@@ -507,7 +508,7 @@
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="20dp"
                         android:layout_weight="1"
-                        android:hint="C"
+                        android:hint="Estado destino"
                         android:inputType="textEmailAddress"
                         android:maxLines="1"
                         android:textSize="14sp"
@@ -521,18 +522,10 @@
                     android:layout_marginTop="20dp"
                     android:orientation="vertical">
 
-                    <android.support.design.widget.FloatingActionButton
-                        android:id="@+id/fab_clientes"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="end|bottom"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="10dp"
-                        android:scaleType="center"
-                        android:src="@mipmap/ic_done_white_18dp"
-                        app:backgroundTint="@color/colorPrimary" />
-
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Solicitar cotización" />
                 </LinearLayout>
 
             </LinearLayout>
