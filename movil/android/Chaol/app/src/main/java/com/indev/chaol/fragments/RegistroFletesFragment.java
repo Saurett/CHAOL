@@ -41,19 +41,19 @@ public class RegistroFletesFragment extends Fragment implements View.OnClickList
         View view = inflater.inflate(R.layout.fragment_registro_fletes, container, false);
 
         btnTitulo = (Button) view.findViewById(R.id.btn_titulo_fletes);
-        btnDatosGenerales = (Button) view.findViewById(R.id.btn_datos_generales);
-        btnCotizacion = (Button) view.findViewById(R.id.btn_cotizacion);
-        btnSolicitudTransportista = (Button) view.findViewById(R.id.btn_solicitud_transportista);
+        //btnDatosGenerales = (Button) view.findViewById(R.id.btn_datos_generales);
+        //btnCotizacion = (Button) view.findViewById(R.id.btn_cotizacion);
+        //btnSolicitudTransportista = (Button) view.findViewById(R.id.btn_solicitud_transportista);
 
-        linearDatosGenerales = (LinearLayout) view.findViewById(R.id.linear_datos_generales);
-        linearCotizacion = (LinearLayout) view.findViewById(R.id.linear_cotización);
-        linearSolicitudTransportista = (LinearLayout) view.findViewById(R.id.linear_solicitud_transportista);
+        //linearDatosGenerales = (LinearLayout) view.findViewById(R.id.linear_datos_generales);
+        //linearCotizacion = (LinearLayout) view.findViewById(R.id.linear_cotización);
+        //linearSolicitudTransportista = (LinearLayout) view.findViewById(R.id.linear_solicitud_transportista);
 
         fabFletes = (FloatingActionButton) view.findViewById(R.id.fab_fletes);
 
-        btnDatosGenerales.setOnClickListener(this);
-        btnCotizacion.setOnClickListener(this);
-        btnSolicitudTransportista.setOnClickListener(this);
+        //btnDatosGenerales.setOnClickListener(this);
+        //btnCotizacion.setOnClickListener(this);
+        //btnSolicitudTransportista.setOnClickListener(this);
 
         fabFletes.setOnClickListener(this);
 
@@ -108,15 +108,6 @@ public class RegistroFletesFragment extends Fragment implements View.OnClickList
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_datos_generales:
-                linearDatosGenerales.setVisibility((linearDatosGenerales.getVisibility() == View.VISIBLE) ? View.GONE : View.VISIBLE);
-                break;
-            case R.id.btn_cotizacion:
-                linearCotizacion.setVisibility((linearCotizacion.getVisibility() == View.VISIBLE) ? View.GONE : View.VISIBLE);
-                break;
-            case R.id.btn_solicitud_transportista:
-                linearSolicitudTransportista.setVisibility((linearSolicitudTransportista.getVisibility() == View.VISIBLE) ? View.GONE : View.VISIBLE);
-                break;
             case R.id.fab_clientes:
                 if (_MAIN_DECODE.getAccionFragmento() == Constants.ACCION_EDITAR) {
                     this.showQuestion();

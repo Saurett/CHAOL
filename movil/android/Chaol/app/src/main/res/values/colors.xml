@@ -29,6 +29,10 @@
 
     <color name="colorPanelRemolquesUno">#800080</color>
 
+    <!--Colores apartado para paneles dinamicos-->
+    <color name="colorPanelRegistroFletes">#f7f7f9</color>
+
+
 
 
 </resources>

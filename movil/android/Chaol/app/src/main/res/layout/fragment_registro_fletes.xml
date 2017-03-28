@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@null"
@@ -30,16 +29,18 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:padding="20dp">
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp">
 
             <com.beardedhen.androidbootstrap.BootstrapProgressBar
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:animated="true"
                 app:bootstrapBrand="success"
-                app:bootstrapProgress="78"
+                app:bootstrapProgress="10"
                 app:striped="true" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -47,151 +48,25 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+
             <LinearLayout
+                android:id="@+id/registro_clientes"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="8dp"
                 android:orientation="vertical">
 
                 <Button
                     android:id="@+id/btn_datos_generales"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:background="@color/colorPrimaryDark"
-                    android:text="Datos Generales" />
-
-                <!--Datos Generales-->
-                <LinearLayout
-                    android:id="@+id/linear_datos_generales"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/border_form"
-                    android:orientation="vertical"
-                    android:visibility="visible">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:paddingLeft="20dp">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="20dp"
-                            android:layout_marginRight="2dp"
-                            android:layout_weight="1"
-
-                            android:text="Nombre o Razón Social"
-                            android:textAlignment="textEnd"
-                            android:textColor="@color/colorPrimaryText"
-                            android:textSize="14sp" />
-
-                        <EditText
-                            android:id="@+id/txt_clientes_nombre"
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:layout_marginLeft="2dp"
-                            android:layout_marginRight="20dp"
-                            android:layout_weight="1"
-                            android:hint="Nombre o Razón Social"
-                            android:inputType="text"
-                            android:maxLines="1"
-                            android:textSize="14sp"
-                            android:theme="@style/AppTheme.Form" />
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="10dp"
-                        android:paddingLeft="20dp">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="20dp"
-                            android:layout_marginRight="2dp"
-                            android:layout_weight="1"
-                            android:text="RFC"
-                            android:textAlignment="textEnd"
-                            android:textColor="@color/colorPrimaryText"
-                            android:textSize="14sp" />
-
-                        <EditText
-                            android:id="@+id/txt_clientes_rfc"
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:layout_marginLeft="2dp"
-                            android:layout_marginRight="20dp"
-                            android:layout_weight="1"
-                            android:hint="RFC"
-                            android:inputType="text"
-                            android:maxLines="1"
-                            android:textSize="14sp"
-                            android:theme="@style/AppTheme.Form" />
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="10dp"
-                        android:paddingLeft="20dp">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="20dp"
-                            android:layout_marginRight="2dp"
-                            android:layout_weight="1"
-                            android:text="Pais"
-                            android:textAlignment="textEnd"
-                            android:textColor="@color/colorPrimaryText"
-                            android:textSize="14sp" />
-
-                        <EditText
-                            android:id="@+id/txt_clientes_pais"
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:layout_marginLeft="2dp"
-                            android:layout_marginRight="20dp"
-                            android:layout_weight="1"
-                            android:hint="Pais"
-                            android:inputType="text"
-                            android:maxLines="1"
-                            android:textSize="14sp"
-                            android:theme="@style/AppTheme.Form" />
-
-
-                    </LinearLayout>
-                </LinearLayout>
-                <!--Botón Datos Cotización-->
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp">
-
-                <Button
-                    android:id="@+id/btn_cotizacion"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Cotización" />
-
-            </LinearLayout>
-            <!--Cotización-->
-            <LinearLayout
-                android:id="@+id/linear_cotización"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/border_form"
-                android:orientation="vertical"
-                android:visibility="gone">
+                    android:background="@color/colorPanelRegistroFletes"
+                    android:text="DATOS GENERALES"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimaryText" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -204,13 +79,13 @@
                         android:layout_height="20dp"
                         android:layout_marginRight="2dp"
                         android:layout_weight="1"
-
-                        android:text="Nombre o Razón Social"
+                        android:text="ID FLETE"
                         android:textAlignment="textEnd"
                         android:textColor="@color/colorPrimaryText"
                         android:textSize="14sp" />
 
                     <EditText
+                        android:id="@+id/txt_dg_id_flete"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginLeft="2dp"
@@ -232,16 +107,18 @@
                     android:paddingLeft="20dp">
 
                     <TextView
+                        android:id="@+id/textView7"
                         android:layout_width="match_parent"
                         android:layout_height="20dp"
                         android:layout_marginRight="2dp"
                         android:layout_weight="1"
-                        android:text="RFC"
+                        android:text="Cliente"
                         android:textAlignment="textEnd"
                         android:textColor="@color/colorPrimaryText"
                         android:textSize="14sp" />
 
                     <EditText
+                        android:id="@+id/txt_clientes_rfc"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginLeft="2dp"
@@ -267,12 +144,13 @@
                         android:layout_height="20dp"
                         android:layout_marginRight="2dp"
                         android:layout_weight="1"
-                        android:text="Pais"
+                        android:text="Fecha Salida"
                         android:textAlignment="textEnd"
                         android:textColor="@color/colorPrimaryText"
                         android:textSize="14sp" />
 
                     <EditText
+                        android:id="@+id/txt_clientes_pais"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginLeft="2dp"
@@ -287,31 +165,37 @@
 
                 </LinearLayout>
 
-            </LinearLayout>
-            <!--Botón Solicitud Transportista-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp">
-
-                <Button
-                    android:id="@+id/btn_solicitud_transportista"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Solicitud Transportista" />
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="20dp">
 
-            </LinearLayout>
-            <!--Solicitud Transportista-->
-            <LinearLayout
-                android:id="@+id/linear_solicitud_transportista"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/border_form"
-                android:orientation="vertical"
-                android:visibility="gone">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_marginRight="2dp"
+                        android:layout_weight="1"
+                        android:text="Hora Salida"
+                        android:textAlignment="textEnd"
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/txt_clientes_estado"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="1"
+                        android:hint="Estado"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:textSize="14sp"
+                        android:theme="@style/AppTheme.Form" />
+
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -324,25 +208,333 @@
                         android:layout_height="20dp"
                         android:layout_marginRight="2dp"
                         android:layout_weight="1"
-
-                        android:text="Nombre o Razón Social"
+                        android:text="Bodega de carga"
                         android:textAlignment="textEnd"
                         android:textColor="@color/colorPrimaryText"
                         android:textSize="14sp" />
 
                     <EditText
+                        android:id="@+id/txt_clientes_ciudad"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="20dp"
                         android:layout_weight="1"
-                        android:hint="Nombre o Razón Social"
+                        android:hint="Ciudad"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:textSize="14sp"
+                        android:theme="@style/AppTheme.Form" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_marginRight="2dp"
+                        android:layout_weight="1"
+                        android:text="Dirección"
+                        android:textAlignment="textEnd"
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/txt_clientes_colonia"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="1"
+                        android:hint="Colonia"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:textSize="14sp"
+                        android:theme="@style/AppTheme.Form" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_marginRight="2dp"
+                        android:layout_weight="1"
+                        android:text="Estado"
+                        android:textAlignment="textEnd"
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/txt_clientes_codigo_postal"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="1"
+                        android:hint="Codigo Postal"
+                        android:inputType="number"
+                        android:maxLength="5"
+                        android:maxLines="1"
+                        android:textSize="14sp"
+                        android:theme="@style/AppTheme.Form" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_marginRight="2dp"
+                        android:layout_weight="1"
+                        android:text="Tipo remolque"
+                        android:textAlignment="textEnd"
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/txt_clientes_calle"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="1"
+                        android:hint="Calle"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:textSize="14sp"
+                        android:theme="@style/AppTheme.Form" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_marginRight="2dp"
+                        android:layout_weight="1"
+                        android:text="Carga"
+                        android:textAlignment="textEnd"
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/txt_clientes_num_int"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="1"
+                        android:hint="Número Interior"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:textSize="14sp"
+                        android:theme="@style/AppTheme.Form" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="20dp">
+
+                    <TextView
+                        android:id="@+id/textView8"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_marginRight="2dp"
+                        android:layout_weight="1"
+                        android:text="Número de embarque"
+                        android:textAlignment="textEnd"
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/txt_clientes_num_ext"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="1"
+                        android:hint="Número Exterior"
                         android:inputType="text"
                         android:maxLines="1"
                         android:textSize="14sp"
                         android:theme="@style/AppTheme.Form" />
 
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="20dp">
+
+
+                    <TextView
+                        android:id="@+id/textView6"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center|end"
+                        android:layout_marginLeft="2dp"
+                        android:layout_weight="1"
+                        android:text="Destinatario"
+                        android:textAlignment="textEnd"
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="14sp" />
+
+                    <Spinner
+                        android:id="@+id/spinner_clientes_metodo_pago"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="1"
+                        android:maxLines="1"
+                        android:theme="@style/AppTheme.Form" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_marginRight="2dp"
+                        android:layout_weight="1"
+                        android:text="Bodega descarga"
+                        android:textAlignment="textEnd"
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/txt_clientes_telefono"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="1"
+                        android:hint="Teléfono"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:textSize="14sp"
+                        android:theme="@style/AppTheme.Form" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_weight="1"
+                        android:text="Direccion"
+                        android:textAlignment="textEnd"
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/txt_clientes_celular"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="1"
+                        android:hint="Celular"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:textSize="14sp"
+                        android:theme="@style/AppTheme.Form" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_weight="1"
+                        android:text="Estado destino"
+                        android:textAlignment="textEnd"
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/txt_clientes_correo_electronico"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="1"
+                        android:hint="C"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1"
+                        android:textSize="14sp"
+                        android:theme="@style/AppTheme.Form" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical">
+
+                    <android.support.design.widget.FloatingActionButton
+                        android:id="@+id/fab_clientes"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="end|bottom"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
+                        android:scaleType="center"
+                        android:src="@mipmap/ic_done_white_18dp"
+                        app:backgroundTint="@color/colorPrimary" />
+
+                </LinearLayout>
+
             </LinearLayout>
 
 
