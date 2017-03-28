@@ -99,6 +99,13 @@ public final class Constants {
     public static final String PANEL_TRACTORES_CONTAINER = "panel_tractores_container";
     public static final String PANEL_REMOLQUES_CONTAINER = "panel_remolques_container";
 
+    /**Fragmentos para registro de fletes**/
+    public static final String DATOS_GENERALES_FLETES_CONTAINER = "datos_generales_fletes_container";
+    public static final String COTIZACION_FLETES_CONTAINER = "cotizacion_fletes_container";
+    public static final String ASIGNACION_FLETES_CONTAINER = "asignacion_fletes_container";
+    public static final String EQUIPO_FLETES_CONTAINER = "equipo_fletes_container";
+    public static final String PROCESO_FLETES_CONTAINER = "proceso_fletes_container";
+
     /**
      * Fragmento principal para perfiles
      **/

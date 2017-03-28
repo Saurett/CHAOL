@@ -7,14 +7,13 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.indev.chaol.R;
@@ -27,10 +26,9 @@ import com.indev.chaol.utils.Constants;
  * Created by saurett on 24/02/2017.
  */
 
-public class RegistroFletesFragment extends Fragment implements View.OnClickListener, DialogInterface.OnClickListener, Spinner.OnItemSelectedListener {
+public class RegistroFletesFragment extends Fragment implements View.OnClickListener, DialogInterface.OnClickListener {
 
-    private Button btnTitulo, btnDatosGenerales, btnCotizacion, btnSolicitudTransportista;
-    private LinearLayout linearDatosGenerales, linearCotizacion, linearSolicitudTransportista;
+    private Button btnTitulo;
     private FloatingActionButton fabFletes;
     private ProgressDialog pDialog;
 
@@ -41,23 +39,23 @@ public class RegistroFletesFragment extends Fragment implements View.OnClickList
         View view = inflater.inflate(R.layout.fragment_registro_fletes, container, false);
 
         btnTitulo = (Button) view.findViewById(R.id.btn_titulo_fletes);
-        //btnDatosGenerales = (Button) view.findViewById(R.id.btn_datos_generales);
-        //btnCotizacion = (Button) view.findViewById(R.id.btn_cotizacion);
-        //btnSolicitudTransportista = (Button) view.findViewById(R.id.btn_solicitud_transportista);
-
-        //linearDatosGenerales = (LinearLayout) view.findViewById(R.id.linear_datos_generales);
-        //linearCotizacion = (LinearLayout) view.findViewById(R.id.linear_cotización);
-        //linearSolicitudTransportista = (LinearLayout) view.findViewById(R.id.linear_solicitud_transportista);
-
         fabFletes = (FloatingActionButton) view.findViewById(R.id.fab_fletes);
-
-        //btnDatosGenerales.setOnClickListener(this);
-        //btnCotizacion.setOnClickListener(this);
-        //btnSolicitudTransportista.setOnClickListener(this);
 
         fabFletes.setOnClickListener(this);
 
         _MAIN_DECODE = (DecodeExtraParams) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
+
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+
+        FragmentTransaction mainFragment = fragmentManager.beginTransaction();
+
+        mainFragment.add(R.id.fragment_datos_generales_container, new FletesDatosGeneralesFragment(), Constants.DATOS_GENERALES_FLETES_CONTAINER);
+        mainFragment.add(R.id.fragment_cotizacion_container, new FletesCotizacionFragment(), Constants.COTIZACION_FLETES_CONTAINER);
+        mainFragment.add(R.id.fragment_asignacion_container, new FletesAsignacionFragment(), Constants.ASIGNACION_FLETES_CONTAINER);
+        mainFragment.add(R.id.fragment_equipo_container, new FletesEquipoFragment(), Constants.EQUIPO_FLETES_CONTAINER);
+        mainFragment.add(R.id.fragment_proceso_container, new FletesProcesoFragment(), Constants.PROCESO_FLETES_CONTAINER);
+
+        mainFragment.commit();
 
         this.onPreRender();
 
@@ -134,22 +132,11 @@ public class RegistroFletesFragment extends Fragment implements View.OnClickList
     public void onClick(DialogInterface dialog, int which) {
         switch (which) {
             case DialogInterface.BUTTON_POSITIVE:
-                AsyncCallWS asyncCallWS = new AsyncCallWS(Constants.WS_KEY_EDITAR_CLIENTES);
+                AsyncCallWS asyncCallWS = new AsyncCallWS(Constants.WS_KEY_EDITAR_FLETES);
                 asyncCallWS.execute();
                 break;
         }
     }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
-
 
     private class AsyncCallWS extends AsyncTask<Void, Void, Boolean> {
 

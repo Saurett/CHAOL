@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@null"
+    android:clipToPadding="false"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_datos_asignacion_fletes"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/colorPanelRegistroFletes"
+            android:text="Transportista"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimaryText" />
+
+        <LinearLayout
+            android:id="@+id/asignacion_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight="1"
+                    android:text="LISTA DE TRANSPORTISTAS"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/txt_dg_id_flete"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:hint="LISTA DE TRANSPORTISTAS"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textSize="14sp"
+                    android:theme="@style/AppTheme.Form" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>
