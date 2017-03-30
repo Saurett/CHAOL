@@ -55,7 +55,7 @@
                     android:layout_marginRight="20dp"
                     android:layout_weight="1"
                     android:hint="ID FLETE"
-                    android:inputType="text"
+                    android:inputType="number"
                     android:maxLines="1"
                     android:textSize="14sp"
                     android:theme="@style/AppTheme.Form" />
@@ -112,17 +112,20 @@
                     android:textSize="14sp" />
 
                 <EditText
+                    android:id="@+id/txt_dg_fecha_salida"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="2dp"
                     android:layout_marginRight="20dp"
                     android:layout_weight="1"
+                    android:drawableRight="@mipmap/ic_date_range_white_18dp"
+                    android:drawableTint="@color/colorPrimary"
+                    android:editable="false"
                     android:hint="Fecha salida"
-                    android:inputType="text"
+                    android:inputType="none"
                     android:maxLines="1"
                     android:textSize="14sp"
                     android:theme="@style/AppTheme.Form" />
-
 
             </LinearLayout>
 
@@ -143,13 +146,17 @@
                     android:textSize="14sp" />
 
                 <EditText
+                    android:id="@+id/txt_dg_hora_salida"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="2dp"
                     android:layout_marginRight="20dp"
                     android:layout_weight="1"
+                    android:drawableRight="@mipmap/ic_access_time_white_18dp"
+                    android:drawableTint="@color/colorPrimary"
+                    android:editable="false"
                     android:hint="Hora salida"
-                    android:inputType="text"
+                    android:inputType="none"
                     android:maxLines="1"
                     android:textSize="14sp"
                     android:theme="@style/AppTheme.Form" />
@@ -903,9 +910,9 @@
                     android:layout_width="200dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
-                    android:textColor="@color/colorIcons"
                     android:background="@color/colorSecondaryAccent"
-                    android:text="Solicitar cotización" />
+                    android:text="Solicitar cotización"
+                    android:textColor="@color/colorIcons" />
 
             </LinearLayout>
 
