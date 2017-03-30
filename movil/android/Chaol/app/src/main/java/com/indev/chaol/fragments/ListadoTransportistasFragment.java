@@ -44,6 +44,8 @@ public class ListadoTransportistasFragment extends Fragment implements View.OnCl
 
     @Override
     public void onStart() {
+        super.onStart();
+
         /**Remueve los fragmentos secundarios**/
         activityInterface.removeSecondaryFragment();
 
@@ -51,8 +53,6 @@ public class ListadoTransportistasFragment extends Fragment implements View.OnCl
         FragmentTransaction mainFragment = fragmentManager.beginTransaction();
         mainFragment.replace(R.id.listado_transportistas_container, new TransportistasFragment(), Constants.FRAGMENT_TRANSPORTISTAS);
         mainFragment.commit();
-
-        super.onStart();
     }
 
     @Override

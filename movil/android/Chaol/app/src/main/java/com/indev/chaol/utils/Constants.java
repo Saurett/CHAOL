@@ -105,6 +105,19 @@ public final class Constants {
     public static final String ASIGNACION_FLETES_CONTAINER = "asignacion_fletes_container";
     public static final String EQUIPO_FLETES_CONTAINER = "equipo_fletes_container";
     public static final String PROCESO_FLETES_CONTAINER = "proceso_fletes_container";
+    public static final String ASIGNACION_TRANSPORTISTAS_FLETES_CONTAINER = "asignacion_transportostas_fletes_container";
+
+    /**Colección de fragmentos fletes**/
+    public static final List<String>  FLETES_TAG_FRAGMENTS;
+    static {
+        FLETES_TAG_FRAGMENTS = new ArrayList<>();
+        FLETES_TAG_FRAGMENTS.add(DATOS_GENERALES_FLETES_CONTAINER);
+        FLETES_TAG_FRAGMENTS.add(COTIZACION_FLETES_CONTAINER);
+        FLETES_TAG_FRAGMENTS.add(ASIGNACION_FLETES_CONTAINER);
+        FLETES_TAG_FRAGMENTS.add(EQUIPO_FLETES_CONTAINER);
+        FLETES_TAG_FRAGMENTS.add(PROCESO_FLETES_CONTAINER);
+        FLETES_TAG_FRAGMENTS.add(ASIGNACION_TRANSPORTISTAS_FLETES_CONTAINER);
+    }
 
     /**
      * Fragmento principal para perfiles

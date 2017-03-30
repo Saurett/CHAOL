@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.indev.chaol.R;
-import com.indev.chaol.fragments.ClientesFragment;
+import com.indev.chaol.fragments.AsignacionTransportistasFragment;
 import com.indev.chaol.fragments.TransportistasFragment;
 import com.indev.chaol.models.DecodeItem;
 import com.indev.chaol.models.Transportistas;
@@ -20,23 +20,24 @@ import java.util.List;
 /**
  * Created by saurett on 14/01/2016.
  */
-public class TransportistasAdapter extends RecyclerView.Adapter<TransportistasAdapter.ViewHolder>{
+public class AsignacionesTransportistasAdapter extends RecyclerView.Adapter<AsignacionesTransportistasAdapter.ViewHolder>{
 
     View.OnClickListener onClickListener;
     List<Transportistas> transportistas = new ArrayList<>();
 
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView txtNombre;
-        Button btnEditar;
-        Button btnEliminar;
+        Button btnPerfil;
+        Button btnAutorizar;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            txtNombre = (TextView) itemView.findViewById(R.id.item_nombre_transportista);
-            btnEditar = (Button) itemView.findViewById(R.id.item_btn_editar_transportista);
-            btnEliminar = (Button) itemView.findViewById(R.id.item_btn_eliminar_transportista);
+            txtNombre = (TextView) itemView.findViewById(R.id.item_nombre_asignacion_transportista);
+            btnPerfil = (Button) itemView.findViewById(R.id.item_btn_perfil_asignacion_transportista);
+            btnAutorizar = (Button) itemView.findViewById(R.id.item_btn_autorizar_asinacion_transportista);
         }
     }
 
@@ -52,7 +53,7 @@ public class TransportistasAdapter extends RecyclerView.Adapter<TransportistasAd
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_transportistas, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_asignaciones_transportistas, parent, false);
         return new ViewHolder(view);
     }
 
@@ -66,18 +67,18 @@ public class TransportistasAdapter extends RecyclerView.Adapter<TransportistasAd
         decodeItem.setPosition(position);
 
         holder.txtNombre.setText(item.getNombre());
-        holder.btnEliminar.setOnClickListener(new View.OnClickListener() {
+        holder.btnPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 decodeItem.setIdView(view.getId());
-                TransportistasFragment.onListenerAction(decodeItem);
+                AsignacionTransportistasFragment.onListenerAction(decodeItem);
             }
         });
-        holder.btnEditar.setOnClickListener(new View.OnClickListener() {
+        holder.btnAutorizar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 decodeItem.setIdView(view.getId());
-                TransportistasFragment.onListenerAction(decodeItem);
+                AsignacionTransportistasFragment.onListenerAction(decodeItem);
             }
         });
     }

@@ -9,10 +9,14 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.indev.chaol.fragments.interfaces.MainRegisterInterface;
 import com.indev.chaol.models.DecodeExtraParams;
+import com.indev.chaol.models.DecodeItem;
 import com.indev.chaol.utils.Constants;
 
-public class MainRegisterActivity extends AppCompatActivity {
+import java.util.List;
+
+public class MainRegisterActivity extends AppCompatActivity implements MainRegisterInterface {
 
     private static DecodeExtraParams _MAIN_DECODE;
 
@@ -123,5 +127,40 @@ public class MainRegisterActivity extends AppCompatActivity {
         mainFragment.add(R.id.fragment_main_register_container, Constants.TAG_FRAGMENT.get(tag), tag);
         mainFragment.addToBackStack(tag);
         mainFragment.commit();
+    }
+
+    @Override
+    public void onChangeMainFragment(int idView) {
+
+    }
+
+    @Override
+    public void removeSecondaryFragment() {
+        List<String> secondaryFragments = Constants.FLETES_TAG_FRAGMENTS;
+
+        for (String tag :
+                secondaryFragments) {
+            closeFragment(tag);
+        }
+    }
+
+    @Override
+    public void showQuestion() {
+
+    }
+
+    @Override
+    public void openExternalActivity(int action, Class<?> externalActivity) {
+
+    }
+
+    @Override
+    public void setDecodeItem(DecodeItem decodeItem) {
+
+    }
+
+    @Override
+    public DecodeItem getDecodeItem() {
+        return null;
     }
 }

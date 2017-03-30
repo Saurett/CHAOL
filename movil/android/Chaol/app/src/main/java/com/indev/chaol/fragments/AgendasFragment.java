@@ -15,11 +15,9 @@ import android.widget.Toast;
 import com.indev.chaol.MainRegisterActivity;
 import com.indev.chaol.R;
 import com.indev.chaol.adapters.AgendasAdapter;
-import com.indev.chaol.adapters.RemolquesAdapter;
 import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
 import com.indev.chaol.models.Agendas;
 import com.indev.chaol.models.DecodeItem;
-import com.indev.chaol.models.Remolques;
 import com.indev.chaol.utils.Constants;
 
 import java.util.ArrayList;
@@ -53,10 +51,9 @@ public class AgendasFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
+        super.onCreate(savedInstanceState);
         AsyncCallWS wsTaskList = new AsyncCallWS(Constants.WS_KEY_BUSCAR_REMOLQUES);
         wsTaskList.execute();
-        super.onCreate(savedInstanceState);
     }
 
     @Override

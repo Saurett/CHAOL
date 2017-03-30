@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,6 +53,11 @@ public class FletesAsignacionFragment extends Fragment implements View.OnClickLi
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
@@ -77,7 +84,17 @@ public class FletesAsignacionFragment extends Fragment implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_datos_asignacion_fletes:
+
                 linearLayout.setVisibility((linearLayout.getVisibility() == View.VISIBLE) ? View.GONE : View.VISIBLE);
+
+                if (linearLayout.getVisibility() == View.VISIBLE) {
+
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction mainFragment = fragmentManager.beginTransaction();
+                    mainFragment.replace(R.id.listado_asignaciones_container, new AsignacionTransportistasFragment(), Constants.ASIGNACION_TRANSPORTISTAS_FLETES_CONTAINER);
+                    mainFragment.commit();
+
+                }
                 break;
             case R.id.fab_clientes:
                 if (_MAIN_DECODE.getAccionFragmento() == Constants.ACCION_EDITAR) {

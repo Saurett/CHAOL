@@ -50,8 +50,6 @@ public class ListadoTractoresFragment extends Fragment implements View.OnClickLi
         mainFragment.replace(R.id.listado_tractores_container, new TractoresFragment(), Constants.FRAGMENT_TRACTORES);
         mainFragment.commit();
 
-
-
         super.onStart();
     }
 

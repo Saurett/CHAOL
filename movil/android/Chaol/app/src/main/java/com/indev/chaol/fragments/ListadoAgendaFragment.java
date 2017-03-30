@@ -123,7 +123,7 @@ public class ListadoAgendaFragment extends Fragment implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.fab_listado_agenda:
-                mvcAgenda.setVisibility((mvcAgenda.getVisibility() == View.VISIBLE) ? View.GONE : View.VISIBLE);
+                //mvcAgenda.setVisibility((mvcAgenda.getVisibility() == View.VISIBLE) ? View.GONE : View.VISIBLE);
                 break;
         }
 

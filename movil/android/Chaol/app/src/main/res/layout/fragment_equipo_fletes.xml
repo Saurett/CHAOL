@@ -448,9 +448,13 @@
                 android:orientation="vertical">
 
                 <Button
-                    android:layout_width="match_parent"
+                    android:layout_width="200dp"
                     android:layout_height="match_parent"
-                    android:text="Guardar" />
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="5dp"
+                    android:background="@color/colorSecondaryAccent"
+                    android:text="Guardar"
+                    android:textColor="@color/colorIcons" />
             </LinearLayout>
 
         </LinearLayout>

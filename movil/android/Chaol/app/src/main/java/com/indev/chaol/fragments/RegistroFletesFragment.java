@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.indev.chaol.R;
+import com.indev.chaol.fragments.interfaces.MainRegisterInterface;
 import com.indev.chaol.models.DecodeExtraParams;
 import com.indev.chaol.models.Fletes;
 import com.indev.chaol.utils.Constants;
@@ -31,6 +32,7 @@ public class RegistroFletesFragment extends Fragment implements View.OnClickList
     private Button btnTitulo;
     private FloatingActionButton fabFletes;
     private ProgressDialog pDialog;
+    private MainRegisterInterface mainRegisterInterface;
 
     private static DecodeExtraParams _MAIN_DECODE = new DecodeExtraParams();
 
@@ -45,15 +47,16 @@ public class RegistroFletesFragment extends Fragment implements View.OnClickList
 
         _MAIN_DECODE = (DecodeExtraParams) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
 
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        mainRegisterInterface.removeSecondaryFragment();
 
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction mainFragment = fragmentManager.beginTransaction();
 
-        mainFragment.add(R.id.fragment_datos_generales_container, new FletesDatosGeneralesFragment(), Constants.DATOS_GENERALES_FLETES_CONTAINER);
-        mainFragment.add(R.id.fragment_cotizacion_container, new FletesCotizacionFragment(), Constants.COTIZACION_FLETES_CONTAINER);
-        mainFragment.add(R.id.fragment_asignacion_container, new FletesAsignacionFragment(), Constants.ASIGNACION_FLETES_CONTAINER);
-        mainFragment.add(R.id.fragment_equipo_container, new FletesEquipoFragment(), Constants.EQUIPO_FLETES_CONTAINER);
-        mainFragment.add(R.id.fragment_proceso_container, new FletesProcesoFragment(), Constants.PROCESO_FLETES_CONTAINER);
+        mainFragment.replace(R.id.fragment_datos_generales_container, new FletesDatosGeneralesFragment(), Constants.DATOS_GENERALES_FLETES_CONTAINER);
+        mainFragment.replace(R.id.fragment_cotizacion_container, new FletesCotizacionFragment(), Constants.COTIZACION_FLETES_CONTAINER);
+        mainFragment.replace(R.id.fragment_asignacion_container, new FletesAsignacionFragment(), Constants.ASIGNACION_FLETES_CONTAINER);
+        mainFragment.replace(R.id.fragment_equipo_container, new FletesEquipoFragment(), Constants.EQUIPO_FLETES_CONTAINER);
+        mainFragment.replace(R.id.fragment_proceso_container, new FletesProcesoFragment(), Constants.PROCESO_FLETES_CONTAINER);
 
         mainFragment.commit();
 
@@ -74,7 +77,7 @@ public class RegistroFletesFragment extends Fragment implements View.OnClickList
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-
+            mainRegisterInterface = (MainRegisterInterface) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString() + "debe implementar");
         }
