@@ -229,6 +229,13 @@ button:focus.accordion-btn {
   border: none;
   border-radius: 5px;
 }
+.borde-superior {
+  border-top: 1px solid #BDBDBD;
+  color: #BDBDBD;
+}
+.overflow-auto {
+  overflow: auto;
+}
 /*ACCORDION*/
 .card {
   position: relative;
@@ -280,10 +287,6 @@ body > div {
   font-size: 12pt;
   z-index: 1;
 }
-body {
-  background-image: url(../imagenes/fondos/Clientes.jpg);
-  background-size: 100% 100%;
-}
 input {
   border: none !important;
 }
@@ -299,6 +302,10 @@ input {
   display: flex;
   align-items: flex-end;
   background-color: rgba(255, 255, 255, 0.5);
+  background-image: url(../imagenes/negocio/logo_1.png);
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-size: contain;
 }
 #div_izquierdo_lineas {
   padding: 0;

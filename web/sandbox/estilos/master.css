@@ -229,6 +229,13 @@ button:focus.accordion-btn {
   border: none;
   border-radius: 5px;
 }
+.borde-superior {
+  border-top: 1px solid #BDBDBD;
+  color: #BDBDBD;
+}
+.overflow-auto {
+  overflow: auto;
+}
 /*ACCORDION*/
 .card {
   position: relative;
@@ -2827,6 +2834,7 @@ button:focus.accordion-btn {
 .calendar-context-menu .item:hover > .submenu {
   display: block;
 }
+/*@import "utilerias//bootstrap-datepicker.less";*/
 body {
   padding-left: 54px !important;
   background: #CFD8DC;

@@ -24,10 +24,13 @@ gulp.task('js', function () {
 gulp.task('app-js', function () {
     return gulp.src(
             [
-                'app_components/angular/app.js',
+                'app_components/angular/angular.js',
                 'app_components/js/bootstrap-calendar/bootstrap-year-calendar.js',
                 'app_components/js/bootstrap-calendar/bootstrap-year-calendar.es.js',
-                'app_components/js/bootstrap-calendar/calendario-init.js'
+                'app_components/js/bootstrap-calendar/calendario-init.js',
+                //'app_components/js/bootstrap-datepicker/bootstrap-datepicker.js',
+                //'app_components/js/bootstrap-datepicker/bootstrap-datepicker.es.min.js',
+                'app_components/js/app.js'
             ])
             .pipe(concat('app.js'))
             .pipe(gulp.dest('js/'));
