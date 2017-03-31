@@ -18,7 +18,6 @@ import android.widget.TimePicker;
 
 import com.indev.chaol.R;
 import com.indev.chaol.models.DecodeExtraParams;
-import com.indev.chaol.models.Fletes;
 import com.indev.chaol.utils.Constants;
 
 import java.text.SimpleDateFormat;
@@ -102,7 +101,7 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
         switch (_MAIN_DECODE.getAccionFragmento()) {
             case Constants.ACCION_EDITAR:
                 /**Obtiene el item selecionado en el fragmento de lista**/
-                Fletes fletes = (Fletes) _MAIN_DECODE.getDecodeItem().getItemModel();
+                //Fletes fletes = (Fletes) _MAIN_DECODE.getDecodeItem().getItemModel();
 
                 /**Asigna valores del item seleccionado**/
                 break;

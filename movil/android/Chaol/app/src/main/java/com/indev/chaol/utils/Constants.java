@@ -131,6 +131,8 @@ public final class Constants {
     public static final String FRAGMENT_TRACTORES_REGISTER = "fragment_tractores_register";
     public static final String FRAGMENT_REMOLQUES_REGISTER = "fragment_remolques_register";
     public static final String FRAGMENT_FLETES_REGISTER = "fragment_fletes_register";
+    public static final String FRAGMENT_ITEM_FLETES_REGISTER = "fragment_item_fletes_register";
+    public static final String FRAGMENT_FAB_FLETES_REGISTER = "fragment_fab_fletes_register";
 
     /**
      * Fragmentos secundario para listados
@@ -182,6 +184,8 @@ public final class Constants {
         ITEM_FRAGMENT.put(R.id.fab_panel_tractores, FRAGMENT_TRACTORES_REGISTER);
         ITEM_FRAGMENT.put(R.id.fab_panel_remolques, FRAGMENT_REMOLQUES_REGISTER);
         ITEM_FRAGMENT.put(R.id.fab_panel_fletes, FRAGMENT_FLETES_REGISTER);
+        ITEM_FRAGMENT.put(R.id.item_color_agenda, FRAGMENT_ITEM_FLETES_REGISTER);
+        ITEM_FRAGMENT.put(R.id.fab_listado_agenda, FRAGMENT_FAB_FLETES_REGISTER);
     }
 
     /**
@@ -204,6 +208,8 @@ public final class Constants {
         TAG_FRAGMENT.put(FRAGMENT_TRACTORES_REGISTER, new RegistroTractoresFragment());
         TAG_FRAGMENT.put(FRAGMENT_REMOLQUES_REGISTER, new RegistroRemolquesFragment());
         TAG_FRAGMENT.put(FRAGMENT_FLETES_REGISTER, new RegistroFletesFragment());
+        TAG_FRAGMENT.put(FRAGMENT_ITEM_FLETES_REGISTER, new RegistroFletesFragment());
+        TAG_FRAGMENT.put(FRAGMENT_FAB_FLETES_REGISTER, new RegistroFletesFragment());
     }
 
     /**Contiene el titulo correspondiente a la acción origen de ciertos botones**/
@@ -226,6 +232,8 @@ public final class Constants {
         TITLE_ACTIVITY.put(R.id.fab_panel_tractores, R.string.default_item_menu_title_tractores);
         TITLE_ACTIVITY.put(R.id.fab_panel_remolques, R.string.default_item_menu_title_remolques);
         TITLE_ACTIVITY.put(R.id.fab_panel_fletes, R.string.default_item_menu_title_fletes);
+        TITLE_ACTIVITY.put(R.id.item_color_agenda, R.string.default_item_menu_title_fletes);
+        TITLE_ACTIVITY.put(R.id.fab_listado_agenda, R.string.default_item_menu_title_fletes);
     }
 
     /**Contiene el titulo correspondiente a la acción del formulario**/

@@ -79,11 +79,11 @@ public class AgendasFragment extends Fragment implements View.OnClickListener {
         navigationDrawerInterface.setDecodeItem(decodeItem);
 
         switch (decodeItem.getIdView()) {
-            case R.id.item_btn_editar_remolque:
-                navigationDrawerInterface.openExternalActivity(Constants.ACCION_EDITAR, MainRegisterActivity.class);
-                break;
             case R.id.item_btn_eliminar_remolque:
                 navigationDrawerInterface.showQuestion();
+                break;
+            case R.id.item_color_agenda:
+                navigationDrawerInterface.openExternalActivity(Constants.ACCION_EDITAR, MainRegisterActivity.class);
                 break;
         }
     }

@@ -1,8 +1,5 @@
 package com.indev.chaol.adapters;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +30,6 @@ public class AgendasAdapter extends RecyclerView.Adapter<AgendasAdapter.ViewHold
         TextView txtEstadoAgenda;
         TextView txtNombreCliente;
         TextView txtNombreTransportista;
-        FloatingActionButton fabFletes;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -42,8 +38,6 @@ public class AgendasAdapter extends RecyclerView.Adapter<AgendasAdapter.ViewHold
             txtEstadoAgenda = (TextView) itemView.findViewById(R.id.item_estado_agenda);
             txtNombreCliente = (TextView) itemView.findViewById(R.id.item_nombre_cliente_agenda);
             txtNombreTransportista = (TextView) itemView.findViewById(R.id.item_nombre_transportista_agenda);
-
-            fabFletes = (FloatingActionButton) itemView.findViewById(R.id.item_fab_flete_agenda);
         }
     }
 
@@ -78,16 +72,16 @@ public class AgendasAdapter extends RecyclerView.Adapter<AgendasAdapter.ViewHold
         decodeItem.setItemModel(item);
         decodeItem.setPosition(position);
 
-        holder.linearLayout.setBackground(item.getItemColor());
+        //holder.linearLayout.setBackground(item.getItemColor());
 
         holder.txtEstadoAgenda.setText(item.getEstado());
         holder.txtNombreCliente.setText(item.getNombreCliente());
         holder.txtNombreTransportista.setText(item.getNombreTransportista());
 
-        holder.fabFletes.setOnClickListener(new View.OnClickListener() {
+        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                decodeItem.setIdView(view.getId());
+            public void onClick(View v) {
+                decodeItem.setIdView(v.getId());
                 AgendasFragment.onListenerAction(decodeItem);
             }
         });

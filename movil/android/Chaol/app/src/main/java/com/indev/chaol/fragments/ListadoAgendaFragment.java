@@ -110,7 +110,7 @@ public class ListadoAgendaFragment extends Fragment implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.fab_listado_tractores:
+            case R.id.fab_listado_agenda:
                 DecodeExtraParams extraParams = new DecodeExtraParams();
 
                 extraParams.setTituloActividad(getString(Constants.TITLE_ACTIVITY.get(v.getId())));
@@ -121,9 +121,6 @@ public class ListadoAgendaFragment extends Fragment implements View.OnClickListe
                 Intent intent = new Intent(getActivity(), MainRegisterActivity.class);
                 intent.putExtra(Constants.KEY_MAIN_DECODE, extraParams);
                 startActivity(intent);
-                break;
-            case R.id.fab_listado_agenda:
-                //mvcAgenda.setVisibility((mvcAgenda.getVisibility() == View.VISIBLE) ? View.GONE : View.VISIBLE);
                 break;
         }
 
