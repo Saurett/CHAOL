@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 
 import com.indev.chaol.R;
 import com.indev.chaol.models.DecodeExtraParams;
@@ -24,6 +25,7 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
 
     private Button btnTitulo;
     private LinearLayout linearLayout;
+    private Spinner spinnerRemolques;
 
     private static DecodeExtraParams _MAIN_DECODE = new DecodeExtraParams();
 

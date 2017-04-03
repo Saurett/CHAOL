@@ -20,7 +20,6 @@ import android.widget.Toast;
 
 import com.indev.chaol.R;
 import com.indev.chaol.models.DecodeExtraParams;
-import com.indev.chaol.models.MetodosPagos;
 import com.indev.chaol.models.Remolques;
 import com.indev.chaol.models.TiposRemolques;
 import com.indev.chaol.utils.Constants;
@@ -244,9 +243,11 @@ public class RegistroRemolquesFragment extends Fragment implements View.OnClickL
             tiposRemolquesList.add("Seleccione ...");
 
             //TODO Metodo para llamar al servidor
-            tiposRemolquesList.add("Frios");
+            tiposRemolquesList.add("Caja Refrijerada");
+            tiposRemolquesList.add("Caja Seca");
 
-            tiposRemolques.add(new TiposRemolques(1, "Frios"));
+            tiposRemolques.add(new TiposRemolques(1, "Caja Refrijerada"));
+            tiposRemolques.add(new TiposRemolques(2, "Caja Seca"));
 
         }
     }
