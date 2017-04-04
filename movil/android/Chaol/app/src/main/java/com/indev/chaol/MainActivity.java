@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -52,45 +51,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnForgotPassword.setOnClickListener(this);
         btnSendEmail.setOnClickListener(this);
         btnBack.setOnClickListener(this);
-
-        Log.i("Log", "Check create action - MainActivity");
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        // The activity is about to become visible.
-        Log.i("Log", "Check start action - MainActivity");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.i("Log", "Check resume action - MainActivity");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.i("Log", "Check pause action - MainActivity");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.i("Log", "Check stop action - MainActivity");
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Log.i("Log", "Check restart action - MainActivity");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.i("Log", "Check destroy action - MainActivity");
     }
 
     /**
@@ -147,10 +107,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void openRegister() {
         DecodeExtraParams extraParams = new DecodeExtraParams();
 
-        extraParams.setTituloActividad("Registrar usuario");
+        extraParams.setTituloActividad("Registrar");
         extraParams.setTituloFormulario("Nuevo");
         extraParams.setAccionFragmento(Constants.ACCION_REGISTRAR);
-        extraParams.setFragmentTag(Constants.FRAGMENT_MAIN_REGISTER);
+        extraParams.setFragmentTag(Constants.FRAGMENT_LOGIN_REGISTER);
 
         Intent intent = new Intent(this, MainRegisterActivity.class);
         intent.putExtra(Constants.KEY_MAIN_DECODE, extraParams);
