@@ -128,6 +128,7 @@ public final class Constants {
     public static final String FRAGMENT_LOGIN_REGISTER = "fragment_login_register";
     public static final String FRAGMENT_MAIN_REGISTER = "fragment_main_register";
     public static final String FRAGMENT_TRANSPORTISTAS_REGISTER = "fragment_transportistas_register";
+    public static final String FRAGMENT_LOGIN_TRANSPORTISTAS_REGISTER = "fragment_login_transportistas_register";
     public static final String FRAGMENT_CHOFERES_REGISTER = "fragment_choferes_register";
     public static final String FRAGMENT_TRACTORES_REGISTER = "fragment_tractores_register";
     public static final String FRAGMENT_REMOLQUES_REGISTER = "fragment_remolques_register";
@@ -212,6 +213,7 @@ public final class Constants {
         TAG_FRAGMENT.put(FRAGMENT_ITEM_FLETES_REGISTER, new RegistroFletesFragment());
         TAG_FRAGMENT.put(FRAGMENT_FAB_FLETES_REGISTER, new RegistroFletesFragment());
         TAG_FRAGMENT.put(FRAGMENT_LOGIN_REGISTER, new RegistroClientesFragment());
+        TAG_FRAGMENT.put(FRAGMENT_LOGIN_TRANSPORTISTAS_REGISTER, new RegistroTransportistasFragment());
     }
 
     /**Contiene el titulo correspondiente a la acción origen de ciertos botones**/

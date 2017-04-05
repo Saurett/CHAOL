@@ -67,6 +67,14 @@ public class RegistroTransportistasFragment extends Fragment implements View.OnC
     }
 
     public void onPreRender() {
+
+        String tag = _MAIN_DECODE.getFragmentTag();
+
+        if (tag.equals(Constants.FRAGMENT_LOGIN_TRANSPORTISTAS_REGISTER)) {
+            btnTitulo.setBackgroundColor(getResources().getColor(R.color.colorIcons));
+            btnTitulo.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+        }
+
         switch (_MAIN_DECODE.getAccionFragmento()) {
             case Constants.ACCION_EDITAR:
                 /**Obtiene el item selecionado en el fragmento de lista**/

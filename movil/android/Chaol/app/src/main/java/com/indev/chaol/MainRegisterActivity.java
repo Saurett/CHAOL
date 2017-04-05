@@ -51,8 +51,6 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         setTitle(_MAIN_DECODE.getTituloActividad());
 
         this.onPreRender();
-
-        Log.i("Log", "Check create action - MainRegisterActivity");
     }
 
     private void onPreRender() {
@@ -157,7 +155,8 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 scrollViewRegister.fullScroll(ScrollView.FOCUS_UP);
 
                 closeFragment(_MAIN_DECODE.getFragmentTag());
-                _MAIN_DECODE.setFragmentTag(Constants.FRAGMENT_MAIN_REGISTER);
+                _MAIN_DECODE.setFragmentTag(Constants.FRAGMENT_LOGIN_REGISTER);
+                getIntent().putExtra(Constants.KEY_MAIN_DECODE, _MAIN_DECODE); /**Para que se actualice en los fragmentos**/
                 openFragment(_MAIN_DECODE.getFragmentTag());
 
                 /**Boton seleccionado**/
@@ -174,7 +173,8 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 scrollViewRegister.fullScroll(ScrollView.FOCUS_UP);
 
                 closeFragment(_MAIN_DECODE.getFragmentTag());
-                _MAIN_DECODE.setFragmentTag(Constants.FRAGMENT_TRANSPORTISTAS_REGISTER);
+                _MAIN_DECODE.setFragmentTag(Constants.FRAGMENT_LOGIN_TRANSPORTISTAS_REGISTER); /**Para que se actualice en los fragmentos**/
+                getIntent().putExtra(Constants.KEY_MAIN_DECODE, _MAIN_DECODE);
                 openFragment(_MAIN_DECODE.getFragmentTag());
 
                 /**Boton seleccionado**/
