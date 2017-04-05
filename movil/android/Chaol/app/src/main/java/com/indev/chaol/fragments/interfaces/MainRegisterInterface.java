@@ -20,4 +20,6 @@ public interface MainRegisterInterface {
     void setDecodeItem(DecodeItem decodeItem);
     /**Permite obtener los ultimos valores seleccionados en DecodeItem**/
     DecodeItem getDecodeItem();
+    /**Permite crear usuarios**/
+    void createSimpleUser(String email, String password);
 }

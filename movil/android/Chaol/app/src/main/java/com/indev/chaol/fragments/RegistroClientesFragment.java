@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.indev.chaol.MainRegisterActivity;
 import com.indev.chaol.R;
 import com.indev.chaol.models.Clientes;
 import com.indev.chaol.models.DecodeExtraParams;
@@ -35,13 +37,15 @@ import java.util.List;
 public class RegistroClientesFragment extends Fragment implements View.OnClickListener, DialogInterface.OnClickListener, Spinner.OnItemSelectedListener {
 
     private Button btnTitulo;
-    private EditText txtNombre;
+    private EditText txtNombre, txtEmail, txtPassword;
     private Spinner spinnerMetodoPago;
     private FloatingActionButton fabClientes;
     private ProgressDialog pDialog;
 
     private static List<String> metodosPagoList;
     private List<MetodosPagos> metodosPagos;
+
+    private static MainRegisterActivity activityInterface;
 
     private static DecodeExtraParams _MAIN_DECODE = new DecodeExtraParams();
 
@@ -51,6 +55,8 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
 
         btnTitulo = (Button) view.findViewById(R.id.btn_titulo_clientes);
         txtNombre = (EditText) view.findViewById(R.id.txt_clientes_nombre);
+        txtEmail = (EditText) view.findViewById(R.id.txt_clientes_email);
+        txtPassword = (EditText) view.findViewById(R.id.txt_clientes_password);
 
         spinnerMetodoPago = (Spinner) view.findViewById(R.id.spinner_clientes_metodo_pago);
 
@@ -79,7 +85,7 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-
+            activityInterface = (MainRegisterActivity) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString() + "debe implementar");
         }
@@ -124,11 +130,41 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
                 if (_MAIN_DECODE.getAccionFragmento() == Constants.ACCION_EDITAR) {
                     this.showQuestion();
                 } else {
-                    AsyncCallWS asyncCallWS = new AsyncCallWS(Constants.WS_KEY_AGREGAR_CLIENTES);
-                    asyncCallWS.execute();
+                    this.validationRegister();
                 }
                 break;
         }
+    }
+
+    /**Verifica los campos obligatorios para registro de cliente**/
+    private void validationRegister() {
+
+        Boolean authorized = true;
+
+        String email = txtEmail.getText().toString();
+        String password = txtPassword.getText().toString();
+
+        if (TextUtils.isEmpty(email)) {
+            txtEmail.setError("El campo es obligatorio", null);
+            txtEmail.requestFocus();
+            authorized = false;
+        }
+
+        if (TextUtils.isEmpty(password)) {
+            txtPassword.setError("El campo es obligatorio", null);
+            txtPassword.requestFocus();
+            authorized = false;
+        }
+
+        if (authorized) {
+            this.createSimpleValidUser();
+        }
+
+    }
+
+    private void createSimpleValidUser() {
+        activityInterface.createSimpleUser(txtEmail.getText().toString(),
+                txtPassword.getText().toString());
     }
 
     private void showQuestion() {
