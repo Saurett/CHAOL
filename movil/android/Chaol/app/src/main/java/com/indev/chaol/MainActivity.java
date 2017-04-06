@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
-                    openNavigation();
+                    checkIfEmailVerified();
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                 } else {
                     // User is signed out
@@ -76,7 +76,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         };
-
 
 
         /**se cargan estilos**/
@@ -171,6 +170,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    private void checkIfEmailVerified() {
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        if (user.isEmailVerified()) {
+            // user is verified, so you can finish this activity or send user to activity which you want.
+            openNavigation();
+            Toast.makeText(getApplicationContext(), "Successfully logged in", Toast.LENGTH_SHORT).show();
+        } else {
+            // email is not verified, so just prompt the message to the user and restart this activity.
+            // NOTE: don't forget to log out the user.
+            user.sendEmailVerification()
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                // email sent
+                                // after email is sent just logout the user and finish this activity
+                                FirebaseAuth.getInstance().signOut();
+                            }
+                        }
+                    });
+        }
+    }
+
     /**
      * Muestra y oculta componentes dependiendo la accion
      **/
@@ -185,11 +208,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      **/
     private void openNavigation() {
         Intent intent = new Intent(this, NavigationDrawerActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP) ;
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 
-    /**Inicia el MainRegisterActivity añadiendole extraParams**/
+    /**
+     * Inicia el MainRegisterActivity añadiendole extraParams
+     **/
     private void openRegister() {
         DecodeExtraParams extraParams = new DecodeExtraParams();
 
@@ -200,7 +225,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Intent intent = new Intent(this, MainRegisterActivity.class);
         intent.putExtra(Constants.KEY_MAIN_DECODE, extraParams);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP) ;
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 
