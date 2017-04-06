@@ -1,5 +1,6 @@
 package com.indev.chaol;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -35,6 +36,8 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
     private static LinearLayout linearLayoutSwitch;
     private static ScrollView scrollViewRegister;
     private static DecodeExtraParams _MAIN_DECODE;
+
+    private ProgressDialog pDialog;
 
     /**
      * Declaraciones para Firebase
@@ -80,7 +83,6 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
-
 
             }
         };
@@ -196,10 +198,18 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
     @Override
     public void createSimpleUser(String email, String password) {
+
+        pDialog = new ProgressDialog(MainRegisterActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        pDialog.dismiss();
                         Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
 
                         // If sign in fails, display a message to the user. If sign in succeeds
@@ -208,6 +218,11 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                         if (!task.isSuccessful()) {
                             Toast.makeText(getApplicationContext(),
                                     task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(),
+                                    "Registrado correctamente...", Toast.LENGTH_SHORT).show();
+                            //TODO HAY QUE VALIDAR CORREO ELECTRONICO
+                            FirebaseAuth.getInstance().signOut();
                         }
                     }
                 });

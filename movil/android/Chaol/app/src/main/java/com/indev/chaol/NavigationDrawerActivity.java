@@ -21,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.indev.chaol.fragments.ChoferesFragment;
 import com.indev.chaol.fragments.ClientesFragment;
 import com.indev.chaol.fragments.RemolquesFragment;
@@ -169,6 +170,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
             case R.id.menu_item_cerrar_session:
                 /**Si se crean mas elementos al cerrar session, se creara un metodo**/
                 lastMenuItem = null;
+                FirebaseAuth.getInstance().signOut();
                 finish();
                 break;
         }

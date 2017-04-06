@@ -14,6 +14,8 @@ import com.indev.chaol.fragments.MainPerfilesFragment;
 import com.indev.chaol.fragments.RegistroChoferesFragment;
 import com.indev.chaol.fragments.RegistroClientesFragment;
 import com.indev.chaol.fragments.RegistroFletesFragment;
+import com.indev.chaol.fragments.RegistroLoginClientesFragment;
+import com.indev.chaol.fragments.RegistroLoginTransportistasFragment;
 import com.indev.chaol.fragments.RegistroRemolquesFragment;
 import com.indev.chaol.fragments.RegistroTractoresFragment;
 import com.indev.chaol.fragments.RegistroTransportistasFragment;
@@ -136,6 +138,9 @@ public final class Constants {
     public static final String FRAGMENT_ITEM_FLETES_REGISTER = "fragment_item_fletes_register";
     public static final String FRAGMENT_FAB_FLETES_REGISTER = "fragment_fab_fletes_register";
 
+    /**Fragmento alternativo**/
+    public static final String FRAGMENT_MAIN_PERFIL = "fragment_main_perfil";
+
     /**
      * Fragmentos secundario para listados
      **/
@@ -212,8 +217,8 @@ public final class Constants {
         TAG_FRAGMENT.put(FRAGMENT_FLETES_REGISTER, new RegistroFletesFragment());
         TAG_FRAGMENT.put(FRAGMENT_ITEM_FLETES_REGISTER, new RegistroFletesFragment());
         TAG_FRAGMENT.put(FRAGMENT_FAB_FLETES_REGISTER, new RegistroFletesFragment());
-        TAG_FRAGMENT.put(FRAGMENT_LOGIN_REGISTER, new RegistroClientesFragment());
-        TAG_FRAGMENT.put(FRAGMENT_LOGIN_TRANSPORTISTAS_REGISTER, new RegistroTransportistasFragment());
+        TAG_FRAGMENT.put(FRAGMENT_LOGIN_REGISTER, new RegistroLoginClientesFragment());
+        TAG_FRAGMENT.put(FRAGMENT_LOGIN_TRANSPORTISTAS_REGISTER, new RegistroLoginTransportistasFragment());
     }
 
     /**Contiene el titulo correspondiente a la acción origen de ciertos botones**/

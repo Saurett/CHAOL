@@ -34,7 +34,7 @@ import java.util.List;
  * Created by saurett on 24/02/2017.
  */
 
-public class RegistroClientesFragment extends Fragment implements View.OnClickListener, DialogInterface.OnClickListener, Spinner.OnItemSelectedListener {
+public class RegistroLoginClientesFragment extends Fragment implements View.OnClickListener, DialogInterface.OnClickListener, Spinner.OnItemSelectedListener {
 
     private Button btnTitulo;
     private EditText txtNombre, txtEmail, txtPassword;
@@ -168,9 +168,8 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
     }
 
     private void createSimpleValidUser() {
-        /*activityInterface.createSimpleUser(txtEmail.getText().toString(),
-                txtPassword.getText().toString());
-                */
+        activityInterface.createSimpleUser(txtEmail.getText().toString().trim(),
+                txtPassword.getText().toString().trim());
     }
 
     private void showQuestion() {

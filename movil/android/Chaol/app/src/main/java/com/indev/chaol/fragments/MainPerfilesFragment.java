@@ -30,7 +30,7 @@ public class MainPerfilesFragment extends Fragment {
 
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction mainFragment = fragmentManager.beginTransaction();
-        mainFragment.add(R.id.panel_perfiles_container, new RegistroClientesFragment(), Constants.FRAGMENT_MAIN_REGISTER);
+        mainFragment.add(R.id.panel_perfiles_container, new PerfilClientesFragment(), Constants.FRAGMENT_MAIN_PERFIL);
         mainFragment.commit();
 
         return view;

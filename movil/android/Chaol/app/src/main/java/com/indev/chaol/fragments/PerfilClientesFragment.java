@@ -19,7 +19,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.indev.chaol.MainRegisterActivity;
 import com.indev.chaol.R;
 import com.indev.chaol.models.Clientes;
 import com.indev.chaol.models.DecodeExtraParams;
@@ -34,7 +33,7 @@ import java.util.List;
  * Created by saurett on 24/02/2017.
  */
 
-public class RegistroClientesFragment extends Fragment implements View.OnClickListener, DialogInterface.OnClickListener, Spinner.OnItemSelectedListener {
+public class PerfilClientesFragment extends Fragment implements View.OnClickListener, DialogInterface.OnClickListener, Spinner.OnItemSelectedListener {
 
     private Button btnTitulo;
     private EditText txtNombre, txtEmail, txtPassword;
@@ -44,8 +43,6 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
 
     private static List<String> metodosPagoList;
     private List<MetodosPagos> metodosPagos;
-
-    private static MainRegisterActivity activityInterface;
 
     private static DecodeExtraParams _MAIN_DECODE = new DecodeExtraParams();
 
@@ -85,7 +82,7 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            activityInterface = (MainRegisterActivity) getActivity();
+
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString() + "debe implementar");
         }
