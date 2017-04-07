@@ -219,10 +219,27 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                             Toast.makeText(getApplicationContext(),
                                     task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         } else {
+                            sendEmailVerification();
                             Toast.makeText(getApplicationContext(),
                                     "Registrado correctamente...", Toast.LENGTH_SHORT).show();
-                            //TODO HAY QUE VALIDAR CORREO ELECTRONICO
+
+                        }
+                    }
+                });
+    }
+
+    /**Envia correo de verificación para ser un usuario validado**/
+    public void sendEmailVerification() {
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        user.sendEmailVerification()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            //Si el email se envio correctamente cierra sessión
                             FirebaseAuth.getInstance().signOut();
+                            finish();
                         }
                     }
                 });

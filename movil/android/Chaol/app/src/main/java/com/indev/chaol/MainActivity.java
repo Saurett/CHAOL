@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -69,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (user != null) {
                     // User is signed in
                     checkIfEmailVerified();
+                    cleanLoginForm();
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                 } else {
                     // User is signed out
@@ -76,7 +76,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         };
-
 
         /**se cargan estilos**/
         this.onPreRender();
@@ -110,15 +109,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         switch (id) {
             case R.id.btn_login:
-                validationLogin();
+                this.validationLogin();
                 break;
             case R.id.btn_register:
-                AsyncCallWS wsRegister = new AsyncCallWS(Constants.WS_KEY_REGISTER_ACTIVITY);
-                wsRegister.execute();
+                this.openRegister();
                 break;
             case R.id.btn_forgot_password:
             case R.id.btn_back_login:
-                showLoginActions();
+                this.showLoginActions();
                 break;
             default:
                 break;
@@ -170,6 +168,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /**Valida que el email este verificado**/
     private void checkIfEmailVerified() {
         FirebaseUser user = mAuth.getCurrentUser();
 
@@ -180,17 +179,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             // email is not verified, so just prompt the message to the user and restart this activity.
             // NOTE: don't forget to log out the user.
-            user.sendEmailVerification()
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                // email sent
-                                // after email is sent just logout the user and finish this activity
-                                FirebaseAuth.getInstance().signOut();
-                            }
-                        }
-                    });
+            Toast.makeText(getApplicationContext(), "Es necesario activar su cuenta", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -236,72 +225,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnForgotPassword.setPaintFlags(btnForgotPassword.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
     }
 
-    private class AsyncCallWS extends AsyncTask<Void, Void, Boolean> {
-
-        private Integer webServiceOperation;
-        private String textError;
-
-        private AsyncCallWS(Integer wsOperation) {
-            webServiceOperation = wsOperation;
-            textError = "";
-        }
-
-        @Override
-        protected void onPreExecute() {
-            pDialog = new ProgressDialog(MainActivity.this);
-            pDialog.setMessage(getString(R.string.default_loading_msg));
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(false);
-            pDialog.show();
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-
-            Boolean validOperation = false;
-
-            try {
-                switch (webServiceOperation) {
-                    case Constants.WS_KEY_REGISTER_ACTIVITY:
-
-                        validOperation = true;
-
-                        break;
-                    case Constants.WS_KEY_NAVIGATION_ACTIVITY:
-
-                        validOperation = true;
-                        break;
-                }
-            } catch (Exception e) {
-                textError = e.getMessage();
-                validOperation = false;
-            }
-
-            return validOperation;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            try {
-                pDialog.dismiss();
-                if (success) {
-                    switch (webServiceOperation) {
-                        case Constants.WS_KEY_REGISTER_ACTIVITY:
-                            openRegister();
-                            break;
-                        case Constants.WS_KEY_NAVIGATION_ACTIVITY:
-                            openNavigation();
-                            break;
-                    }
-                } else {
-                    String tempText = (textError.isEmpty() ? "Error desconocido" : textError);
-                    Toast.makeText(getApplicationContext(), tempText, Toast.LENGTH_SHORT).show();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        }
+    private void cleanLoginForm() {
+        txtEmail.setText(null);
+        txtPassword.setText(null);
+        txtUsername.setText(null);
     }
-
 }
