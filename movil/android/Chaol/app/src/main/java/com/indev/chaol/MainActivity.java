@@ -3,7 +3,6 @@ package com.indev.chaol;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Paint;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
@@ -30,11 +29,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextInputEditText txtUsername, txtPassword, txtEmail;
     private Button btnLogin, btnRegister, btnForgotPassword, btnBack, btnSendEmail;
     private LinearLayout formForgot, formLogin;
-    private ProgressDialog pDialog;
 
-    /**
-     * Declaraciones para Firebase
-     **/
+    private ProgressDialog pDialog;
+    /*** Declaraciones para Firebase**/
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
@@ -118,6 +115,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_back_login:
                 this.showLoginActions();
                 break;
+            case R.id.btn_send_email:
+                this.validationEmail();
+                break;
             default:
                 break;
         }
@@ -157,6 +157,50 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             // signed in user can be handled in the listener.
                             if (!task.isSuccessful()) {
                                 Log.w(TAG, "signInWithEmail:failed", task.getException());
+                                Toast.makeText(getApplicationContext(), task.getException().getMessage(),
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+        } else {
+            Toast.makeText(getApplicationContext(), "Es necesario capturar campos obligatorios",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**Valida los elementos para recuperar contrseña**/
+    public void validationEmail() {
+
+        Boolean authorized = true;
+
+        String email = txtEmail.getText().toString().trim();
+
+        if (TextUtils.isEmpty(email)) {
+            txtEmail.setError("El campo es obligatorio", null);
+            txtEmail.requestFocus();
+            authorized = false;
+        }
+
+        if (authorized) {
+
+            pDialog = new ProgressDialog(MainActivity.this);
+            pDialog.setMessage(getString(R.string.default_loading_msg));
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+
+            mAuth.sendPasswordResetEmail(email)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            pDialog.dismiss();
+                            if (task.isSuccessful()) {
+                                Log.d(TAG, "Email sent.");
+                                Toast.makeText(getApplicationContext(), "Enviamos un correo de restauración para recuperar su contraseña",
+                                        Toast.LENGTH_SHORT).show();
+                                cleanLoginForm();
+                                showLoginActions();
+                            } else {
                                 Toast.makeText(getApplicationContext(), task.getException().getMessage(),
                                         Toast.LENGTH_SHORT).show();
                             }

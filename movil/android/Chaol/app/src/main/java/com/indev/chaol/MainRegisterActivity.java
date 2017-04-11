@@ -38,7 +38,6 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
     private static DecodeExtraParams _MAIN_DECODE;
 
     private ProgressDialog pDialog;
-
     /**
      * Declaraciones para Firebase
      **/

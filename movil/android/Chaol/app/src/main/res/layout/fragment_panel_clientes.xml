@@ -20,6 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="@color/colorPrimaryDark"
+            android:drawableEnd="@mipmap/ic_menu_white_24dp"
+            android:paddingEnd="10dp"
             android:paddingStart="20dp"
             android:text="CLIENTES"
             android:textAlignment="textStart"
