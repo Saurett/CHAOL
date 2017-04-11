@@ -125,11 +125,11 @@ public class AgendasFragment extends Fragment implements View.OnClickListener {
                         tempRemolquesList = new ArrayList<>();
                         List<Agendas> agendas = new ArrayList<>();
 
-                        agendas.add(new Agendas(1,1,"Asignación Pendiente","Francisco Javier Díaz Saurett","",getResources().getDrawable(R.color.colorPanelFletesUno)));
-                        agendas.add(new Agendas(2,2,"Descripción del estado actual","Nombre del Cliente","Nombre del Transportista",getResources().getDrawable(R.color.colorPanelFletesDos)));
-                        agendas.add(new Agendas(3,3,"Asignación En proceso","Francisco Javier Díaz Saurett","Transportes CHAOL",getResources().getDrawable(R.color.colorPanelFletesTres)));
-                        agendas.add(new Agendas(4,4,"Asignación Pendiente de pago","Francisco Javier Díaz Saurett","Transportes SGOH",getResources().getDrawable(R.color.colorPanelFletesCuatro)));
-                        agendas.add(new Agendas(1,1,"Asignación Pendiente","Francisco Javier Díaz Saurett","",getResources().getDrawable(R.color.colorPanelFletesCinco)));
+                        agendas.add(new Agendas(1,1,"Asignación Pendiente","Francisco Javier Díaz Saurett","",3));
+                        agendas.add(new Agendas(2,2,"Descripción del estado actual","Nombre del Cliente","Nombre del Transportista",1));
+                        agendas.add(new Agendas(3,3,"Asignación En proceso","Francisco Javier Díaz Saurett","Transportes CHAOL", 2));
+                        agendas.add(new Agendas(4,4,"Asignación Pendiente de pago","Francisco Javier Díaz Saurett","Transportes SGOH",3));
+                        agendas.add(new Agendas(1,1,"Asignación Pendiente","Francisco Javier Díaz Saurett","",4));
 
                         tempRemolquesList.addAll(agendas);
 
