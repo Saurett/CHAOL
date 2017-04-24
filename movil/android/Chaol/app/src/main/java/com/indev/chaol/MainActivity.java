@@ -21,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.indev.chaol.models.DecodeExtraParams;
 import com.indev.chaol.utils.Constants;
+import com.indev.chaol.utils.ErrorMessages;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -146,6 +147,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         if (authorized) {
+
+            pDialog = new ProgressDialog(MainActivity.this);
+            pDialog.setMessage(getString(R.string.default_loading_msg));
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -155,9 +163,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             // If sign in fails, display a message to the user. If sign in succeeds
                             // the auth state listener will be notified and logic to handle the
                             // signed in user can be handled in the listener.
+                            pDialog.dismiss();
                             if (!task.isSuccessful()) {
                                 Log.w(TAG, "signInWithEmail:failed", task.getException());
-                                Toast.makeText(getApplicationContext(), task.getException().getMessage(),
+                                Toast.makeText(getApplicationContext(),
+                                        ErrorMessages.showErrorMessage(task.getException()),
                                         Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -168,7 +178,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    /**Valida los elementos para recuperar contrseña**/
+    /**
+     * Valida los elementos para recuperar contrseña
+     **/
     public void validationEmail() {
 
         Boolean authorized = true;
@@ -201,7 +213,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 cleanLoginForm();
                                 showLoginActions();
                             } else {
-                                Toast.makeText(getApplicationContext(), task.getException().getMessage(),
+                                Toast.makeText(getApplicationContext(),
+                                        ErrorMessages.showErrorMessage(task.getException()),
                                         Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -212,14 +225,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    /**Valida que el email este verificado**/
+    /**
+     * Valida que el email este verificado
+     **/
     private void checkIfEmailVerified() {
         FirebaseUser user = mAuth.getCurrentUser();
 
         if (user.isEmailVerified()) {
             // user is verified, so you can finish this activity or send user to activity which you want.
             openNavigation();
-            Toast.makeText(getApplicationContext(), "Successfully logged in", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "Successfully logged in", Toast.LENGTH_SHORT).show();
         } else {
             // email is not verified, so just prompt the message to the user and restart this activity.
             // NOTE: don't forget to log out the user.

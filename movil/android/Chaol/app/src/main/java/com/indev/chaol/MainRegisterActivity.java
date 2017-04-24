@@ -21,10 +21,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.indev.chaol.fragments.interfaces.MainRegisterInterface;
+import com.indev.chaol.models.Clientes;
 import com.indev.chaol.models.DecodeExtraParams;
 import com.indev.chaol.models.DecodeItem;
 import com.indev.chaol.utils.Constants;
+import com.indev.chaol.utils.DateTimeUtils;
+import com.indev.chaol.utils.ErrorMessages;
 
 import java.util.List;
 
@@ -32,7 +37,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
     private static final String TAG = MainRegisterActivity.class.getName();
 
-    private static Button btnFormCliente, btnFormTransportista;
+    private static Button btnFormCliente, btnFormTransportista, btnFormChofer;
     private static LinearLayout linearLayoutSwitch;
     private static ScrollView scrollViewRegister;
     private static DecodeExtraParams _MAIN_DECODE;
@@ -57,6 +62,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
         btnFormCliente = (Button) findViewById(R.id.btn_form_cliente);
         btnFormTransportista = (Button) findViewById(R.id.btn_form_transportista);
+        btnFormChofer = (Button) findViewById(R.id.btn_form_chofer);
         linearLayoutSwitch = (LinearLayout) findViewById(R.id.linear_switch_form);
         scrollViewRegister = (ScrollView) findViewById(R.id.scrollView_register);
 
@@ -64,6 +70,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
         btnFormCliente.setOnClickListener(this);
         btnFormTransportista.setOnClickListener(this);
+        btnFormChofer.setOnClickListener(this);
 
         setTitle(_MAIN_DECODE.getTituloActividad());
 
@@ -196,7 +203,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
     }
 
     @Override
-    public void createSimpleUser(String email, String password) {
+    public void createSimpleUser(final Clientes cliente) {
 
         pDialog = new ProgressDialog(MainRegisterActivity.this);
         pDialog.setMessage(getString(R.string.default_loading_msg));
@@ -204,7 +211,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         pDialog.setCancelable(false);
         pDialog.show();
 
-        mAuth.createUserWithEmailAndPassword(email, password)
+        mAuth.createUserWithEmailAndPassword(cliente.getCorreoElectronico(), cliente.getContraseña())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -216,8 +223,10 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Toast.makeText(getApplicationContext(),
-                                    task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                    ErrorMessages.showErrorMessage(task.getException()),
+                                    Toast.LENGTH_SHORT).show();
                         } else {
+                            firebaseRegistroCliente(cliente);
                             sendEmailVerification();
                             Toast.makeText(getApplicationContext(),
                                     "Registrado correctamente...", Toast.LENGTH_SHORT).show();
@@ -227,7 +236,29 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 });
     }
 
-    /**Envia correo de verificación para ser un usuario validado**/
+    public void firebaseRegistroCliente(Clientes cliente) {
+        //TODO CREAR CONSTANTE DE USUARIOS
+        //TODO CREAR CONSTANTE DE CLIENTES
+        DatabaseReference dbUsuario =
+                FirebaseDatabase.getInstance().getReference()
+                        .child("usuarios");
+
+        DatabaseReference dbCliente =
+                FirebaseDatabase.getInstance().getReference()
+                        .child("clientes");
+
+        DatabaseReference dbRCliente = dbCliente.push();
+        String fbkCliente = dbRCliente.getKey();
+
+        cliente.setTipoUsuario(cliente.getClass().toString());
+        cliente.setFirebaseID(fbkCliente);
+
+        dbRCliente.setValue(cliente);
+    }
+
+    /**
+     * Envia correo de verificación para ser un usuario validado
+     **/
     public void sendEmailVerification() {
         FirebaseUser user = mAuth.getCurrentUser();
 
@@ -264,6 +295,9 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 btnFormTransportista.setBackgroundColor(getResources().getColor(R.color.colorIcons));
                 btnFormTransportista.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
 
+                btnFormChofer.setBackgroundColor(getResources().getColor(R.color.colorIcons));
+                btnFormChofer.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+
                 break;
             case R.id.btn_form_transportista:
 
@@ -274,13 +308,35 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 getIntent().putExtra(Constants.KEY_MAIN_DECODE, _MAIN_DECODE);
                 openFragment(_MAIN_DECODE.getFragmentTag());
 
-                /**Boton seleccionado**/
+                /**Boton deseleccionado**/
                 btnFormCliente.setBackgroundColor(getResources().getColor(R.color.colorIcons));
                 btnFormCliente.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
 
-                /**Boton deseleccionado**/
+                btnFormChofer.setBackgroundColor(getResources().getColor(R.color.colorIcons));
+                btnFormChofer.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+
+                /**Boton seleccionado**/
                 btnFormTransportista.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
                 btnFormTransportista.setTextColor(getResources().getColor(R.color.colorIcons));
+                break;
+            case R.id.btn_form_chofer:
+                scrollViewRegister.fullScroll(ScrollView.FOCUS_UP);
+
+                closeFragment(_MAIN_DECODE.getFragmentTag());
+                _MAIN_DECODE.setFragmentTag(Constants.FRAGMENT_LOGIN_CHOFERES_REGISTER); /**Para que se actualice en los fragmentos**/
+                getIntent().putExtra(Constants.KEY_MAIN_DECODE, _MAIN_DECODE);
+                openFragment(_MAIN_DECODE.getFragmentTag());
+
+                /**Boton seleccionado**/
+                btnFormChofer.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                btnFormChofer.setTextColor(getResources().getColor(R.color.colorIcons));
+
+                /**Boton deseleccionado**/
+                btnFormTransportista.setBackgroundColor(getResources().getColor(R.color.colorIcons));
+                btnFormTransportista.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+
+                btnFormCliente.setBackgroundColor(getResources().getColor(R.color.colorIcons));
+                btnFormCliente.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
                 break;
         }
 

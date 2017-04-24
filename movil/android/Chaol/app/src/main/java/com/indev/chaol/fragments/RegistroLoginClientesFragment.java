@@ -37,7 +37,7 @@ import java.util.List;
 public class RegistroLoginClientesFragment extends Fragment implements View.OnClickListener, DialogInterface.OnClickListener, Spinner.OnItemSelectedListener {
 
     private Button btnTitulo;
-    private EditText txtNombre, txtEmail, txtPassword;
+    private EditText txtNombre, txtRFC,txtEstado,txtCiudad,txtColonia,txtCodigoPostal,txtCalle, txtNumInt, txtNumExt,txtTelefono, txtCelular, txtEmail, txtPassword;
     private Spinner spinnerMetodoPago;
     private FloatingActionButton fabClientes;
     private ProgressDialog pDialog;
@@ -54,7 +54,18 @@ public class RegistroLoginClientesFragment extends Fragment implements View.OnCl
         View view = inflater.inflate(R.layout.fragment_registro_clientes, container, false);
 
         btnTitulo = (Button) view.findViewById(R.id.btn_titulo_clientes);
+
         txtNombre = (EditText) view.findViewById(R.id.txt_clientes_nombre);
+        txtRFC = (EditText) view.findViewById(R.id.txt_clientes_rfc);
+        txtEstado = (EditText) view.findViewById(R.id.txt_clientes_estado);
+        txtCiudad = (EditText) view.findViewById(R.id.txt_clientes_ciudad);
+        txtColonia = (EditText) view.findViewById(R.id.txt_clientes_colonia);
+        txtCodigoPostal = (EditText) view.findViewById(R.id.txt_clientes_codigo_postal);
+        txtCalle = (EditText) view.findViewById(R.id.txt_clientes_calle);
+        txtNumInt = (EditText) view.findViewById(R.id.txt_clientes_num_int);
+        txtNumExt = (EditText) view.findViewById(R.id.txt_clientes_num_ext);
+        txtTelefono = (EditText) view.findViewById(R.id.txt_clientes_telefono);
+        txtCelular = (EditText) view.findViewById(R.id.txt_clientes_celular);
         txtEmail = (EditText) view.findViewById(R.id.txt_clientes_email);
         txtPassword = (EditText) view.findViewById(R.id.txt_clientes_password);
 
@@ -168,8 +179,26 @@ public class RegistroLoginClientesFragment extends Fragment implements View.OnCl
     }
 
     private void createSimpleValidUser() {
-        activityInterface.createSimpleUser(txtEmail.getText().toString().trim(),
-                txtPassword.getText().toString().trim());
+
+        Clientes clientes = new Clientes();
+
+        clientes.setNombre(txtNombre.getText().toString().trim());
+        clientes.setRfc(txtRFC.getText().toString().trim());
+        clientes.setEstado(txtEstado.getText().toString().trim());
+        clientes.setCiudad(txtCiudad.getText().toString().trim());
+        clientes.setColonia(txtColonia.getText().toString().trim());
+        clientes.setCodigoPostal(txtCodigoPostal.getText().toString().trim());
+        clientes.setCalle(txtCalle.getText().toString().trim());
+        clientes.setNumInterior(txtNumInt.getText().toString().trim());
+        clientes.setNumExterior(txtNumExt.getText().toString().trim());
+        clientes.setMetodoPago("Pendiente sacar dle combo");
+        clientes.setTelefono(txtTelefono.getText().toString().trim());
+        clientes.setCelular(txtCelular.getText().toString().trim());
+        clientes.setCorreoElectronico(txtEmail.getText().toString().trim());
+        clientes.setContraseña(txtPassword.getText().toString().trim());
+
+        /**metodo principal para crear usuario**/
+        activityInterface.createSimpleUser(clientes);
     }
 
     private void showQuestion() {

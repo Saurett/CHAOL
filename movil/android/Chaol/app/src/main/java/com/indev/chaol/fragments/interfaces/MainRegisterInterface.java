@@ -1,5 +1,6 @@
 package com.indev.chaol.fragments.interfaces;
 
+import com.indev.chaol.models.Clientes;
 import com.indev.chaol.models.DecodeItem;
 
 /**
@@ -21,5 +22,5 @@ public interface MainRegisterInterface {
     /**Permite obtener los ultimos valores seleccionados en DecodeItem**/
     DecodeItem getDecodeItem();
     /**Permite crear usuarios**/
-    void createSimpleUser(String email, String password);
+    void createSimpleUser(Clientes cliente);
 }

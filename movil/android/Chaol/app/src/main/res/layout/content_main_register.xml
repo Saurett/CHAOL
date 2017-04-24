@@ -6,11 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorIcons"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="8dp"
-    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.indev.chaol.MainRegisterActivity"
     tools:showIn="@layout/app_bar_main_register">
@@ -18,10 +18,10 @@
     <LinearLayout
         android:id="@+id/linear_switch_form"
         android:layout_width="match_parent"
-        android:visibility="gone"
-        android:layout_marginRight="9dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_marginRight="9dp"
+        android:orientation="horizontal"
+        android:visibility="visible">
 
         <Button
             android:id="@+id/btn_form_cliente"
@@ -30,7 +30,8 @@
             android:layout_weight="1"
             android:background="@color/colorPrimaryDark"
             android:text="Cliente"
-            android:textColor="@color/colorIcons" />
+            android:textColor="@color/colorIcons"
+            android:textSize="12sp" />
 
         <Button
             android:id="@+id/btn_form_transportista"
@@ -39,7 +40,18 @@
             android:layout_weight="1"
             android:background="@color/colorIcons"
             android:text="Transportista"
-            android:textColor="@color/colorPrimaryDark" />
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/btn_form_chofer"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@color/colorIcons"
+            android:text="Chofer"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="12sp" />
     </LinearLayout>
 
     <ScrollView
