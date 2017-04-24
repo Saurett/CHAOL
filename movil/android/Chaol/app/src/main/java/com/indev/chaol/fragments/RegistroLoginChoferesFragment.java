@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.indev.chaol.MainRegisterActivity;
 import com.indev.chaol.R;
 import com.indev.chaol.models.Choferes;
 import com.indev.chaol.models.DecodeExtraParams;
@@ -28,9 +30,11 @@ import com.indev.chaol.utils.Constants;
 public class RegistroLoginChoferesFragment extends Fragment implements View.OnClickListener, AlertDialog.OnClickListener {
 
     private Button btnTitulo;
-    private EditText txtNombre;
+    private EditText txtNombre, txtEmpresaTransportista, txtNumeroLicencia, txtNSS, txtCURP, txtEstado, txtCiudad, txtColonia, txtCodigoPostal, txtCalle, txtNumInt, txtNumExt, txtTelefono, txtCelular1, txtCelular2, txtCorreoElectronico, txtPassword;
     private FloatingActionButton fabChoferes;
     private ProgressDialog pDialog;
+
+    private static MainRegisterActivity activityInterface;
 
     private static DecodeExtraParams _MAIN_DECODE = new DecodeExtraParams();
 
@@ -40,6 +44,24 @@ public class RegistroLoginChoferesFragment extends Fragment implements View.OnCl
 
         btnTitulo = (Button) view.findViewById(R.id.btn_titulo_choferes);
         txtNombre = (EditText) view.findViewById(R.id.txt_choferes_nombre);
+        txtEmpresaTransportista = (EditText) view.findViewById(R.id.txt_choferes_empresa);
+        txtNumeroLicencia = (EditText) view.findViewById(R.id.txt_choferes_licencia);
+        txtNSS = (EditText) view.findViewById(R.id.txt_choferes_nss);
+        txtCURP = (EditText) view.findViewById(R.id.txt_choferes_curp);
+        txtEstado = (EditText) view.findViewById(R.id.txt_choferes_estado);
+        txtCiudad = (EditText) view.findViewById(R.id.txt_choferes_ciudad);
+        txtColonia = (EditText) view.findViewById(R.id.txt_choferes_colonia);
+        txtCodigoPostal = (EditText) view.findViewById(R.id.txt_choferes_codigo_postal);
+        txtCalle = (EditText) view.findViewById(R.id.txt_choferes_calle);
+        txtNumInt = (EditText) view.findViewById(R.id.txt_choferes_num_int);
+        txtNumExt = (EditText) view.findViewById(R.id.txt_choferes_num_ext);
+        txtTelefono = (EditText) view.findViewById(R.id.txt_choferes_telefono);
+        txtCelular1 = (EditText) view.findViewById(R.id.txt_choferes_celular_opc1);
+        txtCelular2 = (EditText) view.findViewById(R.id.txt_choferes_celular_opc2);
+        txtCorreoElectronico = (EditText) view.findViewById(R.id.txt_choferes_correo_electronico);
+        txtPassword = (EditText) view.findViewById(R.id.txt_choferes_password);
+
+
         fabChoferes = (FloatingActionButton) view.findViewById(R.id.fab_choferes);
 
         fabChoferes.setOnClickListener(this);
@@ -60,7 +82,7 @@ public class RegistroLoginChoferesFragment extends Fragment implements View.OnCl
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-
+            activityInterface = (MainRegisterActivity) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString() + "debe implementar");
         }
@@ -105,11 +127,62 @@ public class RegistroLoginChoferesFragment extends Fragment implements View.OnCl
                 if (_MAIN_DECODE.getAccionFragmento() == Constants.ACCION_EDITAR) {
                     this.showQuestion();
                 } else {
-                    AsyncCallWS asyncCallWS = new AsyncCallWS(Constants.WS_KEY_AGREGAR_CHOFERES);
-                    asyncCallWS.execute();
+                    this.validationRegister();
                 }
                 break;
         }
+    }
+
+    private void validationRegister() {
+        Boolean authorized = true;
+
+        String email = txtCorreoElectronico.getText().toString();
+        String password = txtPassword.getText().toString();
+
+        if (TextUtils.isEmpty(email)) {
+            txtCorreoElectronico.setError("El campo es obligatorio", null);
+            txtCorreoElectronico.requestFocus();
+            authorized = false;
+        }
+
+        if (TextUtils.isEmpty(password)) {
+            txtPassword.setError("El campo es obligatorio", null);
+            txtPassword.requestFocus();
+            authorized = false;
+        }
+
+        if (authorized) {
+            this.createSimpleValidUser();
+        } else {
+            Toast.makeText(getContext(), "Es necesario capturar campos obligatorios",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void createSimpleValidUser() {
+
+        Choferes chofer = new Choferes();
+
+        chofer.setNombre(txtNombre.getText().toString().trim());
+        chofer.setEmpresaTransportista(txtEmpresaTransportista.getText().toString().trim());
+        chofer.setNumeroDeLicencia(txtNumeroLicencia.getText().toString().trim());
+        chofer.setNumeroDeSeguroSocial(txtNSS.getText().toString().trim());
+        chofer.setCURP(txtCURP.getText().toString().trim());
+        chofer.setEstado(txtEstado.getText().toString().trim());
+        chofer.setCiudad(txtCiudad.getText().toString().trim());
+        chofer.setColonia(txtColonia.getText().toString().trim());
+        chofer.setCodigoPostal(txtCodigoPostal.getText().toString().trim());
+        chofer.setCalle(txtCalle.getText().toString().trim());
+        chofer.setNumeroInterior(txtNumInt.getText().toString().trim());
+        chofer.setNumeroExterior(txtNumExt.getText().toString().trim());
+        chofer.setTelefono(txtTelefono.getText().toString().trim());
+        chofer.setCelular1(txtCelular1.getText().toString().trim());
+        chofer.setCelular2(txtCelular2.getText().toString().trim());
+        chofer.setCorreoElectronico(txtCorreoElectronico.getText().toString().trim());
+        chofer.setContraseña(txtPassword.getText().toString().trim());
+
+        /**metodo principal para crear usuario**/
+        activityInterface.createUserChofer(chofer);
     }
 
     private void showQuestion() {

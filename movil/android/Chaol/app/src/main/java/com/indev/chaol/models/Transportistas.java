@@ -8,32 +8,56 @@ import java.io.Serializable;
 
 public class Transportistas implements Serializable {
 
-    private int cve;
-    private int id;
     private String nombre;
+    private String representanteLegal;
+    private String RFC;
+    private String estado;
+    private String ciudad;
+    private String colonia;
+    private String codigoPostal;
+    private String calle;
+    private String numeroInterior;
+    private String numeroExterior;
+    private String telefono;
+    private String celular;
+    private String prooveedorGPS;
+    private String correoElectronico;
+    private String contraseña;
+
+    private String tipoUsuario;
+    private String firebaseID;
+    private String estatus;
+    private Long fechaDeCreacion;
+    private Long fechaDeEdicion;
 
     public Transportistas() {
-
     }
 
-    public Transportistas(String _nombre) {
-        this.nombre = _nombre;
+    public Transportistas(String nombre) {
+        this.nombre = nombre;
     }
 
-    public int getCve() {
-        return cve;
-    }
-
-    public void setCve(int cve) {
-        this.cve = cve;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public Transportistas(String nombre, String representanteLegal, String RFC, String estado, String ciudad, String colonia, String codigoPostal, String calle, String numeroInterior, String numeroExterior, String telefono, String celular, String prooveedorGPS, String correoElectronico, String contraseña, String tipoUsuario, String firebaseID, String estatus, Long fechaDeCreacion, Long fechaDeEdicion) {
+        this.nombre = nombre;
+        this.representanteLegal = representanteLegal;
+        this.RFC = RFC;
+        this.estado = estado;
+        this.ciudad = ciudad;
+        this.colonia = colonia;
+        this.codigoPostal = codigoPostal;
+        this.calle = calle;
+        this.numeroInterior = numeroInterior;
+        this.numeroExterior = numeroExterior;
+        this.telefono = telefono;
+        this.celular = celular;
+        this.prooveedorGPS = prooveedorGPS;
+        this.correoElectronico = correoElectronico;
+        this.contraseña = contraseña;
+        this.tipoUsuario = tipoUsuario;
+        this.firebaseID = firebaseID;
+        this.estatus = estatus;
+        this.fechaDeCreacion = fechaDeCreacion;
+        this.fechaDeEdicion = fechaDeEdicion;
     }
 
     public String getNombre() {
@@ -42,5 +66,157 @@ public class Transportistas implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getRepresentanteLegal() {
+        return representanteLegal;
+    }
+
+    public void setRepresentanteLegal(String representanteLegal) {
+        this.representanteLegal = representanteLegal;
+    }
+
+    public String getRFC() {
+        return RFC;
+    }
+
+    public void setRFC(String RFC) {
+        this.RFC = RFC;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public String getCiudad() {
+        return ciudad;
+    }
+
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
+    }
+
+    public String getColonia() {
+        return colonia;
+    }
+
+    public void setColonia(String colonia) {
+        this.colonia = colonia;
+    }
+
+    public String getCodigoPostal() {
+        return codigoPostal;
+    }
+
+    public void setCodigoPostal(String codigoPostal) {
+        this.codigoPostal = codigoPostal;
+    }
+
+    public String getCalle() {
+        return calle;
+    }
+
+    public void setCalle(String calle) {
+        this.calle = calle;
+    }
+
+    public String getNumeroInterior() {
+        return numeroInterior;
+    }
+
+    public void setNumeroInterior(String numeroInterior) {
+        this.numeroInterior = numeroInterior;
+    }
+
+    public String getNumeroExterior() {
+        return numeroExterior;
+    }
+
+    public void setNumeroExterior(String numeroExterior) {
+        this.numeroExterior = numeroExterior;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getCelular() {
+        return celular;
+    }
+
+    public void setCelular(String celular) {
+        this.celular = celular;
+    }
+
+    public String getProoveedorGPS() {
+        return prooveedorGPS;
+    }
+
+    public void setProoveedorGPS(String prooveedorGPS) {
+        this.prooveedorGPS = prooveedorGPS;
+    }
+
+    public String getCorreoElectronico() {
+        return correoElectronico;
+    }
+
+    public void setCorreoElectronico(String correoElectronico) {
+        this.correoElectronico = correoElectronico;
+    }
+
+    public String getContraseña() {
+        return contraseña;
+    }
+
+    public void setContraseña(String contraseña) {
+        this.contraseña = contraseña;
+    }
+
+    public String getTipoUsuario() {
+        return tipoUsuario;
+    }
+
+    public void setTipoUsuario(String tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
+    }
+
+    public String getFirebaseID() {
+        return firebaseID;
+    }
+
+    public void setFirebaseID(String firebaseID) {
+        this.firebaseID = firebaseID;
+    }
+
+    public String getEstatus() {
+        return estatus;
+    }
+
+    public void setEstatus(String estatus) {
+        this.estatus = estatus;
+    }
+
+    public Long getFechaDeCreacion() {
+        return fechaDeCreacion;
+    }
+
+    public void setFechaDeCreacion(Long fechaDeCreacion) {
+        this.fechaDeCreacion = fechaDeCreacion;
+    }
+
+    public Long getFechaDeEdicion() {
+        return fechaDeEdicion;
+    }
+
+    public void setFechaDeEdicion(Long fechaDeEdicion) {
+        this.fechaDeEdicion = fechaDeEdicion;
     }
 }

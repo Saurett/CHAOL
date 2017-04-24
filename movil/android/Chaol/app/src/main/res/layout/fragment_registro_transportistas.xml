@@ -420,6 +420,36 @@
                 android:layout_height="20dp"
                 android:layout_marginLeft="2dp"
                 android:layout_weight="1"
+                android:text="Proveedor GPS"
+                android:textAlignment="textEnd"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/txt_transportistas_proveedor_gps"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:hint="Proveedor GPS"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textSize="14sp"
+                android:theme="@style/AppTheme.Form" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginLeft="2dp"
+                android:layout_weight="1"
                 android:text="Correo Electronico"
                 android:textAlignment="textEnd"
                 android:textColor="@color/colorPrimaryText"
@@ -450,20 +480,20 @@
                 android:layout_height="20dp"
                 android:layout_marginLeft="2dp"
                 android:layout_weight="1"
-                android:text="Proveedor GPS"
+                android:text="Contraseña"
                 android:textAlignment="textEnd"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="14sp" />
 
             <EditText
-                android:id="@+id/txt_transportistas_proveedor_gps"
+                android:id="@+id/txt_transportistas_password"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="20dp"
                 android:layout_weight="1"
-                android:hint="Proveedor GPS"
-                android:inputType="text"
+                android:hint="Contraseña"
+                android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:textSize="14sp"
                 android:theme="@style/AppTheme.Form" />

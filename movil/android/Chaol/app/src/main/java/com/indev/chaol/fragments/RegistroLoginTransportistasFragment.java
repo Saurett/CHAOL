@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.indev.chaol.MainRegisterActivity;
 import com.indev.chaol.R;
 import com.indev.chaol.models.DecodeExtraParams;
 import com.indev.chaol.models.Transportistas;
@@ -28,9 +30,11 @@ import com.indev.chaol.utils.Constants;
 public class RegistroLoginTransportistasFragment extends Fragment implements View.OnClickListener, DialogInterface.OnClickListener {
 
     private Button btnTitulo;
-    private EditText txtNombre;
+    private EditText txtNombre, txtRepresentanteLegal, txtRFC, txtEstado, txtCiudad, txtColonia, txtCodigoPostal, txtCalle, txtNumInt, txtNumExt, txtTelefono, txtCelular, txtProveedorGPS, txtCorreoElectronico, txtPassword;
     private FloatingActionButton fabTransportistas;
     private ProgressDialog pDialog;
+
+    private static MainRegisterActivity activityInterface;
 
     private static DecodeExtraParams _MAIN_DECODE = new DecodeExtraParams();
 
@@ -40,6 +44,21 @@ public class RegistroLoginTransportistasFragment extends Fragment implements Vie
 
         btnTitulo = (Button) view.findViewById(R.id.btn_titulo_transportistas);
         txtNombre = (EditText) view.findViewById(R.id.txt_transportistas_nombre);
+        txtRepresentanteLegal = (EditText) view.findViewById(R.id.txt_transportistas_representante);
+        txtRFC = (EditText) view.findViewById(R.id.txt_transportistas_rfc);
+        txtEstado = (EditText) view.findViewById(R.id.txt_transportistas_estado);
+        txtCiudad = (EditText) view.findViewById(R.id.txt_transportistas_ciudad);
+        txtColonia = (EditText) view.findViewById(R.id.txt_transportistas_colonia);
+        txtCodigoPostal = (EditText) view.findViewById(R.id.txt_transportistas_codigo_postal);
+        txtCalle = (EditText) view.findViewById(R.id.txt_transportistas_calle);
+        txtNumInt = (EditText) view.findViewById(R.id.txt_transportistas_num_int);
+        txtNumExt = (EditText) view.findViewById(R.id.txt_transportistas_num_ext);
+        txtTelefono = (EditText) view.findViewById(R.id.txt_transportistas_telefono);
+        txtCelular = (EditText) view.findViewById(R.id.txt_transportistas_celular);
+        txtProveedorGPS = (EditText) view.findViewById(R.id.txt_transportistas_proveedor_gps);
+        txtCorreoElectronico = (EditText) view.findViewById(R.id.txt_transportistas_correo_electronico);
+        txtPassword = (EditText) view.findViewById(R.id.txt_transportistas_password);
+
         fabTransportistas = (FloatingActionButton) view.findViewById(R.id.fab_transportistas);
 
         fabTransportistas.setOnClickListener(this);
@@ -60,7 +79,7 @@ public class RegistroLoginTransportistasFragment extends Fragment implements Vie
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-
+            activityInterface = (MainRegisterActivity) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString() + "debe implementar");
         }
@@ -105,11 +124,60 @@ public class RegistroLoginTransportistasFragment extends Fragment implements Vie
                 if (_MAIN_DECODE.getAccionFragmento() == Constants.ACCION_EDITAR) {
                     this.showQuestion();
                 } else {
-                    AsyncCallWS asyncCallWS = new AsyncCallWS(Constants.WS_KEY_AGREGAR_TRANSPORTISTAS);
-                    asyncCallWS.execute();
+                   this.validationRegister();
                 }
                 break;
         }
+    }
+
+    private void validationRegister() {
+        Boolean authorized = true;
+
+        String email = txtCorreoElectronico.getText().toString();
+        String password = txtPassword.getText().toString();
+
+        if (TextUtils.isEmpty(email)) {
+            txtCorreoElectronico.setError("El campo es obligatorio", null);
+            txtCorreoElectronico.requestFocus();
+            authorized = false;
+        }
+
+        if (TextUtils.isEmpty(password)) {
+            txtPassword.setError("El campo es obligatorio", null);
+            txtPassword.requestFocus();
+            authorized = false;
+        }
+
+        if (authorized) {
+            this.createSimpleValidUser();
+        } else {
+            Toast.makeText(getContext(), "Es necesario capturar campos obligatorios",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void createSimpleValidUser() {
+
+        Transportistas transportista = new Transportistas();
+
+        transportista.setNombre(txtNombre.getText().toString().trim());
+        transportista.setRepresentanteLegal(txtRepresentanteLegal.getText().toString().trim());
+        transportista.setRFC(txtRFC.getText().toString().trim());
+        transportista.setEstado(txtEstado.getText().toString().trim());
+        transportista.setCiudad(txtCiudad.getText().toString().trim());
+        transportista.setColonia(txtColonia.getText().toString().trim());
+        transportista.setCodigoPostal(txtCodigoPostal.getText().toString().trim());
+        transportista.setCalle(txtCalle.getText().toString().trim());
+        transportista.setNumeroInterior(txtNumInt.getText().toString().trim());
+        transportista.setNumeroExterior(txtNumExt.getText().toString().trim());
+        transportista.setTelefono(txtTelefono.getText().toString().trim());
+        transportista.setCelular(txtCelular.getText().toString().trim());
+        transportista.setProoveedorGPS(txtProveedorGPS.getText().toString().trim());
+        transportista.setCorreoElectronico(txtCorreoElectronico.getText().toString().trim());
+        transportista.setContraseña(txtPassword.getText().toString().trim());
+
+        /**metodo principal para crear usuario**/
+        activityInterface.createUserTransportista(transportista);
     }
 
     private void showQuestion() {

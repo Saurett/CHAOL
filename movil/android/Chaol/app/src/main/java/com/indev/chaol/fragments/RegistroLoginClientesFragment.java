@@ -198,7 +198,7 @@ public class RegistroLoginClientesFragment extends Fragment implements View.OnCl
         clientes.setContraseña(txtPassword.getText().toString().trim());
 
         /**metodo principal para crear usuario**/
-        activityInterface.createSimpleUser(clientes);
+        activityInterface.createUserCliente(clientes);
     }
 
     private void showQuestion() {

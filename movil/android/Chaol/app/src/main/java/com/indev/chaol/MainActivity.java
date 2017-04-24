@@ -21,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.indev.chaol.models.DecodeExtraParams;
 import com.indev.chaol.utils.Constants;
+import com.indev.chaol.utils.DateTimeUtils;
 import com.indev.chaol.utils.ErrorMessages;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -84,6 +85,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnForgotPassword.setOnClickListener(this);
         btnSendEmail.setOnClickListener(this);
         btnBack.setOnClickListener(this);
+
+
+        Log.i(TAG," Unix Stamp " + DateTimeUtils.getTimeStamp());
     }
 
     @Override

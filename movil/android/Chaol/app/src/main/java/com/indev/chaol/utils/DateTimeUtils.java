@@ -1,5 +1,6 @@
 package com.indev.chaol.utils;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
@@ -7,6 +8,16 @@ import java.util.Calendar;
  */
 
 public class DateTimeUtils {
+
+    public static long  getTimeStamp() {
+        return System.currentTimeMillis() / 1000L;
+    }
+
+    public static String getActualTime() {
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return df.format(c.getTime());
+    }
 
     public static int getCurrentYear() {
         Calendar calendar = Calendar.getInstance();

@@ -8,31 +8,28 @@ import java.io.Serializable;
 
 public class Clientes implements Serializable {
 
-    private int cve;
-    private int id;
-
     private String nombre;
-    private String rfc;
+    private String RFC;
     private String estado;
     private String ciudad;
     private String colonia;
     private String codigoPostal;
     private String calle;
-    private String numInterior;
-    private String numExterior;
+    private String numeroInterior;
+    private String numeroExterior;
     private String metodoPago;
     private String telefono;
     private String celular;
     private String correoElectronico;
     private String contraseña;
 
-    private String imagenUrl;
+    private String imagenURL;
     private String tipoUsuario;
 
     private String firebaseID;
     private String estatus;
-    private Double fechaDeCreacion;
-    private Double fechaDeEdicion;
+    private Long fechaDeCreacion;
+    private Long fechaDeEdicion;
 
 
     public Clientes() {
@@ -43,47 +40,31 @@ public class Clientes implements Serializable {
         this.nombre = _nombre;
     }
 
-    public Clientes(String nombre, String rfc, String estado, String ciudad, String colonia,
-                    String codigoPostal, String calle, String numInterior, String numExterior,
+    public Clientes(String nombre, String RFC, String estado, String ciudad, String colonia,
+                    String codigoPostal, String calle, String numeroInterior, String numeroExterior,
                     String metodoPago, String telefono, String celular, String correoElectronico,
-                    String contraseña, String imagenUrl, String tipoUsuario, String firebaseID,
-                    String estatus, Double fechaDeCreacion, Double fechaDeEdicion) {
+                    String contraseña, String imagenURL, String tipoUsuario, String firebaseID,
+                    String estatus, Long fechaDeCreacion, Long fechaDeEdicion) {
         this.nombre = nombre;
-        this.rfc = rfc;
+        this.RFC = RFC;
         this.estado = estado;
         this.ciudad = ciudad;
         this.colonia = colonia;
         this.codigoPostal = codigoPostal;
         this.calle = calle;
-        this.numInterior = numInterior;
-        this.numExterior = numExterior;
+        this.numeroInterior = numeroInterior;
+        this.numeroExterior = numeroExterior;
         this.metodoPago = metodoPago;
         this.telefono = telefono;
         this.celular = celular;
         this.correoElectronico = correoElectronico;
         this.contraseña = contraseña;
-        this.imagenUrl = imagenUrl;
+        this.imagenURL = imagenURL;
         this.tipoUsuario = tipoUsuario;
         this.firebaseID = firebaseID;
         this.estatus = estatus;
         this.fechaDeCreacion = fechaDeCreacion;
         this.fechaDeEdicion = fechaDeEdicion;
-    }
-
-    public int getCve() {
-        return cve;
-    }
-
-    public void setCve(int cve) {
-        this.cve = cve;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getNombre() {
@@ -95,11 +76,11 @@ public class Clientes implements Serializable {
     }
 
     public String getRfc() {
-        return rfc;
+        return RFC;
     }
 
-    public void setRfc(String rfc) {
-        this.rfc = rfc;
+    public void setRfc(String RFC) {
+        this.RFC = RFC;
     }
 
     public String getEstado() {
@@ -143,19 +124,19 @@ public class Clientes implements Serializable {
     }
 
     public String getNumInterior() {
-        return numInterior;
+        return numeroInterior;
     }
 
     public void setNumInterior(String numInterior) {
-        this.numInterior = numInterior;
+        this.numeroInterior = numInterior;
     }
 
     public String getNumExterior() {
-        return numExterior;
+        return numeroExterior;
     }
 
     public void setNumExterior(String numExterior) {
-        this.numExterior = numExterior;
+        this.numeroExterior = numExterior;
     }
 
     public String getMetodoPago() {
@@ -199,11 +180,11 @@ public class Clientes implements Serializable {
     }
 
     public String getImagenUrl() {
-        return imagenUrl;
+        return imagenURL;
     }
 
     public void setImagenUrl(String imagenUrl) {
-        this.imagenUrl = imagenUrl;
+        this.imagenURL = imagenUrl;
     }
 
     public String getTipoUsuario() {
@@ -230,19 +211,19 @@ public class Clientes implements Serializable {
         this.estatus = estatus;
     }
 
-    public Double getFechaDeCreacion() {
+    public Long getFechaDeCreacion() {
         return fechaDeCreacion;
     }
 
-    public void setFechaDeCreacion(Double fechaDeCreacion) {
+    public void setFechaDeCreacion(Long fechaDeCreacion) {
         this.fechaDeCreacion = fechaDeCreacion;
     }
 
-    public Double getFechaDeEdicion() {
+    public Long getFechaDeEdicion() {
         return fechaDeEdicion;
     }
 
-    public void setFechaDeEdicion(Double fechaDeEdicion) {
+    public void setFechaDeEdicion(Long fechaDeEdicion) {
         this.fechaDeEdicion = fechaDeEdicion;
     }
 }

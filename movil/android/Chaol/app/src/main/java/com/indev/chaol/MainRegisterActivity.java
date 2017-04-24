@@ -24,9 +24,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.indev.chaol.fragments.interfaces.MainRegisterInterface;
+import com.indev.chaol.models.Choferes;
 import com.indev.chaol.models.Clientes;
 import com.indev.chaol.models.DecodeExtraParams;
 import com.indev.chaol.models.DecodeItem;
+import com.indev.chaol.models.Transportistas;
 import com.indev.chaol.utils.Constants;
 import com.indev.chaol.utils.DateTimeUtils;
 import com.indev.chaol.utils.ErrorMessages;
@@ -203,7 +205,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
     }
 
     @Override
-    public void createSimpleUser(final Clientes cliente) {
+    public void createUserCliente(final Clientes cliente) {
 
         pDialog = new ProgressDialog(MainRegisterActivity.this);
         pDialog.setMessage(getString(R.string.default_loading_msg));
@@ -236,24 +238,162 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 });
     }
 
+    @Override
+    public void createUserTransportista(final Transportistas transportista) {
+        pDialog = new ProgressDialog(MainRegisterActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        mAuth.createUserWithEmailAndPassword(transportista.getCorreoElectronico(), transportista.getContraseña())
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        pDialog.dismiss();
+                        Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
+
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(getApplicationContext(),
+                                    ErrorMessages.showErrorMessage(task.getException()),
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            firebaseRegistroTransportista(transportista);
+                            sendEmailVerification();
+                            Toast.makeText(getApplicationContext(),
+                                    "Registrado correctamente...", Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void createUserChofer(final Choferes chofer) {
+        pDialog = new ProgressDialog(MainRegisterActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+
+        mAuth.createUserWithEmailAndPassword(chofer.getCorreoElectronico(), chofer.getContraseña())
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        pDialog.dismiss();
+                        Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
+
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(getApplicationContext(),
+                                    ErrorMessages.showErrorMessage(task.getException()),
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            firebaseRegistroChoferes(chofer);
+                            sendEmailVerification();
+                            Toast.makeText(getApplicationContext(),
+                                    "Registrado correctamente...", Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                });
+    }
+
+    /**Registra en firebase al cliente y lo agrega como usuario**/
     public void firebaseRegistroCliente(Clientes cliente) {
-        //TODO CREAR CONSTANTE DE USUARIOS
-        //TODO CREAR CONSTANTE DE CLIENTES
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        /**obtiene la instancia como usuario**/
         DatabaseReference dbUsuario =
                 FirebaseDatabase.getInstance().getReference()
                         .child("usuarios");
 
+        /**obtiene la instancia como cliente**/
         DatabaseReference dbCliente =
                 FirebaseDatabase.getInstance().getReference()
                         .child("clientes");
 
-        DatabaseReference dbRCliente = dbCliente.push();
-        String fbkCliente = dbRCliente.getKey();
+        cliente.setTipoUsuario("cliente");
+        cliente.setFirebaseID(user.getUid());
+        cliente.setEstatus("activo");
+        cliente.setContraseña(null);
+        cliente.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
 
-        cliente.setTipoUsuario(cliente.getClass().toString());
-        cliente.setFirebaseID(fbkCliente);
+        dbCliente.child(user.getUid()).setValue(cliente);
+        dbUsuario.child(user.getUid()).setValue(cliente.getTipoUsuario());
 
-        dbRCliente.setValue(cliente);
+        Log.i(TAG,"firebaseRegistroCliente: Registrado correctamente" + user.getUid());
+    }
+
+    /**Registra en firebase al transportista y lo agrega como usuario**/
+    private void firebaseRegistroTransportista(Transportistas transportista) {
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        /**obtiene la instancia como usuario**/
+        DatabaseReference dbUsuario =
+                FirebaseDatabase.getInstance().getReference()
+                        .child("usuarios");
+
+        /**obtiene la instancia como transportista**/
+        DatabaseReference dbTransportista =
+                FirebaseDatabase.getInstance().getReference()
+                        .child("transportistas");
+
+        /**obtiene la instancia como listaDeTransportistas**/
+        DatabaseReference dbListaTransportista =
+                FirebaseDatabase.getInstance().getReference()
+                        .child("listaDeTransportistas");
+
+        transportista.setTipoUsuario("transportista");
+        transportista.setFirebaseID(user.getUid());
+        transportista.setContraseña(null);
+        transportista.setEstatus("activo");
+        transportista.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
+
+        dbTransportista.child(user.getUid()).child("transportista").setValue(transportista);
+        dbUsuario.child(user.getUid()).setValue(transportista.getTipoUsuario());
+        dbListaTransportista.child(user.getUid()).setValue(transportista.getNombre());
+
+        Log.i(TAG,"firebaseRegistroTransportista: Registrado correctamente" + user.getUid());
+    }
+
+    /**Registra en firebase al transportista y lo agrega como usuario**/
+    private void firebaseRegistroChoferes(Choferes chofer) {
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        /**obtiene la instancia como usuario**/
+        DatabaseReference dbUsuario =
+                FirebaseDatabase.getInstance().getReference()
+                        .child("usuarios");
+
+        /**obtiene la instancia como transportista**/
+        DatabaseReference dbTransportista =
+                FirebaseDatabase.getInstance().getReference()
+                        .child("transportistas");
+
+        /**obtiene la instancia como chofer**/
+        DatabaseReference dbChofer =
+                FirebaseDatabase.getInstance().getReference()
+                        .child("choferes");
+
+        chofer.setTipoUsuario("chofer");
+        chofer.setFirebaseID(user.getUid());
+        chofer.setContraseña(null);
+        chofer.setEstatus("inactivo");
+        chofer.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
+
+        dbChofer.child(user.getUid()).setValue(chofer);
+        dbUsuario.child(user.getUid()).setValue(chofer.getTipoUsuario());
+        //dbTransportista.child(user.getUid()).child("chofer").setValue(chofer);
+
+        Log.i(TAG,"firebaseRegistroChoferes: Registrado correctamente" + user.getUid());
+
     }
 
     /**

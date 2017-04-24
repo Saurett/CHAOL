@@ -1,7 +1,9 @@
 package com.indev.chaol.fragments.interfaces;
 
+import com.indev.chaol.models.Choferes;
 import com.indev.chaol.models.Clientes;
 import com.indev.chaol.models.DecodeItem;
+import com.indev.chaol.models.Transportistas;
 
 /**
  * Created by texiumuser on 02/03/2017.
@@ -21,6 +23,11 @@ public interface MainRegisterInterface {
     void setDecodeItem(DecodeItem decodeItem);
     /**Permite obtener los ultimos valores seleccionados en DecodeItem**/
     DecodeItem getDecodeItem();
-    /**Permite crear usuarios**/
-    void createSimpleUser(Clientes cliente);
+    /**Permite crear usuarios tipo cliente**/
+    void createUserCliente(Clientes cliente);
+    /**Permite crear usuarios tipo transportista**/
+    void createUserTransportista(Transportistas transportista);
+    /**Permite crear usuarios tipo chofer**/
+    void createUserChofer(Choferes chofer);
+
 }
