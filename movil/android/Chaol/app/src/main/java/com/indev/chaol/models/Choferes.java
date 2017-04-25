@@ -31,6 +31,8 @@ public class Choferes implements Serializable {
     private String tipoUsuario;
 
     private String firebaseID;
+    private String firebaseIDEmpresaTransportistas;
+
     private String estatus;
     private Long fechaDeCreacion;
     private Long fechaDeEdicion;
@@ -43,7 +45,7 @@ public class Choferes implements Serializable {
         this.nombre = _nombre;
     }
 
-    public Choferes(String nombre, String empresaTransportista, String numeroDeLicencia, String numeroDeSeguroSocial, String CURP, String estado, String ciudad, String colonia, String codigoPostal, String calle, String numeroInterior, String numeroExterior, String metodoPago, String telefono, String celular1, String celular2, String correoElectronico, String contraseña, String imagenURL, String tipoUsuario, String firebaseID, String estatus, Long fechaDeCreacion, Long fechaDeEdicion) {
+    public Choferes(String nombre, String empresaTransportista, String numeroDeLicencia, String numeroDeSeguroSocial, String CURP, String estado, String ciudad, String colonia, String codigoPostal, String calle, String numeroInterior, String numeroExterior, String metodoPago, String telefono, String celular1, String celular2, String correoElectronico, String contraseña, String imagenURL, String tipoUsuario, String firebaseID, String firebaseIDEmpresaTransportistas, String estatus, Long fechaDeCreacion, Long fechaDeEdicion) {
         this.nombre = nombre;
         this.empresaTransportista = empresaTransportista;
         this.numeroDeLicencia = numeroDeLicencia;
@@ -65,6 +67,7 @@ public class Choferes implements Serializable {
         this.imagenURL = imagenURL;
         this.tipoUsuario = tipoUsuario;
         this.firebaseID = firebaseID;
+        this.firebaseIDEmpresaTransportistas = firebaseIDEmpresaTransportistas;
         this.estatus = estatus;
         this.fechaDeCreacion = fechaDeCreacion;
         this.fechaDeEdicion = fechaDeEdicion;
@@ -260,5 +263,12 @@ public class Choferes implements Serializable {
 
     public void setFechaDeEdicion(Long fechaDeEdicion) {
         this.fechaDeEdicion = fechaDeEdicion;
+    }
+
+    public String getFirebaseIDEmpresaTransportistas() {        return firebaseIDEmpresaTransportistas;
+    }
+
+    public void setFirebaseIDEmpresaTransportistas(String firebaseIDEmpresaTransportistas) {
+        this.firebaseIDEmpresaTransportistas = firebaseIDEmpresaTransportistas;
     }
 }

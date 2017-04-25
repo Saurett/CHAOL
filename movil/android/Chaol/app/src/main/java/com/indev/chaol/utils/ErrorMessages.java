@@ -38,6 +38,9 @@ public class ErrorMessages {
             case "An internal error has occurred. [ INVALID_EMAIL ]":
                 message = "El correo electronico  no es valido.";
                 break;
+            case "The email address is already in use by another account.":
+                message = "El correo electronico ya esta registrado en otra cuenta.";
+                break;
             default:
                 message = "Se ha detectado un error, " + exceptionMessage;
                 break;

@@ -493,7 +493,7 @@
                 android:layout_marginRight="20dp"
                 android:layout_weight="1"
                 android:hint="Contraseña"
-                android:inputType="textEmailAddress"
+                android:inputType="textPassword"
                 android:maxLines="1"
                 android:textSize="14sp"
                 android:theme="@style/AppTheme.Form" />

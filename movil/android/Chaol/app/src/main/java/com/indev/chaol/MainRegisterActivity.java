@@ -238,6 +238,32 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 });
     }
 
+    /**Registra en firebase al cliente y lo agrega como usuario**/
+    public void firebaseRegistroCliente(Clientes cliente) {
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        /**obtiene la instancia como usuario**/
+        DatabaseReference dbUsuario =
+                FirebaseDatabase.getInstance().getReference()
+                        .child("usuarios");
+
+        /**obtiene la instancia como cliente**/
+        DatabaseReference dbCliente =
+                FirebaseDatabase.getInstance().getReference()
+                        .child("clientes");
+
+        cliente.setTipoUsuario("cliente");
+        cliente.setFirebaseID(user.getUid());
+        cliente.setEstatus("activo");
+        cliente.setContraseña(null);
+        cliente.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
+
+        dbCliente.child(user.getUid()).setValue(cliente);
+        dbUsuario.child(user.getUid()).setValue(cliente.getTipoUsuario());
+
+        Log.i(TAG,"firebaseRegistroCliente: Registrado correctamente" + user.getUid());
+    }
+
     @Override
     public void createUserTransportista(final Transportistas transportista) {
         pDialog = new ProgressDialog(MainRegisterActivity.this);
@@ -270,6 +296,39 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                     }
                 });
     }
+
+    /**Registra en firebase al transportista y lo agrega como usuario**/
+    private void firebaseRegistroTransportista(Transportistas transportista) {
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        /**obtiene la instancia como usuario**/
+        DatabaseReference dbUsuario =
+                FirebaseDatabase.getInstance().getReference()
+                        .child("usuarios");
+
+        /**obtiene la instancia como transportista**/
+        DatabaseReference dbTransportista =
+                FirebaseDatabase.getInstance().getReference()
+                        .child("transportistas");
+
+        /**obtiene la instancia como listaDeTransportistas**/
+        DatabaseReference dbListaTransportista =
+                FirebaseDatabase.getInstance().getReference()
+                        .child("listaDeTransportistas");
+
+        transportista.setTipoUsuario("transportista");
+        transportista.setFirebaseID(user.getUid());
+        transportista.setContraseña(null);
+        transportista.setEstatus("activo");
+        transportista.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
+
+        dbTransportista.child(user.getUid()).child("transportista").setValue(transportista);
+        dbUsuario.child(user.getUid()).setValue(transportista.getTipoUsuario());
+        dbListaTransportista.child(user.getUid()).setValue(transportista.getNombre());
+
+        Log.i(TAG,"firebaseRegistroTransportista: Registrado correctamente" + user.getUid());
+    }
+
 
     @Override
     public void createUserChofer(final Choferes chofer) {
@@ -305,64 +364,6 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 });
     }
 
-    /**Registra en firebase al cliente y lo agrega como usuario**/
-    public void firebaseRegistroCliente(Clientes cliente) {
-        FirebaseUser user = mAuth.getCurrentUser();
-
-        /**obtiene la instancia como usuario**/
-        DatabaseReference dbUsuario =
-                FirebaseDatabase.getInstance().getReference()
-                        .child("usuarios");
-
-        /**obtiene la instancia como cliente**/
-        DatabaseReference dbCliente =
-                FirebaseDatabase.getInstance().getReference()
-                        .child("clientes");
-
-        cliente.setTipoUsuario("cliente");
-        cliente.setFirebaseID(user.getUid());
-        cliente.setEstatus("activo");
-        cliente.setContraseña(null);
-        cliente.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
-
-        dbCliente.child(user.getUid()).setValue(cliente);
-        dbUsuario.child(user.getUid()).setValue(cliente.getTipoUsuario());
-
-        Log.i(TAG,"firebaseRegistroCliente: Registrado correctamente" + user.getUid());
-    }
-
-    /**Registra en firebase al transportista y lo agrega como usuario**/
-    private void firebaseRegistroTransportista(Transportistas transportista) {
-        FirebaseUser user = mAuth.getCurrentUser();
-
-        /**obtiene la instancia como usuario**/
-        DatabaseReference dbUsuario =
-                FirebaseDatabase.getInstance().getReference()
-                        .child("usuarios");
-
-        /**obtiene la instancia como transportista**/
-        DatabaseReference dbTransportista =
-                FirebaseDatabase.getInstance().getReference()
-                        .child("transportistas");
-
-        /**obtiene la instancia como listaDeTransportistas**/
-        DatabaseReference dbListaTransportista =
-                FirebaseDatabase.getInstance().getReference()
-                        .child("listaDeTransportistas");
-
-        transportista.setTipoUsuario("transportista");
-        transportista.setFirebaseID(user.getUid());
-        transportista.setContraseña(null);
-        transportista.setEstatus("activo");
-        transportista.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
-
-        dbTransportista.child(user.getUid()).child("transportista").setValue(transportista);
-        dbUsuario.child(user.getUid()).setValue(transportista.getTipoUsuario());
-        dbListaTransportista.child(user.getUid()).setValue(transportista.getNombre());
-
-        Log.i(TAG,"firebaseRegistroTransportista: Registrado correctamente" + user.getUid());
-    }
-
     /**Registra en firebase al transportista y lo agrega como usuario**/
     private void firebaseRegistroChoferes(Choferes chofer) {
         FirebaseUser user = mAuth.getCurrentUser();
@@ -382,15 +383,19 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 FirebaseDatabase.getInstance().getReference()
                         .child("choferes");
 
+        String fbIdTransportista = chofer.getFirebaseIDEmpresaTransportistas();
+
         chofer.setTipoUsuario("chofer");
         chofer.setFirebaseID(user.getUid());
         chofer.setContraseña(null);
         chofer.setEstatus("inactivo");
         chofer.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
+        chofer.setFirebaseIDEmpresaTransportistas(null);
 
         dbChofer.child(user.getUid()).setValue(chofer);
         dbUsuario.child(user.getUid()).setValue(chofer.getTipoUsuario());
-        //dbTransportista.child(user.getUid()).child("chofer").setValue(chofer);
+        dbTransportista.child(fbIdTransportista).child("chofer")
+                .child(user.getUid()).setValue(chofer);
 
         Log.i(TAG,"firebaseRegistroChoferes: Registrado correctamente" + user.getUid());
 

@@ -33,6 +33,11 @@ public class Transportistas implements Serializable {
     public Transportistas() {
     }
 
+    public Transportistas(String firebaseID, String nombre) {
+        this.firebaseID = firebaseID;
+        this.nombre = nombre;
+    }
+
     public Transportistas(String nombre) {
         this.nombre = nombre;
     }

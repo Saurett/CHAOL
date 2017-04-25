@@ -63,6 +63,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
 
+        this.closeFragment(this.getLastFragment());
+
         /**Siempre antes de  "navigationView.setNavigationItemSelectedListener(this)" **/
         this.onPreRender(navigationView);
 
@@ -206,7 +208,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
      **/
     private void openFragment(String tag) {
         FragmentTransaction mainFragment = getSupportFragmentManager().beginTransaction();
-        mainFragment.add(R.id.fragment_main_container, Constants.TAG_FRAGMENT.get(tag), tag);
+        mainFragment.replace(R.id.fragment_main_container, Constants.TAG_FRAGMENT.get(tag), tag);
         mainFragment.addToBackStack(tag);
         mainFragment.commit();
     }

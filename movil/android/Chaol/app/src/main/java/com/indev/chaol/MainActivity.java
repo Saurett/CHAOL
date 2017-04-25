@@ -242,6 +242,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             // email is not verified, so just prompt the message to the user and restart this activity.
             // NOTE: don't forget to log out the user.
+            FirebaseAuth.getInstance().signOut();
             Toast.makeText(getApplicationContext(), "Es necesario activar su cuenta", Toast.LENGTH_SHORT).show();
         }
     }
