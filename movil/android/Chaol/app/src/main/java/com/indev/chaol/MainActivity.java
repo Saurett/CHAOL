@@ -19,7 +19,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.indev.chaol.models.DecodeExtraParams;
+import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
 import com.indev.chaol.utils.DateTimeUtils;
 import com.indev.chaol.utils.ErrorMessages;
@@ -236,8 +242,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         FirebaseUser user = mAuth.getCurrentUser();
 
         if (user.isEmailVerified()) {
-            // user is verified, so you can finish this activity or send user to activity which you want.
-            openNavigation();
+            //Obtiene el usuario del firebase database
+            getLoginUser();
             //Toast.makeText(getApplicationContext(), "Successfully logged in", Toast.LENGTH_SHORT).show();
         } else {
             // email is not verified, so just prompt the message to the user and restart this activity.
@@ -245,6 +251,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             FirebaseAuth.getInstance().signOut();
             Toast.makeText(getApplicationContext(), "Es necesario activar su cuenta", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    /**Obtiene los datos oficiales del usuario ya registrado y validado**/
+    private void getLoginUser() {
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        DatabaseReference dbUsuario =
+                FirebaseDatabase.getInstance().getReference()
+                .child("usuarios").child(user.getUid());
+
+        dbUsuario.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String tipoUsuario = dataSnapshot.getValue(String.class);
+                String key = dataSnapshot.getKey();
+
+                //Ejecuta el intent de navigationDrawer
+                openNavigation(new Usuarios(tipoUsuario,key));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     /**
@@ -259,8 +290,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * Inicia el NavigationDrawerActivity y sale del login
      **/
-    private void openNavigation() {
+    private void openNavigation(Usuarios usuario) {
         Intent intent = new Intent(this, NavigationDrawerActivity.class);
+        intent.putExtra(Constants.KEY_SESSION_USER,usuario);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }

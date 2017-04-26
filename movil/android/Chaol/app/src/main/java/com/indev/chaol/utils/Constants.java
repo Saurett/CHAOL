@@ -31,8 +31,16 @@ import java.util.List;
 
 public final class Constants {
 
+    /**Elementos de firebase**/
+    public static final String FB_KEY_USUARIO_ADMINISTRADOR = "administrador";
+    public static final String FB_KEY_USUARIO_CLIENTE = "cliente";
+    public static final String FB_KEY_USUARIO_TRANSPORTISTA = "transportista";
+    public static final String FB_KEY_USUARIO_CHOFER = "chofer";
+
+
     /**Key Extraparam**/
     public static String KEY_MAIN_DECODE = "key_main_decode";
+    public static String KEY_SESSION_USER = "key_session_users";
 
     /**Dias de la semana**/
     public static String LUNES = "Lun.";

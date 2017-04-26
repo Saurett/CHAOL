@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,11 +18,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.TextAppearanceSpan;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.indev.chaol.fragments.ChoferesFragment;
 import com.indev.chaol.fragments.ClientesFragment;
 import com.indev.chaol.fragments.RemolquesFragment;
@@ -30,12 +33,15 @@ import com.indev.chaol.fragments.TransportistasFragment;
 import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
 import com.indev.chaol.models.DecodeExtraParams;
 import com.indev.chaol.models.DecodeItem;
+import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
 
 import java.util.List;
 
 public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, NavigationDrawerInterface, DialogInterface.OnClickListener {
+
+    private static final String TAG = NavigationDrawerActivity.class.getName();
 
     /**
      * Variable que almacena el ultimo item que fue seleccionado en el navigation
@@ -45,8 +51,16 @@ public class NavigationDrawerActivity extends AppCompatActivity
      * Variable global para tener acceso al navigationDrawer
      **/
     private static NavigationView navigationView;
+    /**
+     * Variable globar para tener acceso a los datos (Basicos) de la session
+     */
+    private static Usuarios _SESSION_USER;
     private ProgressDialog pDialog;
     private static DecodeItem _decodeItem;
+
+    /*** Declaraciones para Firebase**/
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +75,28 @@ public class NavigationDrawerActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        _SESSION_USER = (Usuarios) getIntent().getExtras().getSerializable(Constants.KEY_SESSION_USER);
+
         navigationView = (NavigationView) findViewById(R.id.nav_view);
 
-        this.closeFragment(this.getLastFragment());
+        /**Obtiene la instancia compartida del objeto FirebaseAuth**/
+        mAuth = FirebaseAuth.getInstance();
+        /**Responde a los cambios de estato en la session**/
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    String userID = user.getUid();
+                    String correoElectronico = user.getEmail();
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                } else {
+                    // User is signed out
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                }
+            }
+        };
 
         /**Siempre antes de  "navigationView.setNavigationItemSelectedListener(this)" **/
         this.onPreRender(navigationView);
@@ -78,11 +111,38 @@ public class NavigationDrawerActivity extends AppCompatActivity
     public void onPreRender(NavigationView navigationView) {
         Menu menu = navigationView.getMenu();
 
+        /**Carga las opciones que debe de ver cada usuario en el menu**/
+        onPreRenderSessionMenu(menu);
+
         onNavigationItemSelected((lastMenuItem != null) ? lastMenuItem : navigationView.getMenu().getItem(0));
 
         setMenuTitleColor(menu, R.id.menu_title_administracion);
         setMenuTitleColor(menu, R.id.menu_title_fletes);
         setMenuTitleColor(menu, R.id.menu_title_cuentas);
+    }
+
+    /**
+     * Administra las opciones del menu por al tipo de usuario
+     * Nota: El admin visualizara todas las opciones del menu
+     **/
+    private void onPreRenderSessionMenu(Menu menu) {
+
+        switch (_SESSION_USER.getTipoUsuario()) {
+            case Constants.FB_KEY_USUARIO_CLIENTE:
+                /**El cliente visualizara menu de fletes y de cuentas**/
+                menu.findItem(R.id.menu_title_administracion).setVisible(false);
+                break;
+            case Constants.FB_KEY_USUARIO_TRANSPORTISTA:
+                /**El cliente visualizara menu de administracion,fletes y de cuentas**/
+                //Nota: Solo mostrar en admnistracion / choferes, tractores, remolques
+                menu.findItem(R.id.menu_item_clientes).setVisible(false);
+                menu.findItem(R.id.menu_item_transportistas).setVisible(false);
+                break;
+            case Constants.FB_KEY_USUARIO_CHOFER:
+                /**El cliente visualizara menu de fletes y de cuentas**/
+                menu.findItem(R.id.menu_title_administracion).setVisible(false);
+                break;
+        }
     }
 
     @Override
@@ -314,7 +374,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         extraParams.setFragmentTag(Constants.ITEM_FRAGMENT.get(this.getDecodeItem().getIdView()));
         extraParams.setDecodeItem(this.getDecodeItem());
 
-        Intent intent = new Intent(this,externalActivity);
+        Intent intent = new Intent(this, externalActivity);
         intent.putExtra(Constants.KEY_MAIN_DECODE, extraParams);
         startActivity(intent);
     }
