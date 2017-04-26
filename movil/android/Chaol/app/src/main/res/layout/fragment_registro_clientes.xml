@@ -111,6 +111,7 @@
                 android:layout_weight="1"
                 android:hint="RFC"
                 android:inputType="text"
+                android:maxLength="13"
                 android:maxLines="1"
                 android:textSize="14sp"
                 android:theme="@style/AppTheme.Form" />

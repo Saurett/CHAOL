@@ -31,7 +31,7 @@
             android:background="@color/colorPrimaryDark"
             android:text="Cliente"
             android:textColor="@color/colorIcons"
-            android:textSize="12sp" />
+            android:textSize="10sp" />
 
         <Button
             android:id="@+id/btn_form_transportista"
@@ -41,7 +41,7 @@
             android:background="@color/colorIcons"
             android:text="Transportista"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="12sp" />
+            android:textSize="10sp" />
 
         <Button
             android:id="@+id/btn_form_chofer"
@@ -51,7 +51,7 @@
             android:background="@color/colorIcons"
             android:text="Chofer"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="12sp" />
+            android:textSize="10sp" />
     </LinearLayout>
 
     <ScrollView

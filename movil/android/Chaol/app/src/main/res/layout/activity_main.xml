@@ -100,7 +100,7 @@
                         android:layout_height="40dp"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginBottom="20dp"
-                        android:inputType="text"
+                        android:inputType="textEmailAddress"
                         android:maxLines="1"
                         android:textSize="15sp" />
                 </android.support.design.widget.TextInputLayout>

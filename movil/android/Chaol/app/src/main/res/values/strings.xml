@@ -12,7 +12,7 @@
     <string name="default_btn_forgot_password_name">No recuerdo mi contraseña</string>
     <string name="default_btn_login_name">Ingresar</string>
     <string name="default_btn_register_name">Registrarse</string>
-    <string name="default_hint_txt_username_name">Usuario</string>
+    <string name="default_hint_txt_username_name">Correo Electronico</string>
     <string name="default_hint_txt_password_name">Contraseña</string>
     <string name="default_hint_txt_email">Correo Electronico</string>
 
