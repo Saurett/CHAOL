@@ -65,6 +65,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         /**Obtiene la instancia compartida del objeto FirebaseAuth**/
         mAuth = FirebaseAuth.getInstance();
+
+        if (mAuth.getCurrentUser() != null) {
+        }
+
         /**Responde a los cambios de estato en la session**/
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -266,7 +270,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String tipoUsuario = dataSnapshot.getValue(String.class);
                 String key = dataSnapshot.getKey();
-
                 //Ejecuta el intent de navigationDrawer
                 openNavigation(new Usuarios(tipoUsuario,key));
             }

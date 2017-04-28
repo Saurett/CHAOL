@@ -27,7 +27,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.indev.chaol.NavigationDrawerActivity;
 import com.indev.chaol.R;
+import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
 import com.indev.chaol.models.Choferes;
 import com.indev.chaol.models.DecodeExtraParams;
 import com.indev.chaol.models.MetodosPagos;
@@ -50,8 +52,7 @@ public class PerfilChoferesFragment extends Fragment implements View.OnClickList
     private FloatingActionButton fabChoferes;
     private ProgressDialog pDialog;
 
-    private static List<String> metodosPagoList;
-    private List<MetodosPagos> metodosPagos;
+    private static NavigationDrawerActivity activityInterface;
 
     private static DecodeExtraParams _MAIN_DECODE = new DecodeExtraParams();
 
@@ -60,6 +61,7 @@ public class PerfilChoferesFragment extends Fragment implements View.OnClickList
      **/
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private static Choferes _choferActual;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -109,7 +111,7 @@ public class PerfilChoferesFragment extends Fragment implements View.OnClickList
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-
+            activityInterface = (NavigationDrawerActivity) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString() + "debe implementar");
         }
@@ -139,55 +141,8 @@ public class PerfilChoferesFragment extends Fragment implements View.OnClickList
 
         switch (_MAIN_DECODE.getAccionFragmento()) {
             case Constants.ACCION_EDITAR:
-                /**Obtiene el item selecionado en el fragmento de lista**/
-                FirebaseUser user = mAuth.getCurrentUser();
-
-                DatabaseReference dbChofer =
-                        FirebaseDatabase.getInstance().getReference()
-                                .child("choferes").child(user.getUid());
-
-                pDialog = new ProgressDialog(getContext());
-                pDialog.setMessage(getString(R.string.default_loading_msg));
-                pDialog.setIndeterminate(false);
-                pDialog.setCancelable(false);
-                pDialog.show();
-
-                dbChofer.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Choferes chofer = dataSnapshot.getValue(Choferes.class);
-                        txtNombre.setText(chofer.getNombre());
-                        /**Asigna valores del item seleccionado**/
-                        onCargarSpinnerTransportistas(chofer.getEmpresaTransportista());
-                        txtNumeroLicencia.setText(chofer.getNumeroDeLicencia());
-                        txtNSS.setText(chofer.getNumeroDeSeguroSocial());
-                        txtCURP.setText(chofer.getCURP());
-                        txtEstado.setText(chofer.getEstado());
-                        txtCiudad.setText(chofer.getCiudad());
-                        txtColonia.setText(chofer.getColonia());
-                        txtCodigoPostal.setText(chofer.getCodigoPostal());
-                        txtCalle.setText(chofer.getCalle());
-                        txtNumInt.setText(chofer.getNumeroInterior());
-                        txtNumExt.setText(chofer.getNumeroExterior());
-                        txtTelefono.setText(chofer.getTelefono());
-                        txtCelular1.setText(chofer.getCelular1());
-                        txtCelular2.setText(chofer.getCelular2());
-                        txtCorreoElectronico.setText(chofer.getCorreoElectronico());
-
-                        linearLayoutPassword.setVisibility(View.GONE);
-
-                        pDialog.dismiss();
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-
-                /**Modifica valores predeterminados de ciertos elementos**/
-                btnTitulo.setText(getString(Constants.TITLE_FORM_ACTION.get(_MAIN_DECODE.getAccionFragmento())));
-                fabChoferes.setImageDrawable(getResources().getDrawable(R.mipmap.ic_mode_edit_white_18dp));
+                /**Carga los valores iniciales al editar**/
+                this.onPreRenderEditar();
                 break;
             case Constants.ACCION_REGISTRAR:
                 /**Modifica valores predeterminados de ciertos elementos**/
@@ -198,6 +153,61 @@ public class PerfilChoferesFragment extends Fragment implements View.OnClickList
                 btnTitulo.setText("Perfil");
                 break;
         }
+    }
+
+    private void onPreRenderEditar() {
+        /**Obtiene el item selecionado en el fragmento de lista**/
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        DatabaseReference dbChofer =
+                FirebaseDatabase.getInstance().getReference()
+                        .child("choferes").child(user.getUid());
+
+        pDialog = new ProgressDialog(getContext());
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        dbChofer.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Choferes chofer = dataSnapshot.getValue(Choferes.class);
+                /**Se asigna el chofer actual a la memoria**/
+                _choferActual = chofer;
+
+                txtNombre.setText(chofer.getNombre());
+                /**Asigna valores del item seleccionado**/
+                onCargarSpinnerTransportistas(chofer.getEmpresaTransportista());
+                txtNumeroLicencia.setText(chofer.getNumeroDeLicencia());
+                txtNSS.setText(chofer.getNumeroDeSeguroSocial());
+                txtCURP.setText(chofer.getCURP());
+                txtEstado.setText(chofer.getEstado());
+                txtCiudad.setText(chofer.getCiudad());
+                txtColonia.setText(chofer.getColonia());
+                txtCodigoPostal.setText(chofer.getCodigoPostal());
+                txtCalle.setText(chofer.getCalle());
+                txtNumInt.setText(chofer.getNumeroInterior());
+                txtNumExt.setText(chofer.getNumeroExterior());
+                txtTelefono.setText(chofer.getTelefono());
+                txtCelular1.setText(chofer.getCelular1());
+                txtCelular2.setText(chofer.getCelular2());
+                txtCorreoElectronico.setText(chofer.getCorreoElectronico());
+
+                linearLayoutPassword.setVisibility(View.GONE);
+
+                pDialog.dismiss();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        /**Modifica valores predeterminados de ciertos elementos**/
+        btnTitulo.setText(getString(Constants.TITLE_FORM_ACTION.get(_MAIN_DECODE.getAccionFragmento())));
+        fabChoferes.setImageDrawable(getResources().getDrawable(R.mipmap.ic_mode_edit_white_18dp));
     }
 
     @Override
@@ -244,11 +254,64 @@ public class PerfilChoferesFragment extends Fragment implements View.OnClickList
 
     }
 
+    /**Verifica los campos obligatorios para editar**/
+    private void validationEditer() {
+
+        Boolean authorized = true;
+
+        String email = txtCorreoElectronico.getText().toString();
+
+        if (TextUtils.isEmpty(email)) {
+            txtCorreoElectronico.setError("El campo es obligatorio", null);
+            txtCorreoElectronico.requestFocus();
+            authorized = false;
+        }
+
+        if (authorized) {
+            this.updateUserChofer();
+        } else {
+            Toast.makeText(getContext(), "Es necesario capturar campos obligatorios",
+                    Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
     private void createSimpleValidUser() {
         /*activityInterface.createSimpleUser(txtEmail.getText().toString(),
                 txtPassword.getText().toString());
                 */
     }
+
+    private void updateUserChofer() {
+
+        Choferes chofer = new Choferes();
+
+        chofer.setNombre(txtNombre.getText().toString().trim());
+        chofer.setEmpresaTransportista(spinnerEmpresa.getSelectedItem().toString().trim());
+        chofer.setNumeroDeLicencia(txtNumeroLicencia.getText().toString().trim());
+        chofer.setNumeroDeSeguroSocial(txtNSS.getText().toString().trim());
+        chofer.setCURP(txtCURP.getText().toString().trim());
+        chofer.setEstado(txtEstado.getText().toString().trim());
+        chofer.setCiudad(txtCiudad.getText().toString().trim());
+        chofer.setColonia(txtColonia.getText().toString().trim());
+        chofer.setCodigoPostal(txtCodigoPostal.getText().toString().trim());
+        chofer.setCalle(txtCalle.getText().toString().trim());
+        chofer.setNumeroInterior(txtNumInt.getText().toString().trim());
+        chofer.setNumeroExterior(txtNumExt.getText().toString().trim());
+        chofer.setTelefono(txtTelefono.getText().toString().trim());
+        chofer.setCelular1(txtCelular1.getText().toString().trim());
+        chofer.setCelular2(txtCelular2.getText().toString().trim());
+        chofer.setCorreoElectronico(txtCorreoElectronico.getText().toString().trim());
+        chofer.setContraseña(txtPassword.getText().toString().trim());
+
+        chofer.setFechaDeCreacion(_choferActual.getFechaDeCreacion());
+        chofer.setFirebaseIDEmpresaTransportistas(_choferActual.getFirebaseIDEmpresaTransportistas());
+        chofer.setEstatus(_choferActual.getEstatus());
+
+        /**metodo principal para actualizar usuario**/
+        activityInterface.updateUserChofer(chofer);
+    }
+
 
     private void showQuestion() {
         AlertDialog.Builder ad = new AlertDialog.Builder(getContext());
@@ -265,8 +328,7 @@ public class PerfilChoferesFragment extends Fragment implements View.OnClickList
     public void onClick(DialogInterface dialog, int which) {
         switch (which) {
             case DialogInterface.BUTTON_POSITIVE:
-                AsyncCallWS asyncCallWS = new AsyncCallWS(Constants.WS_KEY_EDITAR_CLIENTES);
-                asyncCallWS.execute();
+                this.validationEditer();
                 break;
         }
     }
@@ -279,110 +341,5 @@ public class PerfilChoferesFragment extends Fragment implements View.OnClickList
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
-    }
-
-
-    private class AsyncCallWS extends AsyncTask<Void, Void, Boolean> {
-
-        private Integer webServiceOperation;
-        private String textError;
-
-        public AsyncCallWS(Integer wsOperation) {
-            webServiceOperation = wsOperation;
-            textError = "";
-        }
-
-        @Override
-        protected void onPreExecute() {
-            pDialog = new ProgressDialog(getContext());
-            pDialog.setMessage(getString(R.string.default_loading_msg));
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(false);
-            pDialog.show();
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-
-            Boolean validOperation = false;
-
-            try {
-                switch (webServiceOperation) {
-                    case Constants.WS_KEY_PRE_RENDER:
-                        validOperation = true;
-                        break;
-                    case Constants.WS_KEY_EDITAR_CLIENTES:
-                        //TODO Eliminar desde el servidor
-                        validOperation = true;
-                        break;
-                    case Constants.WS_KEY_AGREGAR_CLIENTES:
-                        //TODO Acción desde el servidor
-                        validOperation = true;
-                        break;
-                }
-            } catch (Exception e) {
-                textError = e.getMessage();
-                validOperation = false;
-            }
-
-            return validOperation;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            try {
-                pDialog.dismiss();
-                if (success) {
-                    switch (webServiceOperation) {
-                        case Constants.WS_KEY_PRE_RENDER:
-
-                            break;
-                        case Constants.WS_KEY_EDITAR_CLIENTES:
-                            if (_MAIN_DECODE.getDecodeItem().getIdView() != R.id.menu_item_perfil) {
-                                getActivity().finish();
-                            }
-                            Toast.makeText(getContext(), "Editado correctamente...", Toast.LENGTH_SHORT).show();
-                            break;
-                        case Constants.WS_KEY_AGREGAR_CLIENTES:
-                            getActivity().finish();
-                            Toast.makeText(getContext(), "Guardado correctamente...", Toast.LENGTH_SHORT).show();
-                            break;
-                    }
-                } else {
-                    String tempText = (textError.isEmpty() ? "Lo sentimos se ha detectado un error desconocido" : textError);
-                    Toast.makeText(getContext(), tempText, Toast.LENGTH_SHORT).show();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        /**
-         * Metodos privados en la clase AsynTask
-         **/
-        private void onCargarMetodosPagos() {
-            metodosPagoList = new ArrayList<>();
-            metodosPagos = new ArrayList<>();
-            metodosPagoList.add("Seleccione ...");
-
-            //TODO Metodo para llamar al servidor
-            metodosPagoList.add("Efectivo");
-            metodosPagoList.add("Cheque");
-            metodosPagoList.add("Transferencia Electronica");
-            metodosPagoList.add("Tarjeta de Crédito");
-            metodosPagoList.add("Dinero Electrónico");
-            metodosPagoList.add("Tarjeta de Débito");
-            metodosPagoList.add("NA");
-            metodosPagoList.add("Otros");
-
-            metodosPagos.add(new MetodosPagos(1, "Efectivo"));
-            metodosPagos.add(new MetodosPagos(2, "Cheque"));
-            metodosPagos.add(new MetodosPagos(3, "Transferencia Electronica"));
-            metodosPagos.add(new MetodosPagos(4, "Tarjeta de Crédito"));
-            metodosPagos.add(new MetodosPagos(5, "Dinero Electrónico"));
-            metodosPagos.add(new MetodosPagos(6, "Tarjeta de Débito"));
-            metodosPagos.add(new MetodosPagos(7, "NA"));
-            metodosPagos.add(new MetodosPagos(8, "Otros"));
-        }
     }
 }

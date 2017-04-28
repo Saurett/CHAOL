@@ -1,6 +1,9 @@
 package com.indev.chaol.fragments.interfaces;
 
+import com.indev.chaol.models.Choferes;
+import com.indev.chaol.models.Clientes;
 import com.indev.chaol.models.DecodeItem;
+import com.indev.chaol.models.Transportistas;
 
 /**
  * Created by texiumuser on 02/03/2017.
@@ -20,4 +23,10 @@ public interface NavigationDrawerInterface {
     void setDecodeItem(DecodeItem decodeItem);
     /**Permite obtener los ultimos valores seleccionados en DecodeItem**/
     DecodeItem getDecodeItem();
+    /**Permite actualizar usuarios tipo cliente**/
+    void updateUserCliente(Clientes cliente);
+    /**Permite actualizar usuarios tipo transportista**/
+    void updateUserTransportista(Transportistas transportista);
+    /**Permite actualizar usuarios tipo chofer**/
+    void updateUserChofer(Choferes chofer);
 }

@@ -258,7 +258,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         cliente.setContraseña(null);
         cliente.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
 
-        dbCliente.child(user.getUid()).setValue(cliente);
+        dbCliente.child(user.getUid()).child("cliente").setValue(cliente);
         dbUsuario.child(user.getUid()).setValue(cliente.getTipoUsuario());
 
         Log.i(TAG,"firebaseRegistroCliente: Registrado correctamente" + user.getUid());
@@ -383,18 +383,16 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 FirebaseDatabase.getInstance().getReference()
                         .child("choferes");
 
-        String fbIdTransportista = chofer.getFirebaseIDEmpresaTransportistas();
-
         chofer.setTipoUsuario("chofer");
         chofer.setFirebaseID(user.getUid());
         chofer.setContraseña(null);
         chofer.setEstatus("inactivo");
         chofer.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
-        chofer.setFirebaseIDEmpresaTransportistas(null);
 
         dbChofer.child(user.getUid()).setValue(chofer);
         dbUsuario.child(user.getUid()).setValue(chofer.getTipoUsuario());
-        dbTransportista.child(fbIdTransportista).child("chofer")
+        dbTransportista.child(chofer.getFirebaseIDEmpresaTransportistas())
+                .child("chofer")
                 .child(user.getUid()).setValue(chofer);
 
         Log.i(TAG,"firebaseRegistroChoferes: Registrado correctamente" + user.getUid());

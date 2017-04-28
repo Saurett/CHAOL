@@ -25,16 +25,23 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.indev.chaol.fragments.ChoferesFragment;
 import com.indev.chaol.fragments.ClientesFragment;
 import com.indev.chaol.fragments.RemolquesFragment;
 import com.indev.chaol.fragments.TractoresFragment;
 import com.indev.chaol.fragments.TransportistasFragment;
 import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
+import com.indev.chaol.models.Choferes;
+import com.indev.chaol.models.Clientes;
 import com.indev.chaol.models.DecodeExtraParams;
 import com.indev.chaol.models.DecodeItem;
+import com.indev.chaol.models.Transportistas;
 import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
+import com.indev.chaol.utils.DateTimeUtils;
 
 import java.util.List;
 
@@ -387,6 +394,172 @@ public class NavigationDrawerActivity extends AppCompatActivity
     @Override
     public DecodeItem getDecodeItem() {
         return _decodeItem;
+    }
+
+    @Override
+    public void updateUserCliente(Clientes cliente) {
+        pDialog = new ProgressDialog(NavigationDrawerActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        this.firebaseUpdateCliente(cliente);
+    }
+
+    private void firebaseUpdateCliente(Clientes cliente) {
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        /**obtiene la instancia como cliente**/
+        DatabaseReference dbCliente =
+                FirebaseDatabase.getInstance().getReference()
+                        .child("clientes");
+
+        cliente.setTipoUsuario("cliente");
+        cliente.setFirebaseID(user.getUid());
+        cliente.setEstatus("activo");
+        cliente.setContraseña(null);
+        cliente.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
+
+        dbCliente.child(user.getUid()).child("cliente").setValue(cliente, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                pDialog.dismiss();
+
+                if (databaseError == null) {
+                    Toast.makeText(getApplicationContext(),
+                            "Actualizado correctamente...", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        Log.i(TAG,"firebaseUpdateCliente: Actualizado correctamente" + user.getUid());
+    }
+
+    @Override
+    public void updateUserTransportista(Transportistas transportista) {
+        pDialog = new ProgressDialog(NavigationDrawerActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        this.firebaseUpdateTransportista(transportista);
+    }
+
+    private void firebaseUpdateTransportista(final Transportistas transportista) {
+        final FirebaseUser user = mAuth.getCurrentUser();
+
+        /**obtiene la instancia como transportista**/
+        DatabaseReference dbTransportista =
+                FirebaseDatabase.getInstance().getReference()
+                        .child("transportistas");
+
+        transportista.setTipoUsuario("transportista");
+        transportista.setFirebaseID(user.getUid());
+        transportista.setContraseña(null);
+        transportista.setEstatus("activo");
+        transportista.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
+
+        dbTransportista.child(user.getUid()).child("transportista").setValue(transportista, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                pDialog.dismiss();
+
+                pDialog = new ProgressDialog(NavigationDrawerActivity.this);
+                pDialog.setMessage(getString(R.string.default_loading_msg));
+                pDialog.setIndeterminate(false);
+                pDialog.setCancelable(false);
+                pDialog.show();
+
+                if (databaseError == null) {
+
+                    /**obtiene la instancia como listaDeTransportistas**/
+                    DatabaseReference dbListaTransportista =
+                            FirebaseDatabase.getInstance().getReference()
+                                    .child("listaDeTransportistas");
+
+                    dbListaTransportista.child(user.getUid()).setValue(transportista.getNombre(), new DatabaseReference.CompletionListener() {
+                        @Override
+                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                            pDialog.dismiss();
+
+                            if (databaseError == null) {
+                                Toast.makeText(getApplicationContext(),
+                                        "Actualizado correctamente...", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
+                }
+            }
+        });
+
+
+        Log.i(TAG,"firebaseRegistroTransportista: Registrado correctamente" + user.getUid());
+    }
+
+    @Override
+    public void updateUserChofer(Choferes chofer) {
+        pDialog = new ProgressDialog(NavigationDrawerActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        this.firebaseUpdateChofer(chofer);
+    }
+
+    private void firebaseUpdateChofer(final Choferes chofer) {
+
+        final FirebaseUser user = mAuth.getCurrentUser();
+
+        /**obtiene la instancia como chofer**/
+        DatabaseReference dbChofer =
+                FirebaseDatabase.getInstance().getReference()
+                        .child("choferes");
+
+        chofer.setTipoUsuario("chofer");
+        chofer.setFirebaseID(user.getUid());
+        chofer.setContraseña(null);
+        chofer.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
+
+        dbChofer.child(user.getUid()).setValue(chofer, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                pDialog.dismiss();
+
+                if (databaseError == null) {
+
+                    pDialog = new ProgressDialog(NavigationDrawerActivity.this);
+                    pDialog.setMessage(getString(R.string.default_loading_msg));
+                    pDialog.setIndeterminate(false);
+                    pDialog.setCancelable(false);
+                    pDialog.show();
+
+                    /**obtiene la instancia como transportista**/
+                    DatabaseReference dbTransportista =
+                            FirebaseDatabase.getInstance().getReference()
+                                    .child("transportistas");
+
+                    dbTransportista.child(chofer.getFirebaseIDEmpresaTransportistas())
+                            .child("chofer").child(user.getUid()).setValue(chofer, new DatabaseReference.CompletionListener() {
+                        @Override
+                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                            pDialog.dismiss();
+
+                            if (databaseError == null) {
+                                Toast.makeText(getApplicationContext(),
+                                        "Actualizado correctamente...", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+        Log.i(TAG, "firebaseRegistroChoferes: Actualizado correctamente" + user.getUid());
+
     }
 
 
