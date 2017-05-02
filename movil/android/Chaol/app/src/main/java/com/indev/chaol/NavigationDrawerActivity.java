@@ -34,6 +34,7 @@ import com.indev.chaol.fragments.RemolquesFragment;
 import com.indev.chaol.fragments.TractoresFragment;
 import com.indev.chaol.fragments.TransportistasFragment;
 import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
+import com.indev.chaol.models.Administradores;
 import com.indev.chaol.models.Choferes;
 import com.indev.chaol.models.Clientes;
 import com.indev.chaol.models.DecodeExtraParams;
@@ -148,6 +149,9 @@ public class NavigationDrawerActivity extends AppCompatActivity
             case Constants.FB_KEY_USUARIO_CHOFER:
                 /**El cliente visualizara menu de fletes y de cuentas**/
                 menu.findItem(R.id.menu_title_administracion).setVisible(false);
+                break;
+            default:
+                /**Sin restricciones para el admin**/
                 break;
         }
     }
@@ -554,6 +558,47 @@ public class NavigationDrawerActivity extends AppCompatActivity
                             }
                         }
                     });
+                }
+            }
+        });
+
+        Log.i(TAG, "firebaseRegistroChoferes: Actualizado correctamente" + user.getUid());
+
+    }
+
+    @Override
+    public void updateUserAdministrador(Administradores administrador) {
+        pDialog = new ProgressDialog(NavigationDrawerActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        this.firebaseUpdateAdministrador(administrador);
+    }
+
+    private void firebaseUpdateAdministrador(final Administradores administrador) {
+
+        final FirebaseUser user = mAuth.getCurrentUser();
+
+        /**obtiene la instancia como chofer**/
+        DatabaseReference dbAdministrador =
+                FirebaseDatabase.getInstance().getReference()
+                        .child("administradores");
+
+        administrador.setTipoUsuario("administrador");
+        administrador.setFirebaseID(user.getUid());
+        administrador.setContraseña(null);
+        administrador.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
+
+        dbAdministrador.child(user.getUid()).setValue(administrador, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                pDialog.dismiss();
+
+                if (databaseError == null) {
+                    Toast.makeText(getApplicationContext(),
+                            "Actualizado correctamente...", Toast.LENGTH_SHORT).show();
                 }
             }
         });

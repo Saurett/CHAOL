@@ -49,24 +49,6 @@ public class MainPerfilesFragment extends Fragment {
     /**Selecciona el fragmento a editar**/
     private void onPreRenderSessionFragment() {
 
-        /*
-        DecodeItem decodeItem = new DecodeItem();
-        decodeItem.setIdView(R.id.menu_item_perfil);
-
-        Clientes clientes = new Clientes();
-        clientes.setNombre("Nombre de perfil se debo obtener en firebase");
-
-        decodeItem.setItemModel(clientes);
-
-        DecodeExtraParams extraParams = new DecodeExtraParams();
-
-        extraParams.setAccionFragmento(Constants.ACCION_EDITAR);
-        extraParams.setFragmentTag(Constants.ITEM_FRAGMENT.get(R.id.menu_item_perfil));
-        extraParams.setDecodeItem(decodeItem);
-
-        getActivity().getIntent().putExtra(Constants.KEY_MAIN_DECODE,extraParams);
-        */
-
         DecodeItem decodeItem = new DecodeItem();
         decodeItem.setIdView(R.id.menu_item_perfil);
 
@@ -80,15 +62,19 @@ public class MainPerfilesFragment extends Fragment {
 
         switch (_SESSION_USER.getTipoUsuario()) {
             case Constants.FB_KEY_USUARIO_CLIENTE:
-                mainFragment.add(R.id.panel_perfiles_container, new PerfilClientesFragment(), Constants.FRAGMENT_MAIN_PERFIL);
+                mainFragment.replace(R.id.panel_perfiles_container, new PerfilClientesFragment(), Constants.FRAGMENT_MAIN_PERFIL);
                 mainFragment.commit();
                 break;
             case Constants.FB_KEY_USUARIO_TRANSPORTISTA:
-                mainFragment.add(R.id.panel_perfiles_container, new PerfilTransportistasFragment(), Constants.FRAGMENT_MAIN_PERFIL);
+                mainFragment.replace(R.id.panel_perfiles_container, new PerfilTransportistasFragment(), Constants.FRAGMENT_MAIN_PERFIL);
                 mainFragment.commit();
                 break;
             case Constants.FB_KEY_USUARIO_CHOFER:
-                mainFragment.add(R.id.panel_perfiles_container, new PerfilChoferesFragment(), Constants.FRAGMENT_MAIN_PERFIL);
+                mainFragment.replace(R.id.panel_perfiles_container, new PerfilChoferesFragment(), Constants.FRAGMENT_MAIN_PERFIL);
+                mainFragment.commit();
+                break;
+            default:
+                mainFragment.replace(R.id.panel_perfiles_container, new PerfilAdministradorFragment(), Constants.FRAGMENT_MAIN_PERFIL);
                 mainFragment.commit();
                 break;
         }

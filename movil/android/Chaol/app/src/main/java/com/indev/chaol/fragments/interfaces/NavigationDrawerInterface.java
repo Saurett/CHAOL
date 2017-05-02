@@ -1,5 +1,6 @@
 package com.indev.chaol.fragments.interfaces;
 
+import com.indev.chaol.models.Administradores;
 import com.indev.chaol.models.Choferes;
 import com.indev.chaol.models.Clientes;
 import com.indev.chaol.models.DecodeItem;
@@ -29,4 +30,6 @@ public interface NavigationDrawerInterface {
     void updateUserTransportista(Transportistas transportista);
     /**Permite actualizar usuarios tipo chofer**/
     void updateUserChofer(Choferes chofer);
+    /**Permite actualizar usuarios tipo administrador**/
+    void updateUserAdministrador(Administradores administrador);
 }
