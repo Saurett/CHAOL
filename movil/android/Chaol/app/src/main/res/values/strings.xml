@@ -38,6 +38,7 @@
     <!--AlertDialog-->
     <string name="default_loading_msg">Por favor espera un momento</string>
     <string name="default_relogin_msg">Obteniendo valores de la ultima sessión</string>
+    <string name="default_send_email_confirmatio_msg">Enviando email de registro</string>
     <string name="default_alert_dialog_aceptar">Aceptar</string>
     <string name="default_alert_dialog_cancelar">Cancelar</string>
 

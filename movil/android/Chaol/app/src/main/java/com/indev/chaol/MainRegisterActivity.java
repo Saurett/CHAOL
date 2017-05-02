@@ -21,6 +21,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.indev.chaol.fragments.interfaces.MainRegisterInterface;
@@ -217,38 +218,31 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        pDialog.dismiss();
                         Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
 
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
+                            pDialog.dismiss();
                             Toast.makeText(getApplicationContext(),
                                     ErrorMessages.showErrorMessage(task.getException()),
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             firebaseRegistroCliente(cliente);
-                            sendEmailVerification();
-                            Toast.makeText(getApplicationContext(),
-                                    "Registrado correctamente...", Toast.LENGTH_SHORT).show();
-
                         }
                     }
                 });
     }
 
-    /**Registra en firebase al cliente y lo agrega como usuario**/
-    public void firebaseRegistroCliente(Clientes cliente) {
-        FirebaseUser user = mAuth.getCurrentUser();
-
-        /**obtiene la instancia como usuario**/
-        DatabaseReference dbUsuario =
-                FirebaseDatabase.getInstance().getReference()
-                        .child("usuarios");
+    /**
+     * Registra en firebase al cliente y lo agrega como usuario
+     **/
+    public void firebaseRegistroCliente(final Clientes cliente) {
+        final FirebaseUser user = mAuth.getCurrentUser();
 
         /**obtiene la instancia como cliente**/
-        DatabaseReference dbCliente =
+        final DatabaseReference dbCliente =
                 FirebaseDatabase.getInstance().getReference()
                         .child("clientes");
 
@@ -258,10 +252,35 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         cliente.setContraseña(null);
         cliente.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
 
-        dbCliente.child(user.getUid()).child("cliente").setValue(cliente);
-        dbUsuario.child(user.getUid()).setValue(cliente.getTipoUsuario());
+        dbCliente.child(user.getUid()).child("cliente").setValue(cliente, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
-        Log.i(TAG,"firebaseRegistroCliente: Registrado correctamente" + user.getUid());
+                if (databaseError == null) {
+                    /**obtiene la instancia como usuario**/
+                    DatabaseReference dbUsuario =
+                            FirebaseDatabase.getInstance().getReference()
+                                    .child("usuarios");
+                    dbUsuario.child(user.getUid()).setValue(cliente.getTipoUsuario(), new DatabaseReference.CompletionListener() {
+
+                        @Override
+                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                            if (databaseError == null) {
+                                sendEmailVerification();
+                            } else {
+                                pDialog.dismiss();
+                            }
+                        }
+                    });
+                }
+
+
+            }
+        });
+
+
+        Log.i(TAG, "firebaseRegistroCliente: Registrado correctamente" + user.getUid());
     }
 
     @Override
@@ -276,45 +295,33 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        pDialog.dismiss();
                         Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
 
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
+                            pDialog.dismiss();
                             Toast.makeText(getApplicationContext(),
                                     ErrorMessages.showErrorMessage(task.getException()),
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             firebaseRegistroTransportista(transportista);
-                            sendEmailVerification();
-                            Toast.makeText(getApplicationContext(),
-                                    "Registrado correctamente...", Toast.LENGTH_SHORT).show();
-
                         }
                     }
                 });
     }
 
-    /**Registra en firebase al transportista y lo agrega como usuario**/
-    private void firebaseRegistroTransportista(Transportistas transportista) {
-        FirebaseUser user = mAuth.getCurrentUser();
-
-        /**obtiene la instancia como usuario**/
-        DatabaseReference dbUsuario =
-                FirebaseDatabase.getInstance().getReference()
-                        .child("usuarios");
+    /**
+     * Registra en firebase al transportista y lo agrega como usuario
+     **/
+    private void firebaseRegistroTransportista(final Transportistas transportista) {
+        final FirebaseUser user = mAuth.getCurrentUser();
 
         /**obtiene la instancia como transportista**/
-        DatabaseReference dbTransportista =
+        final DatabaseReference dbTransportista =
                 FirebaseDatabase.getInstance().getReference()
                         .child("transportistas");
-
-        /**obtiene la instancia como listaDeTransportistas**/
-        DatabaseReference dbListaTransportista =
-                FirebaseDatabase.getInstance().getReference()
-                        .child("listaDeTransportistas");
 
         transportista.setTipoUsuario("transportista");
         transportista.setFirebaseID(user.getUid());
@@ -322,11 +329,50 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         transportista.setEstatus("activo");
         transportista.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
 
-        dbTransportista.child(user.getUid()).child("transportista").setValue(transportista);
-        dbUsuario.child(user.getUid()).setValue(transportista.getTipoUsuario());
-        dbListaTransportista.child(user.getUid()).setValue(transportista.getNombre());
+        dbTransportista.child(user.getUid()).child("transportista").setValue(transportista, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
-        Log.i(TAG,"firebaseRegistroTransportista: Registrado correctamente" + user.getUid());
+                if (databaseError == null) {
+
+                    /**obtiene la instancia como usuario**/
+                    DatabaseReference dbUsuario =
+                            FirebaseDatabase.getInstance().getReference()
+                                    .child("usuarios");
+
+                    dbUsuario.child(user.getUid()).setValue(transportista.getTipoUsuario(), new DatabaseReference.CompletionListener() {
+                        @Override
+                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                            if (databaseError == null) {
+
+                                /**obtiene la instancia como listaDeTransportistas**/
+                                DatabaseReference dbListaTransportista =
+                                        FirebaseDatabase.getInstance().getReference()
+                                                .child("listaDeTransportistas");
+
+                                dbListaTransportista.child(user.getUid()).setValue(transportista.getNombre(), new DatabaseReference.CompletionListener() {
+                                    @Override
+                                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                                        if (databaseError == null) {
+                                            sendEmailVerification();
+                                        } else {
+                                            pDialog.dismiss();
+                                        }
+                                    }
+                                });
+                            } else {
+                                pDialog.dismiss();
+                            }
+                        }
+                    });
+                }
+
+            }
+        });
+
+        Log.i(TAG, "firebaseRegistroTransportista: Registrado correctamente" + user.getUid());
     }
 
 
@@ -343,38 +389,32 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        pDialog.dismiss();
+
                         Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
 
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
+                            pDialog.dismiss();
                             Toast.makeText(getApplicationContext(),
                                     ErrorMessages.showErrorMessage(task.getException()),
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             firebaseRegistroChoferes(chofer);
-                            sendEmailVerification();
-                            Toast.makeText(getApplicationContext(),
-                                    "Registrado correctamente...", Toast.LENGTH_SHORT).show();
-
                         }
                     }
                 });
     }
 
-    /**Registra en firebase al transportista y lo agrega como usuario**/
-    private void firebaseRegistroChoferes(Choferes chofer) {
-        FirebaseUser user = mAuth.getCurrentUser();
-
-        /**obtiene la instancia como usuario**/
-        DatabaseReference dbUsuario =
-                FirebaseDatabase.getInstance().getReference()
-                        .child("usuarios");
+    /**
+     * Registra en firebase al transportista y lo agrega como usuario
+     **/
+    private void firebaseRegistroChoferes(final Choferes chofer) {
+        final FirebaseUser user = mAuth.getCurrentUser();
 
         /**obtiene la instancia como transportista**/
-        DatabaseReference dbTransportista =
+        final DatabaseReference dbTransportista =
                 FirebaseDatabase.getInstance().getReference()
                         .child("transportistas");
 
@@ -389,14 +429,45 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         chofer.setEstatus("inactivo");
         chofer.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
 
-        dbChofer.child(user.getUid()).setValue(chofer);
-        dbUsuario.child(user.getUid()).setValue(chofer.getTipoUsuario());
-        dbTransportista.child(chofer.getFirebaseIDEmpresaTransportistas())
-                .child("chofer")
-                .child(user.getUid()).setValue(chofer);
+        dbChofer.child(user.getUid()).setValue(chofer, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
-        Log.i(TAG,"firebaseRegistroChoferes: Registrado correctamente" + user.getUid());
+                if (databaseError == null) {
 
+                    /**obtiene la instancia como usuario**/
+                    DatabaseReference dbUsuario =
+                            FirebaseDatabase.getInstance().getReference()
+                                    .child("usuarios");
+
+                    dbUsuario.child(user.getUid()).setValue(chofer.getTipoUsuario(), new DatabaseReference.CompletionListener() {
+                        @Override
+                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                            if (databaseError == null) {
+
+                                dbTransportista.child(chofer.getFirebaseIDEmpresaTransportistas())
+                                        .child("chofer").child(user.getUid()).setValue(chofer, new DatabaseReference.CompletionListener() {
+                                    @Override
+                                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                                        if (databaseError == null) {
+                                            sendEmailVerification();
+                                            Log.i(TAG, "firebaseRegistroChoferes: Registrado correctamente" + user.getUid());
+                                        } else {
+                                            pDialog.dismiss();
+                                        }
+                                    }
+                                });
+
+                            } else {
+                                pDialog.dismiss();
+                            }
+                        }
+                    });
+                }
+            }
+        });
     }
 
     /**
@@ -405,14 +476,23 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
     public void sendEmailVerification() {
         FirebaseUser user = mAuth.getCurrentUser();
 
+        pDialog = new ProgressDialog(MainRegisterActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
         user.sendEmailVerification()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
+                        pDialog.dismiss();
                         if (task.isSuccessful()) {
                             //Si el email se envio correctamente cierra sessión
                             FirebaseAuth.getInstance().signOut();
                             finish();
+                            Toast.makeText(getApplicationContext(),
+                                    "Registrado correctamente...", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
