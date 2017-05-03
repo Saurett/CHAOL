@@ -47,16 +47,16 @@ public class MainPanelFragment extends Fragment {
     /**Carga los paneles por el tipo de usuario**/
     public void onPreRenderSessionPanel() {
         switch (_SESSION_USER.getTipoUsuario()) {
-            case  Constants.FB_KEY_USUARIO_CLIENTE:
+            case  Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE:
                 mainFragment.add(R.id.panel_fletes_container, new PanelFletesFragment(), Constants.PANEL_FLETES_CONTAINER);
                 break;
-            case Constants.FB_KEY_USUARIO_TRANSPORTISTA:
+            case Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA:
                 mainFragment.add(R.id.panel_fletes_container, new PanelFletesFragment(), Constants.PANEL_FLETES_CONTAINER);
                 mainFragment.add(R.id.panel_choferes_container, new PanelChoferesFragment(), Constants.PANEL_CHOFERES_CONTAINER);
                 mainFragment.add(R.id.panel_tractores_container, new PanelTractoresFragment(), Constants.PANEL_TRACTORES_CONTAINER);
                 mainFragment.add(R.id.panel_remolques_container, new PanelRemolquesFragment(), Constants.PANEL_REMOLQUES_CONTAINER);
                 break;
-            case Constants.FB_KEY_USUARIO_CHOFER:
+            case Constants.FB_KEY_ITEM_TIPO_USUARIO_CHOFER:
                 mainFragment.add(R.id.panel_fletes_container, new PanelFletesFragment(), Constants.PANEL_FLETES_CONTAINER);
                 break;
             default:

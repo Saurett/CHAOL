@@ -42,11 +42,12 @@
                 app:elevation="0dp" />
 
             <TextView
-                android:layout_width="20dp"
+                android:id="@+id/item_num_panel_clientes"
+                android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
-                android:text="1"
+                android:text="0"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="15sp" />

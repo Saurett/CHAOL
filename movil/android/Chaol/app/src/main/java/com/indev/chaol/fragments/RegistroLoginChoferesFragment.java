@@ -208,7 +208,7 @@ public class RegistroLoginChoferesFragment extends Fragment implements View.OnCl
         for (Transportistas transportista:
              transportistas) {
             if (transportista.getNombre().equals(spinnerEmpresa.getSelectedItem().toString())) {
-                firebaseID = transportista.getFirebaseID();
+                firebaseID = transportista.getFirebaseId();
             }
         }
 
@@ -286,7 +286,7 @@ public class RegistroLoginChoferesFragment extends Fragment implements View.OnCl
         chofer.setCorreoElectronico(txtCorreoElectronico.getText().toString().trim());
         chofer.setContraseña(txtPassword.getText().toString().trim());
 
-        chofer.setFirebaseIDEmpresaTransportistas(getSelectTransportista());
+        chofer.setFirebaseIdTransportista(getSelectTransportista());
 
         /**metodo principal para crear usuario**/
         activityInterface.createUserChofer(chofer);

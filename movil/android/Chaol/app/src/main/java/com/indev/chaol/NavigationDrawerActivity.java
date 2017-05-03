@@ -96,8 +96,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
-                    String userID = user.getUid();
-                    String correoElectronico = user.getEmail();
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                 } else {
                     // User is signed out
@@ -136,17 +134,17 @@ public class NavigationDrawerActivity extends AppCompatActivity
     private void onPreRenderSessionMenu(Menu menu) {
 
         switch (_SESSION_USER.getTipoUsuario()) {
-            case Constants.FB_KEY_USUARIO_CLIENTE:
+            case Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE:
                 /**El cliente visualizara menu de fletes y de cuentas**/
                 menu.findItem(R.id.menu_title_administracion).setVisible(false);
                 break;
-            case Constants.FB_KEY_USUARIO_TRANSPORTISTA:
+            case Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA:
                 /**El cliente visualizara menu de administracion,fletes y de cuentas**/
                 //Nota: Solo mostrar en admnistracion / choferes, tractores, remolques
                 menu.findItem(R.id.menu_item_clientes).setVisible(false);
                 menu.findItem(R.id.menu_item_transportistas).setVisible(false);
                 break;
-            case Constants.FB_KEY_USUARIO_CHOFER:
+            case Constants.FB_KEY_ITEM_TIPO_USUARIO_CHOFER:
                 /**El cliente visualizara menu de fletes y de cuentas**/
                 menu.findItem(R.id.menu_title_administracion).setVisible(false);
                 break;
@@ -420,7 +418,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
                         .child("clientes");
 
         cliente.setTipoUsuario("cliente");
-        cliente.setFirebaseID(user.getUid());
+        cliente.setFirebaseId(user.getUid());
         cliente.setEstatus("activo");
         cliente.setContraseña(null);
         cliente.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
@@ -460,7 +458,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
                         .child("transportistas");
 
         transportista.setTipoUsuario("transportista");
-        transportista.setFirebaseID(user.getUid());
+        transportista.setFirebaseId(user.getUid());
         transportista.setContraseña(null);
         transportista.setEstatus("activo");
         transportista.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
@@ -524,7 +522,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
                         .child("choferes");
 
         chofer.setTipoUsuario("chofer");
-        chofer.setFirebaseID(user.getUid());
+        chofer.setFirebaseId(user.getUid());
         chofer.setContraseña(null);
         chofer.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
 
@@ -546,7 +544,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
                             FirebaseDatabase.getInstance().getReference()
                                     .child("transportistas");
 
-                    dbTransportista.child(chofer.getFirebaseIDEmpresaTransportistas())
+                    dbTransportista.child(chofer.getFirebaseIdTransportista())
                             .child("chofer").child(user.getUid()).setValue(chofer, new DatabaseReference.CompletionListener() {
                         @Override
                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -587,7 +585,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
                         .child("administradores");
 
         administrador.setTipoUsuario("administrador");
-        administrador.setFirebaseID(user.getUid());
+        administrador.setFirebaseId(user.getUid());
         administrador.setContraseña(null);
         administrador.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
 

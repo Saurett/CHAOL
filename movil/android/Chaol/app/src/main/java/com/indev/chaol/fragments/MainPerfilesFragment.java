@@ -61,15 +61,15 @@ public class MainPerfilesFragment extends Fragment {
         getActivity().getIntent().putExtra(Constants.KEY_MAIN_DECODE,extraParams);
 
         switch (_SESSION_USER.getTipoUsuario()) {
-            case Constants.FB_KEY_USUARIO_CLIENTE:
+            case Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE:
                 mainFragment.replace(R.id.panel_perfiles_container, new PerfilClientesFragment(), Constants.FRAGMENT_MAIN_PERFIL);
                 mainFragment.commit();
                 break;
-            case Constants.FB_KEY_USUARIO_TRANSPORTISTA:
+            case Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA:
                 mainFragment.replace(R.id.panel_perfiles_container, new PerfilTransportistasFragment(), Constants.FRAGMENT_MAIN_PERFIL);
                 mainFragment.commit();
                 break;
-            case Constants.FB_KEY_USUARIO_CHOFER:
+            case Constants.FB_KEY_ITEM_TIPO_USUARIO_CHOFER:
                 mainFragment.replace(R.id.panel_perfiles_container, new PerfilChoferesFragment(), Constants.FRAGMENT_MAIN_PERFIL);
                 mainFragment.commit();
                 break;

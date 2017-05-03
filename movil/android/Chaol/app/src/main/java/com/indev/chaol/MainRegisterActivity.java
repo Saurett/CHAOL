@@ -30,6 +30,7 @@ import com.indev.chaol.models.Clientes;
 import com.indev.chaol.models.DecodeExtraParams;
 import com.indev.chaol.models.DecodeItem;
 import com.indev.chaol.models.Transportistas;
+import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
 import com.indev.chaol.utils.DateTimeUtils;
 import com.indev.chaol.utils.ErrorMessages;
@@ -44,6 +45,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
     private static LinearLayout linearLayoutSwitch;
     private static ScrollView scrollViewRegister;
     private static DecodeExtraParams _MAIN_DECODE;
+    private static Usuarios _SESSION_USER;
 
     private ProgressDialog pDialog;
     /**
@@ -70,6 +72,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         scrollViewRegister = (ScrollView) findViewById(R.id.scrollView_register);
 
         _MAIN_DECODE = (DecodeExtraParams) getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
+        _SESSION_USER = (Usuarios) getIntent().getSerializableExtra(Constants.KEY_SESSION_USER);
 
         btnFormCliente.setOnClickListener(this);
         btnFormTransportista.setOnClickListener(this);
@@ -79,6 +82,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
         /**Obtiene la instancia compartida del objeto FirebaseAuth**/
         mAuth = FirebaseAuth.getInstance();
+
         /**Responde a los cambios de estato en la session**/
         mAuthListener = new FirebaseAuth.AuthStateListener() {
 
@@ -244,15 +248,15 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         /**obtiene la instancia como cliente**/
         final DatabaseReference dbCliente =
                 FirebaseDatabase.getInstance().getReference()
-                        .child("clientes");
+                        .child(Constants.FB_KEY_MAIN_CLIENTES);
 
-        cliente.setTipoUsuario("cliente");
-        cliente.setFirebaseID(user.getUid());
-        cliente.setEstatus("activo");
+        cliente.setTipoUsuario(Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE);
+        cliente.setFirebaseId(user.getUid());
+        cliente.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_ACTIVO);
         cliente.setContraseña(null);
         cliente.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
 
-        dbCliente.child(user.getUid()).child("cliente").setValue(cliente, new DatabaseReference.CompletionListener() {
+        dbCliente.child(user.getUid()).child(Constants.FB_KEY_ITEM_CLIENTE).setValue(cliente, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
@@ -260,7 +264,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                     /**obtiene la instancia como usuario**/
                     DatabaseReference dbUsuario =
                             FirebaseDatabase.getInstance().getReference()
-                                    .child("usuarios");
+                                    .child(Constants.FB_KEY_MAIN_USUARIOS);
                     dbUsuario.child(user.getUid()).setValue(cliente.getTipoUsuario(), new DatabaseReference.CompletionListener() {
 
                         @Override
@@ -321,15 +325,15 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         /**obtiene la instancia como transportista**/
         final DatabaseReference dbTransportista =
                 FirebaseDatabase.getInstance().getReference()
-                        .child("transportistas");
+                        .child(Constants.FB_KEY_MAIN_TRANSPORTISTAS);
 
-        transportista.setTipoUsuario("transportista");
-        transportista.setFirebaseID(user.getUid());
+        transportista.setTipoUsuario(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA);
+        transportista.setFirebaseId(user.getUid());
         transportista.setContraseña(null);
-        transportista.setEstatus("activo");
+        transportista.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_ACTIVO);
         transportista.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
 
-        dbTransportista.child(user.getUid()).child("transportista").setValue(transportista, new DatabaseReference.CompletionListener() {
+        dbTransportista.child(user.getUid()).child(Constants.FB_KEY_ITEM_TRANSPORTISTA).setValue(transportista, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
@@ -338,7 +342,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                     /**obtiene la instancia como usuario**/
                     DatabaseReference dbUsuario =
                             FirebaseDatabase.getInstance().getReference()
-                                    .child("usuarios");
+                                    .child(Constants.FB_KEY_MAIN_USUARIOS);
 
                     dbUsuario.child(user.getUid()).setValue(transportista.getTipoUsuario(), new DatabaseReference.CompletionListener() {
                         @Override
@@ -349,7 +353,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                                 /**obtiene la instancia como listaDeTransportistas**/
                                 DatabaseReference dbListaTransportista =
                                         FirebaseDatabase.getInstance().getReference()
-                                                .child("listaDeTransportistas");
+                                                .child(Constants.FB_KEY_MAIN_LISTA_TRANSPORTISTAS);
 
                                 dbListaTransportista.child(user.getUid()).setValue(transportista.getNombre(), new DatabaseReference.CompletionListener() {
                                     @Override
@@ -416,17 +420,17 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         /**obtiene la instancia como transportista**/
         final DatabaseReference dbTransportista =
                 FirebaseDatabase.getInstance().getReference()
-                        .child("transportistas");
+                        .child(Constants.FB_KEY_MAIN_TRANSPORTISTAS);
 
         /**obtiene la instancia como chofer**/
         DatabaseReference dbChofer =
                 FirebaseDatabase.getInstance().getReference()
-                        .child("choferes");
+                        .child(Constants.FB_KEY_MAIN_CHOFERES);
 
-        chofer.setTipoUsuario("chofer");
-        chofer.setFirebaseID(user.getUid());
+        chofer.setTipoUsuario(Constants.FB_KEY_ITEM_TIPO_USUARIO_CHOFER);
+        chofer.setFirebaseId(user.getUid());
         chofer.setContraseña(null);
-        chofer.setEstatus("inactivo");
+        chofer.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_INACTIVO);
         chofer.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
 
         dbChofer.child(user.getUid()).setValue(chofer, new DatabaseReference.CompletionListener() {
@@ -438,7 +442,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                     /**obtiene la instancia como usuario**/
                     DatabaseReference dbUsuario =
                             FirebaseDatabase.getInstance().getReference()
-                                    .child("usuarios");
+                                    .child(Constants.FB_KEY_MAIN_USUARIOS);
 
                     dbUsuario.child(user.getUid()).setValue(chofer.getTipoUsuario(), new DatabaseReference.CompletionListener() {
                         @Override
@@ -446,8 +450,8 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
                             if (databaseError == null) {
 
-                                dbTransportista.child(chofer.getFirebaseIDEmpresaTransportistas())
-                                        .child("chofer").child(user.getUid()).setValue(chofer, new DatabaseReference.CompletionListener() {
+                                dbTransportista.child(chofer.getFirebaseIdTransportista())
+                                        .child(Constants.FB_KEY_ITEM_CHOFER).child(user.getUid()).setValue(chofer, new DatabaseReference.CompletionListener() {
                                     @Override
                                     public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
@@ -474,7 +478,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
      * Envia correo de verificación para ser un usuario validado
      **/
     public void sendEmailVerification() {
-        FirebaseUser user = mAuth.getCurrentUser();
+        final FirebaseUser user = mAuth.getCurrentUser();
 
         pDialog = new ProgressDialog(MainRegisterActivity.this);
         pDialog.setMessage(getString(R.string.default_loading_msg));
@@ -490,9 +494,43 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                         if (task.isSuccessful()) {
                             //Si el email se envio correctamente cierra sessión
                             FirebaseAuth.getInstance().signOut();
+                            reautheticate();
                             finish();
                             Toast.makeText(getApplicationContext(),
                                     "Registrado correctamente...", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+    }
+
+    private void reautheticate() {
+        /*
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        AuthCredential credential = EmailAuthProvider
+                .getCredential("chaolapp@gmail.com", "transportes");
+
+        // Prompt the user to re-provide their sign-in credentials
+        user.reauthenticate(credential)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Log.d(TAG, "User re-authenticated.");
+                    }
+                });
+                */
+
+        mAuth.signInWithEmailAndPassword("chaolapp@gmail.com", "transportes")
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
+
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "signInWithEmail:failed", task.getException());
+                            Toast.makeText(getApplicationContext(),
+                                    ErrorMessages.showErrorMessage(task.getException()),
+                                    Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

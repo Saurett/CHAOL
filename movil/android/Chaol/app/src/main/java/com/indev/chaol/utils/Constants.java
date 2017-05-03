@@ -32,10 +32,23 @@ import java.util.List;
 public final class Constants {
 
     /**Elementos de firebase**/
-    public static final String FB_KEY_USUARIO_ADMINISTRADOR = "administrador";
-    public static final String FB_KEY_USUARIO_CLIENTE = "cliente";
-    public static final String FB_KEY_USUARIO_TRANSPORTISTA = "transportista";
-    public static final String FB_KEY_USUARIO_CHOFER = "chofer";
+    public static final String FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR = "administrador";
+    public static final String FB_KEY_ITEM_TIPO_USUARIO_CLIENTE = "cliente";
+    public static final String FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA = "transportista";
+    public static final String FB_KEY_ITEM_TIPO_USUARIO_CHOFER = "chofer";
+    public static final String FB_KEY_ITEM_CLIENTE = "cliente";
+    public static final String FB_KEY_ITEM_TRANSPORTISTA = "transportista";
+    public static final String FB_KEY_ITEM_CHOFER = "chofer";
+    public static final String FB_KEY_ITEM_ADMINISTRADOR = "administrador";
+    public static final String FB_KEY_ITEM_ESTATUS_ACTIVO = "activo";
+    public static final String FB_KEY_ITEM_ESTATUS_INACTIVO = "inactivo";
+    public static final String FB_KEY_MAIN_USUARIOS = "usuarios";
+    public static final String FB_KEY_MAIN_CLIENTES = "clientes";
+    public static final String FB_KEY_MAIN_TRANSPORTISTAS = "transportistas";
+    public static final String FB_KEY_MAIN_CHOFERES = "choferes";
+    public static final String FB_KEY_MAIN_ADMINISTRADORES = "administradores";
+    public static final String FB_KEY_MAIN_LISTA_TRANSPORTISTAS = "listaDeTransportistas";
+
 
 
     /**Key Extraparam**/

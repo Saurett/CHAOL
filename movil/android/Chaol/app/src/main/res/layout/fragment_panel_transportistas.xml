@@ -42,11 +42,12 @@
                 app:elevation="0dp" />
 
             <TextView
+                android:id="@+id/item_num_no_autorizado_panel_transportistas"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
-                android:text="1"
+                android:text="0"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="15sp" />
@@ -78,11 +79,12 @@
                 app:elevation="0dp" />
 
             <TextView
+                android:id="@+id/item_num_autorizado_panel_transportistas"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
-                android:text="2"
+                android:text="0"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="15sp" />

@@ -26,7 +26,7 @@ public class Clientes implements Serializable {
     private String imagenURL;
     private String tipoUsuario;
 
-    private String firebaseID;
+    private String firebaseId;
     private String estatus;
     private Long fechaDeCreacion;
     private Long fechaDeEdicion;
@@ -43,7 +43,7 @@ public class Clientes implements Serializable {
     public Clientes(String nombre, String RFC, String estado, String ciudad, String colonia,
                     String codigoPostal, String calle, String numeroInterior, String numeroExterior,
                     String metodoPago, String telefono, String celular, String correoElectronico,
-                    String contraseña, String imagenURL, String tipoUsuario, String firebaseID,
+                    String contraseña, String imagenURL, String tipoUsuario, String firebaseId,
                     String estatus, Long fechaDeCreacion, Long fechaDeEdicion) {
         this.nombre = nombre;
         this.RFC = RFC;
@@ -61,7 +61,7 @@ public class Clientes implements Serializable {
         this.contraseña = contraseña;
         this.imagenURL = imagenURL;
         this.tipoUsuario = tipoUsuario;
-        this.firebaseID = firebaseID;
+        this.firebaseId = firebaseId;
         this.estatus = estatus;
         this.fechaDeCreacion = fechaDeCreacion;
         this.fechaDeEdicion = fechaDeEdicion;
@@ -195,12 +195,12 @@ public class Clientes implements Serializable {
         this.tipoUsuario = tipoUsuario;
     }
 
-    public String getFirebaseID() {
-        return firebaseID;
+    public String getFirebaseId() {
+        return firebaseId;
     }
 
-    public void setFirebaseID(String firebaseID) {
-        this.firebaseID = firebaseID;
+    public void setFirebaseId(String firebaseId) {
+        this.firebaseId = firebaseId;
     }
 
     public String getEstatus() {

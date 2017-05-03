@@ -3,7 +3,6 @@ package com.indev.chaol.fragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -29,10 +28,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.indev.chaol.NavigationDrawerActivity;
 import com.indev.chaol.R;
-import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
 import com.indev.chaol.models.Choferes;
 import com.indev.chaol.models.DecodeExtraParams;
-import com.indev.chaol.models.MetodosPagos;
 import com.indev.chaol.utils.Constants;
 
 import java.util.ArrayList;
@@ -305,7 +302,7 @@ public class PerfilChoferesFragment extends Fragment implements View.OnClickList
         chofer.setContraseña(txtPassword.getText().toString().trim());
 
         chofer.setFechaDeCreacion(_choferActual.getFechaDeCreacion());
-        chofer.setFirebaseIDEmpresaTransportistas(_choferActual.getFirebaseIDEmpresaTransportistas());
+        chofer.setFirebaseIdTransportista(_choferActual.getFirebaseIdTransportista());
         chofer.setEstatus(_choferActual.getEstatus());
 
         /**metodo principal para actualizar usuario**/

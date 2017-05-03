@@ -25,7 +25,7 @@ public class Transportistas implements Serializable {
     private String contraseña;
 
     private String tipoUsuario;
-    private String firebaseID;
+    private String firebaseId;
     private String estatus;
     private Long fechaDeCreacion;
     private Long fechaDeEdicion;
@@ -33,8 +33,8 @@ public class Transportistas implements Serializable {
     public Transportistas() {
     }
 
-    public Transportistas(String firebaseID, String nombre) {
-        this.firebaseID = firebaseID;
+    public Transportistas(String firebaseId, String nombre) {
+        this.firebaseId = firebaseId;
         this.nombre = nombre;
     }
 
@@ -42,7 +42,7 @@ public class Transportistas implements Serializable {
         this.nombre = nombre;
     }
 
-    public Transportistas(String nombre, String representanteLegal, String RFC, String estado, String ciudad, String colonia, String codigoPostal, String calle, String numeroInterior, String numeroExterior, String telefono, String celular, String prooveedorGPS, String correoElectronico, String contraseña, String tipoUsuario, String firebaseID, String estatus, Long fechaDeCreacion, Long fechaDeEdicion) {
+    public Transportistas(String nombre, String representanteLegal, String RFC, String estado, String ciudad, String colonia, String codigoPostal, String calle, String numeroInterior, String numeroExterior, String telefono, String celular, String prooveedorGPS, String correoElectronico, String contraseña, String tipoUsuario, String firebaseId, String estatus, Long fechaDeCreacion, Long fechaDeEdicion) {
         this.nombre = nombre;
         this.representanteLegal = representanteLegal;
         this.RFC = RFC;
@@ -59,7 +59,7 @@ public class Transportistas implements Serializable {
         this.correoElectronico = correoElectronico;
         this.contraseña = contraseña;
         this.tipoUsuario = tipoUsuario;
-        this.firebaseID = firebaseID;
+        this.firebaseId = firebaseId;
         this.estatus = estatus;
         this.fechaDeCreacion = fechaDeCreacion;
         this.fechaDeEdicion = fechaDeEdicion;
@@ -193,12 +193,12 @@ public class Transportistas implements Serializable {
         this.tipoUsuario = tipoUsuario;
     }
 
-    public String getFirebaseID() {
-        return firebaseID;
+    public String getFirebaseId() {
+        return firebaseId;
     }
 
-    public void setFirebaseID(String firebaseID) {
-        this.firebaseID = firebaseID;
+    public void setFirebaseId(String firebaseId) {
+        this.firebaseId = firebaseId;
     }
 
     public String getEstatus() {

@@ -9,14 +9,13 @@ import java.io.Serializable;
 public class Usuarios implements Serializable {
 
     private String tipoUsuario;
-    private String firebaseID;
+    private String firebaseId;
+    private String token;
 
-    public Usuarios() {
-    }
-
-    public Usuarios(String tipoUsuario, String firebaseID) {
+    public Usuarios(String tipoUsuario, String firebaseId, String token) {
         this.tipoUsuario = tipoUsuario;
-        this.firebaseID = firebaseID;
+        this.firebaseId = firebaseId;
+        this.token = token;
     }
 
     public String getTipoUsuario() {
@@ -27,11 +26,19 @@ public class Usuarios implements Serializable {
         this.tipoUsuario = tipoUsuario;
     }
 
-    public String getFirebaseID() {
-        return firebaseID;
+    public String getFirebaseId() {
+        return firebaseId;
     }
 
-    public void setFirebaseID(String firebaseID) {
-        this.firebaseID = firebaseID;
+    public void setFirebaseId(String firebaseId) {
+        this.firebaseId = firebaseId;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

@@ -13,7 +13,7 @@ public class Administradores implements Serializable {
     private String contraseña;
 
     private String tipoUsuario;
-    private String firebaseID;
+    private String firebaseId;
     private String estatus;
     private Long fechaDeCreacion;
     private Long fechaDeEdicion;
@@ -21,8 +21,8 @@ public class Administradores implements Serializable {
     public Administradores() {
     }
 
-    public Administradores(String firebaseID, String nombre) {
-        this.firebaseID = firebaseID;
+    public Administradores(String firebaseId, String nombre) {
+        this.firebaseId = firebaseId;
         this.nombre = nombre;
     }
 
@@ -30,12 +30,12 @@ public class Administradores implements Serializable {
         this.nombre = nombre;
     }
 
-    public Administradores(String nombre, String correoElectronico, String contraseña, String tipoUsuario, String firebaseID, String estatus, Long fechaDeCreacion, Long fechaDeEdicion) {
+    public Administradores(String nombre, String correoElectronico, String contraseña, String tipoUsuario, String firebaseId, String estatus, Long fechaDeCreacion, Long fechaDeEdicion) {
         this.nombre = nombre;
         this.correoElectronico = correoElectronico;
         this.contraseña = contraseña;
         this.tipoUsuario = tipoUsuario;
-        this.firebaseID = firebaseID;
+        this.firebaseId = firebaseId;
         this.estatus = estatus;
         this.fechaDeCreacion = fechaDeCreacion;
         this.fechaDeEdicion = fechaDeEdicion;
@@ -73,12 +73,12 @@ public class Administradores implements Serializable {
         this.tipoUsuario = tipoUsuario;
     }
 
-    public String getFirebaseID() {
-        return firebaseID;
+    public String getFirebaseId() {
+        return firebaseId;
     }
 
-    public void setFirebaseID(String firebaseID) {
-        this.firebaseID = firebaseID;
+    public void setFirebaseId(String firebaseId) {
+        this.firebaseId = firebaseId;
     }
 
     public String getEstatus() {

@@ -42,11 +42,12 @@
                 app:elevation="0dp" />
 
             <TextView
+                android:id="@+id/item_num_no_autorizado_panel_choferes"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
-                android:text="1"
+                android:text="0"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="15sp" />
@@ -68,7 +69,7 @@
             android:layout_height="30dp"
             android:layout_marginTop="10dp"
             android:paddingLeft="20dp"
-            android:visibility="invisible">
+            android:visibility="visible">
 
             <android.support.design.widget.FloatingActionButton
                 android:layout_width="20dp"
@@ -79,11 +80,12 @@
                 app:elevation="0dp" />
 
             <TextView
+                android:id="@+id/item_num_autorizado_panel_choferes"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
-                android:text="3"
+                android:text="0"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="15sp" />
@@ -93,7 +95,7 @@
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
-                android:text="Solicitudes de transportistas pendientes"
+                android:text="Choferes asignados"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="15sp" />
 

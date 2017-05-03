@@ -3,7 +3,7 @@ package com.indev.chaol.fragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.AsyncTask;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.indev.chaol.MainRegisterActivity;
@@ -37,7 +38,7 @@ import java.util.List;
 public class RegistroClientesFragment extends Fragment implements View.OnClickListener, DialogInterface.OnClickListener, Spinner.OnItemSelectedListener {
 
     private Button btnTitulo;
-    private EditText txtNombre, txtEmail, txtPassword;
+    private EditText txtNombre, txtRFC, txtEstado, txtCiudad, txtColonia, txtCodigoPostal, txtCalle, txtNumInt, txtNumExt, txtTelefono, txtCelular, txtEmail, txtPassword;
     private Spinner spinnerMetodoPago;
     private FloatingActionButton fabClientes;
     private ProgressDialog pDialog;
@@ -54,7 +55,18 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
         View view = inflater.inflate(R.layout.fragment_registro_clientes, container, false);
 
         btnTitulo = (Button) view.findViewById(R.id.btn_titulo_clientes);
+
         txtNombre = (EditText) view.findViewById(R.id.txt_clientes_nombre);
+        txtRFC = (EditText) view.findViewById(R.id.txt_clientes_rfc);
+        txtEstado = (EditText) view.findViewById(R.id.txt_clientes_estado);
+        txtCiudad = (EditText) view.findViewById(R.id.txt_clientes_ciudad);
+        txtColonia = (EditText) view.findViewById(R.id.txt_clientes_colonia);
+        txtCodigoPostal = (EditText) view.findViewById(R.id.txt_clientes_codigo_postal);
+        txtCalle = (EditText) view.findViewById(R.id.txt_clientes_calle);
+        txtNumInt = (EditText) view.findViewById(R.id.txt_clientes_num_int);
+        txtNumExt = (EditText) view.findViewById(R.id.txt_clientes_num_ext);
+        txtTelefono = (EditText) view.findViewById(R.id.txt_clientes_telefono);
+        txtCelular = (EditText) view.findViewById(R.id.txt_clientes_celular);
         txtEmail = (EditText) view.findViewById(R.id.txt_clientes_email);
         txtPassword = (EditText) view.findViewById(R.id.txt_clientes_password);
 
@@ -76,9 +88,6 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        AsyncCallWS ws = new AsyncCallWS(Constants.WS_KEY_PRE_RENDER);
-        ws.execute();
     }
 
     @Override
@@ -99,6 +108,10 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
             btnTitulo.setBackgroundColor(getResources().getColor(R.color.colorIcons));
             btnTitulo.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
         }
+
+        /**Carga los elementos del combo**/
+        this.onCargarMetodosPagos();
+        this.onCargarSpinnerMetodosPagos();
 
         switch (_MAIN_DECODE.getAccionFragmento()) {
             case Constants.ACCION_EDITAR:
@@ -121,6 +134,42 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
                 btnTitulo.setText("Perfil");
                 break;
         }
+    }
+
+    /**
+     * Metodos privados en la clase AsynTask
+     **/
+    private void onCargarMetodosPagos() {
+        metodosPagoList = new ArrayList<>();
+        metodosPagos = new ArrayList<>();
+        metodosPagoList.add("Seleccione ...");
+
+        //TODO Metodo para llamar al servidor
+        metodosPagoList.add("Efectivo");
+        metodosPagoList.add("Cheque");
+        metodosPagoList.add("Transferencia Electronica");
+        metodosPagoList.add("Tarjeta de Crédito");
+        metodosPagoList.add("Dinero Electrónico");
+        metodosPagoList.add("Tarjeta de Débito");
+        metodosPagoList.add("NA");
+        metodosPagoList.add("Otros");
+
+        metodosPagos.add(new MetodosPagos(1, "Efectivo"));
+        metodosPagos.add(new MetodosPagos(2, "Cheque"));
+        metodosPagos.add(new MetodosPagos(3, "Transferencia Electronica"));
+        metodosPagos.add(new MetodosPagos(4, "Tarjeta de Crédito"));
+        metodosPagos.add(new MetodosPagos(5, "Dinero Electrónico"));
+        metodosPagos.add(new MetodosPagos(6, "Tarjeta de Débito"));
+        metodosPagos.add(new MetodosPagos(7, "NA"));
+        metodosPagos.add(new MetodosPagos(8, "Otros"));
+    }
+
+    private void onCargarSpinnerMetodosPagos() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
+                R.layout.text_spinner, metodosPagoList);
+
+        spinnerMetodoPago.setAdapter(adapter);
+        spinnerMetodoPago.setSelection(0);
     }
 
     @Override
@@ -158,6 +207,16 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
             authorized = false;
         }
 
+        if (spinnerMetodoPago.getSelectedItemId() <= 0L) {
+            TextView errorTextSE = (TextView) spinnerMetodoPago.getSelectedView();
+            errorTextSE.setError("El campo es obligatorio");
+            errorTextSE.setTextColor(Color.RED);
+            errorTextSE.setText("El campo es obligatorio");//changes t
+            errorTextSE.requestFocus();
+
+            authorized = false;
+        }
+
         if (authorized) {
             this.createSimpleValidUser();
         } else {
@@ -168,9 +227,25 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
     }
 
     private void createSimpleValidUser() {
-        /*activityInterface.createSimpleUser(txtEmail.getText().toString(),
-                txtPassword.getText().toString());
-                */
+        Clientes clientes = new Clientes();
+
+        clientes.setNombre(txtNombre.getText().toString().trim());
+        clientes.setRfc(txtRFC.getText().toString().trim());
+        clientes.setEstado(txtEstado.getText().toString().trim());
+        clientes.setCiudad(txtCiudad.getText().toString().trim());
+        clientes.setColonia(txtColonia.getText().toString().trim());
+        clientes.setCodigoPostal(txtCodigoPostal.getText().toString().trim());
+        clientes.setCalle(txtCalle.getText().toString().trim());
+        clientes.setNumInterior(txtNumInt.getText().toString().trim());
+        clientes.setNumExterior(txtNumExt.getText().toString().trim());
+        clientes.setMetodoPago(spinnerMetodoPago.getSelectedItem().toString());
+        clientes.setTelefono(txtTelefono.getText().toString().trim());
+        clientes.setCelular(txtCelular.getText().toString().trim());
+        clientes.setCorreoElectronico(txtEmail.getText().toString().trim());
+        clientes.setContraseña(txtPassword.getText().toString().trim());
+
+        /**metodo principal para crear usuario**/
+        activityInterface.createUserCliente(clientes);
     }
 
     private void showQuestion() {
@@ -188,8 +263,6 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
     public void onClick(DialogInterface dialog, int which) {
         switch (which) {
             case DialogInterface.BUTTON_POSITIVE:
-                AsyncCallWS asyncCallWS = new AsyncCallWS(Constants.WS_KEY_EDITAR_CLIENTES);
-                asyncCallWS.execute();
                 break;
         }
     }
@@ -202,122 +275,5 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
-    }
-
-
-    private class AsyncCallWS extends AsyncTask<Void, Void, Boolean> {
-
-        private Integer webServiceOperation;
-        private String textError;
-
-        public AsyncCallWS(Integer wsOperation) {
-            webServiceOperation = wsOperation;
-            textError = "";
-        }
-
-        @Override
-        protected void onPreExecute() {
-            pDialog = new ProgressDialog(getContext());
-            pDialog.setMessage(getString(R.string.default_loading_msg));
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(false);
-            pDialog.show();
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-
-            Boolean validOperation = false;
-
-            try {
-                switch (webServiceOperation) {
-                    case Constants.WS_KEY_PRE_RENDER:
-                        //TODO Acción desde el servidor
-                        this.onCargarMetodosPagos();
-                        validOperation = true;
-                        break;
-                    case Constants.WS_KEY_EDITAR_CLIENTES:
-                        //TODO Eliminar desde el servidor
-                        validOperation = true;
-                        break;
-                    case Constants.WS_KEY_AGREGAR_CLIENTES:
-                        //TODO Acción desde el servidor
-                        validOperation = true;
-                        break;
-                }
-            } catch (Exception e) {
-                textError = e.getMessage();
-                validOperation = false;
-            }
-
-            return validOperation;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            try {
-                pDialog.dismiss();
-                if (success) {
-                    switch (webServiceOperation) {
-                        case Constants.WS_KEY_PRE_RENDER:
-                            ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
-                                    R.layout.text_spinner, metodosPagoList);
-
-                            /*
-                            int selectionState = (null != _PROFILE_MANAGER.getAddressProfile().getIdItemState())
-                                    ? _PROFILE_MANAGER.getAddressProfile().getIdItemState() : 0;
-                                    */
-
-                            spinnerMetodoPago.setAdapter(adapter);
-                            spinnerMetodoPago.setSelection(0);
-
-                            break;
-                        case Constants.WS_KEY_EDITAR_CLIENTES:
-                            if (_MAIN_DECODE.getDecodeItem().getIdView() != R.id.menu_item_perfil) {
-                                getActivity().finish();
-                            }
-                            Toast.makeText(getContext(), "Editado correctamente...", Toast.LENGTH_SHORT).show();
-                            break;
-                        case Constants.WS_KEY_AGREGAR_CLIENTES:
-                            getActivity().finish();
-                            Toast.makeText(getContext(), "Guardado correctamente...", Toast.LENGTH_SHORT).show();
-                            break;
-                    }
-                } else {
-                    String tempText = (textError.isEmpty() ? "Lo sentimos se ha detectado un error desconocido" : textError);
-                    Toast.makeText(getContext(), tempText, Toast.LENGTH_SHORT).show();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        /**
-         * Metodos privados en la clase AsynTask
-         **/
-        private void onCargarMetodosPagos() {
-            metodosPagoList = new ArrayList<>();
-            metodosPagos = new ArrayList<>();
-            metodosPagoList.add("Seleccione ...");
-
-            //TODO Metodo para llamar al servidor
-            metodosPagoList.add("Efectivo");
-            metodosPagoList.add("Cheque");
-            metodosPagoList.add("Transferencia Electronica");
-            metodosPagoList.add("Tarjeta de Crédito");
-            metodosPagoList.add("Dinero Electrónico");
-            metodosPagoList.add("Tarjeta de Débito");
-            metodosPagoList.add("NA");
-            metodosPagoList.add("Otros");
-
-            metodosPagos.add(new MetodosPagos(1, "Efectivo"));
-            metodosPagos.add(new MetodosPagos(2, "Cheque"));
-            metodosPagos.add(new MetodosPagos(3, "Transferencia Electronica"));
-            metodosPagos.add(new MetodosPagos(4, "Tarjeta de Crédito"));
-            metodosPagos.add(new MetodosPagos(5, "Dinero Electrónico"));
-            metodosPagos.add(new MetodosPagos(6, "Tarjeta de Débito"));
-            metodosPagos.add(new MetodosPagos(7, "NA"));
-            metodosPagos.add(new MetodosPagos(8, "Otros"));
-        }
     }
 }

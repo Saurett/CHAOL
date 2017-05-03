@@ -271,7 +271,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String tipoUsuario = dataSnapshot.getValue(String.class);
                 String key = dataSnapshot.getKey();
                 //Ejecuta el intent de navigationDrawer
-                openNavigation(new Usuarios(tipoUsuario,key));
+                openNavigation(new Usuarios(tipoUsuario,key,""));
             }
 
             @Override
