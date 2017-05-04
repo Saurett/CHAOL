@@ -3,6 +3,7 @@ package com.indev.chaol;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Paint;
+import android.net.Credentials;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
@@ -16,7 +17,10 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.EmailAuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -65,9 +69,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         /**Obtiene la instancia compartida del objeto FirebaseAuth**/
         mAuth = FirebaseAuth.getInstance();
-
-        if (mAuth.getCurrentUser() != null) {
-        }
 
         /**Responde a los cambios de estato en la session**/
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -145,8 +146,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Boolean authorized = true;
 
-        String email = txtUsername.getText().toString().trim();
-        String password = txtPassword.getText().toString().trim();
+        final String email = txtUsername.getText().toString().trim();
+        final String password = txtPassword.getText().toString().trim();
 
         if (TextUtils.isEmpty(email)) {
             txtUsername.setError("El campo es obligatorio", null);
@@ -173,12 +174,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
-
                             // If sign in fails, display a message to the user. If sign in succeeds
                             // the auth state listener will be notified and logic to handle the
                             // signed in user can be handled in the listener.
-                            pDialog.dismiss();
                             if (!task.isSuccessful()) {
+                                pDialog.dismiss();
                                 Log.w(TAG, "signInWithEmail:failed", task.getException());
                                 Toast.makeText(getApplicationContext(),
                                         ErrorMessages.showErrorMessage(task.getException()),
@@ -247,6 +247,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (user.isEmailVerified()) {
             //Obtiene el usuario del firebase database
+
+           if (pDialog == null) {
+               pDialog = new ProgressDialog(MainActivity.this);
+               pDialog.setMessage(getString(R.string.default_loading_msg));
+               pDialog.setIndeterminate(false);
+               pDialog.setCancelable(false);
+               pDialog.show();
+           }
+
             getLoginUser();
             //Toast.makeText(getApplicationContext(), "Successfully logged in", Toast.LENGTH_SHORT).show();
         } else {
@@ -272,6 +281,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String key = dataSnapshot.getKey();
                 //Ejecuta el intent de navigationDrawer
                 openNavigation(new Usuarios(tipoUsuario,key,""));
+
+                pDialog.dismiss();
             }
 
             @Override

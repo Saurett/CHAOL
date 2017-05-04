@@ -1,17 +1,20 @@
 package com.indev.chaol;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
@@ -53,6 +56,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
      **/
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private static FirebaseUser firebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +86,8 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
         /**Obtiene la instancia compartida del objeto FirebaseAuth**/
         mAuth = FirebaseAuth.getInstance();
+
+        firebaseUser = mAuth.getCurrentUser();
 
         /**Responde a los cambios de estato en la session**/
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -520,6 +526,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 });
                 */
 
+        /*
         mAuth.signInWithEmailAndPassword("chaolapp@gmail.com", "transportes")
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -533,7 +540,32 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
+                });*/
+        //this.inputPassword();
+    }
+
+    private void inputPassword() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainRegisterActivity.this);
+        alertDialog.setTitle("CONTRASEÑA");
+        alertDialog.setMessage("Escribe tu contraseña");
+
+        final EditText input = new EditText(MainRegisterActivity.this);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        input.setLayoutParams(lp);
+        alertDialog.setView(input);
+        alertDialog.setIcon(R.drawable.common_google_signin_btn_icon_dark_normal);
+
+        alertDialog.setPositiveButton("YES",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
                 });
+
+
+        alertDialog.show();
     }
 
     @Override
