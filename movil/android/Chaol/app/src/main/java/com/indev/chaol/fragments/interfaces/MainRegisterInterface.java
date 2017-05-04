@@ -3,6 +3,8 @@ package com.indev.chaol.fragments.interfaces;
 import com.indev.chaol.models.Choferes;
 import com.indev.chaol.models.Clientes;
 import com.indev.chaol.models.DecodeItem;
+import com.indev.chaol.models.Remolques;
+import com.indev.chaol.models.Tractores;
 import com.indev.chaol.models.Transportistas;
 
 /**
@@ -29,5 +31,9 @@ public interface MainRegisterInterface {
     void createUserTransportista(Transportistas transportista);
     /**Permite crear usuarios tipo chofer**/
     void createUserChofer(Choferes chofer);
+    /**Permite crear tractores**/
+    void createTractores(Tractores tractor);
+    /**Permite crear remolques**/
+    void createRemolques(Remolques remolque);
 
 }

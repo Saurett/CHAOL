@@ -48,8 +48,8 @@ public final class Constants {
     public static final String FB_KEY_MAIN_CHOFERES = "choferes";
     public static final String FB_KEY_MAIN_ADMINISTRADORES = "administradores";
     public static final String FB_KEY_MAIN_LISTA_TRANSPORTISTAS = "listaDeTransportistas";
-
-
+    public static final String FB_KEY_MAIN_TRACTORES = "tractores";
+    public static final String FB_KEY_MAIN_REMOLQUES = "remolques";
 
     /**Key Extraparam**/
     public static String KEY_MAIN_DECODE = "key_main_decode";

@@ -32,6 +32,8 @@ import com.indev.chaol.models.Choferes;
 import com.indev.chaol.models.Clientes;
 import com.indev.chaol.models.DecodeExtraParams;
 import com.indev.chaol.models.DecodeItem;
+import com.indev.chaol.models.Remolques;
+import com.indev.chaol.models.Tractores;
 import com.indev.chaol.models.Transportistas;
 import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
@@ -56,7 +58,6 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
      **/
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private static FirebaseUser firebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,8 +87,6 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
         /**Obtiene la instancia compartida del objeto FirebaseAuth**/
         mAuth = FirebaseAuth.getInstance();
-
-        firebaseUser = mAuth.getCurrentUser();
 
         /**Responde a los cambios de estato en la session**/
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -457,7 +456,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                             if (databaseError == null) {
 
                                 dbTransportista.child(chofer.getFirebaseIdTransportista())
-                                        .child(Constants.FB_KEY_ITEM_CHOFER).child(user.getUid()).setValue(chofer, new DatabaseReference.CompletionListener() {
+                                        .child(Constants.FB_KEY_MAIN_CHOFERES).child(user.getUid()).setValue(chofer, new DatabaseReference.CompletionListener() {
                                     @Override
                                     public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
@@ -567,6 +566,53 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
         alertDialog.show();
     }
+
+    @Override
+    public void createTractores(final Tractores tractor) {
+        pDialog = new ProgressDialog(MainRegisterActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        firebaseRegistroTractores(tractor);
+    }
+
+    private void firebaseRegistroTractores(final Tractores tractor) {
+        /**obtiene la instancia como transportista**/
+        final DatabaseReference dbTransportista =
+                FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.FB_KEY_MAIN_TRANSPORTISTAS)
+                        .child(tractor.getFirebaseIdTransportista());
+
+        String remolqueKey = dbTransportista.child(Constants.FB_KEY_MAIN_TRACTORES).push().getKey();
+
+        tractor.setFirebaseId(remolqueKey);
+        tractor.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_ACTIVO);
+        tractor.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
+        tractor.setFirebaseIdTransportista(null);
+
+        dbTransportista.child(Constants.FB_KEY_MAIN_TRACTORES).child(tractor.getFirebaseId())
+                .setValue(tractor, new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                        pDialog.dismiss();
+                        if (databaseError == null) {
+                            finish();
+                            Toast.makeText(getApplicationContext(),
+                                    "Registrado correctamente...", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+    }
+
+
+    @Override
+    public void createRemolques(Remolques remolque) {
+
+    }
+
 
     @Override
     public void onClick(View v) {

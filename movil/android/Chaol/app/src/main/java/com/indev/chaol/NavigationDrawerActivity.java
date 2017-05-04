@@ -391,6 +391,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
         Intent intent = new Intent(this, externalActivity);
         intent.putExtra(Constants.KEY_MAIN_DECODE, extraParams);
+        intent.putExtra(Constants.KEY_SESSION_USER, _SESSION_USER);
         startActivity(intent);
     }
 

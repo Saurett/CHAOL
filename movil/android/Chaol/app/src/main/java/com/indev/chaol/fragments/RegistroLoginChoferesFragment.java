@@ -209,6 +209,7 @@ public class RegistroLoginChoferesFragment extends Fragment implements View.OnCl
              transportistas) {
             if (transportista.getNombre().equals(spinnerEmpresa.getSelectedItem().toString())) {
                 firebaseID = transportista.getFirebaseId();
+                break;
             }
         }
 

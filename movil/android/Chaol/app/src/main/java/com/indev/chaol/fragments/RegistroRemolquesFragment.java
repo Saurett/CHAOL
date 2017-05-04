@@ -92,7 +92,7 @@ public class RegistroRemolquesFragment extends Fragment implements View.OnClickL
                 Remolques remolques = (Remolques) _MAIN_DECODE.getDecodeItem().getItemModel();
 
                 /**Asigna valores del item seleccionado**/
-                txtNumEconomico.setText(remolques.getNumEconomico());
+                txtNumEconomico.setText(remolques.getNumeroEconomico());
 
                 /**Modifica valores predeterminados de ciertos elementos**/
                 btnTitulo.setText(getString(Constants.TITLE_FORM_ACTION.get(_MAIN_DECODE.getAccionFragmento())));
