@@ -17,6 +17,8 @@ public class Remolques implements Serializable {
     private String tipoRemolque;
 
     private String firebaseId;
+    private String firebaseIdTransportista;
+
     private String estatus;
     private Long fechaDeCreacion;
     private Long fechaDeEdicion;
@@ -25,15 +27,16 @@ public class Remolques implements Serializable {
 
     }
 
-    public Remolques(String numeroEconomico, String marca, String modelo, String numeroDeSerie, String placa, String idGPS, String tipoRemolque, String firebaseId, String estatus, Long fechaDeCreacion, Long fechaDeEdicion) {
+    public Remolques(String numeroEconomico, String marca, String modelo, String numeroDeSerie, String placa, String idGPS, String tipoRemolque, String firebaseId, String firebaseIdTransportista, String estatus, Long fechaDeCreacion, Long fechaDeEdicion) {
         this.numeroEconomico = numeroEconomico;
         this.marca = marca;
         this.modelo = modelo;
         this.numeroDeSerie = numeroDeSerie;
         this.placa = placa;
-        IdGPS = idGPS;
+        this.IdGPS = idGPS;
         this.tipoRemolque = tipoRemolque;
         this.firebaseId = firebaseId;
+        this.firebaseIdTransportista = firebaseIdTransportista;
         this.estatus = estatus;
         this.fechaDeCreacion = fechaDeCreacion;
         this.fechaDeEdicion = fechaDeEdicion;
@@ -101,6 +104,14 @@ public class Remolques implements Serializable {
 
     public void setFirebaseId(String firebaseId) {
         this.firebaseId = firebaseId;
+    }
+
+    public String getFirebaseIdTransportista() {
+        return firebaseIdTransportista;
+    }
+
+    public void setFirebaseIdTransportista(String firebaseIdTransportista) {
+        this.firebaseIdTransportista = firebaseIdTransportista;
     }
 
     public String getEstatus() {

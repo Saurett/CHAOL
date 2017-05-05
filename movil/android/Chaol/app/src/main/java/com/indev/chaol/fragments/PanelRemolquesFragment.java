@@ -22,6 +22,7 @@ import com.indev.chaol.R;
 import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
 import com.indev.chaol.models.DecodeExtraParams;
 import com.indev.chaol.models.Remolques;
+import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
 
 
@@ -37,6 +38,8 @@ public class PanelRemolquesFragment extends Fragment implements View.OnClickList
     private static FloatingActionButton fabRemolques;
     private ProgressDialog pDialog;
 
+    private static Usuarios _SESSION_USER;
+
     /**
      * Declaraciones para Firebase
      **/
@@ -48,6 +51,8 @@ public class PanelRemolquesFragment extends Fragment implements View.OnClickList
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_panel_remolques, container, false);
+
+        _SESSION_USER = (Usuarios) getActivity().getIntent().getSerializableExtra(Constants.KEY_SESSION_USER);
 
         btnTitulo = (Button) view.findViewById(R.id.btn_titulo_remolques);
         txtNumNoAsignado = (TextView) view.findViewById(R.id.item_num_no_asignado_panel_remolques);
@@ -133,6 +138,7 @@ public class PanelRemolquesFragment extends Fragment implements View.OnClickList
 
                 Intent intent = new Intent(getActivity(), MainRegisterActivity.class);
                 intent.putExtra(Constants.KEY_MAIN_DECODE, extraParams);
+                intent.putExtra(Constants.KEY_SESSION_USER, _SESSION_USER);
                 startActivity(intent);
                 break;
         }

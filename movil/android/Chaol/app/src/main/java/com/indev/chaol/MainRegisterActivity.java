@@ -610,7 +610,42 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
     @Override
     public void createRemolques(Remolques remolque) {
+        pDialog = new ProgressDialog(MainRegisterActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
 
+        firebaseRegistroRemolque(remolque);
+    }
+
+    private void firebaseRegistroRemolque(Remolques remolque) {
+        /**obtiene la instancia como transportista**/
+        final DatabaseReference dbTransportista =
+                FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.FB_KEY_MAIN_TRANSPORTISTAS)
+                        .child(remolque.getFirebaseIdTransportista());
+
+        String remolqueKey = dbTransportista.child(Constants.FB_KEY_MAIN_TRACTORES).push().getKey();
+
+        remolque.setFirebaseId(remolqueKey);
+        remolque.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_ACTIVO);
+        remolque.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
+        remolque.setFirebaseIdTransportista(null);
+
+        dbTransportista.child(Constants.FB_KEY_MAIN_REMOLQUES).child(remolque.getFirebaseId())
+                .setValue(remolque, new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                        pDialog.dismiss();
+                        if (databaseError == null) {
+                            finish();
+                            Toast.makeText(getApplicationContext(),
+                                    "Registrado correctamente...", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
     }
 
 

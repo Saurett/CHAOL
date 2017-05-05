@@ -78,6 +78,7 @@ public class RemolquesFragment extends Fragment implements View.OnClickListener 
 
                     for (DataSnapshot psRemolques : postSnapshot.child(Constants.FB_KEY_MAIN_REMOLQUES).getChildren()) {
                         Remolques remolque = psRemolques.getValue(Remolques.class);
+                        remolque.setFirebaseIdTransportista(postSnapshot.getKey());
                         remolquesList.add(remolque);
                     }
                 }

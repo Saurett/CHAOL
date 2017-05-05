@@ -26,6 +26,40 @@
             android:textAlignment="textStart"
             android:textColor="@color/colorIcons" />
 
+
+        <LinearLayout
+            android:id="@+id/linear_spinner_remolques_empresa"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"
+            android:paddingLeft="20dp">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_gravity="center|end"
+                android:layout_marginLeft="2dp"
+                android:layout_weight="1"
+                android:text="Empresa Transportista"
+                android:textAlignment="textEnd"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="14sp" />
+
+            <Spinner
+                android:id="@+id/spinner_remolques_empresa"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:maxLines="1"
+                android:theme="@style/AppTheme.Form" />
+
+
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -141,7 +175,7 @@
                 android:textSize="14sp" />
 
             <EditText
-                android:id="@+id/text_remolques_num_serie"
+                android:id="@+id/txt_remolques_num_serie"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="2dp"

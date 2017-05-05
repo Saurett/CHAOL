@@ -3,6 +3,7 @@ package com.indev.chaol.fragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -118,6 +120,7 @@ public class RegistroTractoresFragment extends Fragment implements View.OnClickL
                 }
 
                 onCargarSpinnerTransportistas();
+
                 if (!_SESSION_USER.getTipoUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA)) {
                     linearLayoutEmpresa.setVisibility(View.VISIBLE);
                 }
@@ -131,7 +134,6 @@ public class RegistroTractoresFragment extends Fragment implements View.OnClickL
                 Log.w(TAG, "Failed to read value.", databaseError.toException());
             }
         });
-
 
         this.onPreRender();
 
@@ -247,17 +249,17 @@ public class RegistroTractoresFragment extends Fragment implements View.OnClickL
             authorized = false;
         }
 
-        /*
-        if (spinnerEmpresa.getSelectedItemId() <= 0L) {
-            TextView errorTextSE = (TextView) spinnerEmpresa.getSelectedView();
-            errorTextSE.setError("El campo es obligatorio");
-            errorTextSE.setTextColor(Color.RED);
-            errorTextSE.setText("El campo es obligatorio");//changes t
-            errorTextSE.requestFocus();
+        if (!_SESSION_USER.getTipoUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA)) {
+            if (spinnerEmpresa.getSelectedItemId() <= 0L) {
+                TextView errorTextSE = (TextView) spinnerEmpresa.getSelectedView();
+                errorTextSE.setError("El campo es obligatorio");
+                errorTextSE.setTextColor(Color.RED);
+                errorTextSE.setText("El campo es obligatorio");//changes t
+                errorTextSE.requestFocus();
 
-            authorized = false;
+                authorized = false;
+            }
         }
-        */
 
         if (authorized) {
             this.createSimpleRow();
