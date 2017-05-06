@@ -75,11 +75,12 @@ public class PanelClientesFragment extends Fragment implements View.OnClickListe
                     Clientes cliente = postSnapshot.child(Constants.FB_KEY_ITEM_CLIENTE).getValue(Clientes.class);
 
                     if (cliente.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ACTIVO)) {
-                        count ++;
+                        count++;
                         txtNumClientes.setText(String.valueOf(count));
                     }
+                }
 
-                    pDialog.dismiss();                }
+                pDialog.dismiss();
             }
 
             @Override

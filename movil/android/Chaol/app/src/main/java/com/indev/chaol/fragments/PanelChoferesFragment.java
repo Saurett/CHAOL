@@ -77,16 +77,18 @@ public class PanelChoferesFragment extends Fragment implements View.OnClickListe
 
                     Choferes chofer = postSnapshot.getValue(Choferes.class);
 
-                    if (chofer.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ACTIVO)) {
-                        countActivo++;
-                        txtNumAutorizado.setText(String.valueOf(countActivo));
-                    } else {
-                        countInactivo++;
-                        txtNumNoAutorizado.setText(String.valueOf(countInactivo));
+                    switch (chofer.getEstatus()) {
+                        case Constants.FB_KEY_ITEM_ESTATUS_ACTIVO:
+                            countActivo++;
+                            txtNumAutorizado.setText(String.valueOf(countActivo));
+                            break;
+                        case Constants.FB_KEY_ITEM_ESTATUS_INACTIVO:
+                            countInactivo++;
+                            txtNumNoAutorizado.setText(String.valueOf(countInactivo));
+                            break;
                     }
-
-                    pDialog.dismiss();
                 }
+                pDialog.dismiss();
             }
 
             @Override

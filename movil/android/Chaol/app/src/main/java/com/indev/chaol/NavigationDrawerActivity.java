@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -31,17 +30,14 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.indev.chaol.fragments.ChoferesFragment;
-import com.indev.chaol.fragments.ClientesFragment;
-import com.indev.chaol.fragments.RemolquesFragment;
-import com.indev.chaol.fragments.TractoresFragment;
-import com.indev.chaol.fragments.TransportistasFragment;
 import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
 import com.indev.chaol.models.Administradores;
 import com.indev.chaol.models.Choferes;
 import com.indev.chaol.models.Clientes;
 import com.indev.chaol.models.DecodeExtraParams;
 import com.indev.chaol.models.DecodeItem;
+import com.indev.chaol.models.Remolques;
+import com.indev.chaol.models.Tractores;
 import com.indev.chaol.models.Transportistas;
 import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
@@ -139,7 +135,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
      **/
     private void onPreRenderSessionMenu(Menu menu) {
 
-        switch (_SESSION_USER.getTipoUsuario()) {
+        switch (_SESSION_USER.getTipoDeUsuario()) {
             case Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE:
                 /**El cliente visualizara menu de fletes y de cuentas**/
                 menu.findItem(R.id.menu_title_administracion).setVisible(false);
@@ -372,8 +368,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
                         break;
                 }
 
-                AsyncCallWS wsDeleteClientes = new AsyncCallWS(operation);
-                wsDeleteClientes.execute();
+                this.firebaseOperations(operation);
 
                 break;
         }
@@ -424,7 +419,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 FirebaseDatabase.getInstance().getReference()
                         .child("clientes");
 
-        cliente.setTipoUsuario("cliente");
+        cliente.setTipoDeUsuario("cliente");
         cliente.setFirebaseId(user.getUid());
         cliente.setEstatus("activo");
         cliente.setContraseña(null);
@@ -464,7 +459,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 FirebaseDatabase.getInstance().getReference()
                         .child("transportistas");
 
-        transportista.setTipoUsuario("transportista");
+        transportista.setTipoDeUsuario("transportista");
         transportista.setFirebaseId(user.getUid());
         transportista.setContraseña(null);
         transportista.setEstatus("activo");
@@ -528,7 +523,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 FirebaseDatabase.getInstance().getReference()
                         .child("choferes");
 
-        chofer.setTipoUsuario("chofer");
+        chofer.setTipoDeUsuario("chofer");
         chofer.setFirebaseId(user.getUid());
         chofer.setContraseña(null);
         chofer.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
@@ -591,7 +586,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 FirebaseDatabase.getInstance().getReference()
                         .child("administradores");
 
-        administrador.setTipoUsuario("administrador");
+        administrador.setTipoDeUsuario("administrador");
         administrador.setFirebaseId(user.getUid());
         administrador.setContraseña(null);
         administrador.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
@@ -610,6 +605,260 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
         Log.i(TAG, "firebaseRegistroChoferes: Actualizado correctamente" + user.getUid());
 
+    }
+
+    /**Elimina los objetos deacuerdo a la operacion**/
+    private void firebaseOperations(int operation) {
+        pDialog = new ProgressDialog(NavigationDrawerActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        switch (operation) {
+            case Constants.WS_KEY_ELIMINAR_CLIENTES:
+                this.firebaseDeleteCliente();
+                break;
+            case Constants.WS_KEY_ELIMINAR_TRANSPORTISTAS:
+                this.firebaseDeleteTransportista();
+                break;
+            case Constants.WS_KEY_ELIMINAR_CHOFERES:
+                this.firebaseDeleteChofer();
+                break;
+            case Constants.WS_KEY_ELIMINAR_TRACTORES:
+                this.firebaseDeleteTractor();
+                break;
+            case Constants.WS_KEY_ELIMINAR_REMOLQUES:
+                this.firebaseDeleteRemolque();
+                break;
+        }
+    }
+
+    /**Elimina especificamente el objeto seleccionado**/
+    private void firebaseDeleteColaborador() {
+        final Choferes chofer = (Choferes) getDecodeItem().getItemModel();
+
+        /**obtiene la instancia del elemento**/
+        DatabaseReference dbChofer =
+                FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.FB_KEY_MAIN_TRANSPORTISTAS)
+                        .child(chofer.getFirebaseIdTransportista())
+                        .child(Constants.FB_KEY_MAIN_CHOFERES)
+                        .child(chofer.getFirebaseId());
+
+        chofer.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO);
+        chofer.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
+
+        dbChofer.setValue(chofer, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                pDialog.dismiss();
+
+                if (databaseError == null) {
+
+                    pDialog = new ProgressDialog(NavigationDrawerActivity.this);
+                    pDialog.setMessage(getString(R.string.default_loading_msg));
+                    pDialog.setIndeterminate(false);
+                    pDialog.setCancelable(false);
+                    pDialog.show();
+
+                    /**obtiene la instancia del elemento**/
+                    DatabaseReference dbChofer =
+                            FirebaseDatabase.getInstance().getReference()
+                                    .child(Constants.FB_KEY_MAIN_CHOFERES)
+                                    .child(chofer.getFirebaseId());
+
+                    dbChofer.setValue(chofer, new DatabaseReference.CompletionListener() {
+                        @Override
+                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                            pDialog.dismiss();
+                            if (databaseError == null) {
+                                Toast.makeText(getApplicationContext(),
+                                        "Eliminado correctamente...", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    });
+                }
+            }
+        });
+
+        Log.i(TAG,"firebaseDeleteChofer: Eliminado correctamente" + chofer.getFirebaseId());
+    }
+
+    /**Elimina especificamente el objeto seleccionado**/
+    private void firebaseDeleteCliente() {
+        final Clientes cliente = (Clientes) getDecodeItem().getItemModel();
+
+        /**obtiene la instancia del elemento**/
+        DatabaseReference dbCliente =
+                FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.FB_KEY_MAIN_CLIENTES)
+                        .child(cliente.getFirebaseId())
+                        .child(Constants.FB_KEY_ITEM_CLIENTE);
+
+        cliente.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO);
+        cliente.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
+
+        dbCliente.setValue(cliente, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                pDialog.dismiss();
+                if (databaseError == null) {
+                    Toast.makeText(getApplicationContext(),
+                            "Eliminado correctamente...", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        Log.i(TAG,"firebaseDeleteCliente: Eliminado correctamente" + cliente.getFirebaseId());
+    }
+
+    /**Elimina especificamente el objeto seleccionado**/
+    private void firebaseDeleteTransportista() {
+        final Transportistas transportista = (Transportistas) getDecodeItem().getItemModel();
+
+        /**obtiene la instancia del elemento**/
+        DatabaseReference dbTransportista =
+                FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.FB_KEY_MAIN_TRANSPORTISTAS)
+                        .child(transportista.getFirebaseId())
+                        .child(Constants.FB_KEY_ITEM_TRANSPORTISTA);
+
+        transportista.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO);
+        transportista.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
+
+        dbTransportista.setValue(transportista, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                pDialog.dismiss();
+
+                if (databaseError == null) {
+                    Toast.makeText(getApplicationContext(),
+                            "Eliminado correctamente...", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        Log.i(TAG,"firebaseDeleteTransportista: Eliminado correctamente" + transportista.getFirebaseId());
+    }
+
+    /**Elimina especificamente el objeto seleccionado**/
+    private void firebaseDeleteChofer() {
+        final Choferes chofer = (Choferes) getDecodeItem().getItemModel();
+
+        /**obtiene la instancia del elemento**/
+        DatabaseReference dbChofer =
+                FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.FB_KEY_MAIN_TRANSPORTISTAS)
+                        .child(chofer.getFirebaseIdTransportista())
+                        .child(Constants.FB_KEY_MAIN_CHOFERES)
+                        .child(chofer.getFirebaseId());
+
+        chofer.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO);
+        chofer.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
+
+        dbChofer.setValue(chofer, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                pDialog.dismiss();
+
+                if (databaseError == null) {
+
+                    pDialog = new ProgressDialog(NavigationDrawerActivity.this);
+                    pDialog.setMessage(getString(R.string.default_loading_msg));
+                    pDialog.setIndeterminate(false);
+                    pDialog.setCancelable(false);
+                    pDialog.show();
+
+                    /**obtiene la instancia del elemento**/
+                    DatabaseReference dbChofer =
+                            FirebaseDatabase.getInstance().getReference()
+                                    .child(Constants.FB_KEY_MAIN_CHOFERES)
+                                    .child(chofer.getFirebaseId());
+
+                    dbChofer.setValue(chofer, new DatabaseReference.CompletionListener() {
+                        @Override
+                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                            pDialog.dismiss();
+                            if (databaseError == null) {
+                                Toast.makeText(getApplicationContext(),
+                                        "Eliminado correctamente...", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    });
+                }
+            }
+        });
+
+        Log.i(TAG,"firebaseDeleteChofer: Eliminado correctamente" + chofer.getFirebaseId());
+    }
+
+    /**Elimina especificamente el objeto seleccionado**/
+    private void firebaseDeleteTractor() {
+        Tractores tractor = (Tractores) getDecodeItem().getItemModel();
+
+        /**obtiene la instancia como cliente**/
+        DatabaseReference dbTractor =
+                FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.FB_KEY_MAIN_TRANSPORTISTAS)
+                        .child(tractor.getFirebaseIdTransportista())
+                        .child(Constants.FB_KEY_MAIN_TRACTORES)
+                        .child(tractor.getFirebaseId());
+
+        tractor.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO);
+        tractor.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
+        tractor.setFirebaseIdTransportista(null);
+
+        dbTractor.setValue(tractor, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                pDialog.dismiss();
+
+                if (databaseError == null) {
+                    Toast.makeText(getApplicationContext(),
+                            "Eliminado correctamente...", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        Log.i(TAG,"firebaseDeleteRemolque: Eliminado correctamente" + tractor.getFirebaseId());
+    }
+
+    /**Elimina especificamente el objeto seleccionado**/
+    private void firebaseDeleteRemolque() {
+        Remolques remolque = (Remolques) getDecodeItem().getItemModel();
+
+        /**obtiene la instancia como cliente**/
+        DatabaseReference dbRemolque =
+                FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.FB_KEY_MAIN_TRANSPORTISTAS)
+                        .child(remolque.getFirebaseIdTransportista())
+                        .child(Constants.FB_KEY_MAIN_REMOLQUES)
+                        .child(remolque.getFirebaseId());
+
+        remolque.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO);
+        remolque.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
+        remolque.setFirebaseIdTransportista(null);
+
+        dbRemolque.setValue(remolque, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                pDialog.dismiss();
+
+                if (databaseError == null) {
+                    Toast.makeText(getApplicationContext(),
+                            "Eliminado correctamente...", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        Log.i(TAG,"firebaseDeleteRemolque: Eliminado correctamente" + remolque.getFirebaseId());
     }
 
     @Override
@@ -631,93 +880,5 @@ public class NavigationDrawerActivity extends AppCompatActivity
     @Override
     public void onDrawerStateChanged(int newState) {
 
-    }
-
-
-    private class AsyncCallWS extends AsyncTask<Void, Void, Boolean> {
-
-        private Integer webServiceOperation;
-        private String textError;
-
-        public AsyncCallWS(Integer wsOperation) {
-            webServiceOperation = wsOperation;
-            textError = "";
-        }
-
-        @Override
-        protected void onPreExecute() {
-            pDialog = new ProgressDialog(NavigationDrawerActivity.this);
-            pDialog.setMessage(getString(R.string.default_loading_msg));
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(false);
-            pDialog.show();
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-
-            Boolean validOperation = false;
-
-            try {
-                switch (webServiceOperation) {
-                    case Constants.WS_KEY_ELIMINAR_CLIENTES:
-                        //TODO Eliminar desde el servidor
-                        validOperation = true;
-                        break;
-                    case Constants.WS_KEY_ELIMINAR_TRANSPORTISTAS:
-                        //TODO Eliminar desde el servidor
-                        validOperation = true;
-                        break;
-                    case Constants.WS_KEY_ELIMINAR_CHOFERES:
-                        //TODO Eliminar desde el servidor
-                        validOperation = true;
-                        break;
-                    case Constants.WS_KEY_ELIMINAR_TRACTORES:
-                        //TODO Eliminar desde el servidor
-                        validOperation = true;
-                        break;
-                    case Constants.WS_KEY_ELIMINAR_REMOLQUES:
-                        //TODO Eliminar desde el servidor
-                        validOperation = true;
-                        break;
-                }
-            } catch (Exception e) {
-                textError = e.getMessage();
-                validOperation = false;
-            }
-
-            return validOperation;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            try {
-                pDialog.dismiss();
-                if (success) {
-                    switch (webServiceOperation) {
-                        case Constants.WS_KEY_ELIMINAR_CLIENTES:
-                            ClientesFragment.deleteItem(getDecodeItem());
-                            break;
-                        case Constants.WS_KEY_ELIMINAR_TRANSPORTISTAS:
-                            TransportistasFragment.deleteItem(getDecodeItem());
-                            break;
-                        case Constants.WS_KEY_ELIMINAR_CHOFERES:
-                            ChoferesFragment.deleteItem(getDecodeItem());
-                            break;
-                        case Constants.WS_KEY_ELIMINAR_TRACTORES:
-                            TractoresFragment.deleteItem(getDecodeItem());
-                            break;
-                        case Constants.WS_KEY_ELIMINAR_REMOLQUES:
-                            RemolquesFragment.deleteItem(getDecodeItem());
-                            break;
-                    }
-                } else {
-                    String tempText = (textError.isEmpty() ? "La lista  se encuentra vacía" : textError);
-                    Toast.makeText(getApplicationContext(), tempText, Toast.LENGTH_SHORT).show();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
     }
 }

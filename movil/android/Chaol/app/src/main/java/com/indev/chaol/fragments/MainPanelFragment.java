@@ -46,7 +46,7 @@ public class MainPanelFragment extends Fragment {
 
     /**Carga los paneles por el tipo de usuario**/
     public void onPreRenderSessionPanel() {
-        switch (_SESSION_USER.getTipoUsuario()) {
+        switch (_SESSION_USER.getTipoDeUsuario()) {
             case  Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE:
                 mainFragment.add(R.id.panel_fletes_container, new PanelFletesFragment(), Constants.PANEL_FLETES_CONTAINER);
                 break;

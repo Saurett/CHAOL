@@ -121,7 +121,7 @@ public class RegistroTractoresFragment extends Fragment implements View.OnClickL
 
                 onCargarSpinnerTransportistas();
 
-                if (!_SESSION_USER.getTipoUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA)) {
+                if (!_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA)) {
                     linearLayoutEmpresa.setVisibility(View.VISIBLE);
                 }
                 pDialog.dismiss();
@@ -249,7 +249,7 @@ public class RegistroTractoresFragment extends Fragment implements View.OnClickL
             authorized = false;
         }
 
-        if (!_SESSION_USER.getTipoUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA)) {
+        if (!_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA)) {
             if (spinnerEmpresa.getSelectedItemId() <= 0L) {
                 TextView errorTextSE = (TextView) spinnerEmpresa.getSelectedView();
                 errorTextSE.setError("El campo es obligatorio");
@@ -302,7 +302,7 @@ public class RegistroTractoresFragment extends Fragment implements View.OnClickL
     private int onPreRenderSelectTransportista() {
         int item = 0;
 
-        if (_SESSION_USER.getTipoUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA)) {
+        if (_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA)) {
             for (Transportistas transportista : transportistas) {
                 item++;
                 if (transportista.getFirebaseId().equals(_SESSION_USER.getFirebaseId())) {

@@ -77,16 +77,19 @@ public class PanelTransportistasFragment extends Fragment implements View.OnClic
 
                     Transportistas transportista = postSnapshot.child(Constants.FB_KEY_ITEM_TRANSPORTISTA).getValue(Transportistas.class);
 
-                    if (transportista.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ACTIVO)) {
-                        countActivo++;
-                        txtNumAutorizado.setText(String.valueOf(countActivo));
-                    } else {
-                        countInactivo++;
-                        txtNumNoAutorizado.setText(String.valueOf(countInactivo));
+                    switch (transportista.getEstatus()) {
+                        case Constants.FB_KEY_ITEM_ESTATUS_ACTIVO:
+                            countActivo++;
+                            txtNumAutorizado.setText(String.valueOf(countActivo));
+                            break;
+                        case Constants.FB_KEY_ITEM_ESTATUS_INACTIVO:
+                            countInactivo++;
+                            txtNumNoAutorizado.setText(String.valueOf(countInactivo));
+                            break;
                     }
-
-                    pDialog.dismiss();
                 }
+
+                pDialog.dismiss();
             }
 
             @Override

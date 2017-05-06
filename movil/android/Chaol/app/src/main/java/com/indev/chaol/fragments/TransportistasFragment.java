@@ -77,7 +77,9 @@ public class TransportistasFragment extends Fragment implements View.OnClickList
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 
                     Transportistas transportista = postSnapshot.child(Constants.FB_KEY_ITEM_TRANSPORTISTA).getValue(Transportistas.class);
-                    transportistasList.add(transportista);
+                    if (!transportista.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO)) {
+                        transportistasList.add(transportista);
+                    }
                 }
 
                 onPreRenderTransportistas();
@@ -97,14 +99,14 @@ public class TransportistasFragment extends Fragment implements View.OnClickList
     /**Carga el listado predeterminado de firebase**/
     private void onPreRenderTransportistas() {
 
-        if (transportistasList.size() > 0) {
-            transportistasAdapter.addAll(transportistasList);
+        transportistasAdapter.addAll(transportistasList);
 
-            recyclerViewTransportistas.setAdapter(transportistasAdapter);
+        recyclerViewTransportistas.setAdapter(transportistasAdapter);
 
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-            recyclerViewTransportistas.setLayoutManager(linearLayoutManager);
-        } else {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerViewTransportistas.setLayoutManager(linearLayoutManager);
+
+        if (transportistasList.size() == 0) {
             Toast.makeText(getActivity(), "La lista se encuentra vacía", Toast.LENGTH_SHORT).show();
         }
 

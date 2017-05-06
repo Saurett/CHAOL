@@ -78,8 +78,11 @@ public class RemolquesFragment extends Fragment implements View.OnClickListener 
 
                     for (DataSnapshot psRemolques : postSnapshot.child(Constants.FB_KEY_MAIN_REMOLQUES).getChildren()) {
                         Remolques remolque = psRemolques.getValue(Remolques.class);
-                        remolque.setFirebaseIdTransportista(postSnapshot.getKey());
-                        remolquesList.add(remolque);
+
+                        if (!remolque.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO)) {
+                            remolque.setFirebaseIdTransportista(postSnapshot.getKey());
+                            remolquesList.add(remolque);
+                        }
                     }
                 }
 
@@ -99,14 +102,14 @@ public class RemolquesFragment extends Fragment implements View.OnClickListener 
 
     /**Carga el listado predeterminado de firebase**/
     private void onPreRenderRemolques() {
-        if (remolquesList.size() > 0) {
-            remolquesAdapter.addAll(remolquesList);
 
-            recyclerViewRemolques.setAdapter(remolquesAdapter);
+        remolquesAdapter.addAll(remolquesList);
+        recyclerViewRemolques.setAdapter(remolquesAdapter);
 
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-            recyclerViewRemolques.setLayoutManager(linearLayoutManager);
-        } else {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerViewRemolques.setLayoutManager(linearLayoutManager);
+
+        if (remolquesList.size() == 0) {
             Toast.makeText(getActivity(), "La lista se encuentra vacía", Toast.LENGTH_SHORT).show();
         }
 

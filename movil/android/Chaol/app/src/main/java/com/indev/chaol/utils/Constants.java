@@ -42,6 +42,7 @@ public final class Constants {
     public static final String FB_KEY_ITEM_ADMINISTRADOR = "administrador";
     public static final String FB_KEY_ITEM_ESTATUS_ACTIVO = "activo";
     public static final String FB_KEY_ITEM_ESTATUS_INACTIVO = "inactivo";
+    public static final String FB_KEY_ITEM_ESTATUS_ELIMINADO = "eliminado";
     public static final String FB_KEY_MAIN_USUARIOS = "usuarios";
     public static final String FB_KEY_MAIN_CLIENTES = "clientes";
     public static final String FB_KEY_MAIN_TRANSPORTISTAS = "transportistas";

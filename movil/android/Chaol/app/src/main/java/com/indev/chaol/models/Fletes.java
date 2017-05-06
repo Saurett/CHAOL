@@ -11,13 +11,17 @@ public class Fletes implements Serializable {
     private int cve;
     private int id;
     private String nombre;
+    private String firebaseId;
 
     public Fletes() {
 
     }
 
-    public Fletes(String _nombre) {
-        this.nombre = _nombre;
+    public Fletes(int cve, int id, String nombre, String firebaseId) {
+        this.cve = cve;
+        this.id = id;
+        this.nombre = nombre;
+        this.firebaseId = firebaseId;
     }
 
     public int getCve() {
@@ -42,5 +46,13 @@ public class Fletes implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getFirebaseId() {
+        return firebaseId;
+    }
+
+    public void setFirebaseId(String firebaseId) {
+        this.firebaseId = firebaseId;
     }
 }

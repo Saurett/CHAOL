@@ -60,7 +60,7 @@ public class MainPerfilesFragment extends Fragment {
 
         getActivity().getIntent().putExtra(Constants.KEY_MAIN_DECODE,extraParams);
 
-        switch (_SESSION_USER.getTipoUsuario()) {
+        switch (_SESSION_USER.getTipoDeUsuario()) {
             case Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE:
                 mainFragment.replace(R.id.panel_perfiles_container, new PerfilClientesFragment(), Constants.FRAGMENT_MAIN_PERFIL);
                 mainFragment.commit();

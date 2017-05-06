@@ -255,7 +255,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 FirebaseDatabase.getInstance().getReference()
                         .child(Constants.FB_KEY_MAIN_CLIENTES);
 
-        cliente.setTipoUsuario(Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE);
+        cliente.setTipoDeUsuario(Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE);
         cliente.setFirebaseId(user.getUid());
         cliente.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_ACTIVO);
         cliente.setContraseña(null);
@@ -270,7 +270,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                     DatabaseReference dbUsuario =
                             FirebaseDatabase.getInstance().getReference()
                                     .child(Constants.FB_KEY_MAIN_USUARIOS);
-                    dbUsuario.child(user.getUid()).setValue(cliente.getTipoUsuario(), new DatabaseReference.CompletionListener() {
+                    dbUsuario.child(user.getUid()).setValue(cliente.getTipoDeUsuario(), new DatabaseReference.CompletionListener() {
 
                         @Override
                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -332,7 +332,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 FirebaseDatabase.getInstance().getReference()
                         .child(Constants.FB_KEY_MAIN_TRANSPORTISTAS);
 
-        transportista.setTipoUsuario(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA);
+        transportista.setTipoDeUsuario(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA);
         transportista.setFirebaseId(user.getUid());
         transportista.setContraseña(null);
         transportista.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_ACTIVO);
@@ -349,7 +349,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                             FirebaseDatabase.getInstance().getReference()
                                     .child(Constants.FB_KEY_MAIN_USUARIOS);
 
-                    dbUsuario.child(user.getUid()).setValue(transportista.getTipoUsuario(), new DatabaseReference.CompletionListener() {
+                    dbUsuario.child(user.getUid()).setValue(transportista.getTipoDeUsuario(), new DatabaseReference.CompletionListener() {
                         @Override
                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
@@ -432,7 +432,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 FirebaseDatabase.getInstance().getReference()
                         .child(Constants.FB_KEY_MAIN_CHOFERES);
 
-        chofer.setTipoUsuario(Constants.FB_KEY_ITEM_TIPO_USUARIO_CHOFER);
+        chofer.setTipoDeUsuario(Constants.FB_KEY_ITEM_TIPO_USUARIO_CHOFER);
         chofer.setFirebaseId(user.getUid());
         chofer.setContraseña(null);
         chofer.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_INACTIVO);
@@ -449,7 +449,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                             FirebaseDatabase.getInstance().getReference()
                                     .child(Constants.FB_KEY_MAIN_USUARIOS);
 
-                    dbUsuario.child(user.getUid()).setValue(chofer.getTipoUsuario(), new DatabaseReference.CompletionListener() {
+                    dbUsuario.child(user.getUid()).setValue(chofer.getTipoDeUsuario(), new DatabaseReference.CompletionListener() {
                         @Override
                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 

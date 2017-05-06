@@ -12,7 +12,7 @@ public class Administradores implements Serializable {
     private String correoElectronico;
     private String contraseña;
 
-    private String tipoUsuario;
+    private String tipoDeUsuario;
     private String firebaseId;
     private String estatus;
     private Long fechaDeCreacion;
@@ -30,11 +30,11 @@ public class Administradores implements Serializable {
         this.nombre = nombre;
     }
 
-    public Administradores(String nombre, String correoElectronico, String contraseña, String tipoUsuario, String firebaseId, String estatus, Long fechaDeCreacion, Long fechaDeEdicion) {
+    public Administradores(String nombre, String correoElectronico, String contraseña, String tipoDeUsuario, String firebaseId, String estatus, Long fechaDeCreacion, Long fechaDeEdicion) {
         this.nombre = nombre;
         this.correoElectronico = correoElectronico;
         this.contraseña = contraseña;
-        this.tipoUsuario = tipoUsuario;
+        this.tipoDeUsuario = tipoDeUsuario;
         this.firebaseId = firebaseId;
         this.estatus = estatus;
         this.fechaDeCreacion = fechaDeCreacion;
@@ -65,12 +65,12 @@ public class Administradores implements Serializable {
         this.contraseña = contraseña;
     }
 
-    public String getTipoUsuario() {
-        return tipoUsuario;
+    public String getTipoDeUsuario() {
+        return tipoDeUsuario;
     }
 
-    public void setTipoUsuario(String tipoUsuario) {
-        this.tipoUsuario = tipoUsuario;
+    public void setTipoDeUsuario(String tipoDeUsuario) {
+        this.tipoDeUsuario = tipoDeUsuario;
     }
 
     public String getFirebaseId() {

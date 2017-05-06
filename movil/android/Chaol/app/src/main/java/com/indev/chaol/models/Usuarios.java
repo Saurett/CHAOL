@@ -8,22 +8,22 @@ import java.io.Serializable;
 
 public class Usuarios implements Serializable {
 
-    private String tipoUsuario;
+    private String tipoDeUsuario;
     private String firebaseId;
     private String token;
 
-    public Usuarios(String tipoUsuario, String firebaseId, String token) {
-        this.tipoUsuario = tipoUsuario;
+    public Usuarios(String tipoDeUsuario, String firebaseId, String token) {
+        this.tipoDeUsuario = tipoDeUsuario;
         this.firebaseId = firebaseId;
         this.token = token;
     }
 
-    public String getTipoUsuario() {
-        return tipoUsuario;
+    public String getTipoDeUsuario() {
+        return tipoDeUsuario;
     }
 
-    public void setTipoUsuario(String tipoUsuario) {
-        this.tipoUsuario = tipoUsuario;
+    public void setTipoDeUsuario(String tipoDeUsuario) {
+        this.tipoDeUsuario = tipoDeUsuario;
     }
 
     public String getFirebaseId() {

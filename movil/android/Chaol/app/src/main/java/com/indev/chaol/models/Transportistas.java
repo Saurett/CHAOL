@@ -24,7 +24,7 @@ public class Transportistas implements Serializable {
     private String correoElectronico;
     private String contraseña;
 
-    private String tipoUsuario;
+    private String tipoDeUsuario;
     private String firebaseId;
     private String estatus;
     private Long fechaDeCreacion;
@@ -42,7 +42,7 @@ public class Transportistas implements Serializable {
         this.nombre = nombre;
     }
 
-    public Transportistas(String nombre, String representanteLegal, String RFC, String estado, String ciudad, String colonia, String codigoPostal, String calle, String numeroInterior, String numeroExterior, String telefono, String celular, String prooveedorGPS, String correoElectronico, String contraseña, String tipoUsuario, String firebaseId, String estatus, Long fechaDeCreacion, Long fechaDeEdicion) {
+    public Transportistas(String nombre, String representanteLegal, String RFC, String estado, String ciudad, String colonia, String codigoPostal, String calle, String numeroInterior, String numeroExterior, String telefono, String celular, String prooveedorGPS, String correoElectronico, String contraseña, String tipoDeUsuario, String firebaseId, String estatus, Long fechaDeCreacion, Long fechaDeEdicion) {
         this.nombre = nombre;
         this.representanteLegal = representanteLegal;
         this.RFC = RFC;
@@ -58,7 +58,7 @@ public class Transportistas implements Serializable {
         this.prooveedorGPS = prooveedorGPS;
         this.correoElectronico = correoElectronico;
         this.contraseña = contraseña;
-        this.tipoUsuario = tipoUsuario;
+        this.tipoDeUsuario = tipoDeUsuario;
         this.firebaseId = firebaseId;
         this.estatus = estatus;
         this.fechaDeCreacion = fechaDeCreacion;
@@ -185,12 +185,12 @@ public class Transportistas implements Serializable {
         this.contraseña = contraseña;
     }
 
-    public String getTipoUsuario() {
-        return tipoUsuario;
+    public String getTipoDeUsuario() {
+        return tipoDeUsuario;
     }
 
-    public void setTipoUsuario(String tipoUsuario) {
-        this.tipoUsuario = tipoUsuario;
+    public void setTipoDeUsuario(String tipoDeUsuario) {
+        this.tipoDeUsuario = tipoDeUsuario;
     }
 
     public String getFirebaseId() {

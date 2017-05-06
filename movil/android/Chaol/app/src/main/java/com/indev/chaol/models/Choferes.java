@@ -28,7 +28,7 @@ public class Choferes implements Serializable {
     private String contraseña;
 
     private String imagenURL;
-    private String tipoUsuario;
+    private String tipoDeUsuario;
 
     private String firebaseId;
     private String firebaseIdTransportista;
@@ -65,7 +65,7 @@ public class Choferes implements Serializable {
         this.correoElectronico = correoElectronico;
         this.contraseña = contraseña;
         this.imagenURL = imagenURL;
-        this.tipoUsuario = tipoUsuario;
+        this.tipoDeUsuario = tipoUsuario;
         this.firebaseId = firebaseId;
         this.firebaseIdTransportista = firebaseIdTransportista;
         this.estatus = estatus;
@@ -225,12 +225,12 @@ public class Choferes implements Serializable {
         this.imagenURL = imagenURL;
     }
 
-    public String getTipoUsuario() {
-        return tipoUsuario;
+    public String getTipoDeUsuario() {
+        return tipoDeUsuario;
     }
 
-    public void setTipoUsuario(String tipoUsuario) {
-        this.tipoUsuario = tipoUsuario;
+    public void setTipoDeUsuario(String tipoDeUsuario) {
+        this.tipoDeUsuario = tipoDeUsuario;
     }
 
     public String getFirebaseId() {

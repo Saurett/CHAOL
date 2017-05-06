@@ -153,7 +153,7 @@ public class PerfilClientesFragment extends Fragment implements View.OnClickList
 
         DatabaseReference dbCliente =
                 FirebaseDatabase.getInstance().getReference()
-                        .child("clientes").child(user.getUid()).child("cliente");
+                        .child(Constants.FB_KEY_MAIN_CLIENTES).child(user.getUid()).child(Constants.FB_KEY_ITEM_CLIENTE);
 
         pDialog = new ProgressDialog(getContext());
         pDialog.setMessage(getString(R.string.default_loading_msg));

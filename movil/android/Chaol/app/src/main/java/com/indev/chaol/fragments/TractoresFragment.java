@@ -78,8 +78,10 @@ public class TractoresFragment extends Fragment implements View.OnClickListener 
 
                     for (DataSnapshot psTractores : postSnapshot.child(Constants.FB_KEY_MAIN_TRACTORES).getChildren()) {
                         Tractores tractor = psTractores.getValue(Tractores.class);
-                        tractor.setFirebaseIdTransportista(postSnapshot.getKey());
-                        tractoresList.add(tractor);
+                        if (!tractor.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO)) {
+                            tractor.setFirebaseIdTransportista(postSnapshot.getKey());
+                            tractoresList.add(tractor);
+                        }
                     }
                 }
 
@@ -100,14 +102,14 @@ public class TractoresFragment extends Fragment implements View.OnClickListener 
     /**Carga el listado predeterminado de firebase**/
     private void onPreRenderTractores() {
 
-        if (tractoresList.size() > 0) {
-            tractoresAdapter.addAll(tractoresList);
+        tractoresAdapter.addAll(tractoresList);
 
-            recyclerViewTractores.setAdapter(tractoresAdapter);
+        recyclerViewTractores.setAdapter(tractoresAdapter);
 
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-            recyclerViewTractores.setLayoutManager(linearLayoutManager);
-        } else {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerViewTractores.setLayoutManager(linearLayoutManager);
+
+        if (tractoresList.size() == 0) {
             Toast.makeText(getActivity(), "La lista se encuentra vacía", Toast.LENGTH_SHORT).show();
         }
 

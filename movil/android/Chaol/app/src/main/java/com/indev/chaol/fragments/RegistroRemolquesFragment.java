@@ -32,7 +32,6 @@ import com.indev.chaol.R;
 import com.indev.chaol.models.DecodeExtraParams;
 import com.indev.chaol.models.Remolques;
 import com.indev.chaol.models.TiposRemolques;
-import com.indev.chaol.models.Tractores;
 import com.indev.chaol.models.Transportistas;
 import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
@@ -129,7 +128,7 @@ public class RegistroRemolquesFragment extends Fragment implements View.OnClickL
                 }
 
                 onCargarSpinnerTransportistas();
-                if (!_SESSION_USER.getTipoUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA)) {
+                if (!_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA)) {
                     linearLayoutEmpresa.setVisibility(View.VISIBLE);
                 }
                 pDialog.dismiss();
@@ -166,21 +165,12 @@ public class RegistroRemolquesFragment extends Fragment implements View.OnClickL
     public void onPreRender() {
 
         this.onCargarTiposRemolques();
-        this.onCargarSpinnerTiposRemolqus();
+        this.onCargarSpinnerTiposRemolques();
 
         switch (_MAIN_DECODE.getAccionFragmento()) {
             case Constants.ACCION_EDITAR:
                 /**Carga los valores iniciales al editar**/
                 this.onPreRenderEditar();
-                /**Obtiene el item selecionado en el fragmento de lista**/
-                Remolques remolques = (Remolques) _MAIN_DECODE.getDecodeItem().getItemModel();
-
-                /**Asigna valores del item seleccionado**/
-                txtNumEconomico.setText(remolques.getNumeroEconomico());
-
-                /**Modifica valores predeterminados de ciertos elementos**/
-                btnTitulo.setText(getString(Constants.TITLE_FORM_ACTION.get(_MAIN_DECODE.getAccionFragmento())));
-                fabRemolques.setImageDrawable(getResources().getDrawable(R.mipmap.ic_mode_edit_white_18dp));
                 break;
             case Constants.ACCION_REGISTRAR:
                 /**Modifica valores predeterminados de ciertos elementos**/
@@ -222,6 +212,8 @@ public class RegistroRemolquesFragment extends Fragment implements View.OnClickL
                 txtNumSerie.setText(remolque.getNumeroDeSerie());
                 txtPlaca.setText(remolque.getPlaca());
                 txtIdGPS.setText(remolque.getIdGPS());
+
+                onCargarSpinnerTiposRemolques();
 
                 pDialogRender.dismiss();
             }
@@ -268,7 +260,7 @@ public class RegistroRemolquesFragment extends Fragment implements View.OnClickL
             authorized = false;
         }
 
-        if (!_SESSION_USER.getTipoUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA)) {
+        if (!_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA)) {
             if (spinnerEmpresa.getSelectedItemId() <= 0L) {
                 TextView errorTextSE = (TextView) spinnerEmpresa.getSelectedView();
                 errorTextSE.setError("El campo es obligatorio");
@@ -332,7 +324,7 @@ public class RegistroRemolquesFragment extends Fragment implements View.OnClickL
     private int onPreRenderSelectTransportista() {
         int item = 0;
 
-        if (_SESSION_USER.getTipoUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA)) {
+        if (_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA)) {
             for (Transportistas transportista : transportistas) {
                 item++;
                 if (transportista.getFirebaseId().equals(_SESSION_USER.getFirebaseId())) {
@@ -410,7 +402,7 @@ public class RegistroRemolquesFragment extends Fragment implements View.OnClickL
 
     }
 
-    private void onCargarSpinnerTiposRemolqus() {
+    private void onCargarSpinnerTiposRemolques() {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
                 R.layout.text_spinner, tiposRemolquesList);
 
@@ -423,7 +415,7 @@ public class RegistroRemolquesFragment extends Fragment implements View.OnClickL
     private int onPreRenderSelectTipoRemolque() {
         int item = 0;
 
-        if (_SESSION_USER.getTipoUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA)) {
+        if (_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA)) {
 
             if (_MAIN_DECODE.getAccionFragmento() == Constants.ACCION_EDITAR) {
                 Remolques remolque = (Remolques) _MAIN_DECODE.getDecodeItem().getItemModel();

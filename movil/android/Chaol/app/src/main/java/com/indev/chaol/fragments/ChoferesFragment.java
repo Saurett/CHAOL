@@ -75,9 +75,10 @@ public class ChoferesFragment extends Fragment implements View.OnClickListener {
                 choferesList = new ArrayList<>();
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-
                     Choferes chofer = postSnapshot.getValue(Choferes.class);
-                    choferesList.add(chofer);
+                    if (!chofer.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO)) {
+                        choferesList.add(chofer);
+                    }
                 }
 
                 onPreRenderChoferes();
@@ -99,14 +100,12 @@ public class ChoferesFragment extends Fragment implements View.OnClickListener {
      **/
     private void onPreRenderChoferes() {
 
-        if (choferesList.size() > 0) {
-            choferesAdapter.addAll(choferesList);
+        choferesAdapter.addAll(choferesList);
+        recyclerViewChoferes.setAdapter(choferesAdapter);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerViewChoferes.setLayoutManager(linearLayoutManager);
 
-            recyclerViewChoferes.setAdapter(choferesAdapter);
-
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-            recyclerViewChoferes.setLayoutManager(linearLayoutManager);
-        } else {
+        if (choferesList.size() == 0) {
             Toast.makeText(getActivity(), "La lista se encuentra vacía", Toast.LENGTH_SHORT).show();
         }
 

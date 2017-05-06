@@ -77,7 +77,9 @@ public class ClientesFragment extends Fragment implements View.OnClickListener {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 
                     Clientes cliente = postSnapshot.child(Constants.FB_KEY_ITEM_CLIENTE).getValue(Clientes.class);
-                    clientesList.add(cliente);
+                    if (!cliente.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO)) {
+                        clientesList.add(cliente);
+                    }
                 }
 
                 onPreRenderClientes();
@@ -98,14 +100,14 @@ public class ClientesFragment extends Fragment implements View.OnClickListener {
     /**Carga el listado predeterminado de firebase**/
     private void onPreRenderClientes() {
 
-        if (clientesList.size() > 0) {
-            clientesAdapter.addAll(clientesList);
+        clientesAdapter.addAll(clientesList);
 
-            recyclerViewClientes.setAdapter(clientesAdapter);
+        recyclerViewClientes.setAdapter(clientesAdapter);
 
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-            recyclerViewClientes.setLayoutManager(linearLayoutManager);
-        } else {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerViewClientes.setLayoutManager(linearLayoutManager);
+
+        if (clientesList.size() == 0) {
             Toast.makeText(getActivity(), "La lista se encuentra vacía", Toast.LENGTH_SHORT).show();
         }
 

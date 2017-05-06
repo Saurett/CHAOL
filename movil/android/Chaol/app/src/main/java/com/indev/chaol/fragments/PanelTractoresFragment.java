@@ -89,9 +89,9 @@ public class PanelTractoresFragment extends Fragment implements View.OnClickList
                             txtNumNoAsignado.setText(String.valueOf(countActivo));
                         }
                     }
-
-                    pDialog.dismiss();
                 }
+
+                pDialog.dismiss();
             }
 
             @Override
