@@ -85,6 +85,10 @@ public class PanelRemolquesFragment extends Fragment implements View.OnClickList
 
                         Remolques remolque = psRemolque.getValue(Remolques.class);
 
+                        if (_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA)) {
+                            if (!_SESSION_USER.getFirebaseId().equals(postSnapshot.getKey())) continue;
+                        }
+
                         if (remolque.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ACTIVO)) {
                             countActivo++;
                             txtNumNoAsignado.setText(String.valueOf(countActivo));

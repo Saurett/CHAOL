@@ -22,6 +22,7 @@ import com.indev.chaol.adapters.RemolquesAdapter;
 import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
 import com.indev.chaol.models.DecodeItem;
 import com.indev.chaol.models.Remolques;
+import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
 
 import java.util.ArrayList;
@@ -41,6 +42,8 @@ public class RemolquesFragment extends Fragment implements View.OnClickListener 
     private ProgressDialog pDialog;
     private static NavigationDrawerInterface navigationDrawerInterface;
 
+    private static Usuarios _SESSION_USER;
+
     /**
      * Declaraciones para Firebase
      **/
@@ -51,6 +54,8 @@ public class RemolquesFragment extends Fragment implements View.OnClickListener 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_remolques, container, false);
+
+        _SESSION_USER = (Usuarios) getActivity().getIntent().getSerializableExtra(Constants.KEY_SESSION_USER);
 
         recyclerViewRemolques = (RecyclerView) view.findViewById(R.id.recycler_view_remolques);
         remolquesAdapter = new RemolquesAdapter();
@@ -78,6 +83,10 @@ public class RemolquesFragment extends Fragment implements View.OnClickListener 
 
                     for (DataSnapshot psRemolques : postSnapshot.child(Constants.FB_KEY_MAIN_REMOLQUES).getChildren()) {
                         Remolques remolque = psRemolques.getValue(Remolques.class);
+
+                        if (_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA)) {
+                            if (!_SESSION_USER.getFirebaseId().equals(postSnapshot.getKey())) continue;
+                        }
 
                         if (!remolque.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO)) {
                             remolque.setFirebaseIdTransportista(postSnapshot.getKey());

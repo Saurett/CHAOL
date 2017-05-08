@@ -22,6 +22,7 @@ import com.indev.chaol.adapters.ChoferesAdapter;
 import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
 import com.indev.chaol.models.Choferes;
 import com.indev.chaol.models.DecodeItem;
+import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
 
 import java.util.ArrayList;
@@ -41,6 +42,8 @@ public class ChoferesFragment extends Fragment implements View.OnClickListener {
     private ProgressDialog pDialog;
     private static NavigationDrawerInterface navigationDrawerInterface;
 
+    private static Usuarios _SESSION_USER;
+
     /**
      * Declaraciones para Firebase
      **/
@@ -51,6 +54,8 @@ public class ChoferesFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_choferes, container, false);
+
+        _SESSION_USER = (Usuarios) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_SESSION_USER);
 
         recyclerViewChoferes = (RecyclerView) view.findViewById(R.id.recycler_view_choferes);
         choferesAdapter = new ChoferesAdapter();
@@ -76,6 +81,11 @@ public class ChoferesFragment extends Fragment implements View.OnClickListener {
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Choferes chofer = postSnapshot.getValue(Choferes.class);
+
+                    if (_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA)) {
+                        if (!_SESSION_USER.getFirebaseId().equals(chofer.getFirebaseIdTransportista())) continue;
+                    }
+
                     if (!chofer.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO)) {
                         choferesList.add(chofer);
                     }

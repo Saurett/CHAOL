@@ -22,6 +22,7 @@ import com.indev.chaol.R;
 import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
 import com.indev.chaol.models.Choferes;
 import com.indev.chaol.models.DecodeExtraParams;
+import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
 
 
@@ -37,6 +38,8 @@ public class PanelChoferesFragment extends Fragment implements View.OnClickListe
     private static FloatingActionButton fabChoferes;
     private ProgressDialog pDialog;
 
+    private static Usuarios _SESSION_USER;
+
     /**
      * Declaraciones para Firebase
      **/
@@ -47,6 +50,8 @@ public class PanelChoferesFragment extends Fragment implements View.OnClickListe
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_panel_choferes, container, false);
+
+        _SESSION_USER = (Usuarios) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_SESSION_USER);
 
         btnTitulo = (Button) view.findViewById(R.id.btn_titulo_choferes);
         txtNumNoAutorizado = (TextView) view.findViewById(R.id.item_num_no_autorizado_panel_choferes);
@@ -76,6 +81,10 @@ public class PanelChoferesFragment extends Fragment implements View.OnClickListe
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 
                     Choferes chofer = postSnapshot.getValue(Choferes.class);
+
+                    if (_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA)) {
+                        if (!_SESSION_USER.getFirebaseId().equals(chofer.getFirebaseIdTransportista())) continue;
+                    }
 
                     switch (chofer.getEstatus()) {
                         case Constants.FB_KEY_ITEM_ESTATUS_ACTIVO:

@@ -22,6 +22,7 @@ import com.indev.chaol.adapters.TractoresAdapter;
 import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
 import com.indev.chaol.models.DecodeItem;
 import com.indev.chaol.models.Tractores;
+import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
 
 import java.util.ArrayList;
@@ -41,6 +42,8 @@ public class TractoresFragment extends Fragment implements View.OnClickListener 
     private ProgressDialog pDialog;
     private static NavigationDrawerInterface navigationDrawerInterface;
 
+    private static Usuarios _SESSION_USER;
+
     /**
      * Declaraciones para Firebase
      **/
@@ -51,6 +54,8 @@ public class TractoresFragment extends Fragment implements View.OnClickListener 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_tractores, container, false);
+
+        _SESSION_USER = (Usuarios) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_SESSION_USER);
 
         recyclerViewTractores = (RecyclerView) view.findViewById(R.id.recycler_view_tractores);
         tractoresAdapter = new TractoresAdapter();
@@ -78,6 +83,11 @@ public class TractoresFragment extends Fragment implements View.OnClickListener 
 
                     for (DataSnapshot psTractores : postSnapshot.child(Constants.FB_KEY_MAIN_TRACTORES).getChildren()) {
                         Tractores tractor = psTractores.getValue(Tractores.class);
+
+                        if (_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA)) {
+                            if (!_SESSION_USER.getFirebaseId().equals(postSnapshot.getKey())) continue;
+                        }
+
                         if (!tractor.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO)) {
                             tractor.setFirebaseIdTransportista(postSnapshot.getKey());
                             tractoresList.add(tractor);

@@ -84,6 +84,10 @@ public class PanelTractoresFragment extends Fragment implements View.OnClickList
 
                         Tractores tractor = psTractor.getValue(Tractores.class);
 
+                        if (_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA)) {
+                            if (!_SESSION_USER.getFirebaseId().equals(postSnapshot.getKey())) continue;
+                        }
+
                         if (tractor.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ACTIVO)) {
                             countActivo++;
                             txtNumNoAsignado.setText(String.valueOf(countActivo));
