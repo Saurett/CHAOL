@@ -158,7 +158,7 @@ public class PerfilChoferesFragment extends Fragment implements View.OnClickList
 
         DatabaseReference dbChofer =
                 FirebaseDatabase.getInstance().getReference()
-                        .child("choferes").child(user.getUid());
+                        .child(Constants.FB_KEY_MAIN_CHOFERES).child(user.getUid());
 
         pDialog = new ProgressDialog(getContext());
         pDialog.setMessage(getString(R.string.default_loading_msg));

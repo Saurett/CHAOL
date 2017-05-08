@@ -16,10 +16,17 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.indev.chaol.MainRegisterActivity;
 import com.indev.chaol.R;
 import com.indev.chaol.models.Clientes;
@@ -38,7 +45,8 @@ import java.util.List;
 public class RegistroClientesFragment extends Fragment implements View.OnClickListener, DialogInterface.OnClickListener, Spinner.OnItemSelectedListener {
 
     private Button btnTitulo;
-    private EditText txtNombre, txtRFC, txtEstado, txtCiudad, txtColonia, txtCodigoPostal, txtCalle, txtNumInt, txtNumExt, txtTelefono, txtCelular, txtEmail, txtPassword;
+    private EditText txtNombre, txtRFC, txtEstado, txtCiudad, txtColonia, txtCodigoPostal, txtCalle, txtNumInt, txtNumExt, txtTelefono, txtCelular, txtCorreoElectronico, txtPassword;
+    private LinearLayout linearLayoutPassword;
     private Spinner spinnerMetodoPago;
     private FloatingActionButton fabClientes;
     private ProgressDialog pDialog;
@@ -50,9 +58,19 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
 
     private static DecodeExtraParams _MAIN_DECODE = new DecodeExtraParams();
 
+    /**
+     * Declaraciones para Firebase
+     **/
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private static Clientes _clienteActual;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_registro_clientes, container, false);
+
+        /**Obtiene la instancia compartida del objeto FirebaseAuth**/
+        mAuth = FirebaseAuth.getInstance();
 
         btnTitulo = (Button) view.findViewById(R.id.btn_titulo_clientes);
 
@@ -67,8 +85,10 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
         txtNumExt = (EditText) view.findViewById(R.id.txt_clientes_num_ext);
         txtTelefono = (EditText) view.findViewById(R.id.txt_clientes_telefono);
         txtCelular = (EditText) view.findViewById(R.id.txt_clientes_celular);
-        txtEmail = (EditText) view.findViewById(R.id.txt_clientes_email);
+        txtCorreoElectronico = (EditText) view.findViewById(R.id.txt_clientes_email);
         txtPassword = (EditText) view.findViewById(R.id.txt_clientes_password);
+
+        linearLayoutPassword = (LinearLayout) view.findViewById(R.id.item_clientes_password);
 
         spinnerMetodoPago = (Spinner) view.findViewById(R.id.spinner_clientes_metodo_pago);
 
@@ -124,6 +144,8 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
                 /**Modifica valores predeterminados de ciertos elementos**/
                 btnTitulo.setText(getString(Constants.TITLE_FORM_ACTION.get(_MAIN_DECODE.getAccionFragmento())));
                 fabClientes.setImageDrawable(getResources().getDrawable(R.mipmap.ic_mode_edit_white_18dp));
+
+                this.onPreRenderEditar();
                 break;
             case Constants.ACCION_REGISTRAR:
                 /**Modifica valores predeterminados de ciertos elementos**/
@@ -134,6 +156,62 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
                 btnTitulo.setText("Perfil");
                 break;
         }
+    }
+
+    private void onPreRenderEditar() {
+        /**Obtiene el item selecionado en el fragmento de lista**/
+        Clientes cliente = (Clientes) _MAIN_DECODE.getDecodeItem().getItemModel();
+
+        DatabaseReference dbCliente =
+                FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.FB_KEY_MAIN_CLIENTES).child(cliente.getFirebaseId())
+                        .child(Constants.FB_KEY_ITEM_CLIENTE);
+
+        pDialog = new ProgressDialog(getContext());
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        dbCliente.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Clientes cliente = dataSnapshot.getValue(Clientes.class);
+                /**Se asigna el chofer actual a la memoria**/
+                _clienteActual = cliente;
+
+                txtNombre.setText(cliente.getNombre());
+                /**Asigna valores del item seleccionado**/
+                onSelectMetodoPago(cliente.getMetodoPago());
+                txtRFC.setText(cliente.getRfc());
+                txtEstado.setText(cliente.getEstado());
+                txtCiudad.setText(cliente.getCiudad());
+                txtColonia.setText(cliente.getColonia());
+                txtCodigoPostal.setText(cliente.getCodigoPostal());
+                txtCalle.setText(cliente.getCalle());
+                txtNumInt.setText(cliente.getNumInterior());
+                txtNumExt.setText(cliente.getNumExterior());
+                txtTelefono.setText(cliente.getTelefono());
+                txtCelular.setText(cliente.getCelular());
+                txtCorreoElectronico.setText(cliente.getCorreoElectronico());
+
+                txtCorreoElectronico.setTag(txtCorreoElectronico.getKeyListener());
+                txtCorreoElectronico.setKeyListener(null);
+
+                linearLayoutPassword.setVisibility(View.GONE);
+
+                pDialog.dismiss();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        /**Modifica valores predeterminados de ciertos elementos**/
+        btnTitulo.setText(getString(Constants.TITLE_FORM_ACTION.get(_MAIN_DECODE.getAccionFragmento())));
+        fabClientes.setImageDrawable(getResources().getDrawable(R.mipmap.ic_mode_edit_white_18dp));
     }
 
     /**
@@ -172,6 +250,16 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
         spinnerMetodoPago.setSelection(0);
     }
 
+    private void onSelectMetodoPago(String miMetodoPago) {
+        for (MetodosPagos metodoPago :
+                metodosPagos) {
+            if (metodoPago.getMetodoPago().equals(miMetodoPago)) {
+                spinnerMetodoPago.setSelection(metodoPago.getId());
+                break;
+            }
+        }
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -192,12 +280,12 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
 
         Boolean authorized = true;
 
-        String email = txtEmail.getText().toString();
+        String email = txtCorreoElectronico.getText().toString();
         String password = txtPassword.getText().toString();
 
         if (TextUtils.isEmpty(email)) {
-            txtEmail.setError("El campo es obligatorio", null);
-            txtEmail.requestFocus();
+            txtCorreoElectronico.setError("El campo es obligatorio", null);
+            txtCorreoElectronico.requestFocus();
             authorized = false;
         }
 
@@ -241,7 +329,7 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
         clientes.setMetodoPago(spinnerMetodoPago.getSelectedItem().toString());
         clientes.setTelefono(txtTelefono.getText().toString().trim());
         clientes.setCelular(txtCelular.getText().toString().trim());
-        clientes.setCorreoElectronico(txtEmail.getText().toString().trim());
+        clientes.setCorreoElectronico(txtCorreoElectronico.getText().toString().trim());
         clientes.setContraseña(txtPassword.getText().toString().trim());
 
         /**metodo principal para crear usuario**/

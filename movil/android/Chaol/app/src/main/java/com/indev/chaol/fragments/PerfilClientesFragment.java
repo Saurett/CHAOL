@@ -3,7 +3,6 @@ package com.indev.chaol.fragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -29,7 +28,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.indev.chaol.NavigationDrawerActivity;
 import com.indev.chaol.R;
-import com.indev.chaol.models.Choferes;
 import com.indev.chaol.models.Clientes;
 import com.indev.chaol.models.DecodeExtraParams;
 import com.indev.chaol.models.MetodosPagos;
@@ -171,7 +169,7 @@ public class PerfilClientesFragment extends Fragment implements View.OnClickList
                 txtNombre.setText(cliente.getNombre());
                 /**Asigna valores del item seleccionado**/
                 onSelectMetodoPago(cliente.getMetodoPago());
-                txtRFC.setText(cliente.getRfc());;
+                txtRFC.setText(cliente.getRfc());
                 txtEstado.setText(cliente.getEstado());
                 txtCiudad.setText(cliente.getCiudad());
                 txtColonia.setText(cliente.getColonia());
@@ -182,6 +180,8 @@ public class PerfilClientesFragment extends Fragment implements View.OnClickList
                 txtTelefono.setText(cliente.getTelefono());
                 txtCelular.setText(cliente.getCelular());
                 txtCorreoElectronico.setText(cliente.getCorreoElectronico());
+                txtCorreoElectronico.setTag(txtCorreoElectronico.getKeyListener());
+                txtCorreoElectronico.setKeyListener(null);
 
                 linearLayoutPassword.setVisibility(View.GONE);
 

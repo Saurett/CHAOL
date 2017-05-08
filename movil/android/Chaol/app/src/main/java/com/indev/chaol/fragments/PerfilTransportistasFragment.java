@@ -3,7 +3,6 @@ package com.indev.chaol.fragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -13,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -29,15 +27,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.indev.chaol.NavigationDrawerActivity;
 import com.indev.chaol.R;
-import com.indev.chaol.models.Choferes;
-import com.indev.chaol.models.Clientes;
 import com.indev.chaol.models.DecodeExtraParams;
-import com.indev.chaol.models.MetodosPagos;
 import com.indev.chaol.models.Transportistas;
 import com.indev.chaol.utils.Constants;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -90,7 +82,6 @@ public class PerfilTransportistasFragment extends Fragment implements View.OnCli
         linearLayoutPassword = (LinearLayout) view.findViewById(R.id.item_transportistas_password);
 
         fabTransportistas = (FloatingActionButton) view.findViewById(R.id.fab_transportistas);
-
         fabTransportistas.setOnClickListener(this);
 
         _MAIN_DECODE = (DecodeExtraParams) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
@@ -145,7 +136,8 @@ public class PerfilTransportistasFragment extends Fragment implements View.OnCli
 
         DatabaseReference dbTransportista =
                 FirebaseDatabase.getInstance().getReference()
-                        .child("transportistas").child(user.getUid()).child("transportista");
+                        .child(Constants.FB_KEY_MAIN_TRANSPORTISTAS).child(user.getUid())
+                        .child(Constants.FB_KEY_ITEM_TRANSPORTISTA);
 
         pDialog = new ProgressDialog(getContext());
         pDialog.setMessage(getString(R.string.default_loading_msg));
@@ -157,7 +149,7 @@ public class PerfilTransportistasFragment extends Fragment implements View.OnCli
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Transportistas transportista = dataSnapshot.getValue(Transportistas.class);
-                /**e asigna el transportista actual a la memoria**/
+                /**se asigna el transportista actual a la memoria**/
                 _transportistActual = transportista;
 
                 txtNombre.setText(transportista.getNombre());
@@ -175,6 +167,9 @@ public class PerfilTransportistasFragment extends Fragment implements View.OnCli
                 txtCelular.setText(transportista.getCelular());
                 txtProveedorGPS.setText(transportista.getProoveedorGPS());
                 txtCorreoElectronico.setText(transportista.getCorreoElectronico());
+
+                txtCorreoElectronico.setTag(txtCorreoElectronico.getKeyListener());
+                txtCorreoElectronico.setKeyListener(null);
 
                 linearLayoutPassword.setVisibility(View.GONE);
 
