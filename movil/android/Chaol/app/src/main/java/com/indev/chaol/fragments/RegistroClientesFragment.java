@@ -183,7 +183,7 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
                 txtNombre.setText(cliente.getNombre());
                 /**Asigna valores del item seleccionado**/
                 onSelectMetodoPago(cliente.getMetodoPago());
-                txtRFC.setText(cliente.getRfc());
+                txtRFC.setText(cliente.getRFC());
                 txtEstado.setText(cliente.getEstado());
                 txtCiudad.setText(cliente.getCiudad());
                 txtColonia.setText(cliente.getColonia());
@@ -318,7 +318,7 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
         Clientes clientes = new Clientes();
 
         clientes.setNombre(txtNombre.getText().toString().trim());
-        clientes.setRfc(txtRFC.getText().toString().trim());
+        clientes.setRFC(txtRFC.getText().toString().trim());
         clientes.setEstado(txtEstado.getText().toString().trim());
         clientes.setCiudad(txtCiudad.getText().toString().trim());
         clientes.setColonia(txtColonia.getText().toString().trim());

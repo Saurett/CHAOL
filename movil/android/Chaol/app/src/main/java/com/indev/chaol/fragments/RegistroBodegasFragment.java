@@ -3,6 +3,7 @@ package com.indev.chaol.fragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -17,16 +18,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.indev.chaol.NavigationDrawerActivity;
+import com.indev.chaol.MainRegisterActivity;
 import com.indev.chaol.R;
 import com.indev.chaol.models.Clientes;
 import com.indev.chaol.models.DecodeExtraParams;
@@ -41,7 +42,7 @@ import java.util.List;
  * Created by saurett on 24/02/2017.
  */
 
-public class PerfilClientesFragment extends Fragment implements View.OnClickListener, DialogInterface.OnClickListener, Spinner.OnItemSelectedListener {
+public class RegistroBodegasFragment extends Fragment implements View.OnClickListener, DialogInterface.OnClickListener, Spinner.OnItemSelectedListener {
 
     private Button btnTitulo;
     private EditText txtNombre, txtRFC, txtEstado, txtCiudad, txtColonia, txtCodigoPostal, txtCalle, txtNumInt, txtNumExt, txtTelefono, txtCelular, txtCorreoElectronico, txtPassword;
@@ -53,7 +54,7 @@ public class PerfilClientesFragment extends Fragment implements View.OnClickList
     private static List<String> metodosPagoList;
     private List<MetodosPagos> metodosPagos;
 
-    private static NavigationDrawerActivity activityInterface;
+    private static MainRegisterActivity activityInterface;
 
     private static DecodeExtraParams _MAIN_DECODE = new DecodeExtraParams();
 
@@ -72,6 +73,7 @@ public class PerfilClientesFragment extends Fragment implements View.OnClickList
         mAuth = FirebaseAuth.getInstance();
 
         btnTitulo = (Button) view.findViewById(R.id.btn_titulo_clientes);
+
         txtNombre = (EditText) view.findViewById(R.id.txt_clientes_nombre);
         txtRFC = (EditText) view.findViewById(R.id.txt_clientes_rfc);
         txtEstado = (EditText) view.findViewById(R.id.txt_clientes_estado);
@@ -91,7 +93,9 @@ public class PerfilClientesFragment extends Fragment implements View.OnClickList
         spinnerMetodoPago = (Spinner) view.findViewById(R.id.spinner_clientes_metodo_pago);
 
         fabClientes = (FloatingActionButton) view.findViewById(R.id.fab_clientes);
+
         fabClientes.setOnClickListener(this);
+
         spinnerMetodoPago.setOnItemSelectedListener(this);
 
         _MAIN_DECODE = (DecodeExtraParams) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
@@ -110,7 +114,7 @@ public class PerfilClientesFragment extends Fragment implements View.OnClickList
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            activityInterface = (NavigationDrawerActivity) getActivity();
+            activityInterface = (MainRegisterActivity) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString() + "debe implementar");
         }
@@ -131,7 +135,16 @@ public class PerfilClientesFragment extends Fragment implements View.OnClickList
 
         switch (_MAIN_DECODE.getAccionFragmento()) {
             case Constants.ACCION_EDITAR:
-                /**Carga los valores iniciales al editar**/
+                /**Obtiene el item selecionado en el fragmento de lista**/
+                Clientes clientes = (Clientes) _MAIN_DECODE.getDecodeItem().getItemModel();
+
+                /**Asigna valores del item seleccionado**/
+                txtNombre.setText(clientes.getNombre());
+
+                /**Modifica valores predeterminados de ciertos elementos**/
+                btnTitulo.setText(getString(Constants.TITLE_FORM_ACTION.get(_MAIN_DECODE.getAccionFragmento())));
+                fabClientes.setImageDrawable(getResources().getDrawable(R.mipmap.ic_mode_edit_white_18dp));
+
                 this.onPreRenderEditar();
                 break;
             case Constants.ACCION_REGISTRAR:
@@ -147,11 +160,12 @@ public class PerfilClientesFragment extends Fragment implements View.OnClickList
 
     private void onPreRenderEditar() {
         /**Obtiene el item selecionado en el fragmento de lista**/
-        FirebaseUser user = mAuth.getCurrentUser();
+        Clientes cliente = (Clientes) _MAIN_DECODE.getDecodeItem().getItemModel();
 
         DatabaseReference dbCliente =
                 FirebaseDatabase.getInstance().getReference()
-                        .child(Constants.FB_KEY_MAIN_CLIENTES).child(user.getUid()).child(Constants.FB_KEY_ITEM_CLIENTE);
+                        .child(Constants.FB_KEY_MAIN_CLIENTES).child(cliente.getFirebaseId())
+                        .child(Constants.FB_KEY_ITEM_CLIENTE);
 
         pDialog = new ProgressDialog(getContext());
         pDialog.setMessage(getString(R.string.default_loading_msg));
@@ -180,6 +194,7 @@ public class PerfilClientesFragment extends Fragment implements View.OnClickList
                 txtTelefono.setText(cliente.getTelefono());
                 txtCelular.setText(cliente.getCelular());
                 txtCorreoElectronico.setText(cliente.getCorreoElectronico());
+
                 txtCorreoElectronico.setTag(txtCorreoElectronico.getKeyListener());
                 txtCorreoElectronico.setKeyListener(null);
 
@@ -197,136 +212,6 @@ public class PerfilClientesFragment extends Fragment implements View.OnClickList
         /**Modifica valores predeterminados de ciertos elementos**/
         btnTitulo.setText(getString(Constants.TITLE_FORM_ACTION.get(_MAIN_DECODE.getAccionFragmento())));
         fabClientes.setImageDrawable(getResources().getDrawable(R.mipmap.ic_mode_edit_white_18dp));
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.fab_clientes:
-                if (_MAIN_DECODE.getAccionFragmento() == Constants.ACCION_EDITAR) {
-                    this.showQuestion();
-                } else {
-                    this.validationRegister();
-                }
-                break;
-        }
-    }
-
-    /**
-     * Verifica los campos obligatorios para registro de cliente
-     **/
-    private void validationRegister() {
-
-        Boolean authorized = true;
-
-        String email = txtCorreoElectronico.getText().toString();
-        String password = txtPassword.getText().toString();
-
-        if (TextUtils.isEmpty(email)) {
-            txtCorreoElectronico.setError("El campo es obligatorio", null);
-            txtCorreoElectronico.requestFocus();
-            authorized = false;
-        }
-
-        if (TextUtils.isEmpty(password)) {
-            txtPassword.setError("El campo es obligatorio", null);
-            txtPassword.requestFocus();
-            authorized = false;
-        }
-
-        if (authorized) {
-            this.createSimpleValidUser();
-        } else {
-            Toast.makeText(getContext(), "Es necesario capturar campos obligatorios",
-                    Toast.LENGTH_SHORT).show();
-        }
-
-    }
-
-    /**
-     * Verifica los campos obligatorios para editar
-     **/
-    private void validationEditer() {
-
-        Boolean authorized = true;
-
-        String email = txtCorreoElectronico.getText().toString();
-
-        if (TextUtils.isEmpty(email)) {
-            txtCorreoElectronico.setError("El campo es obligatorio", null);
-            txtCorreoElectronico.requestFocus();
-            authorized = false;
-        }
-
-        if (authorized) {
-            this.updateUserCliente();
-        } else {
-            Toast.makeText(getContext(), "Es necesario capturar campos obligatorios",
-                    Toast.LENGTH_SHORT).show();
-        }
-
-    }
-
-    private void createSimpleValidUser() {
-        /*activityInterface.createSimpleUser(txtEmail.getText().toString(),
-                txtPassword.getText().toString());
-                */
-    }
-
-    private void updateUserCliente() {
-
-        Clientes cliente = new Clientes();
-
-        cliente.setNombre(txtNombre.getText().toString().trim());
-        cliente.setRFC(txtRFC.getText().toString().trim());
-        cliente.setEstado(txtEstado.getText().toString().trim());
-        cliente.setCiudad(txtCiudad.getText().toString().trim());
-        cliente.setColonia(txtColonia.getText().toString().trim());
-        cliente.setCodigoPostal(txtCodigoPostal.getText().toString().trim());
-        cliente.setCalle(txtCalle.getText().toString().trim());
-        cliente.setNumInterior(txtNumInt.getText().toString().trim());
-        cliente.setNumExterior(txtNumExt.getText().toString().trim());
-        cliente.setMetodoPago(spinnerMetodoPago.getSelectedItem().toString());
-        cliente.setTelefono(txtTelefono.getText().toString().trim());
-        cliente.setCelular(txtCelular.getText().toString().trim());
-        cliente.setCorreoElectronico(txtCorreoElectronico.getText().toString().trim());
-        cliente.setContraseña(txtPassword.getText().toString().trim());
-
-        cliente.setFechaDeCreacion(_clienteActual.getFechaDeCreacion());
-        cliente.setEstatus(_clienteActual.getEstatus());
-
-        /**metodo principal para actualizar usuario**/
-        activityInterface.updateUserCliente(cliente);
-    }
-
-    private void showQuestion() {
-        AlertDialog.Builder ad = new AlertDialog.Builder(getContext());
-
-        ad.setTitle(btnTitulo.getText());
-        ad.setMessage("¿Esta seguro que desea editar?");
-        ad.setCancelable(false);
-        ad.setNegativeButton(getString(R.string.default_alert_dialog_cancelar), this);
-        ad.setPositiveButton(getString(R.string.default_alert_dialog_aceptar), this);
-        ad.show();
-    }
-
-    @Override
-    public void onClick(DialogInterface dialog, int which) {
-        switch (which) {
-            case DialogInterface.BUTTON_POSITIVE:
-                this.validationEditer();
-                break;
-        }
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
     }
 
     /**
@@ -373,5 +258,110 @@ public class PerfilClientesFragment extends Fragment implements View.OnClickList
                 break;
             }
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.fab_clientes:
+                if (_MAIN_DECODE.getAccionFragmento() == Constants.ACCION_EDITAR) {
+                    this.showQuestion();
+                } else {
+                    this.validationRegister();
+                }
+                break;
+        }
+    }
+
+    /**
+     * Verifica los campos obligatorios para registro de cliente
+     **/
+    private void validationRegister() {
+
+        Boolean authorized = true;
+
+        String email = txtCorreoElectronico.getText().toString();
+        String password = txtPassword.getText().toString();
+
+        if (TextUtils.isEmpty(email)) {
+            txtCorreoElectronico.setError("El campo es obligatorio", null);
+            txtCorreoElectronico.requestFocus();
+            authorized = false;
+        }
+
+        if (TextUtils.isEmpty(password)) {
+            txtPassword.setError("El campo es obligatorio", null);
+            txtPassword.requestFocus();
+            authorized = false;
+        }
+
+        if (spinnerMetodoPago.getSelectedItemId() <= 0L) {
+            TextView errorTextSE = (TextView) spinnerMetodoPago.getSelectedView();
+            errorTextSE.setError("El campo es obligatorio");
+            errorTextSE.setTextColor(Color.RED);
+            errorTextSE.setText("El campo es obligatorio");//changes t
+            errorTextSE.requestFocus();
+
+            authorized = false;
+        }
+
+        if (authorized) {
+            this.createSimpleValidUser();
+        } else {
+            Toast.makeText(getContext(), "Es necesario capturar campos obligatorios",
+                    Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    private void createSimpleValidUser() {
+        Clientes clientes = new Clientes();
+
+        clientes.setNombre(txtNombre.getText().toString().trim());
+        clientes.setRFC(txtRFC.getText().toString().trim());
+        clientes.setEstado(txtEstado.getText().toString().trim());
+        clientes.setCiudad(txtCiudad.getText().toString().trim());
+        clientes.setColonia(txtColonia.getText().toString().trim());
+        clientes.setCodigoPostal(txtCodigoPostal.getText().toString().trim());
+        clientes.setCalle(txtCalle.getText().toString().trim());
+        clientes.setNumInterior(txtNumInt.getText().toString().trim());
+        clientes.setNumExterior(txtNumExt.getText().toString().trim());
+        clientes.setMetodoPago(spinnerMetodoPago.getSelectedItem().toString());
+        clientes.setTelefono(txtTelefono.getText().toString().trim());
+        clientes.setCelular(txtCelular.getText().toString().trim());
+        clientes.setCorreoElectronico(txtCorreoElectronico.getText().toString().trim());
+        clientes.setContraseña(txtPassword.getText().toString().trim());
+
+        /**metodo principal para crear usuario**/
+        activityInterface.createUserCliente(clientes);
+    }
+
+    private void showQuestion() {
+        AlertDialog.Builder ad = new AlertDialog.Builder(getContext());
+
+        ad.setTitle(btnTitulo.getText());
+        ad.setMessage("¿Esta seguro que desea editar?");
+        ad.setCancelable(false);
+        ad.setNegativeButton(getString(R.string.default_alert_dialog_cancelar), this);
+        ad.setPositiveButton(getString(R.string.default_alert_dialog_aceptar), this);
+        ad.show();
+    }
+
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        switch (which) {
+            case DialogInterface.BUTTON_POSITIVE:
+                break;
+        }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 
 import com.indev.chaol.R;
 import com.indev.chaol.fragments.ListadoAgendaFragment;
+import com.indev.chaol.fragments.ListadoBodegasFragment;
 import com.indev.chaol.fragments.ListadoChoferesFragment;
 import com.indev.chaol.fragments.ListadoClientesFragment;
 import com.indev.chaol.fragments.ListadoRemolquesFragment;
@@ -11,6 +12,7 @@ import com.indev.chaol.fragments.ListadoTractoresFragment;
 import com.indev.chaol.fragments.ListadoTransportistasFragment;
 import com.indev.chaol.fragments.MainPanelFragment;
 import com.indev.chaol.fragments.MainPerfilesFragment;
+import com.indev.chaol.fragments.RegistroBodegasFragment;
 import com.indev.chaol.fragments.RegistroChoferesFragment;
 import com.indev.chaol.fragments.RegistroClientesFragment;
 import com.indev.chaol.fragments.RegistroFletesFragment;
@@ -45,6 +47,7 @@ public final class Constants {
     public static final String FB_KEY_ITEM_ESTATUS_ELIMINADO = "eliminado";
     public static final String FB_KEY_MAIN_USUARIOS = "usuarios";
     public static final String FB_KEY_MAIN_CLIENTES = "clientes";
+    public static final String FB_KEY_MAIN_BODEGAS = "bodegas";
     public static final String FB_KEY_MAIN_TRANSPORTISTAS = "transportistas";
     public static final String FB_KEY_MAIN_CHOFERES = "choferes";
     public static final String FB_KEY_MAIN_ADMINISTRADORES = "administradores";
@@ -108,6 +111,7 @@ public final class Constants {
      * Fragmentos principales de lista
      **/
     public static final String FRAGMENT_LISTADO_CLIENTES = "fragment_listado_clientes";
+    public static final String FRAGMENT_LISTADO_BODEGAS = "fragment_listado_bodegas";
     public static final String FRAGMENT_LISTADO_TRANSPORTISTAS = "fragment_listado_transportiistas";
     public static final String FRAGMENT_LISTADO_CHOFERES = "fragment_listado_choferes";
     public static final String FRAGMENT_LISTADO_TRACTORES = "fragment_listado_tractores";
@@ -119,6 +123,7 @@ public final class Constants {
      **/
     public static final String PANEL_FLETES_CONTAINER = "panel_fletes_container";
     public static final String PANEL_CLIENTES_CONTAINER = "panel_clientes_container";
+    public static final String PANEL_BODEGAS_CONTAINER = "panel_bodegas_container";
     public static final String PANEL_TRANSPORTISTAS_CONTAINER = "panel_transportistas_container";
     public static final String PANEL_CHOFERES_CONTAINER = "panel_choferes_container";
     public static final String PANEL_TRACTORES_CONTAINER = "panel_tractores_container";
@@ -152,6 +157,7 @@ public final class Constants {
     /**Fragmento secundario de formularios**/
     public static final String FRAGMENT_LOGIN_REGISTER = "fragment_login_register";
     public static final String FRAGMENT_MAIN_REGISTER = "fragment_main_register";
+    public static final String FRAGMENT_BODEGAS_REGISTER = "fragment_bodegas_register";
     public static final String FRAGMENT_TRANSPORTISTAS_REGISTER = "fragment_transportistas_register";
     public static final String FRAGMENT_LOGIN_TRANSPORTISTAS_REGISTER = "fragment_login_transportistas_register";
     public static final String FRAGMENT_CHOFERES_REGISTER = "fragment_choferes_register";
@@ -169,6 +175,7 @@ public final class Constants {
      * Fragmentos secundario para listados
      **/
     public static final String FRAGMENT_CLIENTES = "fragment_clientes";
+    public static final String FRAGMENT_BODEGAS = "fragment_bodegas";
     public static final String FRAGMENT_TRANSPORTISTAS = "fragment_transportistas";
     public static final String FRAGMENT_CHOFERES = "fragment_choferes";
     public static final String FRAGMENT_TRACTORES = "fragment_tractores";
@@ -180,6 +187,7 @@ public final class Constants {
     static {
         SECONDARY_TAG_FRAGMENTS = new ArrayList<>();
         SECONDARY_TAG_FRAGMENTS.add(FRAGMENT_CLIENTES);
+        SECONDARY_TAG_FRAGMENTS.add(FRAGMENT_BODEGAS);
         SECONDARY_TAG_FRAGMENTS.add(FRAGMENT_TRANSPORTISTAS);
         SECONDARY_TAG_FRAGMENTS.add(FRAGMENT_CHOFERES);
         SECONDARY_TAG_FRAGMENTS.add(FRAGMENT_TRACTORES);
@@ -193,6 +201,7 @@ public final class Constants {
         ITEM_FRAGMENT = new HashMap<>();
         ITEM_FRAGMENT.put(R.id.menu_item_inicio, FRAGMENT_MAIN_PANEL);
         ITEM_FRAGMENT.put(R.id.menu_item_clientes, FRAGMENT_LISTADO_CLIENTES);
+        ITEM_FRAGMENT.put(R.id.menu_item_bodegas, FRAGMENT_LISTADO_BODEGAS);
         ITEM_FRAGMENT.put(R.id.menu_item_transportistas, FRAGMENT_LISTADO_TRANSPORTISTAS);
         ITEM_FRAGMENT.put(R.id.menu_item_choferes, FRAGMENT_LISTADO_CHOFERES);
         ITEM_FRAGMENT.put(R.id.menu_item_tractores, FRAGMENT_LISTADO_TRACTORES);
@@ -205,6 +214,7 @@ public final class Constants {
         ITEM_FRAGMENT.put(R.id.item_btn_editar_tractor, FRAGMENT_TRACTORES_REGISTER);
         ITEM_FRAGMENT.put(R.id.item_btn_editar_remolque, FRAGMENT_REMOLQUES_REGISTER);
         ITEM_FRAGMENT.put(R.id.fab_listado_clientes, FRAGMENT_MAIN_REGISTER);
+        ITEM_FRAGMENT.put(R.id.fab_listado_bodegas, FRAGMENT_BODEGAS_REGISTER);
         ITEM_FRAGMENT.put(R.id.fab_listado_transportistas, FRAGMENT_TRANSPORTISTAS_REGISTER);
         ITEM_FRAGMENT.put(R.id.fab_listado_choferes, FRAGMENT_CHOFERES_REGISTER);
         ITEM_FRAGMENT.put(R.id.fab_listado_tractores, FRAGMENT_TRACTORES_REGISTER);
@@ -228,12 +238,14 @@ public final class Constants {
         TAG_FRAGMENT.put(FRAGMENT_MAIN_PANEL, new MainPanelFragment());
         TAG_FRAGMENT.put(FRAGMENT_MAIN_PERFILES, new MainPerfilesFragment());
         TAG_FRAGMENT.put(FRAGMENT_LISTADO_CLIENTES, new ListadoClientesFragment());
+        TAG_FRAGMENT.put(FRAGMENT_LISTADO_BODEGAS, new ListadoBodegasFragment());
         TAG_FRAGMENT.put(FRAGMENT_LISTADO_TRANSPORTISTAS, new ListadoTransportistasFragment());
         TAG_FRAGMENT.put(FRAGMENT_LISTADO_CHOFERES, new ListadoChoferesFragment());
         TAG_FRAGMENT.put(FRAGMENT_LISTADO_TRACTORES, new ListadoTractoresFragment());
         TAG_FRAGMENT.put(FRAGMENT_LISTADO_AGENDA, new ListadoAgendaFragment());
         TAG_FRAGMENT.put(FRAGMENT_LISTADO_REMOLQUES, new ListadoRemolquesFragment());
         TAG_FRAGMENT.put(FRAGMENT_MAIN_REGISTER, new RegistroClientesFragment());
+        TAG_FRAGMENT.put(FRAGMENT_BODEGAS_REGISTER, new RegistroBodegasFragment());
         TAG_FRAGMENT.put(FRAGMENT_TRANSPORTISTAS_REGISTER, new RegistroTransportistasFragment());
         TAG_FRAGMENT.put(FRAGMENT_CHOFERES_REGISTER, new RegistroChoferesFragment());
         TAG_FRAGMENT.put(FRAGMENT_TRACTORES_REGISTER, new RegistroTractoresFragment());

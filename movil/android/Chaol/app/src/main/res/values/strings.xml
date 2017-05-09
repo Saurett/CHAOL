@@ -23,6 +23,7 @@
     <string name="default_item_menu_title_inicio">Inicio</string>
     <string name="default_item_menu_title_administracion">Administración</string>
     <string name="default_item_menu_title_clientes">Clientes</string>
+    <string name="default_item_menu_title_bodegas">Bodegas</string>
     <string name="default_item_menu_title_transportistas">Transportistas</string>
     <string name="default_item_menu_title_choferes">Choferes</string>
     <string name="default_item_menu_title_tractores">Tractores</string>

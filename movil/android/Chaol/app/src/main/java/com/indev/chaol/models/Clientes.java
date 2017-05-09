@@ -75,11 +75,11 @@ public class Clientes implements Serializable {
         this.nombre = nombre;
     }
 
-    public String getRfc() {
+    public String getRFC() {
         return RFC;
     }
 
-    public void setRfc(String RFC) {
+    public void setRFC(String RFC) {
         this.RFC = RFC;
     }
 
@@ -179,11 +179,11 @@ public class Clientes implements Serializable {
         this.contraseña = contraseña;
     }
 
-    public String getImagenUrl() {
+    public String getImagenURL() {
         return imagenURL;
     }
 
-    public void setImagenUrl(String imagenUrl) {
+    public void setImagenURL(String imagenUrl) {
         this.imagenURL = imagenUrl;
     }
 

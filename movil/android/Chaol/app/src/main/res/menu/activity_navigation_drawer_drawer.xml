@@ -20,6 +20,10 @@
                         android:icon="@mipmap/ic_person_white_48dp"
                         android:title="@string/default_item_menu_title_clientes" />
                     <item
+                        android:id="@+id/menu_item_bodegas"
+                        android:icon="@mipmap/ic_person_white_48dp"
+                        android:title="@string/default_item_menu_title_bodegas" />
+                    <item
                         android:id="@+id/menu_item_transportistas"
                         android:icon="@mipmap/ic_person_outline_white_48dp"
                         android:title="@string/default_item_menu_title_transportistas" />

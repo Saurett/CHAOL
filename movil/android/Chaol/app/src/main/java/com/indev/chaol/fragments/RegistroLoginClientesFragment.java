@@ -195,7 +195,7 @@ public class RegistroLoginClientesFragment extends Fragment implements View.OnCl
         Clientes clientes = new Clientes();
 
         clientes.setNombre(txtNombre.getText().toString().trim());
-        clientes.setRfc(txtRFC.getText().toString().trim());
+        clientes.setRFC(txtRFC.getText().toString().trim());
         clientes.setEstado(txtEstado.getText().toString().trim());
         clientes.setCiudad(txtCiudad.getText().toString().trim());
         clientes.setColonia(txtColonia.getText().toString().trim());

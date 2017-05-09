@@ -209,6 +209,11 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 this.closeFragment(this.getLastFragment());
                 this.openFragment(Constants.ITEM_FRAGMENT.get(id));
                 break;
+            case R.id.menu_item_bodegas:
+                setTitle(item.getTitle());
+                this.closeFragment(this.getLastFragment());
+                this.openFragment(Constants.ITEM_FRAGMENT.get(id));
+                break;
             case R.id.menu_item_transportistas:
                 setTitle(item.getTitle());
                 this.closeFragment(this.getLastFragment());
