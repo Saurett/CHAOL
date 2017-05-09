@@ -8,12 +8,15 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,10 +25,17 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.indev.chaol.MainRegisterActivity;
 import com.indev.chaol.R;
 import com.indev.chaol.models.Choferes;
 import com.indev.chaol.models.DecodeExtraParams;
+import com.indev.chaol.models.Tractores;
+import com.indev.chaol.models.Transportistas;
+import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -34,13 +44,22 @@ import com.indev.chaol.utils.Constants;
 
 public class RegistroChoferesFragment extends Fragment implements View.OnClickListener, AlertDialog.OnClickListener {
 
+    private static final String TAG = RegistroChoferesFragment.class.getName();
+
     private Button btnTitulo;
     private EditText txtNombre, txtNumeroLicencia, txtNSS, txtCURP, txtEstado, txtCiudad, txtColonia, txtCodigoPostal, txtCalle, txtNumInt, txtNumExt, txtTelefono, txtCelular1, txtCelular2, txtCorreoElectronico, txtPassword;
     private LinearLayout linearLayoutPassword;
+    private Spinner spinnerEmpresa;
     private FloatingActionButton fabChoferes;
     private ProgressDialog pDialog;
 
-    private static DecodeExtraParams _MAIN_DECODE = new DecodeExtraParams();
+    private static List<String> transportistasList;
+    private List<Transportistas> transportistas;
+
+    private static MainRegisterActivity activityInterface;
+
+    private static Usuarios _SESSION_USER;
+    private static DecodeExtraParams _MAIN_DECODE;
 
     /**
      * Declaraciones para Firebase
@@ -49,9 +68,15 @@ public class RegistroChoferesFragment extends Fragment implements View.OnClickLi
     private FirebaseAuth.AuthStateListener mAuthListener;
     private static Choferes _choferActual;
 
+    private FirebaseDatabase database;
+    private DatabaseReference drTransportistas;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_registro_choferes, container, false);
+
+        _MAIN_DECODE = (DecodeExtraParams) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
+        _SESSION_USER = (Usuarios) getActivity().getIntent().getSerializableExtra(Constants.KEY_SESSION_USER);
 
         btnTitulo = (Button) view.findViewById(R.id.btn_titulo_choferes);
         txtNombre = (EditText) view.findViewById(R.id.txt_choferes_nombre);
@@ -71,12 +96,56 @@ public class RegistroChoferesFragment extends Fragment implements View.OnClickLi
         txtCorreoElectronico = (EditText) view.findViewById(R.id.txt_choferes_correo_electronico);
         txtPassword = (EditText) view.findViewById(R.id.txt_choferes_password);
 
+        spinnerEmpresa = (Spinner) view.findViewById(R.id.spinner_choferes_empresa);
         linearLayoutPassword = (LinearLayout) view.findViewById(R.id.item_choferes_password);
 
         fabChoferes = (FloatingActionButton) view.findViewById(R.id.fab_choferes);
         fabChoferes.setOnClickListener(this);
 
-        _MAIN_DECODE = (DecodeExtraParams) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
+        database = FirebaseDatabase.getInstance();
+        drTransportistas = database.getReference(Constants.FB_KEY_MAIN_LISTA_TRANSPORTISTAS);
+
+        pDialog = new ProgressDialog(getContext());
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        /**Metodo que llama la lista de transportistas**/
+        drTransportistas.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                transportistasList = new ArrayList<>();
+                transportistas = new ArrayList<>();
+
+                transportistasList.add("Seleccione ...");
+
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+
+                    String nombre = postSnapshot.getValue(String.class);
+                    String firebaseID = postSnapshot.getKey();
+
+                    Transportistas transportista = new Transportistas(firebaseID, nombre);
+
+                    transportistasList.add(nombre);
+                    transportistas.add(transportista);
+                }
+
+                onCargarSpinnerTransportistas();
+
+                pDialog.dismiss();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Failed to read value
+                pDialog.dismiss();
+                Log.w(TAG, "Failed to read value.", databaseError.toException());
+            }
+        });
+
 
         this.onPreRender();
 
@@ -123,11 +192,11 @@ public class RegistroChoferesFragment extends Fragment implements View.OnClickLi
                 FirebaseDatabase.getInstance().getReference()
                         .child(Constants.FB_KEY_MAIN_CHOFERES).child(chofer.getFirebaseId());
 
-        pDialog = new ProgressDialog(getContext());
-        pDialog.setMessage(getString(R.string.default_loading_msg));
-        pDialog.setIndeterminate(false);
-        pDialog.setCancelable(false);
-        pDialog.show();
+        final ProgressDialog pDialogRender = new ProgressDialog(getContext());
+        pDialogRender.setMessage(getString(R.string.default_loading_msg));
+        pDialogRender.setIndeterminate(false);
+        pDialogRender.setCancelable(false);
+        pDialogRender.show();
 
         dbChofer.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -138,7 +207,6 @@ public class RegistroChoferesFragment extends Fragment implements View.OnClickLi
 
                 txtNombre.setText(chofer.getNombre());
                 /**Asigna valores del item seleccionado**/
-                //onCargarSpinnerTransportistas(chofer.getEmpresaTransportista());
                 txtNumeroLicencia.setText(chofer.getNumeroDeLicencia());
                 txtNSS.setText(chofer.getNumeroDeSeguroSocial());
                 txtCURP.setText(chofer.getCURP());
@@ -159,7 +227,7 @@ public class RegistroChoferesFragment extends Fragment implements View.OnClickLi
 
                 linearLayoutPassword.setVisibility(View.GONE);
 
-                pDialog.dismiss();
+                pDialogRender.dismiss();
             }
 
             @Override
@@ -181,11 +249,42 @@ public class RegistroChoferesFragment extends Fragment implements View.OnClickLi
                 if (_MAIN_DECODE.getAccionFragmento() == Constants.ACCION_EDITAR) {
                     this.showQuestion();
                 } else {
-                    AsyncCallWS asyncCallWS = new AsyncCallWS(Constants.WS_KEY_AGREGAR_CHOFERES);
-                    asyncCallWS.execute();
                 }
                 break;
         }
+    }
+
+    private void onCargarSpinnerTransportistas() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
+                R.layout.text_spinner, transportistasList);
+
+        int itemSelection = onPreRenderSelectTransportista();
+
+        spinnerEmpresa.setAdapter(adapter);
+        spinnerEmpresa.setSelection(itemSelection);
+    }
+
+    private int onPreRenderSelectTransportista() {
+        int item = 0;
+
+        if (_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA)) {
+            for (Transportistas transportista : transportistas) {
+                item++;
+                if (transportista.getFirebaseId().equals(_SESSION_USER.getFirebaseId())) {
+                    break;
+                }
+            }
+        } else if (_MAIN_DECODE.getAccionFragmento() == Constants.ACCION_EDITAR) {
+            Choferes chofer = (Choferes) _MAIN_DECODE.getDecodeItem().getItemModel();
+            for (Transportistas transportista : transportistas) {
+                item++;
+                if (transportista.getFirebaseId().equals(chofer.getFirebaseIdTransportista())) {
+                    break;
+                }
+            }
+        }
+
+        return item;
     }
 
     private void showQuestion() {
@@ -203,77 +302,7 @@ public class RegistroChoferesFragment extends Fragment implements View.OnClickLi
     public void onClick(DialogInterface dialog, int which) {
         switch (which) {
             case DialogInterface.BUTTON_POSITIVE:
-                AsyncCallWS asyncCallWS = new AsyncCallWS(Constants.WS_KEY_EDITAR_CHOFERES);
-                asyncCallWS.execute();
                 break;
-        }
-    }
-
-    private class AsyncCallWS extends AsyncTask<Void, Void, Boolean> {
-
-        private Integer webServiceOperation;
-        private String textError;
-
-        public AsyncCallWS(Integer wsOperation) {
-            webServiceOperation = wsOperation;
-            textError = "";
-        }
-
-        @Override
-        protected void onPreExecute() {
-            pDialog = new ProgressDialog(getContext());
-            pDialog.setMessage(getString(R.string.default_loading_msg));
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(false);
-            pDialog.show();
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-
-            Boolean validOperation = false;
-
-            try {
-                switch (webServiceOperation) {
-                    case Constants.WS_KEY_EDITAR_CHOFERES:
-                        //TODO Eliminar desde el servidor
-                        validOperation = true;
-                        break;
-                    case Constants.WS_KEY_AGREGAR_CHOFERES:
-                        //TODO Acción desde el servidor
-                        validOperation = true;
-                        break;
-                }
-            } catch (Exception e) {
-                textError = e.getMessage();
-                validOperation = false;
-            }
-
-            return validOperation;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            try {
-                pDialog.dismiss();
-                if (success) {
-                    switch (webServiceOperation) {
-                        case Constants.WS_KEY_EDITAR_CHOFERES:
-                            getActivity().finish();
-                            Toast.makeText(getContext(), "Editado correctamente...", Toast.LENGTH_SHORT).show();
-                            break;
-                        case Constants.WS_KEY_AGREGAR_CHOFERES:
-                            getActivity().finish();
-                            Toast.makeText(getContext(), "Guardado correctamente...", Toast.LENGTH_SHORT).show();
-                            break;
-                    }
-                } else {
-                    String tempText = (textError.isEmpty() ? "Lo sentimos se ha detectado un error desconocido" : textError);
-                    Toast.makeText(getContext(), tempText, Toast.LENGTH_SHORT).show();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
     }
 }

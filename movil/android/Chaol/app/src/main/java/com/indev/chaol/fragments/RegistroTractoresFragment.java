@@ -62,15 +62,15 @@ public class RegistroTractoresFragment extends Fragment implements View.OnClickL
     private static Usuarios _SESSION_USER;
     private static DecodeExtraParams _MAIN_DECODE = new DecodeExtraParams();
 
-    FirebaseDatabase database;
-    DatabaseReference drTransportistas;
+    private FirebaseDatabase database;
+    private DatabaseReference drTransportistas;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_registro_tractores, container, false);
 
-        _SESSION_USER = (Usuarios) getActivity().getIntent().getSerializableExtra(Constants.KEY_SESSION_USER);
         _MAIN_DECODE = (DecodeExtraParams) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
+        _SESSION_USER = (Usuarios) getActivity().getIntent().getSerializableExtra(Constants.KEY_SESSION_USER);
 
         btnTitulo = (Button) view.findViewById(R.id.btn_titulo_tractores);
         txtNumEconomico = (EditText) view.findViewById(R.id.txt_tractores_num_economico);
@@ -89,7 +89,7 @@ public class RegistroTractoresFragment extends Fragment implements View.OnClickL
         spinnerEmpresa.setOnItemSelectedListener(this);
 
         database = FirebaseDatabase.getInstance();
-        drTransportistas = database.getReference("listaDeTransportistas");
+        drTransportistas = database.getReference(Constants.FB_KEY_MAIN_LISTA_TRANSPORTISTAS);
 
         pDialog = new ProgressDialog(getContext());
         pDialog.setMessage(getString(R.string.default_loading_msg));
