@@ -223,7 +223,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         pDialog.setCancelable(false);
         pDialog.show();
 
-        mAuth.createUserWithEmailAndPassword(cliente.getCorreoElectronico(), cliente.getContraseña())
+        mAuth.createUserWithEmailAndPassword(cliente.getCorreoElectronico(), cliente.getPassword())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -257,9 +257,10 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
         cliente.setTipoDeUsuario(Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE);
         cliente.setFirebaseId(user.getUid());
-        cliente.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_ACTIVO);
-        cliente.setContraseña(null);
+        cliente.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_INACTIVO);
+        cliente.setPassword(null);
         cliente.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
+        cliente.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
 
         dbCliente.child(user.getUid()).child(Constants.FB_KEY_ITEM_CLIENTE).setValue(cliente, new DatabaseReference.CompletionListener() {
             @Override

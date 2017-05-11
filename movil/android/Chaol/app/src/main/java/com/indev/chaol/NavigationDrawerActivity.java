@@ -422,15 +422,15 @@ public class NavigationDrawerActivity extends AppCompatActivity
         /**obtiene la instancia como cliente**/
         DatabaseReference dbCliente =
                 FirebaseDatabase.getInstance().getReference()
-                        .child("clientes");
+                        .child(Constants.FB_KEY_MAIN_CLIENTES);
 
-        cliente.setTipoDeUsuario("cliente");
+        cliente.setTipoDeUsuario(Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE);
         cliente.setFirebaseId(user.getUid());
-        cliente.setEstatus("activo");
-        cliente.setContraseña(null);
+        cliente.setEstatus(cliente.getEstatus());
+        cliente.setPassword(null);
         cliente.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
 
-        dbCliente.child(user.getUid()).child("cliente").setValue(cliente, new DatabaseReference.CompletionListener() {
+        dbCliente.child(user.getUid()).child(Constants.FB_KEY_ITEM_CLIENTE).setValue(cliente, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 pDialog.dismiss();

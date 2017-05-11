@@ -201,13 +201,13 @@ public class RegistroLoginClientesFragment extends Fragment implements View.OnCl
         clientes.setColonia(txtColonia.getText().toString().trim());
         clientes.setCodigoPostal(txtCodigoPostal.getText().toString().trim());
         clientes.setCalle(txtCalle.getText().toString().trim());
-        clientes.setNumInterior(txtNumInt.getText().toString().trim());
-        clientes.setNumExterior(txtNumExt.getText().toString().trim());
-        clientes.setMetodoPago(spinnerMetodoPago.getSelectedItem().toString());
+        clientes.setNumeroInterior(txtNumInt.getText().toString().trim());
+        clientes.setNumeroExterior(txtNumExt.getText().toString().trim());
+        clientes.setMetodoDePago(spinnerMetodoPago.getSelectedItem().toString());
         clientes.setTelefono(txtTelefono.getText().toString().trim());
         clientes.setCelular(txtCelular.getText().toString().trim());
         clientes.setCorreoElectronico(txtEmail.getText().toString().trim());
-        clientes.setContraseña(txtPassword.getText().toString().trim());
+        clientes.setPassword(txtPassword.getText().toString().trim());
 
         /**metodo principal para crear usuario**/
         activityInterface.createUserCliente(clientes);

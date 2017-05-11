@@ -168,15 +168,15 @@ public class PerfilClientesFragment extends Fragment implements View.OnClickList
 
                 txtNombre.setText(cliente.getNombre());
                 /**Asigna valores del item seleccionado**/
-                onSelectMetodoPago(cliente.getMetodoPago());
+                onSelectMetodoPago(cliente.getMetodoDePago());
                 txtRFC.setText(cliente.getRFC());
                 txtEstado.setText(cliente.getEstado());
                 txtCiudad.setText(cliente.getCiudad());
                 txtColonia.setText(cliente.getColonia());
                 txtCodigoPostal.setText(cliente.getCodigoPostal());
                 txtCalle.setText(cliente.getCalle());
-                txtNumInt.setText(cliente.getNumInterior());
-                txtNumExt.setText(cliente.getNumExterior());
+                txtNumInt.setText(cliente.getNumeroInterior());
+                txtNumExt.setText(cliente.getNumeroExterior());
                 txtTelefono.setText(cliente.getTelefono());
                 txtCelular.setText(cliente.getCelular());
                 txtCorreoElectronico.setText(cliente.getCorreoElectronico());
@@ -284,13 +284,13 @@ public class PerfilClientesFragment extends Fragment implements View.OnClickList
         cliente.setColonia(txtColonia.getText().toString().trim());
         cliente.setCodigoPostal(txtCodigoPostal.getText().toString().trim());
         cliente.setCalle(txtCalle.getText().toString().trim());
-        cliente.setNumInterior(txtNumInt.getText().toString().trim());
-        cliente.setNumExterior(txtNumExt.getText().toString().trim());
-        cliente.setMetodoPago(spinnerMetodoPago.getSelectedItem().toString());
+        cliente.setNumeroInterior(txtNumInt.getText().toString().trim());
+        cliente.setNumeroExterior(txtNumExt.getText().toString().trim());
+        cliente.setMetodoDePago(spinnerMetodoPago.getSelectedItem().toString());
         cliente.setTelefono(txtTelefono.getText().toString().trim());
         cliente.setCelular(txtCelular.getText().toString().trim());
         cliente.setCorreoElectronico(txtCorreoElectronico.getText().toString().trim());
-        cliente.setContraseña(txtPassword.getText().toString().trim());
+        cliente.setPassword(txtPassword.getText().toString().trim());
 
         cliente.setFechaDeCreacion(_clienteActual.getFechaDeCreacion());
         cliente.setEstatus(_clienteActual.getEstatus());
@@ -337,7 +337,6 @@ public class PerfilClientesFragment extends Fragment implements View.OnClickList
         metodosPagos = new ArrayList<>();
         metodosPagoList.add("Seleccione ...");
 
-        //TODO Metodo para llamar al servidor
         metodosPagoList.add("Efectivo");
         metodosPagoList.add("Cheque");
         metodosPagoList.add("Transferencia Electronica");

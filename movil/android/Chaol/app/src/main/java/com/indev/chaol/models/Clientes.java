@@ -3,7 +3,7 @@ package com.indev.chaol.models;
 import java.io.Serializable;
 
 /**
- * Created by texiumuser on 28/02/2017.
+ * Created by jvier on 10/05/2017.
  */
 
 public class Clientes implements Serializable {
@@ -17,12 +17,11 @@ public class Clientes implements Serializable {
     private String calle;
     private String numeroInterior;
     private String numeroExterior;
-    private String metodoPago;
+    private String metodoDePago;
     private String telefono;
     private String celular;
     private String correoElectronico;
-    private String contraseña;
-
+    private String password;
     private String imagenURL;
     private String tipoDeUsuario;
 
@@ -31,20 +30,10 @@ public class Clientes implements Serializable {
     private Long fechaDeCreacion;
     private Long fechaDeEdicion;
 
-
     public Clientes() {
-
     }
 
-    public Clientes(String _nombre) {
-        this.nombre = _nombre;
-    }
-
-    public Clientes(String nombre, String RFC, String estado, String ciudad, String colonia,
-                    String codigoPostal, String calle, String numeroInterior, String numeroExterior,
-                    String metodoPago, String telefono, String celular, String correoElectronico,
-                    String contraseña, String imagenURL, String tipoDeUsuario, String firebaseId,
-                    String estatus, Long fechaDeCreacion, Long fechaDeEdicion) {
+    public Clientes(String nombre, String RFC, String estado, String ciudad, String colonia, String codigoPostal, String calle, String numeroInterior, String numeroExterior, String metodoDePago, String telefono, String celular, String correoElectronico, String password, String imagenURL, String tipoDeUsuario, String firebaseId, String estatus, Long fechaDeCreacion, Long fechaDeEdicion) {
         this.nombre = nombre;
         this.RFC = RFC;
         this.estado = estado;
@@ -54,11 +43,11 @@ public class Clientes implements Serializable {
         this.calle = calle;
         this.numeroInterior = numeroInterior;
         this.numeroExterior = numeroExterior;
-        this.metodoPago = metodoPago;
+        this.metodoDePago = metodoDePago;
         this.telefono = telefono;
         this.celular = celular;
         this.correoElectronico = correoElectronico;
-        this.contraseña = contraseña;
+        this.password = password;
         this.imagenURL = imagenURL;
         this.tipoDeUsuario = tipoDeUsuario;
         this.firebaseId = firebaseId;
@@ -123,28 +112,28 @@ public class Clientes implements Serializable {
         this.calle = calle;
     }
 
-    public String getNumInterior() {
+    public String getNumeroInterior() {
         return numeroInterior;
     }
 
-    public void setNumInterior(String numInterior) {
-        this.numeroInterior = numInterior;
+    public void setNumeroInterior(String numeroInterior) {
+        this.numeroInterior = numeroInterior;
     }
 
-    public String getNumExterior() {
+    public String getNumeroExterior() {
         return numeroExterior;
     }
 
-    public void setNumExterior(String numExterior) {
-        this.numeroExterior = numExterior;
+    public void setNumeroExterior(String numeroExterior) {
+        this.numeroExterior = numeroExterior;
     }
 
-    public String getMetodoPago() {
-        return metodoPago;
+    public String getMetodoDePago() {
+        return metodoDePago;
     }
 
-    public void setMetodoPago(String metodoPago) {
-        this.metodoPago = metodoPago;
+    public void setMetodoDePago(String metodoDePago) {
+        this.metodoDePago = metodoDePago;
     }
 
     public String getTelefono() {
@@ -171,20 +160,20 @@ public class Clientes implements Serializable {
         this.correoElectronico = correoElectronico;
     }
 
-    public String getContraseña() {
-        return contraseña;
+    public String getPassword() {
+        return password;
     }
 
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getImagenURL() {
         return imagenURL;
     }
 
-    public void setImagenURL(String imagenUrl) {
-        this.imagenURL = imagenUrl;
+    public void setImagenURL(String imagenURL) {
+        this.imagenURL = imagenURL;
     }
 
     public String getTipoDeUsuario() {
