@@ -32,6 +32,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
 import com.indev.chaol.models.Administradores;
+import com.indev.chaol.models.Bodegas;
 import com.indev.chaol.models.Choferes;
 import com.indev.chaol.models.Clientes;
 import com.indev.chaol.models.DecodeExtraParams;
@@ -359,6 +360,9 @@ public class NavigationDrawerActivity extends AppCompatActivity
                     case R.id.item_btn_eliminar_cliente:
                         operation = Constants.WS_KEY_ELIMINAR_CLIENTES;
                         break;
+                    case R.id.item_btn_eliminar_bodega:
+                        operation = Constants.WS_KEY_ELIMINAR_BODEGAS;
+                        break;
                     case R.id.item_btn_eliminar_transportista:
                         operation = Constants.WS_KEY_ELIMINAR_TRANSPORTISTAS;
                         break;
@@ -442,7 +446,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
             }
         });
 
-        Log.i(TAG,"firebaseUpdateCliente: Actualizado correctamente" + user.getUid());
+        Log.i(TAG, "firebaseUpdateCliente: Actualizado correctamente" + user.getUid());
     }
 
     @Override
@@ -505,7 +509,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         });
 
 
-        Log.i(TAG,"firebaseRegistroTransportista: Registrado correctamente" + user.getUid());
+        Log.i(TAG, "firebaseRegistroTransportista: Registrado correctamente" + user.getUid());
     }
 
     @Override
@@ -612,7 +616,9 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
     }
 
-    /**Elimina los objetos deacuerdo a la operacion**/
+    /**
+     * Elimina los objetos deacuerdo a la operacion
+     **/
     private void firebaseOperations(int operation) {
         pDialog = new ProgressDialog(NavigationDrawerActivity.this);
         pDialog.setMessage(getString(R.string.default_loading_msg));
@@ -623,6 +629,9 @@ public class NavigationDrawerActivity extends AppCompatActivity
         switch (operation) {
             case Constants.WS_KEY_ELIMINAR_CLIENTES:
                 this.firebaseDeleteCliente();
+                break;
+            case Constants.WS_KEY_ELIMINAR_BODEGAS:
+                this.firebaseDeleteBodega();
                 break;
             case Constants.WS_KEY_ELIMINAR_TRANSPORTISTAS:
                 this.firebaseDeleteTransportista();
@@ -639,7 +648,9 @@ public class NavigationDrawerActivity extends AppCompatActivity
         }
     }
 
-    /**Elimina especificamente el objeto seleccionado**/
+    /**
+     * Elimina especificamente el objeto seleccionado
+     **/
     private void firebaseDeleteColaborador() {
         final Choferes chofer = (Choferes) getDecodeItem().getItemModel();
 
@@ -689,10 +700,12 @@ public class NavigationDrawerActivity extends AppCompatActivity
             }
         });
 
-        Log.i(TAG,"firebaseDeleteChofer: Eliminado correctamente" + chofer.getFirebaseId());
+        Log.i(TAG, "firebaseDeleteChofer: Eliminado correctamente" + chofer.getFirebaseId());
     }
 
-    /**Elimina especificamente el objeto seleccionado**/
+    /**
+     * Elimina especificamente el objeto seleccionado
+     **/
     private void firebaseDeleteCliente() {
         final Clientes cliente = (Clientes) getDecodeItem().getItemModel();
 
@@ -718,10 +731,44 @@ public class NavigationDrawerActivity extends AppCompatActivity
             }
         });
 
-        Log.i(TAG,"firebaseDeleteCliente: Eliminado correctamente" + cliente.getFirebaseId());
+        Log.i(TAG, "firebaseDeleteCliente: Eliminado correctamente" + cliente.getFirebaseId());
     }
 
-    /**Elimina especificamente el objeto seleccionado**/
+    /**
+     * Elimina especificamente el objeto seleccionado
+     **/
+    private void firebaseDeleteBodega() {
+        final Bodegas bodega = (Bodegas) getDecodeItem().getItemModel();
+
+        /**obtiene la instancia del elemento**/
+        DatabaseReference dbBodega =
+                FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.FB_KEY_MAIN_CLIENTES)
+                        .child(bodega.getFirebaseIdCliente())
+                        .child(Constants.FB_KEY_MAIN_BODEGAS)
+                        .child(bodega.getFirebaseIdBodega());
+
+        bodega.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO);
+        bodega.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
+
+        dbBodega.setValue(bodega, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                pDialog.dismiss();
+                if (databaseError == null) {
+                    Toast.makeText(getApplicationContext(),
+                            "Eliminado correctamente...", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        Log.i(TAG, "firebaseDeleteCliente: Eliminado correctamente" + bodega.getFirebaseIdBodega());
+    }
+
+    /**
+     * Elimina especificamente el objeto seleccionado
+     **/
     private void firebaseDeleteTransportista() {
         final Transportistas transportista = (Transportistas) getDecodeItem().getItemModel();
 
@@ -748,10 +795,12 @@ public class NavigationDrawerActivity extends AppCompatActivity
             }
         });
 
-        Log.i(TAG,"firebaseDeleteTransportista: Eliminado correctamente" + transportista.getFirebaseId());
+        Log.i(TAG, "firebaseDeleteTransportista: Eliminado correctamente" + transportista.getFirebaseId());
     }
 
-    /**Elimina especificamente el objeto seleccionado**/
+    /**
+     * Elimina especificamente el objeto seleccionado
+     **/
     private void firebaseDeleteChofer() {
         final Choferes chofer = (Choferes) getDecodeItem().getItemModel();
 
@@ -801,10 +850,12 @@ public class NavigationDrawerActivity extends AppCompatActivity
             }
         });
 
-        Log.i(TAG,"firebaseDeleteChofer: Eliminado correctamente" + chofer.getFirebaseId());
+        Log.i(TAG, "firebaseDeleteChofer: Eliminado correctamente" + chofer.getFirebaseId());
     }
 
-    /**Elimina especificamente el objeto seleccionado**/
+    /**
+     * Elimina especificamente el objeto seleccionado
+     **/
     private void firebaseDeleteTractor() {
         Tractores tractor = (Tractores) getDecodeItem().getItemModel();
 
@@ -832,10 +883,12 @@ public class NavigationDrawerActivity extends AppCompatActivity
             }
         });
 
-        Log.i(TAG,"firebaseDeleteRemolque: Eliminado correctamente" + tractor.getFirebaseId());
+        Log.i(TAG, "firebaseDeleteRemolque: Eliminado correctamente" + tractor.getFirebaseId());
     }
 
-    /**Elimina especificamente el objeto seleccionado**/
+    /**
+     * Elimina especificamente el objeto seleccionado
+     **/
     private void firebaseDeleteRemolque() {
         Remolques remolque = (Remolques) getDecodeItem().getItemModel();
 
@@ -863,7 +916,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
             }
         });
 
-        Log.i(TAG,"firebaseDeleteRemolque: Eliminado correctamente" + remolque.getFirebaseId());
+        Log.i(TAG, "firebaseDeleteRemolque: Eliminado correctamente" + remolque.getFirebaseId());
     }
 
     @Override
@@ -873,7 +926,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
     @Override
     public void onDrawerOpened(View drawerView) {
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(drawerView.getWindowToken(), 0);
     }
 

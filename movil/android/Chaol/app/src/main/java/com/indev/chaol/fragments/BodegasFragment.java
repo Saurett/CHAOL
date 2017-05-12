@@ -18,9 +18,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.indev.chaol.MainRegisterActivity;
 import com.indev.chaol.R;
-import com.indev.chaol.adapters.ClientesAdapter;
+import com.indev.chaol.adapters.BodegasAdapter;
 import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
-import com.indev.chaol.models.Clientes;
+import com.indev.chaol.models.Bodegas;
 import com.indev.chaol.models.DecodeItem;
 import com.indev.chaol.utils.Constants;
 
@@ -34,10 +34,10 @@ import java.util.List;
 
 public class BodegasFragment extends Fragment implements View.OnClickListener {
 
-    private static List<Clientes> clientesList;
-    private static RecyclerView recyclerViewClientes;
-    private ClientesAdapter clientesAdapter;
-    private static ClientesAdapter adapter;
+    private static List<Bodegas> bodegasList;
+    private static RecyclerView recyclerViewBodegas;
+    private BodegasAdapter bodegasAdapter;
+    private static BodegasAdapter adapter;
     private ProgressDialog pDialog;
     private static NavigationDrawerInterface navigationDrawerInterface;
 
@@ -50,11 +50,11 @@ public class BodegasFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_clientes, container, false);
+        View view = inflater.inflate(R.layout.fragment_bodegas, container, false);
 
-        recyclerViewClientes = (RecyclerView) view.findViewById(R.id.recycler_view_clientes);
-        clientesAdapter = new ClientesAdapter();
-        clientesAdapter.setOnClickListener(this);
+        recyclerViewBodegas = (RecyclerView) view.findViewById(R.id.recycler_view_bodegas);
+        bodegasAdapter = new BodegasAdapter();
+        bodegasAdapter.setOnClickListener(this);
 
         /**Obtiene la instancia compartida del objeto FirebaseAuth**/
         database = FirebaseDatabase.getInstance();
@@ -71,18 +71,23 @@ public class BodegasFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                clientesAdapter = new ClientesAdapter();
-                clientesList = new ArrayList<>();
+                bodegasAdapter = new BodegasAdapter();
+                bodegasList = new ArrayList<>();
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 
-                    Clientes cliente = postSnapshot.child(Constants.FB_KEY_ITEM_CLIENTE).getValue(Clientes.class);
-                    if (!cliente.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO)) {
-                        clientesList.add(cliente);
+                    for (DataSnapshot psBodegas : postSnapshot.child(Constants.FB_KEY_MAIN_BODEGAS).getChildren()) {
+
+                        Bodegas bodega = psBodegas.getValue(Bodegas.class);
+
+                        if (bodega.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ACTIVO)) {
+                            bodega.setFirebaseIdCliente(postSnapshot.getKey());
+                            bodegasList.add(bodega);
+                        }
                     }
                 }
 
-                onPreRenderClientes();
+                onPreRenderBodegas();
 
                 pDialog.dismiss();
             }
@@ -98,20 +103,20 @@ public class BodegasFragment extends Fragment implements View.OnClickListener {
     }
 
     /**Carga el listado predeterminado de firebase**/
-    private void onPreRenderClientes() {
+    private void onPreRenderBodegas() {
 
-        clientesAdapter.addAll(clientesList);
+        bodegasAdapter.addAll(bodegasList);
 
-        recyclerViewClientes.setAdapter(clientesAdapter);
+        recyclerViewBodegas.setAdapter(bodegasAdapter);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        recyclerViewClientes.setLayoutManager(linearLayoutManager);
+        recyclerViewBodegas.setLayoutManager(linearLayoutManager);
 
-        if (clientesList.size() == 0) {
+        if (bodegasList.size() == 0) {
             Toast.makeText(getActivity(), "La lista se encuentra vacía", Toast.LENGTH_SHORT).show();
         }
 
-        adapter = clientesAdapter;
+        adapter = bodegasAdapter;
     }
 
     @Override
@@ -142,17 +147,17 @@ public class BodegasFragment extends Fragment implements View.OnClickListener {
         navigationDrawerInterface.setDecodeItem(decodeItem);
 
         switch (decodeItem.getIdView()) {
-            case R.id.item_btn_editar_cliente:
+            case R.id.item_btn_editar_bodega:
                 navigationDrawerInterface.openExternalActivity(Constants.ACCION_EDITAR, MainRegisterActivity.class);
                 break;
-            case R.id.item_btn_eliminar_cliente:
+            case R.id.item_btn_eliminar_bodega:
                 navigationDrawerInterface.showQuestion();
                 break;
         }
     }
 
     public static void deleteItem(DecodeItem decodeItem) {
-        clientesList.remove(decodeItem.getPosition());
+        bodegasList.remove(decodeItem.getPosition());
         adapter.removeItem(decodeItem.getPosition());
     }
 }

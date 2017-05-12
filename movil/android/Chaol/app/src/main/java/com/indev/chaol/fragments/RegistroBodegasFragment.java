@@ -33,8 +33,6 @@ import com.indev.chaol.R;
 import com.indev.chaol.models.Bodegas;
 import com.indev.chaol.models.Clientes;
 import com.indev.chaol.models.DecodeExtraParams;
-import com.indev.chaol.models.Remolques;
-import com.indev.chaol.models.Transportistas;
 import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
 
@@ -132,8 +130,10 @@ public class RegistroBodegasFragment extends Fragment implements View.OnClickLis
 
                         if (cliente.getFirebaseId() == null) continue;
 
-                        clientesList.add(cliente.getNombre());
-                        clientes.add(cliente);
+                        if (cliente.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ACTIVO)) {
+                            clientesList.add(cliente.getNombre());
+                            clientes.add(cliente);
+                        }
                     }
                 }
 
@@ -176,16 +176,6 @@ public class RegistroBodegasFragment extends Fragment implements View.OnClickLis
     public void onPreRender() {
         switch (_MAIN_DECODE.getAccionFragmento()) {
             case Constants.ACCION_EDITAR:
-                /**Obtiene el item selecionado en el fragmento de lista**/
-                Clientes clientes = (Clientes) _MAIN_DECODE.getDecodeItem().getItemModel();
-
-                /**Asigna valores del item seleccionado**/
-                txtNombre.setText(clientes.getNombre());
-
-                /**Modifica valores predeterminados de ciertos elementos**/
-                btnTitulo.setText(getString(Constants.TITLE_FORM_ACTION.get(_MAIN_DECODE.getAccionFragmento())));
-                fabBodegas.setImageDrawable(getResources().getDrawable(R.mipmap.ic_mode_edit_white_18dp));
-
                 this.onPreRenderEditar();
                 break;
             case Constants.ACCION_REGISTRAR:
@@ -206,13 +196,13 @@ public class RegistroBodegasFragment extends Fragment implements View.OnClickLis
         DatabaseReference dbCliente =
                 FirebaseDatabase.getInstance().getReference()
                         .child(Constants.FB_KEY_MAIN_CLIENTES).child(bodega.getFirebaseIdCliente())
-                        .child(Constants.FB_KEY_MAIN_BODEGAS);
+                        .child(Constants.FB_KEY_MAIN_BODEGAS).child(bodega.getFirebaseIdBodega());
 
-        pDialog = new ProgressDialog(getContext());
-        pDialog.setMessage(getString(R.string.default_loading_msg));
-        pDialog.setIndeterminate(false);
-        pDialog.setCancelable(false);
-        pDialog.show();
+        final ProgressDialog pDialogRender = new ProgressDialog(getContext());
+        pDialogRender.setMessage(getString(R.string.default_loading_msg));
+        pDialogRender.setIndeterminate(false);
+        pDialogRender.setCancelable(false);
+        pDialogRender.show();
 
         dbCliente.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -230,9 +220,7 @@ public class RegistroBodegasFragment extends Fragment implements View.OnClickLis
                 txtNumInt.setText(bodega.getNumeroInterior());
                 txtNumExt.setText(bodega.getNumeroExterior());
 
-                linearLayoutClientes.setVisibility(View.GONE);
-
-                pDialog.dismiss();
+                pDialogRender.dismiss();
             }
 
             @Override
@@ -341,10 +329,10 @@ public class RegistroBodegasFragment extends Fragment implements View.OnClickLis
                 }
             }
         } else if (_MAIN_DECODE.getAccionFragmento() == Constants.ACCION_EDITAR) {
-            Clientes cliente = (Clientes) _MAIN_DECODE.getDecodeItem().getItemModel();
+            Bodegas bodega = (Bodegas) _MAIN_DECODE.getDecodeItem().getItemModel();
             for (Clientes miCliente : clientes) {
                 item++;
-                if (miCliente.getFirebaseId().equals(cliente.getFirebaseId())) {
+                if (miCliente.getFirebaseId().equals(bodega.getFirebaseIdCliente())) {
                     break;
                 }
             }
@@ -382,6 +370,7 @@ public class RegistroBodegasFragment extends Fragment implements View.OnClickLis
     public void onClick(DialogInterface dialog, int which) {
         switch (which) {
             case DialogInterface.BUTTON_POSITIVE:
+
                 break;
         }
     }

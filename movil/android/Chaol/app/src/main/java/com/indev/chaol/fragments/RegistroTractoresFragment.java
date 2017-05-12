@@ -124,6 +124,7 @@ public class RegistroTractoresFragment extends Fragment implements View.OnClickL
                 if (!_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA)) {
                     linearLayoutEmpresa.setVisibility(View.VISIBLE);
                 }
+
                 pDialog.dismiss();
             }
 
@@ -351,7 +352,6 @@ public class RegistroTractoresFragment extends Fragment implements View.OnClickL
     public void onClick(DialogInterface dialog, int which) {
         switch (which) {
             case DialogInterface.BUTTON_POSITIVE:
-
                 break;
         }
     }

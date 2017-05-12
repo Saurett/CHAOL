@@ -100,6 +100,10 @@ public final class Constants {
     public static final int WS_KEY_ELIMINAR_FLETES = 60;
     public static final int WS_KEY_EDITAR_FLETES = 61;
     public static final int WS_KEY_AGREGAR_FLETES = 62;
+    public static final int WS_KEY_BUSCAR_BODEGAS = 7;
+    public static final int WS_KEY_ELIMINAR_BODEGAS = 70;
+    public static final int WS_KEY_EDITAR_BODEGAS = 71;
+    public static final int WS_KEY_AGREGAR_BODEGAS = 72;
     public static final int WS_KEY_REGISTER_ACTIVITY = 100;
     public static final int WS_KEY_NAVIGATION_ACTIVITY = 101;
 
@@ -209,6 +213,7 @@ public final class Constants {
         ITEM_FRAGMENT.put(R.id.menu_item_agenda, FRAGMENT_LISTADO_AGENDA);
         ITEM_FRAGMENT.put(R.id.menu_item_perfil, FRAGMENT_MAIN_PERFILES);
         ITEM_FRAGMENT.put(R.id.item_btn_editar_cliente, FRAGMENT_MAIN_REGISTER);
+        ITEM_FRAGMENT.put(R.id.item_btn_editar_bodega, FRAGMENT_BODEGAS_REGISTER);
         ITEM_FRAGMENT.put(R.id.item_btn_editar_transportista, FRAGMENT_TRANSPORTISTAS_REGISTER);
         ITEM_FRAGMENT.put(R.id.item_btn_editar_chofer, FRAGMENT_CHOFERES_REGISTER);
         ITEM_FRAGMENT.put(R.id.item_btn_editar_tractor, FRAGMENT_TRACTORES_REGISTER);
@@ -264,6 +269,7 @@ public final class Constants {
     static {
         TITLE_ACTIVITY = new HashMap<>();
         TITLE_ACTIVITY.put(R.id.item_btn_editar_cliente, R.string.default_item_menu_title_clientes);
+        TITLE_ACTIVITY.put(R.id.item_btn_editar_bodega, R.string.default_item_menu_title_bodegas);
         TITLE_ACTIVITY.put(R.id.item_btn_editar_transportista, R.string.default_item_menu_title_transportistas);
         TITLE_ACTIVITY.put(R.id.item_btn_editar_chofer, R.string.default_item_menu_title_choferes);
         TITLE_ACTIVITY.put(R.id.item_btn_editar_tractor, R.string.default_item_menu_title_tractores);

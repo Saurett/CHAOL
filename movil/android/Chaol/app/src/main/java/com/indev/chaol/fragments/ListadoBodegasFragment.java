@@ -15,6 +15,7 @@ import com.indev.chaol.MainRegisterActivity;
 import com.indev.chaol.R;
 import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
 import com.indev.chaol.models.DecodeExtraParams;
+import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
 
 
@@ -27,10 +28,14 @@ public class ListadoBodegasFragment extends Fragment implements View.OnClickList
     private static NavigationDrawerInterface navigationDrawerInterface;
     private static FloatingActionButton fabBodegas;
 
+    private static Usuarios _SESSION_USER;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_listado_bodegas, container, false);
+
+        _SESSION_USER = (Usuarios) getActivity().getIntent().getSerializableExtra(Constants.KEY_SESSION_USER);
 
         fabBodegas = (FloatingActionButton) view.findViewById(R.id.fab_listado_bodegas);
         fabBodegas.setOnClickListener(this);
@@ -79,6 +84,7 @@ public class ListadoBodegasFragment extends Fragment implements View.OnClickList
 
                 Intent intent = new Intent(getActivity(), MainRegisterActivity.class);
                 intent.putExtra(Constants.KEY_MAIN_DECODE, extraParams);
+                intent.putExtra(Constants.KEY_SESSION_USER, _SESSION_USER);
                 startActivity(intent);
                 break;
         }
