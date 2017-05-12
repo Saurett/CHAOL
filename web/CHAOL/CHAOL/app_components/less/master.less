@@ -1,0 +1,140 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 3/03/2017, 01:03:48 PM
+    Author     : Fred Gz
+*/
+
+/*IMPORTACIONES*/
+@import "base/estilos.less";
+@import "../../bower_components/font-awesome/less/font-awesome.less";
+@import "utilerias//bootstrap-calendar.less";
+/*@import "utilerias//bootstrap-datepicker.less";*/
+
+body {
+    padding-left: 54px !important;
+    background: @Background;
+    min-height: 100% !important;
+    height: auto;
+    padding-right: 0;
+}
+
+header {
+    padding: 10px 0;
+    color: @Text_Icons;
+    background-color: @Dark_Primary_Color;
+    box-shadow: 0 4px 5px @Sombra;
+    z-index: 1;
+}
+
+#div_usuario a {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+#div_usuario i {
+    vertical-align: middle;
+}
+
+#div_usuario span {
+    padding-right: 10px;
+}
+
+/*MENU*/
+nav {
+    box-shadow: 0 4px 5px @Sombra;
+    position: absolute;
+    z-index: 2;
+    height: 100%;
+    background-color: rgb(255,255,255);
+    width: 230px;
+    padding: 10px;
+    color: @Dark_Primary_Color;
+    transition: left 0.5s cubic-bezier(0.45, 0.05, 0.55, 0.95) 0s;
+}
+
+nav.cerrado {
+    left: -177px;
+}
+
+nav.cerrado a {
+    cursor: none;
+    pointer-events: none;
+}
+
+nav.abierto {
+    left: 0;
+}
+
+nav.abierto a {
+    cursor: pointer;
+    pointer-events: initial;
+}
+
+nav ul li {
+    list-style: none;
+}
+
+nav li {
+    padding: 0.5em 1em;
+    transition: background-color 0.2s cubic-bezier(0.45, 0.05, 0.55, 0.95) 0s;
+}
+
+nav li li {
+    padding: 0.5em 1em;
+}
+
+nav > div > ul > li.activo {
+    background: @Dark_Primary_Color;
+    color: #ffffff;
+    background-image: url('../imagenes/iconos/ic_play_arrow_black_24dp/ic_playback_arrow_black_24dp_2x.png');
+    background-repeat: no-repeat;
+    background-position-x: right;
+    background-size: auto 100%;
+}
+
+nav > div > ul > li.li-hijo:hover {
+    background: @Dark_Primary_Color;
+    color: #ffffff;
+}
+
+nav.cerrado .li-hijo:hover {
+}
+
+nav li a {
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+nav li a:hover {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+nav .activo {
+}
+
+nav .li-padre {
+    color: @Secondary_Text;
+}
+
+#button_menu {
+    color: @Dark_Primary_Color;
+    cursor: pointer;
+    margin: 18px 0;
+}
+
+#div_menu_opciones {
+    transition: opacity 0.5s ease-in-out 0s;
+}
+
+/*FIN MENU*/
+@media only screen and (max-width: 425px) {
+    #img_usuario {
+        display: none;
+    }
+}

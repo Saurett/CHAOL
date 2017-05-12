@@ -98,13 +98,30 @@
                                             <input type="text" id="input_direccion_carga" class="form-control" value="" />
                                         </div>
                                     </div>
-                                    <!--Ciudad - Estado de Origen-->
+                                    <!--Estado de Origen-->
                                     <div class="form-group">
                                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                            <label for="input_ciudad_estado_origen" class="control-label">Ciudad - Estado de Origen</label>
+                                            <label for="dropdown_estado_origen">Estado de Origen</label>
                                         </div>
                                         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                                            <input type="text" id="input_ciudad_estado_origen" class="form-control" value="" />
+                                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdown_estado_origen" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                Chihuahua
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdown_estado_destino">
+                                                <li><a href="">Chihuahua</a></li>
+                                                <li><a href="">Estado de México</a></li>
+                                                <li><a href="">Otro</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!--Ciudad de Origen-->
+                                    <div class="form-group">
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                            <label for="input_ciudad_origen">Ciudad de Origen</label>
+                                        </div>
+                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                            <input id="input_ciudad_origen" class="form-control" type="text" />
                                         </div>
                                     </div>
                                     <!--Tipo de Remolque-->
@@ -165,13 +182,30 @@
                                             <input id="input_direccion_descarga" class="form-control" type="text" />
                                         </div>
                                     </div>
-                                    <!--Ciudad - Estado de Destino-->
+                                    <!--Estado de Destino-->
                                     <div class="form-group">
                                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                            <label for="input_ciudad_estado_destino">Ciudad - Estado de Destino</label>
+                                            <label for="dropdown_estado_destino">Estado de Destino</label>
                                         </div>
                                         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                                            <input id="input_ciudad_estado_destino" class="form-control" type="text" />
+                                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdown_estado_destino" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                Chihuahua
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdown_estado_destino">
+                                                <li><a href="">Chihuahua</a></li>
+                                                <li><a href="">Estado de México</a></li>
+                                                <li><a href="">Otro</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!--Ciudad de Destino-->
+                                    <div class="form-group">
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                            <label for="input_ciudad_destino">Ciudad de Destino</label>
+                                        </div>
+                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                            <input id="input_ciudad_destino" class="form-control" type="text" />
                                         </div>
                                     </div>
                                     <!--Cotizar-->
@@ -225,7 +259,7 @@
                             <div id="div_solicitud_transportista" class="collapse" role="tabpanel" aria-labelledby="headingOne">
                                 <div class="card-block">
                                     <!--Transportistas interesados-->
-                                    <div class="form-group overflow-auto">
+                                    <div class="form-group">
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                             <label class="control-label">Transportistas interesados</label>
                                         </div>
@@ -319,7 +353,7 @@
                                         <h2>Chofer</h2>
                                         <br />
                                     </div>
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 overflow-auto">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <div class="col-lg-3 text-center">
                                             <a href="" class="col-lg-12">
                                                 <div class="col-lg-12 margin-bottom-20">
@@ -339,7 +373,7 @@
                                                         Juan Zambrano Rodríguez
                                                         <span class="caret"></span>
                                                     </button>
-                                                    <ul class="dropdown-menu" aria-labelledby="dropdown_metodo_pago">
+                                                    <ul class="dropdown-menu" aria-labelledby="dropdown_chofer">
                                                         <li><a href="">Juan Zambrano Rodríguez</a></li>
                                                         <li><a href="">Sofía Torres Hernández</a></li>
                                                         <li><a href="">Ernesto Ramírez Márquez</a></li>
@@ -498,12 +532,12 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <!--BOTON-->
-            <div class="col-lg-offset-10 col-lg-2 col-md-12 col-sm-12 col-xs-12 text-right">
-                <a href="#/fletes/agenda">
-                    <i class="fa fa-arrow-circle-left fa-3x" aria-hidden="true"></i>
-                </a>
+                <!--BOTON-->
+                <div class="col-lg-offset-10 col-lg-2 col-md-12 col-sm-12 col-xs-12 text-right">
+                    <a href="#/fletes/agenda">
+                        <i class="fa fa-arrow-circle-left fa-3x" aria-hidden="true"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </div>

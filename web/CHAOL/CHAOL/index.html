@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+<html ng-app="app" ng-cloak>
+<head>
+    <title>CHAOL - Inicio de Sesión</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--LIBRERIAS-->
+    <link href="estilos/base.css" rel="stylesheet" type="text/css" />
+</head>
+<body class="col-lg-12 no-padding">
+    <!--PROGRESS-->
+    <div id="div_progress" class="col-lg-12 div-progress hidden">
+        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+    <div id="div_principal" class="col-sm-12 col-md-12 container no-padding">
+        <ng-view>
+        </ng-view>
+    </div>
+    <!--SCRIPTS-->
+    <script src="js/base.js" type="text/javascript"></script>
+    <script src="js/app.js" type="text/javascript"></script>
+    <script src="js/tools.js" type="text/javascript"></script>
+</body>
+</html>

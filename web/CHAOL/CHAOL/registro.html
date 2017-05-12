@@ -1,0 +1,180 @@
+﻿<div id="registro" ng-cloak>
+    <!--ENCABEZADO-->
+    <header class="col-xs-12 col-sm-12 col-md-12">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 no-padding">
+            <img class="col-xs-12 col-sm-4 col-md-4 col-lg-2 no-padding" src="../imagenes/negocio/logo_1.png" alt="" />
+        </div>
+    </header>
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 titulo-seccion">
+    </div>
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <!--TABS-->
+        <md-content class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <md-tabs md-dynamic-height md-border-bottom>
+                <!--CLIENTES-->
+                <md-tab label="Cliente">
+                    <md-content class="md-padding">
+                        <div class="col-lg-12 caja-titulo">
+                            <h1 class="md-display-2">Clientes</h1>
+                        </div>
+                        <!--CONTENIDO CLIENTES-->
+                        <form name="clientes" ng-submit="clientes.$valid && registrarCliente()">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-contenido">
+                                <!--FORMULARIO-->
+                                <div class="col-lg-12">
+                                    <!--IMAGEN-->
+                                    <div class="col-lg-3 text-center">
+                                        <div class="col-lg-12 margin-bottom-20">
+                                            <div>
+                                                <label for="input_foto" class="puntero">
+                                                    <i id="i_perfil" class="fa fa-user-circle fa-5x" aria-hidden="true">
+                                                    </i>
+                                                    <img src="" alt="Alternate Text" id="img_perfil" height="150" width="150" class="imagen-perfil hide" />
+                                                </label>
+                                            </div>
+                                            <input type="file" name="foto" id="input_foto" accept="image/x-png, image/gif, image/jpeg" onchange="angular.element(this).scope().guardarFoto()" ng-hide="true" />
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <label for="input_foto" class="text-blue puntero">cambiar imagen</label>
+                                        </div>
+                                    </div>
+                                    <!--DATOS-->
+                                    <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+                                        <!--NOMBRE-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Nombre o Razón Social</label>
+                                            <input type="text" name="nombre" ng-model="objetoCliente.cliente.nombre" required />
+                                            <div ng-messages="clientes.nombre.$error" role="alert">
+                                                <div ng-message="required">Por favor, compártenos tu nombre o razón social.</div>
+                                            </div>
+                                        </md-input-container>
+                                        <!--RFC-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>RFC</label>
+                                            <input type="text" name="rfc" ng-model="objetoCliente.cliente.rfc" required />
+                                            <div ng-messages="clientes.rfc.$error" role="alert">
+                                                <div ng-message="required">Por favor, compártenos tu RFC.</div>
+                                            </div>
+                                        </md-input-container>
+                                        <!--NUMERO INTERIOR-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Número Interior</label>
+                                            <input type="text" name="numeroInterior" ng-model="objetoCliente.cliente.numeroInterior" />
+                                        </md-input-container>
+                                        <!--NÚMERO EXTERIOR-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Número Exterior</label>
+                                            <input type="text" name="numeroExterior" ng-model="objetoCliente.cliente.numeroExterior" />
+                                        </md-input-container>
+                                        <!--CALLE-->
+                                        <md-input-container class="col-lg-offset-1 col-lg-11 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Calle</label>
+                                            <input type="text" name="calle" ng-model="objetoCliente.cliente.calle" />
+                                        </md-input-container>
+                                        <!--COLONIA-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Colonia</label>
+                                            <input type="text" name="colonia" ng-model="objetoCliente.cliente.colonia" />
+                                        </md-input-container>
+                                        <!--CIUDAD-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Ciudad</label>
+                                            <input type="text" name="ciudad" ng-model="objetoCliente.cliente.ciudad" />
+                                        </md-input-container>
+                                        <!--ESTADO-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Estado</label>
+                                            <input type="text" name="estado" ng-model="objetoCliente.cliente.estado" />
+                                        </md-input-container>
+                                        <!--CODIGO POSTAL-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Código Postal</label>
+                                            <input type="text" name="codigoPostal" ng-model="objetoCliente.cliente.codigoPostal" ng-pattern="/^[0-9]{5}$/" md-maxlength="5">
+                                            <div ng-messages="clientes.codigoPostal.$error" role="alert">
+                                                <div ng-message="pattern">
+                                                    Este no parece un código postal válido.
+                                                </div>
+                                            </div>
+                                        </md-input-container>
+                                        <!--MÉTODO DE PAGO-->
+                                        <md-input-container class="col-lg-offset-1 col-lg-11 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Método de Pago</label>
+                                            <md-select name="metodoDePago" ng-model="objetoCliente.cliente.metodoDePago" required>
+                                                <md-option ng-repeat="metodo in metodosDePago" value="{{metodo}}">
+                                                    {{metodo}}
+                                                </md-option>
+                                            </md-select>
+                                            <div ng-messages="clientes.metodoDePago.$error" role="alert">
+                                                <div ng-message="required">Por favor, indícanos tu método de pago.</div>
+                                            </div>
+                                        </md-input-container>
+                                        <!--TELÉFONO-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Teléfono</label>
+                                            <input type="text" name="telefono" ng-model="objetoCliente.cliente.telefono" />
+                                        </md-input-container>
+                                        <!--CELULAR-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Celular</label>
+                                            <input type="text" name="celular" ng-model="objetoCliente.cliente.celular" />
+                                        </md-input-container>
+                                        <!--CORREO ELECTRÓNICO-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Correo Electrónico</label>
+                                            <input type="email" name="correoElectronico" ng-model="objetoCliente.cliente.correoElectronico" required ng-pattern="/^.+@.+\..+$/" />
+                                            <div ng-messages="clientes.correoElectronico.$error" role="alert">
+                                                <div ng-message="required">Por favor, compártenos tu correo electrónico. Este será tu usuario.</div>
+                                                <div ng-message="pattern">Oops! Este no parece un correo electrónico válido.</div>
+                                            </div>
+                                        </md-input-container>
+                                        <!--CONTRASEÑA-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Contraseña</label>
+                                            <input type="password" name="contrasena" ng-model="objetoCliente.cliente.contrasena" required minlength="8" />
+                                            <div ng-messages="clientes.contrasena.$error" role="alert">
+                                                <div ng-message="required">Por favor, indica tu contraseña.</div>
+                                                <div ng-message="minlength">Tu contraseña debe tener 8 caracteres como mínimo.</div>
+                                            </div>
+                                        </md-input-container>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
+                                </div>
+                                <!--BOTON-->
+                                <div class="col-lg-offset-10 col-lg-2 col-md-12 col-sm-12 col-xs-12 text-right">
+                                    <md-button class="md-fab md-primary" aria-label="Resgistrarme" type="submit">
+                                        <i class="fa fa-check fa-3x" aria-hidden="true"></i>
+                                    </md-button>
+                                </div>
+                            </div>
+                        </form>
+                    </md-content>
+                </md-tab>
+                <!--TRANSPORTISTAS-->
+                <md-tab label="Transportista">
+                    <md-content class="md-padding">
+                        <div class="col-lg-12 caja-titulo">
+                            <h1 class="md-display-2">Transportistas</h1>
+                        </div>
+                        <div>
+                            Transportista
+                        </div>
+                    </md-content>
+                </md-tab>
+                <!--CHOFERES-->
+                <md-tab label="Chofer">
+                    <md-content class="md-padding">
+                        <div class="col-lg-12 caja-titulo">
+                            <h1 class="md-display-2">Choferes</h1>
+                        </div>
+                        <div>
+                            Chofer
+                        </div>
+                    </md-content>
+                </md-tab>
+            </md-tabs>
+        </md-content>
+    </div>
+</div>
