@@ -220,6 +220,7 @@ public final class Constants {
         ITEM_FRAGMENT.put(R.id.fab_listado_tractores, FRAGMENT_TRACTORES_REGISTER);
         ITEM_FRAGMENT.put(R.id.fab_listado_remolques, FRAGMENT_REMOLQUES_REGISTER);
         ITEM_FRAGMENT.put(R.id.fab_panel_clientes, FRAGMENT_MAIN_REGISTER);
+        ITEM_FRAGMENT.put(R.id.fab_panel_bodegas, FRAGMENT_BODEGAS_REGISTER);
         ITEM_FRAGMENT.put(R.id.fab_panel_transportistas, FRAGMENT_TRANSPORTISTAS_REGISTER);
         ITEM_FRAGMENT.put(R.id.fab_panel_choferes, FRAGMENT_CHOFERES_REGISTER);
         ITEM_FRAGMENT.put(R.id.fab_panel_tractores, FRAGMENT_TRACTORES_REGISTER);
@@ -268,11 +269,13 @@ public final class Constants {
         TITLE_ACTIVITY.put(R.id.item_btn_editar_tractor, R.string.default_item_menu_title_tractores);
         TITLE_ACTIVITY.put(R.id.item_btn_editar_remolque, R.string.default_item_menu_title_remolques);
         TITLE_ACTIVITY.put(R.id.fab_listado_clientes, R.string.default_item_menu_title_clientes);
+        TITLE_ACTIVITY.put(R.id.fab_listado_bodegas, R.string.default_item_menu_title_bodegas);
         TITLE_ACTIVITY.put(R.id.fab_listado_transportistas, R.string.default_item_menu_title_transportistas);
         TITLE_ACTIVITY.put(R.id.fab_listado_choferes, R.string.default_item_menu_title_choferes);
         TITLE_ACTIVITY.put(R.id.fab_listado_tractores, R.string.default_item_menu_title_tractores);
         TITLE_ACTIVITY.put(R.id.fab_listado_remolques, R.string.default_item_menu_title_remolques);
         TITLE_ACTIVITY.put(R.id.fab_panel_clientes, R.string.default_item_menu_title_clientes);
+        TITLE_ACTIVITY.put(R.id.fab_panel_bodegas, R.string.default_item_menu_title_bodegas);
         TITLE_ACTIVITY.put(R.id.fab_panel_transportistas, R.string.default_item_menu_title_transportistas);
         TITLE_ACTIVITY.put(R.id.fab_panel_choferes, R.string.default_item_menu_title_choferes);
         TITLE_ACTIVITY.put(R.id.fab_panel_tractores, R.string.default_item_menu_title_tractores);

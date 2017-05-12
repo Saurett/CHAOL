@@ -28,6 +28,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.indev.chaol.fragments.interfaces.MainRegisterInterface;
+import com.indev.chaol.models.Bodegas;
 import com.indev.chaol.models.Choferes;
 import com.indev.chaol.models.Clientes;
 import com.indev.chaol.models.DecodeExtraParams;
@@ -174,7 +175,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
      **/
     private void openFragment(String tag) {
         FragmentTransaction mainFragment = getSupportFragmentManager().beginTransaction();
-        mainFragment.add(R.id.fragment_main_register_container, Constants.TAG_FRAGMENT.get(tag), tag);
+        mainFragment.replace(R.id.fragment_main_register_container, Constants.TAG_FRAGMENT.get(tag), tag);
         mainFragment.addToBackStack(tag);
         mainFragment.commit();
     }
@@ -627,7 +628,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                         .child(Constants.FB_KEY_MAIN_TRANSPORTISTAS)
                         .child(remolque.getFirebaseIdTransportista());
 
-        String remolqueKey = dbTransportista.child(Constants.FB_KEY_MAIN_TRACTORES).push().getKey();
+        String remolqueKey = dbTransportista.child(Constants.FB_KEY_MAIN_REMOLQUES).push().getKey();
 
         remolque.setFirebaseId(remolqueKey);
         remolque.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_ACTIVO);
@@ -649,70 +650,53 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 });
     }
 
+    @Override
+    public void createBodegas(Bodegas bodega) {
+
+        pDialog = new ProgressDialog(MainRegisterActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+       firebaseRegistroBodega(bodega);
+    }
+
+    private void firebaseRegistroBodega(Bodegas bodega) {
+        /**obtiene la instancia como transportista**/
+        final DatabaseReference dbClientes =
+                FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.FB_KEY_MAIN_CLIENTES)
+                        .child(bodega.getFirebaseIdCliente());
+
+        String bodegasKey = dbClientes.child(Constants.FB_KEY_MAIN_BODEGAS).push().getKey();
+
+        bodega.setFirebaseIdBodega(bodegasKey);
+        bodega.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_ACTIVO);
+        bodega.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
+        bodega.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
+        bodega.setFirebaseIdCliente(null);
+
+        dbClientes.child(Constants.FB_KEY_MAIN_BODEGAS).child(bodega.getFirebaseIdBodega())
+                .setValue(bodega, new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                        pDialog.dismiss();
+                        if (databaseError == null) {
+                            finish();
+                            Toast.makeText(getApplicationContext(),
+                                    "Registrado correctamente...", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+    }
+
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_form_cliente:
 
-                scrollViewRegister.fullScroll(ScrollView.FOCUS_UP);
-
-                closeFragment(_MAIN_DECODE.getFragmentTag());
-                _MAIN_DECODE.setFragmentTag(Constants.FRAGMENT_LOGIN_REGISTER);
-                getIntent().putExtra(Constants.KEY_MAIN_DECODE, _MAIN_DECODE); /**Para que se actualice en los fragmentos**/
-                openFragment(_MAIN_DECODE.getFragmentTag());
-
-                /**Boton seleccionado**/
-                btnFormCliente.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
-                btnFormCliente.setTextColor(getResources().getColor(R.color.colorIcons));
-
-                /**Boton deseleccionado**/
-                btnFormTransportista.setBackgroundColor(getResources().getColor(R.color.colorIcons));
-                btnFormTransportista.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
-
-                btnFormChofer.setBackgroundColor(getResources().getColor(R.color.colorIcons));
-                btnFormChofer.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
-
-                break;
-            case R.id.btn_form_transportista:
-
-                scrollViewRegister.fullScroll(ScrollView.FOCUS_UP);
-
-                closeFragment(_MAIN_DECODE.getFragmentTag());
-                _MAIN_DECODE.setFragmentTag(Constants.FRAGMENT_LOGIN_TRANSPORTISTAS_REGISTER); /**Para que se actualice en los fragmentos**/
-                getIntent().putExtra(Constants.KEY_MAIN_DECODE, _MAIN_DECODE);
-                openFragment(_MAIN_DECODE.getFragmentTag());
-
-                /**Boton deseleccionado**/
-                btnFormCliente.setBackgroundColor(getResources().getColor(R.color.colorIcons));
-                btnFormCliente.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
-
-                btnFormChofer.setBackgroundColor(getResources().getColor(R.color.colorIcons));
-                btnFormChofer.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
-
-                /**Boton seleccionado**/
-                btnFormTransportista.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
-                btnFormTransportista.setTextColor(getResources().getColor(R.color.colorIcons));
-                break;
-            case R.id.btn_form_chofer:
-                scrollViewRegister.fullScroll(ScrollView.FOCUS_UP);
-
-                closeFragment(_MAIN_DECODE.getFragmentTag());
-                _MAIN_DECODE.setFragmentTag(Constants.FRAGMENT_LOGIN_CHOFERES_REGISTER); /**Para que se actualice en los fragmentos**/
-                getIntent().putExtra(Constants.KEY_MAIN_DECODE, _MAIN_DECODE);
-                openFragment(_MAIN_DECODE.getFragmentTag());
-
-                /**Boton seleccionado**/
-                btnFormChofer.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
-                btnFormChofer.setTextColor(getResources().getColor(R.color.colorIcons));
-
-                /**Boton deseleccionado**/
-                btnFormTransportista.setBackgroundColor(getResources().getColor(R.color.colorIcons));
-                btnFormTransportista.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
-
-                btnFormCliente.setBackgroundColor(getResources().getColor(R.color.colorIcons));
-                btnFormCliente.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
-                break;
         }
 
     }

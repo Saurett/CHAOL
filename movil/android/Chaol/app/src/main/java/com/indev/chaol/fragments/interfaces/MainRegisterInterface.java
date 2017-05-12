@@ -1,5 +1,6 @@
 package com.indev.chaol.fragments.interfaces;
 
+import com.indev.chaol.models.Bodegas;
 import com.indev.chaol.models.Choferes;
 import com.indev.chaol.models.Clientes;
 import com.indev.chaol.models.DecodeItem;
@@ -35,5 +36,8 @@ public interface MainRegisterInterface {
     void createTractores(Tractores tractor);
     /**Permite crear remolques**/
     void createRemolques(Remolques remolque);
+    /**Permite crear bodegas**/
+    void createBodegas(Bodegas bodega);
+
 
 }

@@ -17,7 +17,10 @@ public class Bodegas implements Serializable {
     private String numeroInterior;
     private String numeroExterior;
 
+    private String nombreDelCliente;
+
     private String firebaseIdBodega;
+    private String firebaseIdCliente;
     private String estatus;
     private Long fechaDeCreacion;
     private Long fechaDeEdicion;
@@ -27,7 +30,7 @@ public class Bodegas implements Serializable {
 
     }
 
-    public Bodegas(String nombreDeLaBodega, String estado, String ciudad, String colonia, String codigoPostal, String calle, String numeroInterior, String numeroExterior, String firebaseIdBodega, String estatus, Long fechaDeCreacion, Long fechaDeEdicion) {
+    public Bodegas(String nombreDeLaBodega, String estado, String ciudad, String colonia, String codigoPostal, String calle, String numeroInterior, String numeroExterior, String nombreDelCliente, String firebaseIdBodega, String firebaseIdCliente, String estatus, Long fechaDeCreacion, Long fechaDeEdicion) {
         this.nombreDeLaBodega = nombreDeLaBodega;
         this.estado = estado;
         this.ciudad = ciudad;
@@ -36,7 +39,9 @@ public class Bodegas implements Serializable {
         this.calle = calle;
         this.numeroInterior = numeroInterior;
         this.numeroExterior = numeroExterior;
+        this.nombreDelCliente = nombreDelCliente;
         this.firebaseIdBodega = firebaseIdBodega;
+        this.firebaseIdCliente = firebaseIdCliente;
         this.estatus = estatus;
         this.fechaDeCreacion = fechaDeCreacion;
         this.fechaDeEdicion = fechaDeEdicion;
@@ -114,6 +119,14 @@ public class Bodegas implements Serializable {
         this.firebaseIdBodega = firebaseIdBodega;
     }
 
+    public String getFirebaseIdCliente() {
+        return firebaseIdCliente;
+    }
+
+    public void setFirebaseIdCliente(String firebaseIdCliente) {
+        this.firebaseIdCliente = firebaseIdCliente;
+    }
+
     public String getEstatus() {
         return estatus;
     }
@@ -136,5 +149,13 @@ public class Bodegas implements Serializable {
 
     public void setFechaDeEdicion(Long fechaDeEdicion) {
         this.fechaDeEdicion = fechaDeEdicion;
+    }
+
+    public String getNombreDelCliente() {
+        return nombreDelCliente;
+    }
+
+    public void setNombreDelCliente(String nombreDelCliente) {
+        this.nombreDelCliente = nombreDelCliente;
     }
 }

@@ -9,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,9 +30,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.indev.chaol.MainRegisterActivity;
 import com.indev.chaol.R;
+import com.indev.chaol.models.Bodegas;
 import com.indev.chaol.models.Clientes;
 import com.indev.chaol.models.DecodeExtraParams;
-import com.indev.chaol.models.MetodosPagos;
+import com.indev.chaol.models.Remolques;
+import com.indev.chaol.models.Transportistas;
+import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
 
 import java.util.ArrayList;
@@ -44,61 +48,110 @@ import java.util.List;
 
 public class RegistroBodegasFragment extends Fragment implements View.OnClickListener, DialogInterface.OnClickListener, Spinner.OnItemSelectedListener {
 
+    private static final String TAG = RegistroBodegasFragment.class.getName();
+
     private Button btnTitulo;
-    private EditText txtNombre, txtRFC, txtEstado, txtCiudad, txtColonia, txtCodigoPostal, txtCalle, txtNumInt, txtNumExt, txtTelefono, txtCelular, txtCorreoElectronico, txtPassword;
-    private LinearLayout linearLayoutPassword;
-    private Spinner spinnerMetodoPago;
-    private FloatingActionButton fabClientes;
+    private EditText txtNombre, txtEstado, txtCiudad, txtColonia, txtCodigoPostal, txtCalle, txtNumInt, txtNumExt;
+    private LinearLayout linearLayoutClientes;
+    private Spinner spinnerCliente;
+    private FloatingActionButton fabBodegas;
     private ProgressDialog pDialog;
 
-    private static List<String> metodosPagoList;
-    private List<MetodosPagos> metodosPagos;
+    private static List<String> clientesList;
+    private List<Clientes> clientes;
 
     private static MainRegisterActivity activityInterface;
 
-    private static DecodeExtraParams _MAIN_DECODE = new DecodeExtraParams();
+    private static Usuarios _SESSION_USER;
+    private static DecodeExtraParams _MAIN_DECODE;
 
     /**
      * Declaraciones para Firebase
      **/
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private static Clientes _clienteActual;
+    private static Bodegas _bodegaActual;
+
+    private FirebaseDatabase database;
+    private DatabaseReference drClientes;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_registro_clientes, container, false);
+        View view = inflater.inflate(R.layout.fragment_registro_bodegas, container, false);
+
+        _MAIN_DECODE = (DecodeExtraParams) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
+        _SESSION_USER = (Usuarios) getActivity().getIntent().getSerializableExtra(Constants.KEY_SESSION_USER);
 
         /**Obtiene la instancia compartida del objeto FirebaseAuth**/
         mAuth = FirebaseAuth.getInstance();
 
-        btnTitulo = (Button) view.findViewById(R.id.btn_titulo_clientes);
+        btnTitulo = (Button) view.findViewById(R.id.btn_titulo_bodegas);
 
-        txtNombre = (EditText) view.findViewById(R.id.txt_clientes_nombre);
-        txtRFC = (EditText) view.findViewById(R.id.txt_clientes_rfc);
-        txtEstado = (EditText) view.findViewById(R.id.txt_clientes_estado);
-        txtCiudad = (EditText) view.findViewById(R.id.txt_clientes_ciudad);
-        txtColonia = (EditText) view.findViewById(R.id.txt_clientes_colonia);
-        txtCodigoPostal = (EditText) view.findViewById(R.id.txt_clientes_codigo_postal);
-        txtCalle = (EditText) view.findViewById(R.id.txt_clientes_calle);
-        txtNumInt = (EditText) view.findViewById(R.id.txt_clientes_num_int);
-        txtNumExt = (EditText) view.findViewById(R.id.txt_clientes_num_ext);
-        txtTelefono = (EditText) view.findViewById(R.id.txt_clientes_telefono);
-        txtCelular = (EditText) view.findViewById(R.id.txt_clientes_celular);
-        txtCorreoElectronico = (EditText) view.findViewById(R.id.txt_clientes_email);
-        txtPassword = (EditText) view.findViewById(R.id.txt_clientes_password);
+        txtNombre = (EditText) view.findViewById(R.id.txt_bodegas_nombre);
+        txtEstado = (EditText) view.findViewById(R.id.txt_bodegas_estado);
+        txtCiudad = (EditText) view.findViewById(R.id.txt_bodegas_ciudad);
+        txtColonia = (EditText) view.findViewById(R.id.txt_bodegas_colonia);
+        txtCodigoPostal = (EditText) view.findViewById(R.id.txt_bodegas_codigo_postal);
+        txtCalle = (EditText) view.findViewById(R.id.txt_bodegas_calle);
+        txtNumInt = (EditText) view.findViewById(R.id.txt_bodegas_num_int);
+        txtNumExt = (EditText) view.findViewById(R.id.txt_bodegas_num_ext);
 
-        linearLayoutPassword = (LinearLayout) view.findViewById(R.id.item_clientes_password);
+        linearLayoutClientes = (LinearLayout) view.findViewById(R.id.item_bodegas_cliente);
+        spinnerCliente = (Spinner) view.findViewById(R.id.spinner_bodegas_cliente);
 
-        spinnerMetodoPago = (Spinner) view.findViewById(R.id.spinner_clientes_metodo_pago);
+        fabBodegas = (FloatingActionButton) view.findViewById(R.id.fab_bodegas);
 
-        fabClientes = (FloatingActionButton) view.findViewById(R.id.fab_clientes);
+        fabBodegas.setOnClickListener(this);
+        spinnerCliente.setOnItemSelectedListener(this);
 
-        fabClientes.setOnClickListener(this);
+        database = FirebaseDatabase.getInstance();
+        drClientes = database.getReference(Constants.FB_KEY_MAIN_CLIENTES);
 
-        spinnerMetodoPago.setOnItemSelectedListener(this);
+        pDialog = new ProgressDialog(getContext());
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
 
-        _MAIN_DECODE = (DecodeExtraParams) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
+        /**Metodo que llama la lista de transportistas**/
+        drClientes.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                clientesList = new ArrayList<>();
+                clientes = new ArrayList<>();
+
+                clientesList.add("Seleccione ...");
+
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+
+                    for (DataSnapshot psCliente : postSnapshot.getChildren()) {
+
+                        Clientes cliente = psCliente.getValue(Clientes.class);
+
+                        if (cliente.getFirebaseId() == null) continue;
+
+                        clientesList.add(cliente.getNombre());
+                        clientes.add(cliente);
+                    }
+                }
+
+                onCargarSpinnerClientes();
+
+                if (!_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE)) {
+                    linearLayoutClientes.setVisibility(View.VISIBLE);
+                }
+                pDialog.dismiss();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Failed to read value
+                pDialog.dismiss();
+                Log.w(TAG, "Failed to read value.", databaseError.toException());
+            }
+        });
 
         this.onPreRender();
 
@@ -121,18 +174,6 @@ public class RegistroBodegasFragment extends Fragment implements View.OnClickLis
     }
 
     public void onPreRender() {
-
-        String tag = _MAIN_DECODE.getFragmentTag();
-
-        if (tag.equals(Constants.FRAGMENT_LOGIN_REGISTER)) {
-            btnTitulo.setBackgroundColor(getResources().getColor(R.color.colorIcons));
-            btnTitulo.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
-        }
-
-        /**Carga los elementos del combo**/
-        this.onCargarMetodosPagos();
-        this.onCargarSpinnerMetodosPagos();
-
         switch (_MAIN_DECODE.getAccionFragmento()) {
             case Constants.ACCION_EDITAR:
                 /**Obtiene el item selecionado en el fragmento de lista**/
@@ -143,7 +184,7 @@ public class RegistroBodegasFragment extends Fragment implements View.OnClickLis
 
                 /**Modifica valores predeterminados de ciertos elementos**/
                 btnTitulo.setText(getString(Constants.TITLE_FORM_ACTION.get(_MAIN_DECODE.getAccionFragmento())));
-                fabClientes.setImageDrawable(getResources().getDrawable(R.mipmap.ic_mode_edit_white_18dp));
+                fabBodegas.setImageDrawable(getResources().getDrawable(R.mipmap.ic_mode_edit_white_18dp));
 
                 this.onPreRenderEditar();
                 break;
@@ -160,12 +201,12 @@ public class RegistroBodegasFragment extends Fragment implements View.OnClickLis
 
     private void onPreRenderEditar() {
         /**Obtiene el item selecionado en el fragmento de lista**/
-        Clientes cliente = (Clientes) _MAIN_DECODE.getDecodeItem().getItemModel();
+        Bodegas bodega = (Bodegas) _MAIN_DECODE.getDecodeItem().getItemModel();
 
         DatabaseReference dbCliente =
                 FirebaseDatabase.getInstance().getReference()
-                        .child(Constants.FB_KEY_MAIN_CLIENTES).child(cliente.getFirebaseId())
-                        .child(Constants.FB_KEY_ITEM_CLIENTE);
+                        .child(Constants.FB_KEY_MAIN_CLIENTES).child(bodega.getFirebaseIdCliente())
+                        .child(Constants.FB_KEY_MAIN_BODEGAS);
 
         pDialog = new ProgressDialog(getContext());
         pDialog.setMessage(getString(R.string.default_loading_msg));
@@ -176,29 +217,20 @@ public class RegistroBodegasFragment extends Fragment implements View.OnClickLis
         dbCliente.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Clientes cliente = dataSnapshot.getValue(Clientes.class);
+                Bodegas bodega = dataSnapshot.getValue(Bodegas.class);
                 /**Se asigna el chofer actual a la memoria**/
-                _clienteActual = cliente;
+                _bodegaActual = bodega;
 
-                txtNombre.setText(cliente.getNombre());
-                /**Asigna valores del item seleccionado**/
-                onSelectMetodoPago(cliente.getMetodoDePago());
-                txtRFC.setText(cliente.getRFC());
-                txtEstado.setText(cliente.getEstado());
-                txtCiudad.setText(cliente.getCiudad());
-                txtColonia.setText(cliente.getColonia());
-                txtCodigoPostal.setText(cliente.getCodigoPostal());
-                txtCalle.setText(cliente.getCalle());
-                txtNumInt.setText(cliente.getNumeroInterior());
-                txtNumExt.setText(cliente.getNumeroExterior());
-                txtTelefono.setText(cliente.getTelefono());
-                txtCelular.setText(cliente.getCelular());
-                txtCorreoElectronico.setText(cliente.getCorreoElectronico());
+                txtNombre.setText(bodega.getNombreDeLaBodega());
+                txtEstado.setText(bodega.getEstado());
+                txtCiudad.setText(bodega.getCiudad());
+                txtColonia.setText(bodega.getColonia());
+                txtCodigoPostal.setText(bodega.getCodigoPostal());
+                txtCalle.setText(bodega.getCalle());
+                txtNumInt.setText(bodega.getNumeroInterior());
+                txtNumExt.setText(bodega.getNumeroExterior());
 
-                txtCorreoElectronico.setTag(txtCorreoElectronico.getKeyListener());
-                txtCorreoElectronico.setKeyListener(null);
-
-                linearLayoutPassword.setVisibility(View.GONE);
+                linearLayoutClientes.setVisibility(View.GONE);
 
                 pDialog.dismiss();
             }
@@ -211,59 +243,13 @@ public class RegistroBodegasFragment extends Fragment implements View.OnClickLis
 
         /**Modifica valores predeterminados de ciertos elementos**/
         btnTitulo.setText(getString(Constants.TITLE_FORM_ACTION.get(_MAIN_DECODE.getAccionFragmento())));
-        fabClientes.setImageDrawable(getResources().getDrawable(R.mipmap.ic_mode_edit_white_18dp));
-    }
-
-    /**
-     * Metodos privados en la clase AsynTask
-     **/
-    private void onCargarMetodosPagos() {
-        metodosPagoList = new ArrayList<>();
-        metodosPagos = new ArrayList<>();
-        metodosPagoList.add("Seleccione ...");
-
-        //TODO Metodo para llamar al servidor
-        metodosPagoList.add("Efectivo");
-        metodosPagoList.add("Cheque");
-        metodosPagoList.add("Transferencia Electronica");
-        metodosPagoList.add("Tarjeta de Crédito");
-        metodosPagoList.add("Dinero Electrónico");
-        metodosPagoList.add("Tarjeta de Débito");
-        metodosPagoList.add("NA");
-        metodosPagoList.add("Otros");
-
-        metodosPagos.add(new MetodosPagos(1, "Efectivo"));
-        metodosPagos.add(new MetodosPagos(2, "Cheque"));
-        metodosPagos.add(new MetodosPagos(3, "Transferencia Electronica"));
-        metodosPagos.add(new MetodosPagos(4, "Tarjeta de Crédito"));
-        metodosPagos.add(new MetodosPagos(5, "Dinero Electrónico"));
-        metodosPagos.add(new MetodosPagos(6, "Tarjeta de Débito"));
-        metodosPagos.add(new MetodosPagos(7, "NA"));
-        metodosPagos.add(new MetodosPagos(8, "Otros"));
-    }
-
-    private void onCargarSpinnerMetodosPagos() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
-                R.layout.text_spinner, metodosPagoList);
-
-        spinnerMetodoPago.setAdapter(adapter);
-        spinnerMetodoPago.setSelection(0);
-    }
-
-    private void onSelectMetodoPago(String miMetodoPago) {
-        for (MetodosPagos metodoPago :
-                metodosPagos) {
-            if (metodoPago.getMetodoPago().equals(miMetodoPago)) {
-                spinnerMetodoPago.setSelection(metodoPago.getId());
-                break;
-            }
-        }
+        fabBodegas.setImageDrawable(getResources().getDrawable(R.mipmap.ic_mode_edit_white_18dp));
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.fab_clientes:
+            case R.id.fab_bodegas:
                 if (_MAIN_DECODE.getAccionFragmento() == Constants.ACCION_EDITAR) {
                     this.showQuestion();
                 } else {
@@ -280,33 +266,29 @@ public class RegistroBodegasFragment extends Fragment implements View.OnClickLis
 
         Boolean authorized = true;
 
-        String email = txtCorreoElectronico.getText().toString();
-        String password = txtPassword.getText().toString();
+        String nombre = txtNombre.getText().toString();
 
-        if (TextUtils.isEmpty(email)) {
-            txtCorreoElectronico.setError("El campo es obligatorio", null);
-            txtCorreoElectronico.requestFocus();
+        if (TextUtils.isEmpty(nombre)) {
+            txtNombre.setError("El campo es obligatorio", null);
+            txtNombre.requestFocus();
             authorized = false;
         }
 
-        if (TextUtils.isEmpty(password)) {
-            txtPassword.setError("El campo es obligatorio", null);
-            txtPassword.requestFocus();
-            authorized = false;
-        }
 
-        if (spinnerMetodoPago.getSelectedItemId() <= 0L) {
-            TextView errorTextSE = (TextView) spinnerMetodoPago.getSelectedView();
-            errorTextSE.setError("El campo es obligatorio");
-            errorTextSE.setTextColor(Color.RED);
-            errorTextSE.setText("El campo es obligatorio");//changes t
-            errorTextSE.requestFocus();
+        if (!_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE)) {
+            if (spinnerCliente.getSelectedItemId() <= 0L) {
+                TextView errorTextSE = (TextView) spinnerCliente.getSelectedView();
+                errorTextSE.setError("El campo es obligatorio");
+                errorTextSE.setTextColor(Color.RED);
+                errorTextSE.setText("El campo es obligatorio");
+                errorTextSE.requestFocus();
 
-            authorized = false;
+                authorized = false;
+            }
         }
 
         if (authorized) {
-            this.createSimpleValidUser();
+            this.createSimpleValidBodega();
         } else {
             Toast.makeText(getContext(), "Es necesario capturar campos obligatorios",
                     Toast.LENGTH_SHORT).show();
@@ -314,26 +296,75 @@ public class RegistroBodegasFragment extends Fragment implements View.OnClickLis
 
     }
 
-    private void createSimpleValidUser() {
-        Clientes clientes = new Clientes();
+    private void createSimpleValidBodega() {
+        Bodegas bodega = new Bodegas();
 
-        clientes.setNombre(txtNombre.getText().toString().trim());
-        clientes.setRFC(txtRFC.getText().toString().trim());
-        clientes.setEstado(txtEstado.getText().toString().trim());
-        clientes.setCiudad(txtCiudad.getText().toString().trim());
-        clientes.setColonia(txtColonia.getText().toString().trim());
-        clientes.setCodigoPostal(txtCodigoPostal.getText().toString().trim());
-        clientes.setCalle(txtCalle.getText().toString().trim());
-        clientes.setNumeroInterior(txtNumInt.getText().toString().trim());
-        clientes.setNumeroExterior(txtNumExt.getText().toString().trim());
-        clientes.setMetodoDePago(spinnerMetodoPago.getSelectedItem().toString());
-        clientes.setTelefono(txtTelefono.getText().toString().trim());
-        clientes.setCelular(txtCelular.getText().toString().trim());
-        clientes.setCorreoElectronico(txtCorreoElectronico.getText().toString().trim());
-        clientes.setPassword(txtPassword.getText().toString().trim());
+        bodega.setNombreDeLaBodega(txtNombre.getText().toString().trim());
+        bodega.setEstado(txtEstado.getText().toString().trim());
+        bodega.setCiudad(txtCiudad.getText().toString().trim());
+        bodega.setColonia(txtColonia.getText().toString().trim());
+        bodega.setCodigoPostal(txtCodigoPostal.getText().toString().trim());
+        bodega.setCalle(txtCalle.getText().toString().trim());
+        bodega.setNumeroInterior(txtNumInt.getText().toString().trim());
+        bodega.setNumeroExterior(txtNumExt.getText().toString().trim());
+
+        Clientes cliente = getSelectCliente();
+
+        bodega.setFirebaseIdCliente(cliente.getFirebaseId());
+        bodega.setNombreDelCliente(cliente.getNombre());
 
         /**metodo principal para crear usuario**/
-        activityInterface.createUserCliente(clientes);
+        activityInterface.createBodegas(bodega);
+    }
+
+    /**
+     * Asigna los valores de los transportista a su combo
+     **/
+    private void onCargarSpinnerClientes() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
+                R.layout.text_spinner, clientesList);
+
+        int itemSelection = onPreRenderSelectCliente();
+
+        spinnerCliente.setAdapter(adapter);
+        spinnerCliente.setSelection(itemSelection);
+    }
+
+    private int onPreRenderSelectCliente() {
+        int item = 0;
+
+        if (_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE)) {
+            for (Clientes cliente : clientes) {
+                item++;
+                if (cliente.getFirebaseId().equals(_SESSION_USER.getFirebaseId())) {
+                    break;
+                }
+            }
+        } else if (_MAIN_DECODE.getAccionFragmento() == Constants.ACCION_EDITAR) {
+            Clientes cliente = (Clientes) _MAIN_DECODE.getDecodeItem().getItemModel();
+            for (Clientes miCliente : clientes) {
+                item++;
+                if (miCliente.getFirebaseId().equals(cliente.getFirebaseId())) {
+                    break;
+                }
+            }
+        }
+
+        return item;
+    }
+
+    private Clientes getSelectCliente() {
+        Clientes miCliente = new Clientes();
+
+        for (Clientes cliente :
+                clientes) {
+            if (cliente.getNombre().equals(spinnerCliente.getSelectedItem().toString())) {
+                miCliente = cliente;
+                break;
+            }
+        }
+
+        return miCliente;
     }
 
     private void showQuestion() {

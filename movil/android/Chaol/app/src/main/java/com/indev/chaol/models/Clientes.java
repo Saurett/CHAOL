@@ -33,6 +33,11 @@ public class Clientes implements Serializable {
     public Clientes() {
     }
 
+    public Clientes(String nombre, String firebaseId) {
+        this.nombre = nombre;
+        this.firebaseId = firebaseId;
+    }
+
     public Clientes(String nombre, String RFC, String estado, String ciudad, String colonia, String codigoPostal, String calle, String numeroInterior, String numeroExterior, String metodoDePago, String telefono, String celular, String correoElectronico, String password, String imagenURL, String tipoDeUsuario, String firebaseId, String estatus, Long fechaDeCreacion, Long fechaDeEdicion) {
         this.nombre = nombre;
         this.RFC = RFC;

@@ -22,6 +22,7 @@ import com.indev.chaol.R;
 import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
 import com.indev.chaol.models.Bodegas;
 import com.indev.chaol.models.DecodeExtraParams;
+import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
 
 
@@ -37,6 +38,8 @@ public class PanelBodegasFragment extends Fragment implements View.OnClickListen
     private static FloatingActionButton fabBodegas;
     private ProgressDialog pDialog;
 
+    private static Usuarios _SESSION_USER;
+
     /**
      * Declaraciones para Firebase
      **/
@@ -47,6 +50,8 @@ public class PanelBodegasFragment extends Fragment implements View.OnClickListen
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_panel_bodegas, container, false);
+
+        _SESSION_USER = (Usuarios) getActivity().getIntent().getSerializableExtra(Constants.KEY_SESSION_USER);
 
         btnTitulo = (Button) view.findViewById(R.id.btn_titulo_bodegas);
         txtNumBodegas = (TextView) view.findViewById(R.id.item_num_panel_bodegas);
@@ -135,6 +140,7 @@ public class PanelBodegasFragment extends Fragment implements View.OnClickListen
 
                 Intent intent = new Intent(getActivity(), MainRegisterActivity.class);
                 intent.putExtra(Constants.KEY_MAIN_DECODE, extraParams);
+                intent.putExtra(Constants.KEY_SESSION_USER, _SESSION_USER);
                 startActivity(intent);
                 break;
         }
