@@ -139,7 +139,11 @@ public class NavigationDrawerActivity extends AppCompatActivity
         switch (_SESSION_USER.getTipoDeUsuario()) {
             case Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE:
                 /**El cliente visualizara menu de fletes y de cuentas**/
-                menu.findItem(R.id.menu_title_administracion).setVisible(false);
+                menu.findItem(R.id.menu_item_clientes).setVisible(false);
+                menu.findItem(R.id.menu_item_transportistas).setVisible(false);
+                menu.findItem(R.id.menu_item_choferes).setVisible(false);
+                menu.findItem(R.id.menu_item_tractores).setVisible(false);
+                menu.findItem(R.id.menu_item_remolques).setVisible(false);
                 break;
             case Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA:
                 /**El cliente visualizara menu de administracion,fletes y de cuentas**/
