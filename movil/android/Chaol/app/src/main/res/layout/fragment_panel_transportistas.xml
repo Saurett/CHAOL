@@ -20,6 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="@color/colorPrimaryDark"
+            android:drawableEnd="@mipmap/ic_menu_white_24dp"
+            android:paddingEnd="10dp"
             android:paddingStart="20dp"
             android:text="TRANSPORTISTAS"
             android:textAlignment="textStart"
@@ -40,11 +42,12 @@
                 app:elevation="0dp" />
 
             <TextView
+                android:id="@+id/item_num_no_autorizado_panel_transportistas"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
-                android:text="1"
+                android:text="0"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="15sp" />
@@ -76,11 +79,12 @@
                 app:elevation="0dp" />
 
             <TextView
+                android:id="@+id/item_num_autorizado_panel_transportistas"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
-                android:text="2"
+                android:text="0"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="15sp" />
@@ -101,8 +105,8 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginTop="10dp"
-            android:visibility="invisible"
-            android:paddingLeft="20dp">
+            android:paddingLeft="20dp"
+            android:visibility="invisible">
 
             <android.support.design.widget.FloatingActionButton
                 android:layout_width="20dp"
@@ -138,8 +142,8 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginTop="10dp"
-            android:visibility="invisible"
-            android:paddingLeft="20dp">
+            android:paddingLeft="20dp"
+            android:visibility="invisible">
 
             <android.support.design.widget.FloatingActionButton
                 android:layout_width="20dp"

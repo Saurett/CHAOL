@@ -10,10 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 
 import com.indev.chaol.R;
 import com.indev.chaol.models.DecodeExtraParams;
-import com.indev.chaol.models.Fletes;
 import com.indev.chaol.utils.Constants;
 
 
@@ -25,6 +25,7 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
 
     private Button btnTitulo;
     private LinearLayout linearLayout;
+    private Spinner spinnerRemolques;
 
     private static DecodeExtraParams _MAIN_DECODE = new DecodeExtraParams();
 
@@ -64,7 +65,7 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
         switch (_MAIN_DECODE.getAccionFragmento()) {
             case Constants.ACCION_EDITAR:
                 /**Obtiene el item selecionado en el fragmento de lista**/
-                Fletes fletes = (Fletes) _MAIN_DECODE.getDecodeItem().getItemModel();
+                //Fletes fletes = (Fletes) _MAIN_DECODE.getDecodeItem().getItemModel();
 
                 /**Asigna valores del item seleccionado**/
                 break;

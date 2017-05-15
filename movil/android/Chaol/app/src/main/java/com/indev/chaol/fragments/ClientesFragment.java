@@ -1,14 +1,9 @@
 package com.indev.chaol.fragments;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,6 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.indev.chaol.MainRegisterActivity;
 import com.indev.chaol.R;
 import com.indev.chaol.adapters.ClientesAdapter;
@@ -41,6 +41,12 @@ public class ClientesFragment extends Fragment implements View.OnClickListener {
     private ProgressDialog pDialog;
     private static NavigationDrawerInterface navigationDrawerInterface;
 
+    /**
+     * Declaraciones para Firebase
+     **/
+    private FirebaseDatabase database;
+    private DatabaseReference drClientes;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -50,14 +56,66 @@ public class ClientesFragment extends Fragment implements View.OnClickListener {
         clientesAdapter = new ClientesAdapter();
         clientesAdapter.setOnClickListener(this);
 
+        /**Obtiene la instancia compartida del objeto FirebaseAuth**/
+        database = FirebaseDatabase.getInstance();
+        drClientes = database.getReference(Constants.FB_KEY_MAIN_CLIENTES);
+
+        pDialog = new ProgressDialog(getContext());
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        drClientes.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                clientesAdapter = new ClientesAdapter();
+                clientesList = new ArrayList<>();
+
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+
+                    Clientes cliente = postSnapshot.child(Constants.FB_KEY_ITEM_CLIENTE).getValue(Clientes.class);
+                    if (!cliente.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO)) {
+                        clientesList.add(cliente);
+                    }
+                }
+
+                onPreRenderClientes();
+
+                pDialog.dismiss();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                pDialog.dismiss();
+            }
+        });
+
+
         return view;
+    }
+
+    /**Carga el listado predeterminado de firebase**/
+    private void onPreRenderClientes() {
+
+        clientesAdapter.addAll(clientesList);
+
+        recyclerViewClientes.setAdapter(clientesAdapter);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerViewClientes.setLayoutManager(linearLayoutManager);
+
+        if (clientesList.size() == 0) {
+            Toast.makeText(getActivity(), "La lista se encuentra vacía", Toast.LENGTH_SHORT).show();
+        }
+
+        adapter = clientesAdapter;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
-        AsyncCallWS wsTaskList = new AsyncCallWS(Constants.WS_KEY_BUSCAR_CLIENTES);
-        wsTaskList.execute();
         super.onCreate(savedInstanceState);
     }
 
@@ -96,93 +154,5 @@ public class ClientesFragment extends Fragment implements View.OnClickListener {
     public static void deleteItem(DecodeItem decodeItem) {
         clientesList.remove(decodeItem.getPosition());
         adapter.removeItem(decodeItem.getPosition());
-    }
-
-    private class AsyncCallWS extends AsyncTask<Void, Void, Boolean> {
-
-        private Integer webServiceOperation;
-        private List<Clientes> tempClientesList;
-        private String textError;
-
-        private AsyncCallWS(Integer wsOperation) {
-            webServiceOperation = wsOperation;
-            textError = "";
-            tempClientesList = new ArrayList<>();
-        }
-
-        @Override
-        protected void onPreExecute() {
-            pDialog = new ProgressDialog(getContext());
-            pDialog.setMessage("Buscando");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(false);
-            pDialog.show();
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-
-            Boolean validOperation = false;
-
-            try {
-                switch (webServiceOperation) {
-                    case Constants.WS_KEY_BUSCAR_CLIENTES:
-                        tempClientesList = new ArrayList<>();
-                        List<Clientes> clientes = new ArrayList<>();
-
-                        clientes.add(new Clientes("Francisco Javier Díaz Saurett"));
-                        clientes.add(new Clientes("Fred Gomez Leyva"));
-                        clientes.add(new Clientes("Jorge Chaol Strayer"));
-                        clientes.add(new Clientes("Carlos Moreno Cantinflas"));
-
-                        tempClientesList.addAll(clientes);
-
-                        validOperation = true;
-                        break;
-                }
-            } catch (Exception e) {
-                textError = e.getMessage();
-                validOperation = false;
-            }
-
-            return validOperation;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            try {
-                clientesList = new ArrayList<>();
-                pDialog.dismiss();
-                if (success) {
-                    switch (webServiceOperation) {
-                        case Constants.WS_KEY_BUSCAR_CLIENTES:
-
-                            if (tempClientesList.size() > 0) {
-                                clientesList.addAll(tempClientesList);
-                                clientesAdapter.addAll(clientesList);
-
-                                recyclerViewClientes.setAdapter(clientesAdapter);
-
-                                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-                                recyclerViewClientes.setLayoutManager(linearLayoutManager);
-
-                            } else {
-                                Toast.makeText(getActivity(), "La lista se encuentra vacía", Toast.LENGTH_SHORT).show();
-                            }
-                            break;
-                    }
-
-                } else {
-                    String tempText = (textError.isEmpty() ? "Error desconocido" : textError);
-                    Toast.makeText(getActivity(), tempText, Toast.LENGTH_SHORT).show();
-                }
-
-                adapter = clientesAdapter;
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        }
     }
 }

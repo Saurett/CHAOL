@@ -15,19 +15,19 @@ public class Agendas implements Serializable {
     private String estado;
     private String nombreCliente;
     private String nombreTransportista;
-    private Drawable itemColor;
+    private int status;
 
     public Agendas() {
 
     }
 
-    public Agendas(int cve, int id, String estado, String nombreCliente, String nombreTransportista, Drawable itemColor) {
+    public Agendas(int cve, int id, String estado, String nombreCliente, String nombreTransportista, int status) {
         this.cve = cve;
         this.id = id;
         this.estado = estado;
         this.nombreCliente = nombreCliente;
         this.nombreTransportista = nombreTransportista;
-        this.itemColor = itemColor;
+        this.status = status;
     }
 
     public int getCve() {
@@ -70,11 +70,11 @@ public class Agendas implements Serializable {
         this.nombreTransportista = nombreTransportista;
     }
 
-    public Drawable getItemColor() {
-        return itemColor;
+    public int getStatus() {
+        return status;
     }
 
-    public void setItemColor(Drawable itemColor) {
-        this.itemColor = itemColor;
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

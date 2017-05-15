@@ -70,7 +70,7 @@ public class RemolquesAdapter extends RecyclerView.Adapter<RemolquesAdapter.View
         decodeItem.setItemModel(item);
         decodeItem.setPosition(position);
 
-        holder.txtNumEconomico.setText(item.getNumEconomico());
+        holder.txtNumEconomico.setText(item.getNumeroEconomico());
         holder.btnEliminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

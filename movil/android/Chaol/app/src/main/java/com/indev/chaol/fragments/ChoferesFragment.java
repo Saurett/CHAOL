@@ -2,7 +2,6 @@ package com.indev.chaol.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,12 +11,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.indev.chaol.MainRegisterActivity;
 import com.indev.chaol.R;
 import com.indev.chaol.adapters.ChoferesAdapter;
 import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
 import com.indev.chaol.models.Choferes;
 import com.indev.chaol.models.DecodeItem;
+import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
 
 import java.util.ArrayList;
@@ -37,23 +42,88 @@ public class ChoferesFragment extends Fragment implements View.OnClickListener {
     private ProgressDialog pDialog;
     private static NavigationDrawerInterface navigationDrawerInterface;
 
+    private static Usuarios _SESSION_USER;
+
+    /**
+     * Declaraciones para Firebase
+     **/
+    private FirebaseDatabase database;
+    private DatabaseReference drChoferes;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_choferes, container, false);
 
+        _SESSION_USER = (Usuarios) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_SESSION_USER);
+
         recyclerViewChoferes = (RecyclerView) view.findViewById(R.id.recycler_view_choferes);
         choferesAdapter = new ChoferesAdapter();
         choferesAdapter.setOnClickListener(this);
 
+        /**Obtiene la instancia compartida del objeto FirebaseAuth**/
+        database = FirebaseDatabase.getInstance();
+        drChoferes = database.getReference(Constants.FB_KEY_MAIN_CHOFERES);
+
+        pDialog = new ProgressDialog(getContext());
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        drChoferes.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                choferesAdapter = new ChoferesAdapter();
+                choferesList = new ArrayList<>();
+
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Choferes chofer = postSnapshot.getValue(Choferes.class);
+
+                    if (_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA)) {
+                        if (!_SESSION_USER.getFirebaseId().equals(chofer.getFirebaseIdTransportista())) continue;
+                    }
+
+                    if (!chofer.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO)) {
+                        choferesList.add(chofer);
+                    }
+                }
+
+                onPreRenderChoferes();
+
+                pDialog.dismiss();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                pDialog.dismiss();
+            }
+        });
+
         return view;
+    }
+
+    /**
+     * Carga el listado predeterminado de firebase
+     **/
+    private void onPreRenderChoferes() {
+
+        choferesAdapter.addAll(choferesList);
+        recyclerViewChoferes.setAdapter(choferesAdapter);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerViewChoferes.setLayoutManager(linearLayoutManager);
+
+        if (choferesList.size() == 0) {
+            Toast.makeText(getActivity(), "La lista se encuentra vacía", Toast.LENGTH_SHORT).show();
+        }
+
+        adapter = choferesAdapter;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
-        AsyncCallWS wsTaskList = new AsyncCallWS(Constants.WS_KEY_BUSCAR_CHOFERES);
-        wsTaskList.execute();
         super.onCreate(savedInstanceState);
     }
 
@@ -72,14 +142,16 @@ public class ChoferesFragment extends Fragment implements View.OnClickListener {
 
     }
 
-    /**Permite redireccionar a los metodos correspondientes dependiendo la cción deseada**/
+    /**
+     * Permite redireccionar a los metodos correspondientes dependiendo la cción deseada
+     **/
     public static void onListenerAction(DecodeItem decodeItem) {
         /**Inicializa DecodeItem en la activity principal**/
         navigationDrawerInterface.setDecodeItem(decodeItem);
 
         switch (decodeItem.getIdView()) {
             case R.id.item_btn_editar_chofer:
-                navigationDrawerInterface.openExternalActivity(Constants.ACCION_EDITAR,MainRegisterActivity.class);
+                navigationDrawerInterface.openExternalActivity(Constants.ACCION_EDITAR, MainRegisterActivity.class);
                 break;
             case R.id.item_btn_eliminar_chofer:
                 navigationDrawerInterface.showQuestion();
@@ -90,89 +162,5 @@ public class ChoferesFragment extends Fragment implements View.OnClickListener {
     public static void deleteItem(DecodeItem decodeItem) {
         choferesList.remove(decodeItem.getPosition());
         adapter.removeItem(decodeItem.getPosition());
-    }
-
-    private class AsyncCallWS extends AsyncTask<Void, Void, Boolean> {
-
-        private Integer webServiceOperation;
-        private List<Choferes> tempChoferesList;
-        private String textError;
-
-        private AsyncCallWS(Integer wsOperation) {
-            webServiceOperation = wsOperation;
-            textError = "";
-            tempChoferesList = new ArrayList<>();
-        }
-
-        @Override
-        protected void onPreExecute() {
-            pDialog = new ProgressDialog(getContext());
-            pDialog.setMessage("Buscando");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(false);
-            pDialog.show();
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-
-            Boolean validOperation = false;
-
-            try {
-                switch (webServiceOperation) {
-                    case Constants.WS_KEY_BUSCAR_CHOFERES:
-
-                        tempChoferesList = new ArrayList<>();
-                        List<Choferes> choferes = new ArrayList<>();
-
-                        choferes.add(new Choferes("Lola la trailera"));
-                        choferes.add(new Choferes("Nacho ghost raider"));
-                        choferes.add(new Choferes("Roman Kenshi"));
-                        choferes.add(new Choferes("Jorge Strayer"));
-
-                        tempChoferesList.addAll(choferes);
-
-                        validOperation = true;
-
-                        break;
-                }
-            } catch (Exception e) {
-                textError = e.getMessage();
-                validOperation = false;
-            }
-
-            return validOperation;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            try {
-                choferesList = new ArrayList<>();
-                pDialog.dismiss();
-                if (success) {
-
-                    if (tempChoferesList.size() > 0) {
-                        choferesList.addAll(tempChoferesList);
-                        choferesAdapter.addAll(choferesList);
-
-                        recyclerViewChoferes.setAdapter(choferesAdapter);
-
-                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-                        recyclerViewChoferes.setLayoutManager(linearLayoutManager);
-
-                    } else {
-                        Toast.makeText(getActivity(), "La lista se encuentra vacía", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    String tempText = (textError.isEmpty() ? "La lista  se encuentra vacía" : textError);
-                    Toast.makeText(getActivity(), tempText, Toast.LENGTH_SHORT).show();
-                }
-
-                adapter = choferesAdapter;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        }
     }
 }

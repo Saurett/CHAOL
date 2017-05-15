@@ -18,17 +18,18 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
-            android:background="@color/colorBorder"
-            android:orientation="horizontal">
+            android:background="@drawable/border_panel"
+            android:orientation="horizontal"
+            android:paddingBottom="8dp"
+            android:paddingLeft="8dp"
+            android:paddingTop="8dp">
 
             <android.support.design.widget.FloatingActionButton
-                android:id="@+id/item_fab_flete_agenda"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:id="@+id/item_fab_status_agenda"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_gravity="center"
-                android:layout_marginLeft="5dp"
-                app:backgroundTint="@color/colorIcons"
-                app:elevation="0dp" />
+                android:elevation="0dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -43,7 +44,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Estado de la asignación"
-                    android:textColor="@color/colorIcons"
+                    android:textColor="@color/colorPrimaryText"
                     android:textSize="15sp" />
 
                 <TextView
@@ -52,7 +53,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Nombre del Cliente"
-                    android:textColor="@color/colorIcons"
+                    android:textColor="@color/colorSecondaryText"
                     android:textSize="10sp" />
 
                 <TextView
@@ -61,7 +62,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Nombre del Transportista"
-                    android:textColor="@color/colorIcons"
+                    android:textColor="@color/colorSecondaryText"
                     android:textSize="10sp" />
             </LinearLayout>
 

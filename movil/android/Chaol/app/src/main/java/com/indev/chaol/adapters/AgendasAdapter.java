@@ -1,7 +1,8 @@
 package com.indev.chaol.adapters;
 
-import android.content.Context;
-import android.content.res.Resources;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -30,20 +31,19 @@ public class AgendasAdapter extends RecyclerView.Adapter<AgendasAdapter.ViewHold
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         LinearLayout linearLayout;
+        FloatingActionButton fabStatus;
         TextView txtEstadoAgenda;
         TextView txtNombreCliente;
         TextView txtNombreTransportista;
-        FloatingActionButton fabFletes;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             linearLayout = (LinearLayout) itemView.findViewById(R.id.item_color_agenda);
+            fabStatus = (FloatingActionButton) itemView.findViewById(R.id.item_fab_status_agenda);
             txtEstadoAgenda = (TextView) itemView.findViewById(R.id.item_estado_agenda);
             txtNombreCliente = (TextView) itemView.findViewById(R.id.item_nombre_cliente_agenda);
             txtNombreTransportista = (TextView) itemView.findViewById(R.id.item_nombre_transportista_agenda);
-
-            fabFletes = (FloatingActionButton) itemView.findViewById(R.id.item_fab_flete_agenda);
         }
     }
 
@@ -78,16 +78,33 @@ public class AgendasAdapter extends RecyclerView.Adapter<AgendasAdapter.ViewHold
         decodeItem.setItemModel(item);
         decodeItem.setPosition(position);
 
-        holder.linearLayout.setBackground(item.getItemColor());
+        int color = Color.GREEN;
+
+        switch (item.getStatus()) {
+            case 1:
+                color = Color.BLUE;
+                break;
+            case 2:
+                color = Color.CYAN;
+                break;
+            case 3:
+                color = Color.YELLOW;
+                break;
+            case 4:
+                color = Color.GREEN;
+                break;
+        }
+
+        holder.fabStatus.setBackgroundTintList(ColorStateList.valueOf(color));
 
         holder.txtEstadoAgenda.setText(item.getEstado());
         holder.txtNombreCliente.setText(item.getNombreCliente());
         holder.txtNombreTransportista.setText(item.getNombreTransportista());
 
-        holder.fabFletes.setOnClickListener(new View.OnClickListener() {
+        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                decodeItem.setIdView(view.getId());
+            public void onClick(View v) {
+                decodeItem.setIdView(v.getId());
                 AgendasFragment.onListenerAction(decodeItem);
             }
         });

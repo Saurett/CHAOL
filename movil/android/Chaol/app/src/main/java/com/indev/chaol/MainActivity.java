@@ -3,25 +3,49 @@ package com.indev.chaol;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Paint;
-import android.os.AsyncTask;
+import android.net.Credentials;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.EmailAuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.indev.chaol.models.DecodeExtraParams;
+import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
+import com.indev.chaol.utils.DateTimeUtils;
+import com.indev.chaol.utils.ErrorMessages;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private static final String TAG = MainActivity.class.getName();
 
     private TextInputEditText txtUsername, txtPassword, txtEmail;
     private Button btnLogin, btnRegister, btnForgotPassword, btnBack, btnSendEmail;
     private LinearLayout formForgot, formLogin;
+
     private ProgressDialog pDialog;
+    /*** Declaraciones para Firebase**/
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +67,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnSendEmail = (Button) findViewById(R.id.btn_send_email);
         btnBack = (Button) findViewById(R.id.btn_back_login);
 
+        /**Obtiene la instancia compartida del objeto FirebaseAuth**/
+        mAuth = FirebaseAuth.getInstance();
+
+        /**Responde a los cambios de estato en la session**/
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    checkIfEmailVerified();
+                    cleanLoginForm();
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                } else {
+                    // User is signed out
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                }
+            }
+        };
+
         /**se cargan estilos**/
         this.onPreRender();
 
@@ -53,44 +97,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnSendEmail.setOnClickListener(this);
         btnBack.setOnClickListener(this);
 
-        Log.i("Log", "Check create action - MainActivity");
+
+        Log.i(TAG," Unix Stamp " + DateTimeUtils.getTimeStamp());
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        // The activity is about to become visible.
-        Log.i("Log", "Check start action - MainActivity");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.i("Log", "Check resume action - MainActivity");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.i("Log", "Check pause action - MainActivity");
+        mAuth.addAuthStateListener(mAuthListener);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.i("Log", "Check stop action - MainActivity");
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Log.i("Log", "Check restart action - MainActivity");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.i("Log", "Check destroy action - MainActivity");
+        if (mAuthListener != null) mAuth.removeAuthStateListener(mAuthListener);
     }
 
     /**
@@ -102,15 +122,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         switch (id) {
             case R.id.btn_login:
-                validationLogin();
+                this.validationLogin();
                 break;
             case R.id.btn_register:
-                AsyncCallWS wsRegister = new AsyncCallWS(Constants.WS_KEY_REGISTER_ACTIVITY);
-                wsRegister.execute();
+                this.openRegister();
                 break;
             case R.id.btn_forgot_password:
             case R.id.btn_back_login:
-                showLoginActions();
+                this.showLoginActions();
+                break;
+            case R.id.btn_send_email:
+                this.validationEmail();
                 break;
             default:
                 break;
@@ -121,8 +143,154 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * Valida los elementos del login
      **/
     public void validationLogin() {
-        AsyncCallWS wsNavigation = new AsyncCallWS(Constants.WS_KEY_NAVIGATION_ACTIVITY);
-        wsNavigation.execute();
+
+        Boolean authorized = true;
+
+        final String email = txtUsername.getText().toString().trim();
+        final String password = txtPassword.getText().toString().trim();
+
+        if (TextUtils.isEmpty(email)) {
+            txtUsername.setError("El campo es obligatorio", null);
+            //txtEmail.requestFocus();
+            authorized = false;
+        }
+
+        if (TextUtils.isEmpty(password)) {
+            txtPassword.setError("El campo es obligatorio", null);
+            //txtPassword.requestFocus();
+            authorized = false;
+        }
+
+        if (authorized) {
+
+            pDialog = new ProgressDialog(MainActivity.this);
+            pDialog.setMessage(getString(R.string.default_loading_msg));
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+
+            mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
+                            // If sign in fails, display a message to the user. If sign in succeeds
+                            // the auth state listener will be notified and logic to handle the
+                            // signed in user can be handled in the listener.
+                            if (!task.isSuccessful()) {
+                                pDialog.dismiss();
+                                Log.w(TAG, "signInWithEmail:failed", task.getException());
+                                Toast.makeText(getApplicationContext(),
+                                        ErrorMessages.showErrorMessage(task.getException()),
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+        } else {
+            Toast.makeText(getApplicationContext(), "Es necesario capturar campos obligatorios",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
+     * Valida los elementos para recuperar contrseña
+     **/
+    public void validationEmail() {
+
+        Boolean authorized = true;
+
+        String email = txtEmail.getText().toString().trim();
+
+        if (TextUtils.isEmpty(email)) {
+            txtEmail.setError("El campo es obligatorio", null);
+            txtEmail.requestFocus();
+            authorized = false;
+        }
+
+        if (authorized) {
+
+            pDialog = new ProgressDialog(MainActivity.this);
+            pDialog.setMessage(getString(R.string.default_loading_msg));
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+
+            mAuth.sendPasswordResetEmail(email)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            pDialog.dismiss();
+                            if (task.isSuccessful()) {
+                                Log.d(TAG, "Email sent.");
+                                Toast.makeText(getApplicationContext(), "Enviamos un correo de restauración para recuperar su contraseña",
+                                        Toast.LENGTH_SHORT).show();
+                                cleanLoginForm();
+                                showLoginActions();
+                            } else {
+                                Toast.makeText(getApplicationContext(),
+                                        ErrorMessages.showErrorMessage(task.getException()),
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+        } else {
+            Toast.makeText(getApplicationContext(), "Es necesario capturar campos obligatorios",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
+     * Valida que el email este verificado
+     **/
+    private void checkIfEmailVerified() {
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        if (user.isEmailVerified()) {
+            //Obtiene el usuario del firebase database
+
+           if (pDialog == null) {
+               pDialog = new ProgressDialog(MainActivity.this);
+               pDialog.setMessage(getString(R.string.default_loading_msg));
+               pDialog.setIndeterminate(false);
+               pDialog.setCancelable(false);
+               pDialog.show();
+           }
+
+            getLoginUser();
+            //Toast.makeText(getApplicationContext(), "Successfully logged in", Toast.LENGTH_SHORT).show();
+        } else {
+            // email is not verified, so just prompt the message to the user and restart this activity.
+            // NOTE: don't forget to log out the user.
+            pDialog.dismiss();
+            FirebaseAuth.getInstance().signOut();
+            Toast.makeText(getApplicationContext(), "Es necesario activar su cuenta", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**Obtiene los datos oficiales del usuario ya registrado y validado**/
+    private void getLoginUser() {
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        DatabaseReference dbUsuario =
+                FirebaseDatabase.getInstance().getReference()
+                .child("usuarios").child(user.getUid());
+
+        dbUsuario.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String tipoUsuario = dataSnapshot.getValue(String.class);
+                String key = dataSnapshot.getKey();
+                //Ejecuta el intent de navigationDrawer
+                openNavigation(new Usuarios(tipoUsuario,key,""));
+
+                pDialog.dismiss();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     /**
@@ -137,24 +305,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * Inicia el NavigationDrawerActivity y sale del login
      **/
-    private void openNavigation() {
+    private void openNavigation(Usuarios usuario) {
         Intent intent = new Intent(this, NavigationDrawerActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP) ;
+        intent.putExtra(Constants.KEY_SESSION_USER,usuario);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 
-    /**Inicia el MainRegisterActivity añadiendole extraParams**/
+    /**
+     * Inicia el MainRegisterActivity añadiendole extraParams
+     **/
     private void openRegister() {
         DecodeExtraParams extraParams = new DecodeExtraParams();
 
-        extraParams.setTituloActividad("Registrar usuario");
+        extraParams.setTituloActividad("Registrar");
         extraParams.setTituloFormulario("Nuevo");
         extraParams.setAccionFragmento(Constants.ACCION_REGISTRAR);
-        extraParams.setFragmentTag(Constants.FRAGMENT_MAIN_REGISTER);
+        extraParams.setFragmentTag(Constants.FRAGMENT_LOGIN_REGISTER);
 
         Intent intent = new Intent(this, MainRegisterActivity.class);
         intent.putExtra(Constants.KEY_MAIN_DECODE, extraParams);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP) ;
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 
@@ -165,72 +336,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnForgotPassword.setPaintFlags(btnForgotPassword.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
     }
 
-    private class AsyncCallWS extends AsyncTask<Void, Void, Boolean> {
-
-        private Integer webServiceOperation;
-        private String textError;
-
-        private AsyncCallWS(Integer wsOperation) {
-            webServiceOperation = wsOperation;
-            textError = "";
-        }
-
-        @Override
-        protected void onPreExecute() {
-            pDialog = new ProgressDialog(MainActivity.this);
-            pDialog.setMessage(getString(R.string.default_loading_msg));
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(false);
-            pDialog.show();
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-
-            Boolean validOperation = false;
-
-            try {
-                switch (webServiceOperation) {
-                    case Constants.WS_KEY_REGISTER_ACTIVITY:
-
-                        validOperation = true;
-
-                        break;
-                    case Constants.WS_KEY_NAVIGATION_ACTIVITY:
-
-                        validOperation = true;
-                        break;
-                }
-            } catch (Exception e) {
-                textError = e.getMessage();
-                validOperation = false;
-            }
-
-            return validOperation;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            try {
-                pDialog.dismiss();
-                if (success) {
-                    switch (webServiceOperation) {
-                        case Constants.WS_KEY_REGISTER_ACTIVITY:
-                            openRegister();
-                            break;
-                        case Constants.WS_KEY_NAVIGATION_ACTIVITY:
-                            openNavigation();
-                            break;
-                    }
-                } else {
-                    String tempText = (textError.isEmpty() ? "Error desconocido" : textError);
-                    Toast.makeText(getApplicationContext(), tempText, Toast.LENGTH_SHORT).show();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        }
+    private void cleanLoginForm() {
+        txtEmail.setText(null);
+        txtPassword.setText(null);
+        txtUsername.setText(null);
     }
-
 }

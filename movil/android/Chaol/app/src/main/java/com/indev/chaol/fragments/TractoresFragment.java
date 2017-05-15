@@ -2,7 +2,6 @@ package com.indev.chaol.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,13 +11,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.indev.chaol.MainRegisterActivity;
 import com.indev.chaol.R;
 import com.indev.chaol.adapters.TractoresAdapter;
 import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
-import com.indev.chaol.models.Choferes;
 import com.indev.chaol.models.DecodeItem;
 import com.indev.chaol.models.Tractores;
+import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
 
 import java.util.ArrayList;
@@ -38,23 +42,92 @@ public class TractoresFragment extends Fragment implements View.OnClickListener 
     private ProgressDialog pDialog;
     private static NavigationDrawerInterface navigationDrawerInterface;
 
+    private static Usuarios _SESSION_USER;
+
+    /**
+     * Declaraciones para Firebase
+     **/
+    private FirebaseDatabase database;
+    private DatabaseReference drTractores;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_tractores, container, false);
 
+        _SESSION_USER = (Usuarios) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_SESSION_USER);
+
         recyclerViewTractores = (RecyclerView) view.findViewById(R.id.recycler_view_tractores);
         tractoresAdapter = new TractoresAdapter();
         tractoresAdapter.setOnClickListener(this);
 
+        /**Obtiene la instancia compartida del objeto FirebaseAuth**/
+        database = FirebaseDatabase.getInstance();
+        drTractores = database.getReference(Constants.FB_KEY_MAIN_TRANSPORTISTAS);
+
+        pDialog = new ProgressDialog(getContext());
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        drTractores.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                tractoresAdapter = new TractoresAdapter();
+                tractoresList = new ArrayList<>();
+
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+
+                    for (DataSnapshot psTractores : postSnapshot.child(Constants.FB_KEY_MAIN_TRACTORES).getChildren()) {
+                        Tractores tractor = psTractores.getValue(Tractores.class);
+
+                        if (_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA)) {
+                            if (!_SESSION_USER.getFirebaseId().equals(postSnapshot.getKey())) continue;
+                        }
+
+                        if (!tractor.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO)) {
+                            tractor.setFirebaseIdTransportista(postSnapshot.getKey());
+                            tractoresList.add(tractor);
+                        }
+                    }
+                }
+
+                onPreRenderTractores();
+
+                pDialog.dismiss();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                pDialog.dismiss();
+            }
+        });
+
         return view;
+    }
+
+    /**Carga el listado predeterminado de firebase**/
+    private void onPreRenderTractores() {
+
+        tractoresAdapter.addAll(tractoresList);
+
+        recyclerViewTractores.setAdapter(tractoresAdapter);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerViewTractores.setLayoutManager(linearLayoutManager);
+
+        if (tractoresList.size() == 0) {
+            Toast.makeText(getActivity(), "La lista se encuentra vacía", Toast.LENGTH_SHORT).show();
+        }
+
+        adapter = tractoresAdapter;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
-        AsyncCallWS wsTaskList = new AsyncCallWS(Constants.WS_KEY_BUSCAR_TRACTORES);
-        wsTaskList.execute();
         super.onCreate(savedInstanceState);
     }
 
@@ -91,90 +164,5 @@ public class TractoresFragment extends Fragment implements View.OnClickListener 
     public static void deleteItem(DecodeItem decodeItem) {
         tractoresList.remove(decodeItem.getPosition());
         adapter.removeItem(decodeItem.getPosition());
-    }
-
-
-    private class AsyncCallWS extends AsyncTask<Void, Void, Boolean> {
-
-        private Integer webServiceOperation;
-        private List<Tractores> tempTractoresList;
-        private String textError;
-
-        private AsyncCallWS(Integer wsOperation) {
-            webServiceOperation = wsOperation;
-            textError = "";
-            tempTractoresList = new ArrayList<>();
-        }
-
-        @Override
-        protected void onPreExecute() {
-            pDialog = new ProgressDialog(getContext());
-            pDialog.setMessage("Buscando");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(false);
-            pDialog.show();
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-
-            Boolean validOperation = false;
-
-            try {
-                switch (webServiceOperation) {
-                    case Constants.WS_KEY_BUSCAR_TRACTORES:
-
-                        tempTractoresList = new ArrayList<>();
-                        List<Tractores> tractores = new ArrayList<>();
-
-                        tractores.add(new Tractores("John Deere"));
-                        tractores.add(new Tractores("Massey Ferguson"));
-                        tractores.add(new Tractores("Lamborghini"));
-
-                        tempTractoresList.addAll(tractores);
-
-                        validOperation = true;
-
-                        break;
-                }
-            } catch (Exception e) {
-                textError = e.getMessage();
-                validOperation = false;
-            }
-
-            return validOperation;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            try {
-                tractoresList = new ArrayList<>();
-                pDialog.dismiss();
-                if (success) {
-
-                    if (tempTractoresList.size() > 0) {
-                        tractoresList.addAll(tempTractoresList);
-                        tractoresAdapter.addAll(tractoresList);
-
-                        recyclerViewTractores.setAdapter(tractoresAdapter);
-
-                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-                        recyclerViewTractores.setLayoutManager(linearLayoutManager);
-
-                    } else {
-                        Toast.makeText(getActivity(), "La lista se encuentra vacía", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    String tempText = (textError.isEmpty() ? "La lista  se encuentra vacía" : textError);
-                    Toast.makeText(getActivity(), tempText, Toast.LENGTH_SHORT).show();
-                }
-
-                adapter = tractoresAdapter;
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        }
     }
 }

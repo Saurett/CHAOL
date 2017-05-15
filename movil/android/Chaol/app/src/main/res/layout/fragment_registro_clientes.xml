@@ -111,38 +111,7 @@
                 android:layout_weight="1"
                 android:hint="RFC"
                 android:inputType="text"
-                android:maxLines="1"
-                android:textSize="14sp"
-                android:theme="@style/AppTheme.Form" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="20dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:layout_marginRight="2dp"
-                android:layout_weight="1"
-                android:text="Pais"
-                android:textAlignment="textEnd"
-                android:textColor="@color/colorPrimaryText"
-                android:textSize="14sp" />
-
-            <EditText
-                android:id="@+id/txt_clientes_pais"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="20dp"
-                android:layout_weight="1"
-                android:hint="Pais"
-                android:inputType="text"
+                android:maxLength="13"
                 android:maxLines="1"
                 android:textSize="14sp"
                 android:theme="@style/AppTheme.Form" />
@@ -485,7 +454,7 @@
                 android:textSize="14sp" />
 
             <EditText
-                android:id="@+id/txt_clientes_correo_electronico"
+                android:id="@+id/txt_clientes_email"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="2dp"
@@ -493,6 +462,37 @@
                 android:layout_weight="1"
                 android:hint="Correo Electronico"
                 android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:textSize="14sp"
+                android:theme="@style/AppTheme.Form" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/item_clientes_password"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginLeft="2dp"
+                android:layout_weight="1"
+                android:text="Contraseña"
+                android:textAlignment="textEnd"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/txt_clientes_password"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:hint="Contraseña"
+                android:inputType="textPassword"
                 android:maxLines="1"
                 android:textSize="14sp"
                 android:theme="@style/AppTheme.Form" />

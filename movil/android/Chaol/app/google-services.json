@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "152632874107",
+    "firebase_url": "https://chaol-75d99.firebaseio.com",
+    "project_id": "chaol-75d99",
+    "storage_bucket": "chaol-75d99.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:152632874107:android:3f88575d5ed97276",
+        "android_client_info": {
+          "package_name": "com.indev.chaol"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "152632874107-ropgbhf871u6l5k7kujpifljeui8bfdr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJKd5jiHJgO2X3otYkxh40wGGl0uzpLYI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

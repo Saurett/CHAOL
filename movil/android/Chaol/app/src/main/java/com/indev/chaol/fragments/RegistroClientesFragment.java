@@ -3,11 +3,12 @@ package com.indev.chaol.fragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.AsyncTask;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +16,18 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.indev.chaol.MainRegisterActivity;
 import com.indev.chaol.R;
 import com.indev.chaol.models.Clientes;
 import com.indev.chaol.models.DecodeExtraParams;
@@ -35,7 +45,8 @@ import java.util.List;
 public class RegistroClientesFragment extends Fragment implements View.OnClickListener, DialogInterface.OnClickListener, Spinner.OnItemSelectedListener {
 
     private Button btnTitulo;
-    private EditText txtNombre;
+    private EditText txtNombre, txtRFC, txtEstado, txtCiudad, txtColonia, txtCodigoPostal, txtCalle, txtNumInt, txtNumExt, txtTelefono, txtCelular, txtCorreoElectronico, txtPassword;
+    private LinearLayout linearLayoutPassword;
     private Spinner spinnerMetodoPago;
     private FloatingActionButton fabClientes;
     private ProgressDialog pDialog;
@@ -43,14 +54,41 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
     private static List<String> metodosPagoList;
     private List<MetodosPagos> metodosPagos;
 
+    private static MainRegisterActivity activityInterface;
+
     private static DecodeExtraParams _MAIN_DECODE = new DecodeExtraParams();
+
+    /**
+     * Declaraciones para Firebase
+     **/
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private static Clientes _clienteActual;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_registro_clientes, container, false);
 
+        /**Obtiene la instancia compartida del objeto FirebaseAuth**/
+        mAuth = FirebaseAuth.getInstance();
+
         btnTitulo = (Button) view.findViewById(R.id.btn_titulo_clientes);
+
         txtNombre = (EditText) view.findViewById(R.id.txt_clientes_nombre);
+        txtRFC = (EditText) view.findViewById(R.id.txt_clientes_rfc);
+        txtEstado = (EditText) view.findViewById(R.id.txt_clientes_estado);
+        txtCiudad = (EditText) view.findViewById(R.id.txt_clientes_ciudad);
+        txtColonia = (EditText) view.findViewById(R.id.txt_clientes_colonia);
+        txtCodigoPostal = (EditText) view.findViewById(R.id.txt_clientes_codigo_postal);
+        txtCalle = (EditText) view.findViewById(R.id.txt_clientes_calle);
+        txtNumInt = (EditText) view.findViewById(R.id.txt_clientes_num_int);
+        txtNumExt = (EditText) view.findViewById(R.id.txt_clientes_num_ext);
+        txtTelefono = (EditText) view.findViewById(R.id.txt_clientes_telefono);
+        txtCelular = (EditText) view.findViewById(R.id.txt_clientes_celular);
+        txtCorreoElectronico = (EditText) view.findViewById(R.id.txt_clientes_email);
+        txtPassword = (EditText) view.findViewById(R.id.txt_clientes_password);
+
+        linearLayoutPassword = (LinearLayout) view.findViewById(R.id.item_clientes_password);
 
         spinnerMetodoPago = (Spinner) view.findViewById(R.id.spinner_clientes_metodo_pago);
 
@@ -70,22 +108,31 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        AsyncCallWS ws = new AsyncCallWS(Constants.WS_KEY_PRE_RENDER);
-        ws.execute();
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-
+            activityInterface = (MainRegisterActivity) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString() + "debe implementar");
         }
     }
 
     public void onPreRender() {
+
+        String tag = _MAIN_DECODE.getFragmentTag();
+
+        if (tag.equals(Constants.FRAGMENT_LOGIN_REGISTER)) {
+            btnTitulo.setBackgroundColor(getResources().getColor(R.color.colorIcons));
+            btnTitulo.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+        }
+
+        /**Carga los elementos del combo**/
+        this.onCargarMetodosPagos();
+        this.onCargarSpinnerMetodosPagos();
+
         switch (_MAIN_DECODE.getAccionFragmento()) {
             case Constants.ACCION_EDITAR:
                 /**Obtiene el item selecionado en el fragmento de lista**/
@@ -97,6 +144,8 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
                 /**Modifica valores predeterminados de ciertos elementos**/
                 btnTitulo.setText(getString(Constants.TITLE_FORM_ACTION.get(_MAIN_DECODE.getAccionFragmento())));
                 fabClientes.setImageDrawable(getResources().getDrawable(R.mipmap.ic_mode_edit_white_18dp));
+
+                this.onPreRenderEditar();
                 break;
             case Constants.ACCION_REGISTRAR:
                 /**Modifica valores predeterminados de ciertos elementos**/
@@ -109,6 +158,108 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
         }
     }
 
+    private void onPreRenderEditar() {
+        /**Obtiene el item selecionado en el fragmento de lista**/
+        Clientes cliente = (Clientes) _MAIN_DECODE.getDecodeItem().getItemModel();
+
+        DatabaseReference dbCliente =
+                FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.FB_KEY_MAIN_CLIENTES).child(cliente.getFirebaseId())
+                        .child(Constants.FB_KEY_ITEM_CLIENTE);
+
+        pDialog = new ProgressDialog(getContext());
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        dbCliente.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Clientes cliente = dataSnapshot.getValue(Clientes.class);
+                /**Se asigna el chofer actual a la memoria**/
+                _clienteActual = cliente;
+
+                txtNombre.setText(cliente.getNombre());
+                /**Asigna valores del item seleccionado**/
+                onSelectMetodoPago(cliente.getMetodoDePago());
+                txtRFC.setText(cliente.getRFC());
+                txtEstado.setText(cliente.getEstado());
+                txtCiudad.setText(cliente.getCiudad());
+                txtColonia.setText(cliente.getColonia());
+                txtCodigoPostal.setText(cliente.getCodigoPostal());
+                txtCalle.setText(cliente.getCalle());
+                txtNumInt.setText(cliente.getNumeroInterior());
+                txtNumExt.setText(cliente.getNumeroExterior());
+                txtTelefono.setText(cliente.getTelefono());
+                txtCelular.setText(cliente.getCelular());
+                txtCorreoElectronico.setText(cliente.getCorreoElectronico());
+
+                txtCorreoElectronico.setTag(txtCorreoElectronico.getKeyListener());
+                txtCorreoElectronico.setKeyListener(null);
+
+                linearLayoutPassword.setVisibility(View.GONE);
+
+                pDialog.dismiss();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        /**Modifica valores predeterminados de ciertos elementos**/
+        btnTitulo.setText(getString(Constants.TITLE_FORM_ACTION.get(_MAIN_DECODE.getAccionFragmento())));
+        fabClientes.setImageDrawable(getResources().getDrawable(R.mipmap.ic_mode_edit_white_18dp));
+    }
+
+    /**
+     * Metodos privados en la clase AsynTask
+     **/
+    private void onCargarMetodosPagos() {
+        metodosPagoList = new ArrayList<>();
+        metodosPagos = new ArrayList<>();
+        metodosPagoList.add("Seleccione ...");
+
+        //TODO Metodo para llamar al servidor
+        metodosPagoList.add("Efectivo");
+        metodosPagoList.add("Cheque");
+        metodosPagoList.add("Transferencia Electronica");
+        metodosPagoList.add("Tarjeta de Crédito");
+        metodosPagoList.add("Dinero Electrónico");
+        metodosPagoList.add("Tarjeta de Débito");
+        metodosPagoList.add("NA");
+        metodosPagoList.add("Otros");
+
+        metodosPagos.add(new MetodosPagos(1, "Efectivo"));
+        metodosPagos.add(new MetodosPagos(2, "Cheque"));
+        metodosPagos.add(new MetodosPagos(3, "Transferencia Electronica"));
+        metodosPagos.add(new MetodosPagos(4, "Tarjeta de Crédito"));
+        metodosPagos.add(new MetodosPagos(5, "Dinero Electrónico"));
+        metodosPagos.add(new MetodosPagos(6, "Tarjeta de Débito"));
+        metodosPagos.add(new MetodosPagos(7, "NA"));
+        metodosPagos.add(new MetodosPagos(8, "Otros"));
+    }
+
+    private void onCargarSpinnerMetodosPagos() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
+                R.layout.text_spinner, metodosPagoList);
+
+        spinnerMetodoPago.setAdapter(adapter);
+        spinnerMetodoPago.setSelection(0);
+    }
+
+    private void onSelectMetodoPago(String miMetodoPago) {
+        for (MetodosPagos metodoPago :
+                metodosPagos) {
+            if (metodoPago.getMetodoPago().equals(miMetodoPago)) {
+                spinnerMetodoPago.setSelection(metodoPago.getId());
+                break;
+            }
+        }
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -116,11 +267,73 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
                 if (_MAIN_DECODE.getAccionFragmento() == Constants.ACCION_EDITAR) {
                     this.showQuestion();
                 } else {
-                    AsyncCallWS asyncCallWS = new AsyncCallWS(Constants.WS_KEY_AGREGAR_CLIENTES);
-                    asyncCallWS.execute();
+                    this.validationRegister();
                 }
                 break;
         }
+    }
+
+    /**
+     * Verifica los campos obligatorios para registro de cliente
+     **/
+    private void validationRegister() {
+
+        Boolean authorized = true;
+
+        String email = txtCorreoElectronico.getText().toString();
+        String password = txtPassword.getText().toString();
+
+        if (TextUtils.isEmpty(email)) {
+            txtCorreoElectronico.setError("El campo es obligatorio", null);
+            txtCorreoElectronico.requestFocus();
+            authorized = false;
+        }
+
+        if (TextUtils.isEmpty(password)) {
+            txtPassword.setError("El campo es obligatorio", null);
+            txtPassword.requestFocus();
+            authorized = false;
+        }
+
+        if (spinnerMetodoPago.getSelectedItemId() <= 0L) {
+            TextView errorTextSE = (TextView) spinnerMetodoPago.getSelectedView();
+            errorTextSE.setError("El campo es obligatorio");
+            errorTextSE.setTextColor(Color.RED);
+            errorTextSE.setText("El campo es obligatorio");//changes t
+            errorTextSE.requestFocus();
+
+            authorized = false;
+        }
+
+        if (authorized) {
+            this.createSimpleValidUser();
+        } else {
+            Toast.makeText(getContext(), "Es necesario capturar campos obligatorios",
+                    Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    private void createSimpleValidUser() {
+        Clientes clientes = new Clientes();
+
+        clientes.setNombre(txtNombre.getText().toString().trim());
+        clientes.setRFC(txtRFC.getText().toString().trim());
+        clientes.setEstado(txtEstado.getText().toString().trim());
+        clientes.setCiudad(txtCiudad.getText().toString().trim());
+        clientes.setColonia(txtColonia.getText().toString().trim());
+        clientes.setCodigoPostal(txtCodigoPostal.getText().toString().trim());
+        clientes.setCalle(txtCalle.getText().toString().trim());
+        clientes.setNumeroInterior(txtNumInt.getText().toString().trim());
+        clientes.setNumeroExterior(txtNumExt.getText().toString().trim());
+        clientes.setMetodoDePago(spinnerMetodoPago.getSelectedItem().toString());
+        clientes.setTelefono(txtTelefono.getText().toString().trim());
+        clientes.setCelular(txtCelular.getText().toString().trim());
+        clientes.setCorreoElectronico(txtCorreoElectronico.getText().toString().trim());
+        clientes.setPassword(txtPassword.getText().toString().trim());
+
+        /**metodo principal para crear usuario**/
+        activityInterface.createUserCliente(clientes);
     }
 
     private void showQuestion() {
@@ -138,8 +351,6 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
     public void onClick(DialogInterface dialog, int which) {
         switch (which) {
             case DialogInterface.BUTTON_POSITIVE:
-                AsyncCallWS asyncCallWS = new AsyncCallWS(Constants.WS_KEY_EDITAR_CLIENTES);
-                asyncCallWS.execute();
                 break;
         }
     }
@@ -152,122 +363,5 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
-    }
-
-
-    private class AsyncCallWS extends AsyncTask<Void, Void, Boolean> {
-
-        private Integer webServiceOperation;
-        private String textError;
-
-        public AsyncCallWS(Integer wsOperation) {
-            webServiceOperation = wsOperation;
-            textError = "";
-        }
-
-        @Override
-        protected void onPreExecute() {
-            pDialog = new ProgressDialog(getContext());
-            pDialog.setMessage(getString(R.string.default_loading_msg));
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(false);
-            pDialog.show();
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-
-            Boolean validOperation = false;
-
-            try {
-                switch (webServiceOperation) {
-                    case Constants.WS_KEY_PRE_RENDER:
-                        //TODO Acción desde el servidor
-                        this.onCargarMetodosPagos();
-                        validOperation = true;
-                        break;
-                    case Constants.WS_KEY_EDITAR_CLIENTES:
-                        //TODO Eliminar desde el servidor
-                        validOperation = true;
-                        break;
-                    case Constants.WS_KEY_AGREGAR_CLIENTES:
-                        //TODO Acción desde el servidor
-                        validOperation = true;
-                        break;
-                }
-            } catch (Exception e) {
-                textError = e.getMessage();
-                validOperation = false;
-            }
-
-            return validOperation;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            try {
-                pDialog.dismiss();
-                if (success) {
-                    switch (webServiceOperation) {
-                        case Constants.WS_KEY_PRE_RENDER:
-                            ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
-                                    R.layout.text_spinner, metodosPagoList);
-
-                            /*
-                            int selectionState = (null != _PROFILE_MANAGER.getAddressProfile().getIdItemState())
-                                    ? _PROFILE_MANAGER.getAddressProfile().getIdItemState() : 0;
-                                    */
-
-                            spinnerMetodoPago.setAdapter(adapter);
-                            spinnerMetodoPago.setSelection(0);
-
-                            break;
-                        case Constants.WS_KEY_EDITAR_CLIENTES:
-                            if (_MAIN_DECODE.getDecodeItem().getIdView() != R.id.menu_item_perfil) {
-                                getActivity().finish();
-                            }
-                            Toast.makeText(getContext(), "Editado correctamente...", Toast.LENGTH_SHORT).show();
-                            break;
-                        case Constants.WS_KEY_AGREGAR_CLIENTES:
-                            getActivity().finish();
-                            Toast.makeText(getContext(), "Guardado correctamente...", Toast.LENGTH_SHORT).show();
-                            break;
-                    }
-                } else {
-                    String tempText = (textError.isEmpty() ? "Lo sentimos se ha detectado un error desconocido" : textError);
-                    Toast.makeText(getContext(), tempText, Toast.LENGTH_SHORT).show();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        /**
-         * Metodos privados en la clase AsynTask
-         **/
-        private void onCargarMetodosPagos() {
-            metodosPagoList = new ArrayList<>();
-            metodosPagos = new ArrayList<>();
-            metodosPagoList.add("Seleccione ...");
-
-            //TODO Metodo para llamar al servidor
-            metodosPagoList.add("Efectivo");
-            metodosPagoList.add("Cheque");
-            metodosPagoList.add("Transferencia Electronica");
-            metodosPagoList.add("Tarjeta de Crédito");
-            metodosPagoList.add("Dinero Electrónico");
-            metodosPagoList.add("Tarjeta de Débito");
-            metodosPagoList.add("NA");
-            metodosPagoList.add("Otros");
-
-            metodosPagos.add(new MetodosPagos(1, "Efectivo"));
-            metodosPagos.add(new MetodosPagos(2, "Cheque"));
-            metodosPagos.add(new MetodosPagos(3, "Transferencia Electronica"));
-            metodosPagos.add(new MetodosPagos(4, "Tarjeta de Crédito"));
-            metodosPagos.add(new MetodosPagos(5, "Dinero Electrónico"));
-            metodosPagos.add(new MetodosPagos(6, "Tarjeta de Débito"));
-            metodosPagos.add(new MetodosPagos(7, "NA"));
-            metodosPagos.add(new MetodosPagos(8, "Otros"));
-        }
     }
 }

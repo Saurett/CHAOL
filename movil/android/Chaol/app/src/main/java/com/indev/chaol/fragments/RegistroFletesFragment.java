@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -19,7 +18,6 @@ import android.widget.Toast;
 import com.indev.chaol.R;
 import com.indev.chaol.fragments.interfaces.MainRegisterInterface;
 import com.indev.chaol.models.DecodeExtraParams;
-import com.indev.chaol.models.Fletes;
 import com.indev.chaol.utils.Constants;
 
 
@@ -30,7 +28,6 @@ import com.indev.chaol.utils.Constants;
 public class RegistroFletesFragment extends Fragment implements View.OnClickListener, DialogInterface.OnClickListener {
 
     private Button btnTitulo;
-    private FloatingActionButton fabFletes;
     private ProgressDialog pDialog;
     private MainRegisterInterface mainRegisterInterface;
 
@@ -41,9 +38,6 @@ public class RegistroFletesFragment extends Fragment implements View.OnClickList
         View view = inflater.inflate(R.layout.fragment_registro_fletes, container, false);
 
         btnTitulo = (Button) view.findViewById(R.id.btn_titulo_fletes);
-        fabFletes = (FloatingActionButton) view.findViewById(R.id.fab_fletes);
-
-        fabFletes.setOnClickListener(this);
 
         _MAIN_DECODE = (DecodeExtraParams) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
 
@@ -87,13 +81,12 @@ public class RegistroFletesFragment extends Fragment implements View.OnClickList
         switch (_MAIN_DECODE.getAccionFragmento()) {
             case Constants.ACCION_EDITAR:
                 /**Obtiene el item selecionado en el fragmento de lista**/
-                Fletes fletes = (Fletes) _MAIN_DECODE.getDecodeItem().getItemModel();
+                //Fletes fletes = (Fletes) _MAIN_DECODE.getDecodeItem().getItemModel();
 
                 /**Asigna valores del item seleccionado**/
 
                 /**Modifica valores predeterminados de ciertos elementos**/
                 btnTitulo.setText(getString(Constants.TITLE_FORM_ACTION.get(_MAIN_DECODE.getAccionFragmento())));
-                fabFletes.setImageDrawable(getResources().getDrawable(R.mipmap.ic_mode_edit_white_18dp));
                 break;
             case Constants.ACCION_REGISTRAR:
                 /**Modifica valores predeterminados de ciertos elementos**/

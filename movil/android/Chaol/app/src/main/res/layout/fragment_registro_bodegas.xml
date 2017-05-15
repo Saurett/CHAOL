@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@null"
+    android:clipToPadding="false"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/registro_bodegas"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/border_form"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_titulo_bodegas"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimaryDark"
+            android:paddingStart="20dp"
+            android:text="NUEVO"
+            android:textAlignment="textStart"
+            android:textColor="@color/colorIcons" />
+
+        <LinearLayout
+            android:id="@+id/item_bodegas_cliente"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"
+            android:paddingLeft="20dp">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_gravity="center|end"
+                android:layout_marginLeft="2dp"
+                android:layout_weight="1"
+                android:text="Cliente"
+                android:textAlignment="textEnd"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="14sp" />
+
+            <Spinner
+                android:id="@+id/spinner_bodegas_cliente"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:maxLines="1"
+                android:theme="@style/AppTheme.Form" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:text="Nombre de la Bodega"
+                android:textAlignment="textEnd"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/txt_bodegas_nombre"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:hint="Nombre de la Bodega"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textSize="14sp"
+                android:theme="@style/AppTheme.Form" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:text="Estado"
+                android:textAlignment="textEnd"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/txt_bodegas_estado"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:hint="Estado"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textSize="14sp"
+                android:theme="@style/AppTheme.Form" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:text="Ciudad"
+                android:textAlignment="textEnd"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/txt_bodegas_ciudad"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:hint="Ciudad"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textSize="14sp"
+                android:theme="@style/AppTheme.Form" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:text="Colonia"
+                android:textAlignment="textEnd"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/txt_bodegas_colonia"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:hint="Colonia"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textSize="14sp"
+                android:theme="@style/AppTheme.Form" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:text="Codigo Postal"
+                android:textAlignment="textEnd"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/txt_bodegas_codigo_postal"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:hint="Codigo Postal"
+                android:inputType="number"
+                android:maxLength="5"
+                android:maxLines="1"
+                android:textSize="14sp"
+                android:theme="@style/AppTheme.Form" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:text="Calle"
+                android:textAlignment="textEnd"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/txt_bodegas_calle"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:hint="Calle"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textSize="14sp"
+                android:theme="@style/AppTheme.Form" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:text="Número Interior"
+                android:textAlignment="textEnd"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/txt_bodegas_num_int"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:hint="Número Interior"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textSize="14sp"
+                android:theme="@style/AppTheme.Form" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:text="Número Exterior"
+                android:textAlignment="textEnd"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/txt_bodegas_num_ext"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:hint="Número Exterior"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textSize="14sp"
+                android:theme="@style/AppTheme.Form" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_bodegas"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="end|bottom"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:scaleType="center"
+                android:src="@mipmap/ic_done_white_18dp"
+                app:backgroundTint="@color/colorPrimary" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>
