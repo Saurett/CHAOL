@@ -1,0 +1,10 @@
+DONE - administrador firebase id
+DONE - valores basicos
+DONE - transpoirtistas dentro de administrador (adminstrador)
+DONE - tractores y remolques (adminsitrador)
+DONE - agrupar la spropiedades
+- dentro de clientes estaria los fletes (clientes)
+- fletes asignados(transportistas)
+DONE- fletes por asignar (Fletes)
+
+- Tipos remoques?

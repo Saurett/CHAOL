@@ -1,0 +1,42 @@
+Boton inicio ..
+En los paneles de inicio Cololar un boton alado para ir al listado
+En los paneles de inicio cololar un Boton alado del titulo para ir al listado
+En agenda colocar contorno azul y el en vez de la imagen de la app seria color de la semaforo.
+
+cliente crear camino .. que sea usuario 
+usuario
+	cliente
+		clienteId (UserId)
+			nombre 
+			rfc
+			estado
+			ciudad
+			codigopostal
+			calle
+			colonia
+			numero int
+			numero ext
+			---------------
+			celular
+			correo electronico
+			telefono
+			tipo usuario
+			firebaseID
+			imagenURL
+			GSimagenURL
+			fechaCreación (Numero doble preciión) numero de segundos
+			fechaEdicion (Double)
+			estatus
+	Transportistas
+	Choferes
+Fletes por asignar
+Administrador
+			
+			
+			- No acentos
+			- primeraLetra en Minuscula
+			
+			
+			
+			
+

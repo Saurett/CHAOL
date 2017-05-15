@@ -1,0 +1,12 @@
+- Me registro 
+	- Se registra el cliente (Crear cliente)
+	- Se crea el usuario 
+- Verificar correo
+- Correo verificado
+- Leer que tipo de usuario somos 
+	- Cliente 
+		- Mostrar fletes
+		- Ver Componentes del Menu 
+	- Choferes 
+	- Transportistas
+	- 
