@@ -28,16 +28,16 @@
                                     <div class="col-lg-3 text-center">
                                         <div class="col-lg-12 margin-bottom-20">
                                             <div>
-                                                <label for="input_foto" class="puntero">
-                                                    <i id="i_perfil" class="fa fa-user-circle fa-5x" aria-hidden="true">
+                                                <label for="input_foto_cliente" class="puntero">
+                                                    <i id="i_perfil_cliente" class="fa fa-user-circle fa-5x" aria-hidden="true">
                                                     </i>
-                                                    <img src="" alt="Alternate Text" id="img_perfil" height="150" width="150" class="imagen-perfil hide" />
+                                                    <img src="" alt="Cliente" id="img_perfil_cliente" height="150" width="150" class="imagen-perfil hide" />
                                                 </label>
                                             </div>
-                                            <input type="file" name="foto" id="input_foto" accept="image/x-png, image/gif, image/jpeg" onchange="angular.element(this).scope().guardarFoto()" ng-hide="true" />
+                                            <input type="file" name="foto" id="input_foto_cliente" accept="image/x-png, image/gif, image/jpeg" onchange="angular.element(this).scope().guardarFoto()" ng-hide="true" />
                                         </div>
                                         <div class="col-lg-12">
-                                            <label for="input_foto" class="text-blue puntero">cambiar imagen</label>
+                                            <label for="input_foto_cliente" class="text-blue puntero">cambiar imagen</label>
                                         </div>
                                     </div>
                                     <!--DATOS-->
@@ -45,7 +45,7 @@
                                         <!--NOMBRE-->
                                         <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
                                             <label>Nombre o Razón Social</label>
-                                            <input type="text" name="nombre" ng-model="objetoCliente.cliente.nombre" required />
+                                            <input type="text" name="nombre" ng-model="firebaseCliente.cliente.nombre" required />
                                             <div ng-messages="clientes.nombre.$error" role="alert">
                                                 <div ng-message="required">Por favor, compártenos tu nombre o razón social.</div>
                                             </div>
@@ -53,7 +53,7 @@
                                         <!--RFC-->
                                         <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
                                             <label>RFC</label>
-                                            <input type="text" name="rfc" ng-model="objetoCliente.cliente.rfc" required />
+                                            <input type="text" name="rfc" ng-model="firebaseCliente.cliente.rfc" required />
                                             <div ng-messages="clientes.rfc.$error" role="alert">
                                                 <div ng-message="required">Por favor, compártenos tu RFC.</div>
                                             </div>
@@ -61,37 +61,37 @@
                                         <!--NUMERO INTERIOR-->
                                         <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
                                             <label>Número Interior</label>
-                                            <input type="text" name="numeroInterior" ng-model="objetoCliente.cliente.numeroInterior" />
+                                            <input type="text" name="numeroInterior" ng-model="firebaseCliente.cliente.numeroInterior" />
                                         </md-input-container>
                                         <!--NÚMERO EXTERIOR-->
                                         <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
                                             <label>Número Exterior</label>
-                                            <input type="text" name="numeroExterior" ng-model="objetoCliente.cliente.numeroExterior" />
+                                            <input type="text" name="numeroExterior" ng-model="firebaseCliente.cliente.numeroExterior" />
                                         </md-input-container>
                                         <!--CALLE-->
                                         <md-input-container class="col-lg-offset-1 col-lg-11 col-md-12 col-sm-12 col-xs-12 no-padding">
                                             <label>Calle</label>
-                                            <input type="text" name="calle" ng-model="objetoCliente.cliente.calle" />
+                                            <input type="text" name="calle" ng-model="firebaseCliente.cliente.calle" />
                                         </md-input-container>
                                         <!--COLONIA-->
                                         <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
                                             <label>Colonia</label>
-                                            <input type="text" name="colonia" ng-model="objetoCliente.cliente.colonia" />
+                                            <input type="text" name="colonia" ng-model="firebaseCliente.cliente.colonia" />
                                         </md-input-container>
                                         <!--CIUDAD-->
                                         <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
                                             <label>Ciudad</label>
-                                            <input type="text" name="ciudad" ng-model="objetoCliente.cliente.ciudad" />
+                                            <input type="text" name="ciudad" ng-model="firebaseCliente.cliente.ciudad" />
                                         </md-input-container>
                                         <!--ESTADO-->
                                         <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
                                             <label>Estado</label>
-                                            <input type="text" name="estado" ng-model="objetoCliente.cliente.estado" />
+                                            <input type="text" name="estado" ng-model="firebaseCliente.cliente.estado" />
                                         </md-input-container>
                                         <!--CODIGO POSTAL-->
                                         <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
                                             <label>Código Postal</label>
-                                            <input type="text" name="codigoPostal" ng-model="objetoCliente.cliente.codigoPostal" ng-pattern="/^[0-9]{5}$/" md-maxlength="5">
+                                            <input type="text" name="codigoPostal" ng-model="firebaseCliente.cliente.codigoPostal" ng-pattern="/^[0-9]{5}$/" md-maxlength="5">
                                             <div ng-messages="clientes.codigoPostal.$error" role="alert">
                                                 <div ng-message="pattern">
                                                     Este no parece un código postal válido.
@@ -101,7 +101,7 @@
                                         <!--MÉTODO DE PAGO-->
                                         <md-input-container class="col-lg-offset-1 col-lg-11 col-md-12 col-sm-12 col-xs-12 no-padding">
                                             <label>Método de Pago</label>
-                                            <md-select name="metodoDePago" ng-model="objetoCliente.cliente.metodoDePago" required>
+                                            <md-select name="metodoDePago" ng-model="firebaseCliente.cliente.metodoDePago" required>
                                                 <md-option ng-repeat="metodo in metodosDePago" value="{{metodo}}">
                                                     {{metodo}}
                                                 </md-option>
@@ -113,17 +113,17 @@
                                         <!--TELÉFONO-->
                                         <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
                                             <label>Teléfono</label>
-                                            <input type="text" name="telefono" ng-model="objetoCliente.cliente.telefono" />
+                                            <input type="text" name="telefono" ng-model="firebaseCliente.cliente.telefono" />
                                         </md-input-container>
                                         <!--CELULAR-->
                                         <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
                                             <label>Celular</label>
-                                            <input type="text" name="celular" ng-model="objetoCliente.cliente.celular" />
+                                            <input type="text" name="celular" ng-model="firebaseCliente.cliente.celular" />
                                         </md-input-container>
                                         <!--CORREO ELECTRÓNICO-->
                                         <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
                                             <label>Correo Electrónico</label>
-                                            <input type="email" name="correoElectronico" ng-model="objetoCliente.cliente.correoElectronico" required ng-pattern="/^.+@.+\..+$/" />
+                                            <input type="email" name="correoElectronico" ng-model="firebaseCliente.cliente.correoElectronico" required ng-pattern="/^.+@.+\..+$/" />
                                             <div ng-messages="clientes.correoElectronico.$error" role="alert">
                                                 <div ng-message="required">Por favor, compártenos tu correo electrónico. Este será tu usuario.</div>
                                                 <div ng-message="pattern">Oops! Este no parece un correo electrónico válido.</div>
@@ -132,7 +132,7 @@
                                         <!--CONTRASEÑA-->
                                         <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
                                             <label>Contraseña</label>
-                                            <input type="password" name="contrasena" ng-model="objetoCliente.cliente.contrasena" required minlength="8" />
+                                            <input type="password" name="contrasena" ng-model="firebaseCliente.cliente.contrasena" required minlength="8" />
                                             <div ng-messages="clientes.contrasena.$error" role="alert">
                                                 <div ng-message="required">Por favor, indica tu contraseña.</div>
                                                 <div ng-message="minlength">Tu contraseña debe tener 8 caracteres como mínimo.</div>
@@ -158,9 +158,135 @@
                         <div class="col-lg-12 caja-titulo">
                             <h1 class="md-display-2">Transportistas</h1>
                         </div>
-                        <div>
-                            Transportista
-                        </div>
+                        <!--CONTENIDO TRANSPORTISTA-->
+                        <form name="transportistas" ng-submit="transportistas.$valid && registrarTransportista()">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-contenido">
+                                <!--FORMULARIO-->
+                                <div class="col-lg-12">
+                                    <!--IMAGEN-->
+                                    <div class="col-lg-3 text-center">
+                                        <div class="col-lg-12 margin-bottom-20">
+                                            <div>
+                                                <label for="input_foto_transportista" class="puntero">
+                                                    <i id="i_perfil_transportista" class="fa fa-user-circle fa-5x" aria-hidden="true">
+                                                    </i>
+                                                    <img src="" alt="Transportista" id="img_perfil_transportista" height="150" width="150" class="imagen-perfil hide" />
+                                                </label>
+                                            </div>
+                                            <input type="file" name="foto" id="input_foto_transportista" accept="image/x-png, image/gif, image/jpeg" onchange="angular.element(this).scope().guardarFoto()" ng-hide="true" />
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <label for="input_foto_transportista" class="text-blue puntero">cambiar imagen</label>
+                                        </div>
+                                    </div>
+                                    <!--DATOS-->
+                                    <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+                                        <!--NOMBRE-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Nombre o Razón Social</label>
+                                            <input type="text" name="nombre" ng-model="firebaseTransportista.transportista.nombre" required />
+                                            <div ng-messages="transportista.nombre.$error" role="alert">
+                                                <div ng-message="required">Por favor, compártenos tu nombre o razón social.</div>
+                                            </div>
+                                        </md-input-container>
+                                        <!--REPRESENTANTE LEGAL-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Representante Legal</label>
+                                            <input type="text" name="representanteLegal" ng-model="firebaseTransportista.transportista.representanteLegal" />
+                                        </md-input-container>
+                                        <!--RFC-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>RFC</label>
+                                            <input type="text" name="rfc" ng-model="firebaseTransportista.transportista.rfc" required />
+                                            <div ng-messages="transportista.rfc.$error" role="alert">
+                                                <div ng-message="required">Por favor, compártenos tu RFC.</div>
+                                            </div>
+                                        </md-input-container>
+                                        <!--NUMERO INTERIOR-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Número Interior</label>
+                                            <input type="text" name="numeroInterior" ng-model="firebaseTransportista.transportista.numeroInterior" />
+                                        </md-input-container>
+                                        <!--NÚMERO EXTERIOR-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Número Exterior</label>
+                                            <input type="text" name="numeroExterior" ng-model="firebaseTransportista.transportista.numeroExterior" />
+                                        </md-input-container>
+                                        <!--CALLE-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Calle</label>
+                                            <input type="text" name="calle" ng-model="firebaseTransportista.transportista.calle" />
+                                        </md-input-container>
+                                        <!--COLONIA-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Colonia</label>
+                                            <input type="text" name="colonia" ng-model="firebaseTransportista.transportista.colonia" />
+                                        </md-input-container>
+                                        <!--CIUDAD-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Ciudad</label>
+                                            <input type="text" name="ciudad" ng-model="firebaseTransportista.transportista.ciudad" />
+                                        </md-input-container>
+                                        <!--ESTADO-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Estado</label>
+                                            <input type="text" name="estado" ng-model="firebaseTransportista.transportista.estado" />
+                                        </md-input-container>
+                                        <!--CODIGO POSTAL-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Código Postal</label>
+                                            <input type="text" name="codigoPostal" ng-model="firebaseTransportista.transportista.codigoPostal" ng-pattern="/^[0-9]{5}$/" md-maxlength="5">
+                                            <div ng-messages="transportistas.codigoPostal.$error" role="alert">
+                                                <div ng-message="pattern">
+                                                    Este no parece un código postal válido.
+                                                </div>
+                                            </div>
+                                        </md-input-container>
+                                        <!--TELÉFONO-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Teléfono</label>
+                                            <input type="text" name="telefono" ng-model="firebaseTransportista.transportista.telefono" />
+                                        </md-input-container>
+                                        <!--CELULAR-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Celular</label>
+                                            <input type="text" name="celular" ng-model="firebaseTransportista.transportista.celular" />
+                                        </md-input-container>
+                                        <!--PROVEEDOR GPS-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm col-xs-12 no-padding">
+                                            <label>Proveedor GPS</label>
+                                            <input type="text" name="proveedorGPS" ng-model="firebaseTransportista.transportista.proveedorGPS" />
+                                        </md-input-container>
+                                        <!--CORREO ELECTRÓNICO-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Correo Electrónico</label>
+                                            <input type="email" name="correoElectronico" ng-model="firebaseTransportista.transportista.correoElectronico" required ng-pattern="/^.+@.+\..+$/" />
+                                            <div ng-messages="transportistas.correoElectronico.$error" role="alert">
+                                                <div ng-message="required">Por favor, compártenos tu correo electrónico. Este será tu usuario.</div>
+                                                <div ng-message="pattern">Oops! Este no parece un correo electrónico válido.</div>
+                                            </div>
+                                        </md-input-container>
+                                        <!--CONTRASEÑA-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Contraseña</label>
+                                            <input type="password" name="contrasena" ng-model="firebaseTransportista.transportista.contrasena" required minlength="8" />
+                                            <div ng-messages="transportistas.contrasena.$error" role="alert">
+                                                <div ng-message="required">Por favor, indica tu contraseña.</div>
+                                                <div ng-message="minlength">Tu contraseña debe tener 8 caracteres como mínimo.</div>
+                                            </div>
+                                        </md-input-container>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
+                                </div>
+                                <!--BOTON-->
+                                <div class="col-lg-offset-10 col-lg-2 col-md-12 col-sm-12 col-xs-12 text-right">
+                                    <md-button class="md-fab md-primary" aria-label="Resgistrarme" type="submit">
+                                        <i class="fa fa-check fa-3x" aria-hidden="true"></i>
+                                    </md-button>
+                                </div>
+                            </div>
+                        </form>
                     </md-content>
                 </md-tab>
                 <!--CHOFERES-->
