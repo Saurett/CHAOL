@@ -220,6 +220,8 @@ public class RegistroBodegasFragment extends Fragment implements View.OnClickLis
                 txtNumInt.setText(bodega.getNumeroInterior());
                 txtNumExt.setText(bodega.getNumeroExterior());
 
+                spinnerCliente.setEnabled(false);
+
                 pDialogRender.dismiss();
             }
 
@@ -284,6 +286,28 @@ public class RegistroBodegasFragment extends Fragment implements View.OnClickLis
 
     }
 
+    /**Verifica los campos obligatorios para editar**/
+    private void validationEditer() {
+
+        Boolean authorized = true;
+
+        String nombre = txtNombre.getText().toString();
+
+        if (TextUtils.isEmpty(nombre)) {
+            txtNombre.setError("El campo es obligatorio", null);
+            txtNombre.requestFocus();
+            authorized = false;
+        }
+
+        if (authorized) {
+            this.updateBodega();
+        } else {
+            Toast.makeText(getContext(), "Es necesario capturar campos obligatorios",
+                    Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
     private void createSimpleValidBodega() {
         Bodegas bodega = new Bodegas();
 
@@ -304,6 +328,33 @@ public class RegistroBodegasFragment extends Fragment implements View.OnClickLis
         /**metodo principal para crear usuario**/
         activityInterface.createBodegas(bodega);
     }
+
+    private void updateBodega() {
+
+        Bodegas bodega = new Bodegas();
+
+        bodega.setNombreDeLaBodega(txtNombre.getText().toString().trim());
+        bodega.setEstado(txtEstado.getText().toString().trim());
+        bodega.setCiudad(txtCiudad.getText().toString().trim());
+        bodega.setColonia(txtColonia.getText().toString().trim());
+        bodega.setCodigoPostal(txtCodigoPostal.getText().toString().trim());
+        bodega.setCalle(txtCalle.getText().toString().trim());
+        bodega.setNumeroInterior(txtNumInt.getText().toString().trim());
+        bodega.setNumeroExterior(txtNumExt.getText().toString().trim());
+
+        Clientes cliente = getSelectCliente();
+
+        bodega.setFirebaseIdCliente(cliente.getFirebaseId());
+        bodega.setNombreDelCliente(cliente.getNombre());
+
+        bodega.setFirebaseIdBodega(_bodegaActual.getFirebaseIdBodega());
+        bodega.setFechaDeCreacion(_bodegaActual.getFechaDeCreacion());
+        bodega.setEstatus(_bodegaActual.getEstatus());
+
+        /**metodo principal para actualizar**/
+        activityInterface.updateBodega(bodega);
+    }
+
 
     /**
      * Asigna los valores de los transportista a su combo
@@ -370,7 +421,7 @@ public class RegistroBodegasFragment extends Fragment implements View.OnClickLis
     public void onClick(DialogInterface dialog, int which) {
         switch (which) {
             case DialogInterface.BUTTON_POSITIVE:
-
+                this.validationEditer();
                 break;
         }
     }

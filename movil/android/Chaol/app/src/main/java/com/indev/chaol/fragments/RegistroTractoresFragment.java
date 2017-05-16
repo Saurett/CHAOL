@@ -204,6 +204,8 @@ public class RegistroTractoresFragment extends Fragment implements View.OnClickL
                 txtPlaca.setText(tractor.getPlaca());
                 txtIdGPS.setText(tractor.getIdGPS());
 
+                spinnerEmpresa.setEnabled(false);
+
                 pDialogRender.dismiss();
             }
 

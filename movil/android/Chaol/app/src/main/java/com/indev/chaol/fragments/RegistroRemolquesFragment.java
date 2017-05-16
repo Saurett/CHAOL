@@ -216,6 +216,8 @@ public class RegistroRemolquesFragment extends Fragment implements View.OnClickL
 
                 onCargarSpinnerTiposRemolques();
 
+                spinnerTipoRemolque.setEnabled(false);
+
                 pDialogRender.dismiss();
             }
 

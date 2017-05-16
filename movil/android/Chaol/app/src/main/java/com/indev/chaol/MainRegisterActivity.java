@@ -692,6 +692,46 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 });
     }
 
+    @Override
+    public void updateBodega(Bodegas bodega) {
+        pDialog = new ProgressDialog(MainRegisterActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        this.firebaseUpdateBodega(bodega);
+    }
+
+    private void firebaseUpdateBodega(final Bodegas bodega) {
+
+        final FirebaseUser user = mAuth.getCurrentUser();
+
+        /**obtiene la instancia como chofer**/
+        DatabaseReference dbBodega =
+                FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.FB_KEY_MAIN_CLIENTES)
+                        .child(bodega.getFirebaseIdCliente())
+                        .child(Constants.FB_KEY_MAIN_BODEGAS);
+
+        bodega.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
+
+        dbBodega.child(bodega.getFirebaseIdBodega()).setValue(bodega, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                pDialog.dismiss();
+
+                if (databaseError == null) {
+                    Toast.makeText(getApplicationContext(),
+                            "Actualizado correctamente...", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        Log.i(TAG, "firebaseRegistroChoferes: Actualizado correctamente" + user.getUid());
+
+    }
+
 
     @Override
     public void onClick(View v) {

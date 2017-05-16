@@ -38,6 +38,8 @@ public interface MainRegisterInterface {
     void createRemolques(Remolques remolque);
     /**Permite crear bodegas**/
     void createBodegas(Bodegas bodega);
+    /**Permite editar bodegas**/
+    void updateBodega(Bodegas bodega);
 
 
 }

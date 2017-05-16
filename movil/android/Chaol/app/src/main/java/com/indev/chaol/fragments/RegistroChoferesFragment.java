@@ -225,6 +225,8 @@ public class RegistroChoferesFragment extends Fragment implements View.OnClickLi
                 txtCorreoElectronico.setTag(txtCorreoElectronico.getKeyListener());
                 txtCorreoElectronico.setKeyListener(null);
 
+                spinnerEmpresa.setEnabled(false);
+
                 linearLayoutPassword.setVisibility(View.GONE);
 
                 pDialogRender.dismiss();
