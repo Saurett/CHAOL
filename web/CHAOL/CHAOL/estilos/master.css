@@ -134,6 +134,28 @@ md-tabs md-ink-bar {
   color: #03A9F4;
   background-color: #03A9F4;
 }
+md-sidenav {
+  width: 230px;
+}
+menu {
+  padding-left: 0px;
+}
+md-content {
+  color: inherit;
+}
+table tbody tr:hover {
+  background: #f5f5f5;
+}
+table tbody tr td:not(:nth-child(2)) {
+  width: 36px !important;
+}
+.md-closed {
+  display: block !important;
+  left: 54px;
+}
+.md-closed > menu > md-content > ul > li:hover {
+  background-color: none !important;
+}
 .btn-success,
 .btn-danger,
 .btn-default {
@@ -294,7 +316,7 @@ md-tabs md-ink-bar {
   background-color: #4BAE4F !important;
   color: #FFFFFF !important;
 }
-.md-primary {
+:not(md-switch).md-primary {
   background-color: #03A9F4 !important;
 }
 .md-primary i {
@@ -311,11 +333,11 @@ md-tabs md-ink-bar {
   cursor: pointer;
 }
 .div-progress {
-  position: absolute;
+  position: fixed;
   z-index: 2;
   width: 100%;
   height: 100%;
-  background: rgba(207, 216, 220, 0.5);
+  background: rgba(207, 216, 220, 0.3);
 }
 .div-progress > md-progress-circular {
   top: 50%;
@@ -2878,11 +2900,15 @@ md-tabs md-ink-bar {
 }
 /*@import "utilerias//bootstrap-datepicker.less";*/
 body {
-  padding-left: 54px !important;
+  /*padding-left: 54px !important;*/
   background: #CFD8DC;
   min-height: 100% !important;
   height: auto;
   padding-right: 0;
+}
+body > div:nth-child(2) > ng-view > div:first-child {
+  padding-left: 54px;
+  height: 100vh;
 }
 header {
   padding: 10px 0;
@@ -2902,63 +2928,29 @@ header {
   padding-right: 10px;
 }
 /*MENU*/
-nav {
-  box-shadow: 0 4px 5px #757575;
-  position: absolute;
-  z-index: 2;
-  height: 100%;
-  background-color: #ffffff;
-  width: 230px;
-  padding: 10px;
+md-sidenav {
   color: #0288D1;
-  transition: left 0.5s cubic-bezier(0.45, 0.05, 0.55, 0.95) 0s;
+  height: 100vh;
 }
-nav.cerrado {
-  left: -177px;
-}
-nav.cerrado a {
-  cursor: none;
-  pointer-events: none;
-}
-nav.abierto {
-  left: 0;
-}
-nav.abierto a {
-  cursor: pointer;
-  pointer-events: initial;
-}
-nav ul li {
+md-sidenav ul li {
   list-style: none;
 }
-nav li {
+md-sidenav li {
   padding: 0.5em 1em;
   transition: background-color 0.2s cubic-bezier(0.45, 0.05, 0.55, 0.95) 0s;
 }
-nav li li {
+md-sidenav li li {
   padding: 0.5em 1em;
 }
-nav > div > ul > li.activo {
-  background: #0288D1;
-  color: #ffffff;
-  background-image: url('../imagenes/iconos/ic_play_arrow_black_24dp/ic_playback_arrow_black_24dp_2x.png');
-  background-repeat: no-repeat;
-  background-position-x: right;
-  background-size: auto 100%;
-}
-nav > div > ul > li.li-hijo:hover {
+md-sidenav:not(.md-closed) > menu > md-content > ul > li.li-hijo:hover {
   background: #0288D1;
   color: #ffffff;
 }
-nav li a {
-  display: block;
-  height: 100%;
-  width: 100%;
-}
-nav li a:hover {
+md-sidenav li a:hover {
   text-decoration: none;
   color: #ffffff;
 }
-nav .li-padre {
+md-sidenav .li-padre {
   color: #757575;
 }
 #button_menu {
@@ -2966,10 +2958,25 @@ nav .li-padre {
   cursor: pointer;
   margin: 18px 0;
 }
+#button_menu:focus {
+  outline: none;
+}
 #div_menu_opciones {
   transition: opacity 0.5s ease-in-out 0s;
 }
 /*FIN MENU*/
+md-switch {
+  margin: 0;
+}
+md-switch.md-default-theme.md-checked.md-primary .md-thumb,
+md-switch.md-checked.md-primary .md-thumb {
+  background-color: #03A9F4;
+  color: #03A9F4;
+}
+md-switch.md-default-theme.md-checked.md-primary .md-bar,
+md-switch.md-checked.md-primary .md-bar {
+  background-color: rgba(3, 169, 244, 0.5);
+}
 @media only screen and (max-width: 425px) {
   #img_usuario {
     display: none;

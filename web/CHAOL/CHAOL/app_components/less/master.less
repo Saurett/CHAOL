@@ -15,11 +15,16 @@ and open the template in the editor.
 /*@import "utilerias//bootstrap-datepicker.less";*/
 
 body {
-    padding-left: 54px !important;
+    /*padding-left: 54px !important;*/
     background: @Background;
     min-height: 100% !important;
     height: auto;
     padding-right: 0;
+}
+
+body > div:nth-child(2) > ng-view > div:first-child {
+    padding-left: 54px;
+    height: 100vh;
 }
 
 header {
@@ -44,81 +49,35 @@ header {
 }
 
 /*MENU*/
-nav {
-    box-shadow: 0 4px 5px @Sombra;
-    position: absolute;
-    z-index: 2;
-    height: 100%;
-    background-color: rgb(255,255,255);
-    width: 230px;
-    padding: 10px;
+md-sidenav {
     color: @Dark_Primary_Color;
-    transition: left 0.5s cubic-bezier(0.45, 0.05, 0.55, 0.95) 0s;
+    height: 100vh;
 }
 
-nav.cerrado {
-    left: -177px;
-}
-
-nav.cerrado a {
-    cursor: none;
-    pointer-events: none;
-}
-
-nav.abierto {
-    left: 0;
-}
-
-nav.abierto a {
-    cursor: pointer;
-    pointer-events: initial;
-}
-
-nav ul li {
+md-sidenav ul li {
     list-style: none;
 }
 
-nav li {
+md-sidenav li {
     padding: 0.5em 1em;
     transition: background-color 0.2s cubic-bezier(0.45, 0.05, 0.55, 0.95) 0s;
 }
 
-nav li li {
+md-sidenav li li {
     padding: 0.5em 1em;
 }
 
-nav > div > ul > li.activo {
-    background: @Dark_Primary_Color;
-    color: #ffffff;
-    background-image: url('../imagenes/iconos/ic_play_arrow_black_24dp/ic_playback_arrow_black_24dp_2x.png');
-    background-repeat: no-repeat;
-    background-position-x: right;
-    background-size: auto 100%;
-}
-
-nav > div > ul > li.li-hijo:hover {
+md-sidenav:not(.md-closed) > menu > md-content > ul > li.li-hijo:hover {
     background: @Dark_Primary_Color;
     color: #ffffff;
 }
 
-nav.cerrado .li-hijo:hover {
-}
-
-nav li a {
-    display: block;
-    height: 100%;
-    width: 100%;
-}
-
-nav li a:hover {
+md-sidenav li a:hover {
     text-decoration: none;
     color: #ffffff;
 }
 
-nav .activo {
-}
-
-nav .li-padre {
+md-sidenav .li-padre {
     color: @Secondary_Text;
 }
 
@@ -128,11 +87,28 @@ nav .li-padre {
     margin: 18px 0;
 }
 
+#button_menu:focus {
+    outline: none;
+}
+
 #div_menu_opciones {
     transition: opacity 0.5s ease-in-out 0s;
 }
-
 /*FIN MENU*/
+
+md-switch {
+    margin: 0;
+}
+
+md-switch.md-default-theme.md-checked.md-primary .md-thumb, md-switch.md-checked.md-primary .md-thumb {
+    background-color: @Primary_Color;
+    color: @Primary_Color;
+}
+
+md-switch.md-default-theme.md-checked.md-primary .md-bar, md-switch.md-checked.md-primary .md-bar {
+    background-color: rgba(3,169,244,0.5);
+}
+
 @media only screen and (max-width: 425px) {
     #img_usuario {
         display: none;

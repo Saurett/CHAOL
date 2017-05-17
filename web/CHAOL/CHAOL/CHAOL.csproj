@@ -68,7 +68,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app_components\angular\app.js" />
+    <Content Include="app_components\angular\components.js" />
     <Content Include="app_components\angular\config.js" />
+    <Content Include="app_components\angular\menuController.js" />
+    <Content Include="app_components\angular\modulos\administracion\clientes\clientesController.js" />
+    <Content Include="app_components\angular\modulos\inicioController.js" />
+    <Content Include="app_components\angular\recuperarContrasenaController.js" />
     <Content Include="app_components\angular\loginController.js" />
     <Content Include="app_components\angular\registroController.js" />
     <Content Include="app_components\angular\services.js" />
@@ -759,6 +764,7 @@
     <Content Include="fuentes\fontawesome-webfont.svg" />
     <Content Include="fuentes\glyphicons-halflings-regular.svg" />
     <Content Include="gulpfile.js" />
+    <Content Include="header.html" />
     <Content Include="imagenes\fondos\Chofer.jpg" />
     <Content Include="imagenes\fondos\Clientes.jpg" />
     <Content Include="imagenes\fondos\Fletes.jpg" />
@@ -775,6 +781,8 @@
     <Content Include="js\app.js" />
     <Content Include="js\base.js" />
     <Content Include="js\tools.js" />
+    <Content Include="menu.html" />
+    <Content Include="recuperarContrasena.html" />
     <Content Include="login.html" />
     <Content Include="modulos\administracion\choferes\captura\capturaChofer.html" />
     <Content Include="modulos\administracion\choferes\listado\listadoChoferes.html" />
@@ -790,7 +798,6 @@
     <Content Include="modulos\fletes\agenda\agenda.html" />
     <Content Include="modulos\fletes\captura\capturaFlete.html" />
     <Content Include="modulos\inicio.html" />
-    <Content Include="master.html" />
     <Content Include="node_modules\accord\lib\adapters\babel\4.x - 5.x.js" />
     <Content Include="node_modules\accord\lib\adapters\babel\6.x.js" />
     <Content Include="node_modules\accord\lib\adapters\babel\index.js" />
@@ -5239,6 +5246,7 @@
     <Content Include="bower_components\angular-sanitize\LICENSE.md" />
     <Content Include="bower_components\angular-sanitize\package.json" />
     <Content Include="bower_components\angular-sanitize\README.md" />
+    <Content Include="chaol-75d99-firebase-adminsdk-xc0he-1de2d1ef7c.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

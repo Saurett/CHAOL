@@ -11,6 +11,15 @@ and open the template in the editor.
 /*IMPORTACIONES*/
 @import "html.less";
 
+.md-closed {
+    display: block !important;
+    left: 54px;
+}
+
+.md-closed > menu > md-content > ul > li:hover {
+    background-color: none !important;
+}
+
 .btn-success, .btn-danger, .btn-default {
     background-image: none;
     border: none;
@@ -209,7 +218,7 @@ and open the template in the editor.
     color: @Text_Icons !important;
 }
 
-.md-primary {
+:not(md-switch).md-primary {
     background-color: @Primary_Color !important;
 }
 
@@ -221,20 +230,20 @@ and open the template in the editor.
     color: @Text_Icons !important;
 }
 
-.imagen-perfil{
+.imagen-perfil {
     border-radius: 200px;
 }
 
-.puntero{
-    cursor:pointer;
+.puntero {
+    cursor: pointer;
 }
 
 .div-progress {
-    position: absolute;
+    position: fixed;
     z-index: 2;
     width: 100%;
     height: 100%;
-    background: rgba(207, 216, 220, 0.5);
+    background: rgba(207, 216, 220, 0.3);
 }
 
 .div-progress > md-progress-circular {

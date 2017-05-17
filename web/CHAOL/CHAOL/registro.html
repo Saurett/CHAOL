@@ -1,4 +1,4 @@
-﻿<div id="registro" ng-cloak>
+﻿<div id="registro">
     <!--ENCABEZADO-->
     <header class="col-xs-12 col-sm-12 col-md-12">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 no-padding">
@@ -34,7 +34,7 @@
                                                     <img src="" alt="Cliente" id="img_perfil_cliente" height="150" width="150" class="imagen-perfil hide" />
                                                 </label>
                                             </div>
-                                            <input type="file" name="foto" id="input_foto_cliente" accept="image/x-png, image/gif, image/jpeg" onchange="angular.element(this).scope().guardarFoto()" ng-hide="true" />
+                                            <input type="file" name="foto" id="input_foto_cliente" accept="image/x-png, image/gif, image/jpeg" onchange="angular.element(this).scope().guardarFotoCliente()" ng-hide="true" />
                                         </div>
                                         <div class="col-lg-12">
                                             <label for="input_foto_cliente" class="text-blue puntero">cambiar imagen</label>
@@ -173,7 +173,7 @@
                                                     <img src="" alt="Transportista" id="img_perfil_transportista" height="150" width="150" class="imagen-perfil hide" />
                                                 </label>
                                             </div>
-                                            <input type="file" name="foto" id="input_foto_transportista" accept="image/x-png, image/gif, image/jpeg" onchange="angular.element(this).scope().guardarFoto()" ng-hide="true" />
+                                            <input type="file" name="foto" id="input_foto_transportista" accept="image/x-png, image/gif, image/jpeg" onchange="angular.element(this).scope().guardarFotoTransportista()" ng-hide="true" />
                                         </div>
                                         <div class="col-lg-12">
                                             <label for="input_foto_transportista" class="text-blue puntero">cambiar imagen</label>
@@ -295,9 +295,149 @@
                         <div class="col-lg-12 caja-titulo">
                             <h1 class="md-display-2">Choferes</h1>
                         </div>
-                        <div>
-                            Chofer
-                        </div>
+                        <!--CONTENIDO CHOFER-->
+                        <form name="choferes" ng-submit="choferes.$valid && registrarChofer()">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-contenido">
+                                <!--FORMULARIO-->
+                                <div class="col-lg-12">
+                                    <!--IMAGEN-->
+                                    <div class="col-lg-3 text-center">
+                                        <div class="col-lg-12 margin-bottom-20">
+                                            <div>
+                                                <label for="input_foto_chofer" class="puntero">
+                                                    <i id="i_perfil_chofer" class="fa fa-user-circle fa-5x" aria-hidden="true">
+                                                    </i>
+                                                    <img src="" alt="Chofer" id="img_perfil_chofer" height="150" width="150" class="imagen-perfil hide" />
+                                                </label>
+                                            </div>
+                                            <input type="file" name="foto" id="input_foto_chofer" accept="image/x-png, image/gif, image/jpeg" onchange="angular.element(this).scope().guardarFotoChofer()" ng-hide="true" />
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <label for="input_foto_chofer" class="text-blue puntero">cambiar imagen</label>
+                                        </div>
+                                    </div>
+                                    <!--DATOS-->
+                                    <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+                                        <!--EMPRESA TRANSPORTISTA-->
+                                        <md-input-container class="col-lg-11 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Empresa Transportista</label>
+                                            <md-select name="empresaTransportista" ng-model="firebaseChofer.chofer.empresaTransportista" required>
+                                                <md-option ng-repeat="empresa in empresasTransportista" value="{{empresa.$id}}">
+                                                    {{empresa.$value}}
+                                                </md-option>
+                                            </md-select>
+                                            <div ng-messages="choferes.empresaTransportista.$error" role="alert">
+                                                <div ng-message="required">Por favor, selecciona la empresa a la que perteneces.</div>
+                                            </div>
+                                        </md-input-container>
+                                        <!--NOMBRE-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Nombre</label>
+                                            <input type="text" name="nombre" ng-model="firebaseChofer.chofer.nombre" required />
+                                            <div ng-messages="choferes.nombre.$error" role="alert">
+                                                <div ng-message="required">Por favor, compártenos tu nombre o razón social.</div>
+                                            </div>
+                                        </md-input-container>
+                                        <!--NUMERO DE LICENCIA-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Número de Licencia</label>
+                                            <input type="text" name="numeroLicencia" ng-model="firebaseChofer.chofer.numeroDeLicencia" />
+                                        </md-input-container>
+                                        <!--NUMERO DE SEGURO SOCIAL-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Número de Seguro Social</label>
+                                            <input type="text" name="numeroSeguroSocial" ng-model="firebaseChofer.chofer.numeroDeSeguroSocial" />
+                                        </md-input-container>
+                                        <!--CURP-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>CURP</label>
+                                            <input type="text" name="curp" ng-model="firebaseChofer.chofer.curp" />
+                                        </md-input-container>
+                                        <!--NUMERO INTERIOR-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Número Interior</label>
+                                            <input type="text" name="numeroInterior" ng-model="firebaseChofer.chofer.numeroInterior" />
+                                        </md-input-container>
+                                        <!--NÚMERO EXTERIOR-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Número Exterior</label>
+                                            <input type="text" name="numeroExterior" ng-model="firebaseChofer.chofer.numeroExterior" />
+                                        </md-input-container>
+                                        <!--CALLE-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Calle</label>
+                                            <input type="text" name="calle" ng-model="firebaseChofer.chofer.calle" />
+                                        </md-input-container>
+                                        <!--COLONIA-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Colonia</label>
+                                            <input type="text" name="colonia" ng-model="firebaseChofer.chofer.colonia" />
+                                        </md-input-container>
+                                        <!--CIUDAD-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Ciudad</label>
+                                            <input type="text" name="ciudad" ng-model="firebaseChofer.chofer.ciudad" />
+                                        </md-input-container>
+                                        <!--ESTADO-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Estado</label>
+                                            <input type="text" name="estado" ng-model="firebaseChofer.chofer.estado" />
+                                        </md-input-container>
+                                        <!--CODIGO POSTAL-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Código Postal</label>
+                                            <input type="text" name="codigoPostal" ng-model="firebaseChofer.chofer.codigoPostal" ng-pattern="/^[0-9]{5}$/" md-maxlength="5">
+                                            <div ng-messages="choferes.codigoPostal.$error" role="alert">
+                                                <div ng-message="pattern">
+                                                    Este no parece un código postal válido.
+                                                </div>
+                                            </div>
+                                        </md-input-container>
+                                        <!--TELÉFONO-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Teléfono</label>
+                                            <input type="text" name="telefono" ng-model="firebaseChofer.chofer.telefono" />
+                                        </md-input-container>
+                                        <!--CELULAR-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Celular (Opción 1)</label>
+                                            <input type="text" name="celular2" ng-model="firebaseChofer.chofer.celular1" />
+                                        </md-input-container>
+                                        <!--CELULAR 2-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Celular (Opción 2)</label>
+                                            <input type="text" name="celular2" ng-model="firebaseChofer.chofer.celular2" />
+                                        </md-input-container>
+                                        <!--CORREO ELECTRÓNICO-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Correo Electrónico</label>
+                                            <input type="email" name="correoElectronico" ng-model="firebaseChofer.chofer.correoElectronico" required ng-pattern="/^.+@.+\..+$/" />
+                                            <div ng-messages="choferes.correoElectronico.$error" role="alert">
+                                                <div ng-message="required">Por favor, compártenos tu correo electrónico. Este será tu usuario.</div>
+                                                <div ng-message="pattern">Oops! Este no parece un correo electrónico válido.</div>
+                                            </div>
+                                        </md-input-container>
+                                        <!--CONTRASEÑA-->
+                                        <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                            <label>Contraseña</label>
+                                            <input type="password" name="contrasena" ng-model="firebaseChofer.chofer.contrasena" required minlength="8" />
+                                            <div ng-messages="choferes.contrasena.$error" role="alert">
+                                                <div ng-message="required">Por favor, indica tu contraseña.</div>
+                                                <div ng-message="minlength">Tu contraseña debe tener 8 caracteres como mínimo.</div>
+                                            </div>
+                                        </md-input-container>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
+                                </div>
+                                <!--BOTON-->
+                                <div class="col-lg-offset-10 col-lg-2 col-md-12 col-sm-12 col-xs-12 text-right">
+                                    <md-button class="md-fab md-primary" aria-label="Resgistrarme" type="submit">
+                                        <i class="fa fa-check fa-3x" aria-hidden="true"></i>
+                                    </md-button>
+                                </div>
+                            </div>
+                        </form>
                     </md-content>
                 </md-tab>
             </md-tabs>

@@ -1,4 +1,4 @@
-/// <binding BeforeBuild='angular-js' />
+/// <binding BeforeBuild='angular-js, less, js' />
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -35,8 +35,13 @@ gulp.task('angular-js', function () {
             'app_components/angular/app.js',
             'app_components/angular/config.js',
             'app_components/angular/services.js',
+            'app_components/angular/components.js',
             'app_components/angular/loginController.js',
-            'app_components/angular/registroController.js'
+            'app_components/angular/registroController.js',
+            'app_components/angular/recuperarContrasenaController.js',
+            'app_components/angular/menuController.js',
+            'app_components/angular/modulos/inicioController.js',
+            'app_components/angular/modulos/administracion/clientes/clientesController.js'
         ])
         .pipe(concat('app.js'))
         .pipe(gulp.dest('js/'));

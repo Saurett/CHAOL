@@ -134,6 +134,28 @@ md-tabs md-ink-bar {
   color: #03A9F4;
   background-color: #03A9F4;
 }
+md-sidenav {
+  width: 230px;
+}
+menu {
+  padding-left: 0px;
+}
+md-content {
+  color: inherit;
+}
+table tbody tr:hover {
+  background: #f5f5f5;
+}
+table tbody tr td:not(:nth-child(2)) {
+  width: 36px !important;
+}
+.md-closed {
+  display: block !important;
+  left: 54px;
+}
+.md-closed > menu > md-content > ul > li:hover {
+  background-color: none !important;
+}
 .btn-success,
 .btn-danger,
 .btn-default {
@@ -294,7 +316,7 @@ md-tabs md-ink-bar {
   background-color: #4BAE4F !important;
   color: #FFFFFF !important;
 }
-.md-primary {
+:not(md-switch).md-primary {
   background-color: #03A9F4 !important;
 }
 .md-primary i {
@@ -311,17 +333,17 @@ md-tabs md-ink-bar {
   cursor: pointer;
 }
 .div-progress {
-  position: absolute;
+  position: fixed;
   z-index: 2;
   width: 100%;
   height: 100%;
-  background: rgba(207, 216, 220, 0.5);
+  background: rgba(207, 216, 220, 0.3);
 }
 .div-progress > md-progress-circular {
   top: 50%;
   left: 50%;
 }
-body > div {
+body > div:nth-child(2) {
   height: 100%;
   padding: 0;
   margin: 0;
@@ -332,7 +354,8 @@ body > div {
 #div_principal {
   padding: 0;
 }
-#div_principal > ng-view > div {
+#div_principal > ng-view > div,
+#div_principal > ng-view > div > div {
   padding: 0;
   margin: 0;
   height: 100%;

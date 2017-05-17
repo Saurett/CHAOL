@@ -11,7 +11,7 @@ and open the template in the editor.
 /*IMPORTACIONES*/
 @import "base/estilos.less";
 
-body > div {
+body > div:nth-child(2) {
     height: 100%;
     padding: 0;
     margin: 0;
@@ -24,7 +24,9 @@ body > div {
     padding: 0;
 }
 
-#div_principal > ng-view > div {
+#div_principal > ng-view > div,
+#div_principal > ng-view > div > div
+{
     padding: 0;
     margin: 0;
     height: 100%;
