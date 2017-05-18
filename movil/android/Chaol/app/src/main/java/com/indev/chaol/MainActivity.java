@@ -257,7 +257,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
            }
 
             getLoginUser();
-            //Toast.makeText(getApplicationContext(), "Successfully logged in", Toast.LENGTH_SHORT).show();
+
         } else {
             // email is not verified, so just prompt the message to the user and restart this activity.
             // NOTE: don't forget to log out the user.
@@ -269,7 +269,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     /**Obtiene los datos oficiales del usuario ya registrado y validado**/
     private void getLoginUser() {
-        FirebaseUser user = mAuth.getCurrentUser();
+        final FirebaseUser user = mAuth.getCurrentUser();
 
         DatabaseReference dbUsuario =
                 FirebaseDatabase.getInstance().getReference()
@@ -278,17 +278,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dbUsuario.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String tipoUsuario = dataSnapshot.getValue(String.class);
-                String key = dataSnapshot.getKey();
-                //Ejecuta el intent de navigationDrawer
-                openNavigation(new Usuarios(tipoUsuario,key,""));
+
+                if (dataSnapshot.exists()) {
+                    String tipoUsuario = dataSnapshot.getValue(String.class);
+                    String key = dataSnapshot.getKey();
+                    //Ejecuta el intent de navigationDrawer
+                    openNavigation(new Usuarios(tipoUsuario,key,""));
+                } else {
+                    FirebaseAuth.getInstance().signOut();
+                }
 
                 pDialog.dismiss();
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
     }
