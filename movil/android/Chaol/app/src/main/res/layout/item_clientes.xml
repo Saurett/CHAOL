@@ -14,8 +14,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
             <TextView
@@ -33,6 +33,12 @@
                 android:layout_marginRight="5dp"
                 android:background="@mipmap/ic_mode_edit_white_48dp"
                 android:backgroundTint="@color/colorPrimaryDark" />
+
+            <Switch
+                android:id="@+id/item_switch_activar_cliente"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:checked="false" />
 
             <Button
                 android:id="@+id/item_btn_eliminar_cliente"

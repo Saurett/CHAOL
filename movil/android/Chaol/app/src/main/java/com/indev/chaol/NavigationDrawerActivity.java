@@ -427,18 +427,20 @@ public class NavigationDrawerActivity extends AppCompatActivity
     private void firebaseUpdateCliente(Clientes cliente) {
         FirebaseUser user = mAuth.getCurrentUser();
 
+        String firebaseID = (cliente.getFirebaseId() == null) ? user.getUid() : cliente.getFirebaseId();
+
         /**obtiene la instancia como cliente**/
         DatabaseReference dbCliente =
                 FirebaseDatabase.getInstance().getReference()
                         .child(Constants.FB_KEY_MAIN_CLIENTES);
 
         cliente.setTipoDeUsuario(Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE);
-        cliente.setFirebaseId(user.getUid());
+        cliente.setFirebaseId(firebaseID);
         cliente.setEstatus(cliente.getEstatus());
         cliente.setPassword(null);
         cliente.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
 
-        dbCliente.child(user.getUid()).child(Constants.FB_KEY_ITEM_CLIENTE).setValue(cliente, new DatabaseReference.CompletionListener() {
+        dbCliente.child(cliente.getFirebaseId()).child(Constants.FB_KEY_ITEM_CLIENTE).setValue(cliente, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 pDialog.dismiss();
@@ -465,20 +467,22 @@ public class NavigationDrawerActivity extends AppCompatActivity
     }
 
     private void firebaseUpdateTransportista(final Transportistas transportista) {
-        final FirebaseUser user = mAuth.getCurrentUser();
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        String firebaseID = (transportista.getFirebaseId() == null) ? user.getUid() : transportista.getFirebaseId();
 
         /**obtiene la instancia como transportista**/
         DatabaseReference dbTransportista =
                 FirebaseDatabase.getInstance().getReference()
                         .child("transportistas");
 
-        transportista.setTipoDeUsuario("transportista");
-        transportista.setFirebaseId(user.getUid());
+        transportista.setTipoDeUsuario(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA);
+        transportista.setFirebaseId(firebaseID);
         transportista.setContraseña(null);
-        transportista.setEstatus("activo");
+        transportista.setEstatus(transportista.getEstatus());
         transportista.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
 
-        dbTransportista.child(user.getUid()).child("transportista").setValue(transportista, new DatabaseReference.CompletionListener() {
+        dbTransportista.child(transportista.getFirebaseId()).child(Constants.FB_KEY_ITEM_TRANSPORTISTA).setValue(transportista, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 pDialog.dismiss();
@@ -494,9 +498,9 @@ public class NavigationDrawerActivity extends AppCompatActivity
                     /**obtiene la instancia como listaDeTransportistas**/
                     DatabaseReference dbListaTransportista =
                             FirebaseDatabase.getInstance().getReference()
-                                    .child("listaDeTransportistas");
+                                    .child(Constants.FB_KEY_MAIN_LISTA_TRANSPORTISTAS);
 
-                    dbListaTransportista.child(user.getUid()).setValue(transportista.getNombre(), new DatabaseReference.CompletionListener() {
+                    dbListaTransportista.child(transportista.getFirebaseId()).setValue(transportista.getNombre(), new DatabaseReference.CompletionListener() {
                         @Override
                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                             pDialog.dismiss();
@@ -529,19 +533,21 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
     private void firebaseUpdateChofer(final Choferes chofer) {
 
-        final FirebaseUser user = mAuth.getCurrentUser();
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        String firebaseID = (chofer.getFirebaseId() == null) ? user.getUid() : chofer.getFirebaseId();
 
         /**obtiene la instancia como chofer**/
         DatabaseReference dbChofer =
                 FirebaseDatabase.getInstance().getReference()
-                        .child("choferes");
+                        .child(Constants.FB_KEY_MAIN_CHOFERES);
 
-        chofer.setTipoDeUsuario("chofer");
-        chofer.setFirebaseId(user.getUid());
+        chofer.setTipoDeUsuario(Constants.FB_KEY_ITEM_TIPO_USUARIO_CHOFER);
+        chofer.setFirebaseId(firebaseID);
         chofer.setContraseña(null);
         chofer.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
 
-        dbChofer.child(user.getUid()).setValue(chofer, new DatabaseReference.CompletionListener() {
+        dbChofer.child(chofer.getFirebaseId()).setValue(chofer, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 pDialog.dismiss();
@@ -557,10 +563,10 @@ public class NavigationDrawerActivity extends AppCompatActivity
                     /**obtiene la instancia como transportista**/
                     DatabaseReference dbTransportista =
                             FirebaseDatabase.getInstance().getReference()
-                                    .child("transportistas");
+                                    .child(Constants.FB_KEY_MAIN_TRANSPORTISTAS);
 
                     dbTransportista.child(chofer.getFirebaseIdTransportista())
-                            .child("chofer").child(user.getUid()).setValue(chofer, new DatabaseReference.CompletionListener() {
+                            .child(Constants.FB_KEY_ITEM_CHOFER).child(chofer.getFirebaseId()).setValue(chofer, new DatabaseReference.CompletionListener() {
                         @Override
                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                             pDialog.dismiss();
