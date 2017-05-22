@@ -105,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
+        //FirebaseAuth.getInstance().signOut();
     }
 
     @Override
