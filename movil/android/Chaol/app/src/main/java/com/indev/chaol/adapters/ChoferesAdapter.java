@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.indev.chaol.R;
@@ -13,6 +14,7 @@ import com.indev.chaol.fragments.ClientesFragment;
 import com.indev.chaol.models.Choferes;
 import com.indev.chaol.models.DecodeItem;
 import com.indev.chaol.models.Transportistas;
+import com.indev.chaol.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +31,7 @@ public class ChoferesAdapter extends RecyclerView.Adapter<ChoferesAdapter.ViewHo
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView txtNombre;
+        Switch switchActivar;
         Button btnEditar;
         Button btnEliminar;
 
@@ -36,6 +39,7 @@ public class ChoferesAdapter extends RecyclerView.Adapter<ChoferesAdapter.ViewHo
             super(itemView);
 
             txtNombre = (TextView) itemView.findViewById(R.id.item_nombre_chofer);
+            switchActivar = (Switch) itemView.findViewById(R.id.item_switch_activar_chofer);
             btnEditar = (Button) itemView.findViewById(R.id.item_btn_editar_chofer);
             btnEliminar = (Button) itemView.findViewById(R.id.item_btn_eliminar_chofer);
         }
@@ -65,6 +69,22 @@ public class ChoferesAdapter extends RecyclerView.Adapter<ChoferesAdapter.ViewHo
 
         decodeItem.setItemModel(item);
         decodeItem.setPosition(position);
+
+        holder.switchActivar.setChecked((item.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ACTIVO)));
+
+        holder.switchActivar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Boolean check = ((Switch) view).isChecked();
+
+                item.setEstatus((check) ? Constants.FB_KEY_ITEM_ESTATUS_ACTIVO : Constants.FB_KEY_ITEM_ESTATUS_INACTIVO);
+
+                decodeItem.setIdView(view.getId());
+                decodeItem.setItemModel(item);
+                ChoferesFragment.onListenerAction(decodeItem);
+            }
+        });
+
 
         holder.txtNombre.setText(item.getNombre());
         holder.btnEliminar.setOnClickListener(new View.OnClickListener() {

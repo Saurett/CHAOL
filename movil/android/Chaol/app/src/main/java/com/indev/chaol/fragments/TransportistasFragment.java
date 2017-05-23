@@ -145,6 +145,10 @@ public class TransportistasFragment extends Fragment implements View.OnClickList
             case R.id.item_btn_eliminar_transportista:
                 navigationDrawerInterface.showQuestion();
                 break;
+            case R.id.item_switch_activar_transportista:
+                Transportistas transportista = (Transportistas) decodeItem.getItemModel();
+                navigationDrawerInterface.updateUserTransportista(transportista);
+                break;
         }
     }
 

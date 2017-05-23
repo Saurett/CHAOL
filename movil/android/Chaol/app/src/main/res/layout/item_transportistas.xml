@@ -34,6 +34,12 @@
                 android:background="@mipmap/ic_mode_edit_white_48dp"
                 android:backgroundTint="@color/colorPrimaryDark" />
 
+            <Switch
+                android:id="@+id/item_switch_activar_transportista"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:checked="false" />
+
             <Button
                 android:id="@+id/item_btn_eliminar_transportista"
                 android:layout_width="20dp"

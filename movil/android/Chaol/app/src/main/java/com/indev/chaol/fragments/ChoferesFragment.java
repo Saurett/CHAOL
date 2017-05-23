@@ -156,6 +156,10 @@ public class ChoferesFragment extends Fragment implements View.OnClickListener {
             case R.id.item_btn_eliminar_chofer:
                 navigationDrawerInterface.showQuestion();
                 break;
+            case R.id.item_switch_activar_chofer:
+                Choferes chofer = (Choferes) decodeItem.getItemModel();
+                navigationDrawerInterface.updateUserChofer(chofer);
+                break;
         }
     }
 

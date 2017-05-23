@@ -115,7 +115,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
     /**
      * Carga valores iniciales en vista
-     * setMenuTitleColor (Carga el color en los titulos de los grupos)
+     * setMenuTitleColor (Carga el color en los titulos de los grupos)pan
      */
     public void onPreRender(NavigationView navigationView) {
         Menu menu = navigationView.getMenu();
