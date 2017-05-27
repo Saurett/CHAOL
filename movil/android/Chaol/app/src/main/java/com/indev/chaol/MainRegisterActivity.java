@@ -21,6 +21,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -42,6 +44,7 @@ import com.indev.chaol.utils.DateTimeUtils;
 import com.indev.chaol.utils.ErrorMessages;
 
 import java.util.List;
+import java.util.Random;
 
 public class MainRegisterActivity extends AppCompatActivity implements MainRegisterInterface, View.OnClickListener {
 
@@ -58,7 +61,9 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
      * Declaraciones para Firebase
      **/
     private FirebaseAuth mAuth;
+    private FirebaseAuth secondaryAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private FirebaseAuth.AuthStateListener sAuthListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +93,14 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
         /**Obtiene la instancia compartida del objeto FirebaseAuth**/
         mAuth = FirebaseAuth.getInstance();
+
+        /**Crea segunda instancia de la app**/
+        FirebaseOptions fo = FirebaseOptions.fromResource(getApplicationContext());
+
+        FirebaseApp myApp = FirebaseApp.initializeApp(getApplicationContext(),
+                fo, String.valueOf(DateTimeUtils.getTimeStamp()));
+
+        secondaryAuth = FirebaseAuth.getInstance(myApp);
 
         /**Responde a los cambios de estato en la session**/
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -224,7 +237,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         pDialog.setCancelable(false);
         pDialog.show();
 
-        mAuth.createUserWithEmailAndPassword(cliente.getCorreoElectronico(), cliente.getPassword())
+        secondaryAuth.createUserWithEmailAndPassword(cliente.getCorreoElectronico(), cliente.getPassword())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -249,7 +262,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
      * Registra en firebase al cliente y lo agrega como usuario
      **/
     public void firebaseRegistroCliente(final Clientes cliente) {
-        final FirebaseUser user = mAuth.getCurrentUser();
+        FirebaseUser user = secondaryAuth.getCurrentUser();
 
         /**obtiene la instancia como cliente**/
         final DatabaseReference dbCliente =
@@ -267,26 +280,24 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
+                pDialog.dismiss();
+
                 if (databaseError == null) {
                     /**obtiene la instancia como usuario**/
                     DatabaseReference dbUsuario =
                             FirebaseDatabase.getInstance().getReference()
                                     .child(Constants.FB_KEY_MAIN_USUARIOS);
-                    dbUsuario.child(user.getUid()).setValue(cliente.getTipoDeUsuario(), new DatabaseReference.CompletionListener() {
+                    dbUsuario.child(cliente.getFirebaseId()).setValue(cliente.getTipoDeUsuario(), new DatabaseReference.CompletionListener() {
 
                         @Override
                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
                             if (databaseError == null) {
                                 sendEmailVerification();
-                            } else {
-                                pDialog.dismiss();
                             }
                         }
                     });
                 }
-
-
             }
         });
 
@@ -302,7 +313,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         pDialog.setCancelable(false);
         pDialog.show();
 
-        mAuth.createUserWithEmailAndPassword(transportista.getCorreoElectronico(), transportista.getContraseña())
+        secondaryAuth.createUserWithEmailAndPassword(transportista.getCorreoElectronico(), transportista.getContraseña())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -327,7 +338,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
      * Registra en firebase al transportista y lo agrega como usuario
      **/
     private void firebaseRegistroTransportista(final Transportistas transportista) {
-        final FirebaseUser user = mAuth.getCurrentUser();
+        FirebaseUser user = secondaryAuth.getCurrentUser();
 
         /**obtiene la instancia como transportista**/
         final DatabaseReference dbTransportista =
@@ -351,7 +362,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                             FirebaseDatabase.getInstance().getReference()
                                     .child(Constants.FB_KEY_MAIN_USUARIOS);
 
-                    dbUsuario.child(user.getUid()).setValue(transportista.getTipoDeUsuario(), new DatabaseReference.CompletionListener() {
+                    dbUsuario.child(transportista.getFirebaseId()).setValue(transportista.getTipoDeUsuario(), new DatabaseReference.CompletionListener() {
                         @Override
                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
@@ -362,14 +373,12 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                                         FirebaseDatabase.getInstance().getReference()
                                                 .child(Constants.FB_KEY_MAIN_LISTA_TRANSPORTISTAS);
 
-                                dbListaTransportista.child(user.getUid()).setValue(transportista.getNombre(), new DatabaseReference.CompletionListener() {
+                                dbListaTransportista.child(transportista.getFirebaseId()).setValue(transportista.getNombre(), new DatabaseReference.CompletionListener() {
                                     @Override
                                     public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
                                         if (databaseError == null) {
                                             sendEmailVerification();
-                                        } else {
-                                            pDialog.dismiss();
                                         }
                                     }
                                 });
@@ -378,6 +387,8 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                             }
                         }
                     });
+                } else {
+                    pDialog.dismiss();
                 }
 
             }
@@ -395,8 +406,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         pDialog.setCancelable(false);
         pDialog.show();
 
-
-        mAuth.createUserWithEmailAndPassword(chofer.getCorreoElectronico(), chofer.getContraseña())
+        secondaryAuth.createUserWithEmailAndPassword(chofer.getCorreoElectronico(), chofer.getContraseña())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -422,7 +432,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
      * Registra en firebase al transportista y lo agrega como usuario
      **/
     private void firebaseRegistroChoferes(final Choferes chofer) {
-        final FirebaseUser user = mAuth.getCurrentUser();
+        FirebaseUser user = secondaryAuth.getCurrentUser();
 
         /**obtiene la instancia como transportista**/
         final DatabaseReference dbTransportista =
@@ -440,7 +450,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         chofer.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_INACTIVO);
         chofer.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
 
-        dbChofer.child(user.getUid()).setValue(chofer, new DatabaseReference.CompletionListener() {
+        dbChofer.child(chofer.getFirebaseId()).setValue(chofer, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
@@ -451,22 +461,19 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                             FirebaseDatabase.getInstance().getReference()
                                     .child(Constants.FB_KEY_MAIN_USUARIOS);
 
-                    dbUsuario.child(user.getUid()).setValue(chofer.getTipoDeUsuario(), new DatabaseReference.CompletionListener() {
+                    dbUsuario.child(chofer.getFirebaseId()).setValue(chofer.getTipoDeUsuario(), new DatabaseReference.CompletionListener() {
                         @Override
                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
                             if (databaseError == null) {
 
                                 dbTransportista.child(chofer.getFirebaseIdTransportista())
-                                        .child(Constants.FB_KEY_MAIN_CHOFERES).child(user.getUid()).setValue(chofer, new DatabaseReference.CompletionListener() {
+                                        .child(Constants.FB_KEY_MAIN_CHOFERES).child(chofer.getFirebaseId()).setValue(chofer, new DatabaseReference.CompletionListener() {
                                     @Override
                                     public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
                                         if (databaseError == null) {
                                             sendEmailVerification();
-                                            Log.i(TAG, "firebaseRegistroChoferes: Registrado correctamente" + user.getUid());
-                                        } else {
-                                            pDialog.dismiss();
                                         }
                                     }
                                 });
@@ -476,6 +483,8 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                             }
                         }
                     });
+                } else {
+                    pDialog.dismiss();
                 }
             }
         });
@@ -485,7 +494,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
      * Envia correo de verificación para ser un usuario validado
      **/
     public void sendEmailVerification() {
-        final FirebaseUser user = mAuth.getCurrentUser();
+        FirebaseUser user = secondaryAuth.getCurrentUser();
 
         pDialog = new ProgressDialog(MainRegisterActivity.this);
         pDialog.setMessage(getString(R.string.default_loading_msg));
@@ -493,21 +502,20 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         pDialog.setCancelable(false);
         pDialog.show();
 
-        user.sendEmailVerification()
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        pDialog.dismiss();
-                        if (task.isSuccessful()) {
-                            //Si el email se envio correctamente cierra sessión
-                            FirebaseAuth.getInstance().signOut();
-                            reautheticate();
-                            finish();
-                            Toast.makeText(getApplicationContext(),
-                                    "Registrado correctamente...", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
+        user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                pDialog.dismiss();
+                if (task.isSuccessful()) {
+                    //Si el email se envio correctamente cierra sessión
+                    //FirebaseAuth.getInstance().signOut();
+                    secondaryAuth.signOut();
+                    finish();
+                    Toast.makeText(getApplicationContext(),
+                            "Registrado correctamente...", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     private void reautheticate() {
@@ -585,14 +593,14 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         final DatabaseReference dbTransportista =
                 FirebaseDatabase.getInstance().getReference()
                         .child(Constants.FB_KEY_MAIN_TRANSPORTISTAS)
-                        .child(tractor.getFirebaseIdTransportista());
+                        .child(tractor.getFirebaseIdDelTransportista());
 
         String remolqueKey = dbTransportista.child(Constants.FB_KEY_MAIN_TRACTORES).push().getKey();
 
         tractor.setFirebaseId(remolqueKey);
         tractor.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_ACTIVO);
         tractor.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
-        tractor.setFirebaseIdTransportista(null);
+        tractor.setFirebaseIdDelTransportista(null);
 
         dbTransportista.child(Constants.FB_KEY_MAIN_TRACTORES).child(tractor.getFirebaseId())
                 .setValue(tractor, new DatabaseReference.CompletionListener() {
@@ -626,14 +634,14 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         final DatabaseReference dbTransportista =
                 FirebaseDatabase.getInstance().getReference()
                         .child(Constants.FB_KEY_MAIN_TRANSPORTISTAS)
-                        .child(remolque.getFirebaseIdTransportista());
+                        .child(remolque.getFirebaseIdDelTransportista());
 
         String remolqueKey = dbTransportista.child(Constants.FB_KEY_MAIN_REMOLQUES).push().getKey();
 
         remolque.setFirebaseId(remolqueKey);
         remolque.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_ACTIVO);
         remolque.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
-        remolque.setFirebaseIdTransportista(null);
+        remolque.setFirebaseIdDelTransportista(null);
 
         dbTransportista.child(Constants.FB_KEY_MAIN_REMOLQUES).child(remolque.getFirebaseId())
                 .setValue(remolque, new DatabaseReference.CompletionListener() {
@@ -659,7 +667,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         pDialog.setCancelable(false);
         pDialog.show();
 
-       firebaseRegistroBodega(bodega);
+        firebaseRegistroBodega(bodega);
     }
 
     private void firebaseRegistroBodega(Bodegas bodega) {
@@ -722,6 +730,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 pDialog.dismiss();
 
                 if (databaseError == null) {
+                    finish();
                     Toast.makeText(getApplicationContext(),
                             "Actualizado correctamente...", Toast.LENGTH_SHORT).show();
                 }
@@ -732,10 +741,147 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
     }
 
+    @Override
+    public void updateTractores(Tractores tractor) {
+        pDialog = new ProgressDialog(MainRegisterActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        this.firebaseUpdateTractor(tractor);
+    }
+
+    private void firebaseUpdateTractor(final Tractores tractor) {
+
+        final DatabaseReference dbTractor =
+                FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.FB_KEY_MAIN_TRANSPORTISTAS)
+                        .child(tractor.getFirebaseIdDelTransportista())
+                        .child(Constants.FB_KEY_MAIN_TRACTORES)
+                        .child(tractor.getFirebaseId());
+
+        tractor.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
+
+        dbTractor.setValue(tractor, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                pDialog.dismiss();
+
+                if (databaseError == null) {
+                    finish();
+                    Toast.makeText(getApplicationContext(),
+                            "Actualizado correctamente...", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        Log.i(TAG, "firebaseUpdateRemolque: Actualizado correctamente" + tractor.getFirebaseId());
+
+    }
+
+    @Override
+    public void updateRemolques(Remolques remolque) {
+        pDialog = new ProgressDialog(MainRegisterActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        this.firebaseUpdateRemolque(remolque);
+    }
+
+    private void firebaseUpdateRemolque(final Remolques remolque) {
+
+        final DatabaseReference dbRemolque =
+                FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.FB_KEY_MAIN_TRANSPORTISTAS)
+                        .child(remolque.getFirebaseIdDelTransportista())
+                        .child(Constants.FB_KEY_MAIN_REMOLQUES)
+                        .child(remolque.getFirebaseId());
+
+        remolque.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
+
+        dbRemolque.setValue(remolque, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                pDialog.dismiss();
+
+                if (databaseError == null) {
+                    finish();
+                    Toast.makeText(getApplicationContext(),
+                            "Actualizado correctamente...", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        Log.i(TAG, "firebaseUpdateRemolque: Actualizado correctamente" + remolque.getFirebaseId());
+
+    }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.btn_form_cliente:
+
+                scrollViewRegister.fullScroll(ScrollView.FOCUS_UP);
+
+                closeFragment(_MAIN_DECODE.getFragmentTag());
+                _MAIN_DECODE.setFragmentTag(Constants.FRAGMENT_LOGIN_REGISTER);
+                getIntent().putExtra(Constants.KEY_MAIN_DECODE, _MAIN_DECODE); /**Para que se actualice en los fragmentos**/
+                openFragment(_MAIN_DECODE.getFragmentTag());
+
+                /**Boton seleccionado**/
+                btnFormCliente.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                btnFormCliente.setTextColor(getResources().getColor(R.color.colorIcons));
+
+                /**Boton deseleccionado**/
+                btnFormTransportista.setBackgroundColor(getResources().getColor(R.color.colorIcons));
+                btnFormTransportista.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+
+                btnFormChofer.setBackgroundColor(getResources().getColor(R.color.colorIcons));
+                btnFormChofer.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+
+                break;
+            case R.id.btn_form_transportista:
+
+                scrollViewRegister.fullScroll(ScrollView.FOCUS_UP);
+
+                closeFragment(_MAIN_DECODE.getFragmentTag());
+                _MAIN_DECODE.setFragmentTag(Constants.FRAGMENT_LOGIN_TRANSPORTISTAS_REGISTER); /**Para que se actualice en los fragmentos**/
+                getIntent().putExtra(Constants.KEY_MAIN_DECODE, _MAIN_DECODE);
+                openFragment(_MAIN_DECODE.getFragmentTag());
+
+                /**Boton deseleccionado**/
+                btnFormCliente.setBackgroundColor(getResources().getColor(R.color.colorIcons));
+                btnFormCliente.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+
+                btnFormChofer.setBackgroundColor(getResources().getColor(R.color.colorIcons));
+                btnFormChofer.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+
+                /**Boton seleccionado**/
+                btnFormTransportista.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                btnFormTransportista.setTextColor(getResources().getColor(R.color.colorIcons));
+                break;
+            case R.id.btn_form_chofer:
+                scrollViewRegister.fullScroll(ScrollView.FOCUS_UP);
+
+                closeFragment(_MAIN_DECODE.getFragmentTag());
+                _MAIN_DECODE.setFragmentTag(Constants.FRAGMENT_LOGIN_CHOFERES_REGISTER); /**Para que se actualice en los fragmentos**/
+                getIntent().putExtra(Constants.KEY_MAIN_DECODE, _MAIN_DECODE);
+                openFragment(_MAIN_DECODE.getFragmentTag());
+
+                /**Boton seleccionado**/
+                btnFormChofer.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                btnFormChofer.setTextColor(getResources().getColor(R.color.colorIcons));
+
+                /**Boton deseleccionado**/
+                btnFormTransportista.setBackgroundColor(getResources().getColor(R.color.colorIcons));
+                btnFormTransportista.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+
+                btnFormCliente.setBackgroundColor(getResources().getColor(R.color.colorIcons));
+                btnFormCliente.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                break;
 
         }
 

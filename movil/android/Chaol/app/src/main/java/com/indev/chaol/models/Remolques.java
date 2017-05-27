@@ -17,7 +17,7 @@ public class Remolques implements Serializable {
     private String tipoRemolque;
 
     private String firebaseId;
-    private String firebaseIdTransportista;
+    private String firebaseIdDelTransportista;
 
     private String estatus;
     private Long fechaDeCreacion;
@@ -27,7 +27,7 @@ public class Remolques implements Serializable {
 
     }
 
-    public Remolques(String numeroEconomico, String marca, String modelo, String numeroDeSerie, String placa, String idGPS, String tipoRemolque, String firebaseId, String firebaseIdTransportista, String estatus, Long fechaDeCreacion, Long fechaDeEdicion) {
+    public Remolques(String numeroEconomico, String marca, String modelo, String numeroDeSerie, String placa, String idGPS, String tipoRemolque, String firebaseId, String firebaseIdDelTransportista, String estatus, Long fechaDeCreacion, Long fechaDeEdicion) {
         this.numeroEconomico = numeroEconomico;
         this.marca = marca;
         this.modelo = modelo;
@@ -36,7 +36,7 @@ public class Remolques implements Serializable {
         this.IdGPS = idGPS;
         this.tipoRemolque = tipoRemolque;
         this.firebaseId = firebaseId;
-        this.firebaseIdTransportista = firebaseIdTransportista;
+        this.firebaseIdDelTransportista = firebaseIdDelTransportista;
         this.estatus = estatus;
         this.fechaDeCreacion = fechaDeCreacion;
         this.fechaDeEdicion = fechaDeEdicion;
@@ -106,12 +106,12 @@ public class Remolques implements Serializable {
         this.firebaseId = firebaseId;
     }
 
-    public String getFirebaseIdTransportista() {
-        return firebaseIdTransportista;
+    public String getFirebaseIdDelTransportista() {
+        return firebaseIdDelTransportista;
     }
 
-    public void setFirebaseIdTransportista(String firebaseIdTransportista) {
-        this.firebaseIdTransportista = firebaseIdTransportista;
+    public void setFirebaseIdDelTransportista(String firebaseIdDelTransportista) {
+        this.firebaseIdDelTransportista = firebaseIdDelTransportista;
     }
 
     public String getEstatus() {

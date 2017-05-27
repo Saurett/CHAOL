@@ -149,6 +149,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 /**El cliente visualizara menu de administracion,fletes y de cuentas**/
                 //Nota: Solo mostrar en admnistracion / choferes, tractores, remolques
                 menu.findItem(R.id.menu_item_clientes).setVisible(false);
+                menu.findItem(R.id.menu_item_bodegas).setVisible(false);
                 menu.findItem(R.id.menu_item_transportistas).setVisible(false);
                 break;
             case Constants.FB_KEY_ITEM_TIPO_USUARIO_CHOFER:
@@ -873,13 +874,13 @@ public class NavigationDrawerActivity extends AppCompatActivity
         DatabaseReference dbTractor =
                 FirebaseDatabase.getInstance().getReference()
                         .child(Constants.FB_KEY_MAIN_TRANSPORTISTAS)
-                        .child(tractor.getFirebaseIdTransportista())
+                        .child(tractor.getFirebaseIdDelTransportista())
                         .child(Constants.FB_KEY_MAIN_TRACTORES)
                         .child(tractor.getFirebaseId());
 
         tractor.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO);
         tractor.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
-        tractor.setFirebaseIdTransportista(null);
+        tractor.setFirebaseIdDelTransportista(null);
 
         dbTractor.setValue(tractor, new DatabaseReference.CompletionListener() {
             @Override
@@ -906,13 +907,13 @@ public class NavigationDrawerActivity extends AppCompatActivity
         DatabaseReference dbRemolque =
                 FirebaseDatabase.getInstance().getReference()
                         .child(Constants.FB_KEY_MAIN_TRANSPORTISTAS)
-                        .child(remolque.getFirebaseIdTransportista())
+                        .child(remolque.getFirebaseIdDelTransportista())
                         .child(Constants.FB_KEY_MAIN_REMOLQUES)
                         .child(remolque.getFirebaseId());
 
         remolque.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO);
         remolque.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
-        remolque.setFirebaseIdTransportista(null);
+        remolque.setFirebaseIdDelTransportista(null);
 
         dbRemolque.setValue(remolque, new DatabaseReference.CompletionListener() {
             @Override

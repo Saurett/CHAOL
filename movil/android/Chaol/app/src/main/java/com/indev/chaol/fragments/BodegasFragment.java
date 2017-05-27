@@ -21,6 +21,7 @@ import com.indev.chaol.R;
 import com.indev.chaol.adapters.BodegasAdapter;
 import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
 import com.indev.chaol.models.Bodegas;
+import com.indev.chaol.models.Clientes;
 import com.indev.chaol.models.DecodeItem;
 import com.indev.chaol.utils.Constants;
 
@@ -79,6 +80,11 @@ public class BodegasFragment extends Fragment implements View.OnClickListener {
                     for (DataSnapshot psBodegas : postSnapshot.child(Constants.FB_KEY_MAIN_BODEGAS).getChildren()) {
 
                         Bodegas bodega = psBodegas.getValue(Bodegas.class);
+
+                        DataSnapshot psCliente = postSnapshot.child(Constants.FB_KEY_ITEM_CLIENTE);
+                        Clientes cliente = psCliente.getValue(Clientes.class);
+
+                        if (!Constants.FB_KEY_ITEM_ESTATUS_ACTIVO.equals(cliente.getEstatus())) break;
 
                         if (bodega.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ACTIVO)) {
                             bodega.setFirebaseIdCliente(postSnapshot.getKey());

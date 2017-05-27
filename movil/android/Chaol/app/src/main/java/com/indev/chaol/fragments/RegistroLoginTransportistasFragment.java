@@ -172,7 +172,7 @@ public class RegistroLoginTransportistasFragment extends Fragment implements Vie
         transportista.setNumeroExterior(txtNumExt.getText().toString().trim());
         transportista.setTelefono(txtTelefono.getText().toString().trim());
         transportista.setCelular(txtCelular.getText().toString().trim());
-        transportista.setProoveedorGPS(txtProveedorGPS.getText().toString().trim());
+        transportista.setProveedorGPS(txtProveedorGPS.getText().toString().trim());
         transportista.setCorreoElectronico(txtCorreoElectronico.getText().toString().trim());
         transportista.setContraseña(txtPassword.getText().toString().trim());
 

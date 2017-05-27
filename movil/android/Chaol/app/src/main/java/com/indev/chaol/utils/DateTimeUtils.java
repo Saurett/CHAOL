@@ -2,12 +2,15 @@ package com.indev.chaol.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Random;
 
 /**
  * Created by jvier on 22/03/2017.
  */
 
 public class DateTimeUtils {
+
+    private static final String ALLOWED_CHARACTERS = "0123456789qwertyuiopasdfghjklzxcvbnm";
 
     public static long  getTimeStamp() {
         return System.currentTimeMillis() / 1000L;
@@ -62,5 +65,13 @@ public class DateTimeUtils {
         }
 
         return dayName;
+    }
+
+    private static String getRandomString(final int sizeOfRandomString) {
+        final Random random = new Random();
+        final StringBuilder sb = new StringBuilder(sizeOfRandomString);
+        for (int i = 0; i < sizeOfRandomString; ++i)
+            sb.append(ALLOWED_CHARACTERS.charAt(random.nextInt(ALLOWED_CHARACTERS.length())));
+        return sb.toString();
     }
 }

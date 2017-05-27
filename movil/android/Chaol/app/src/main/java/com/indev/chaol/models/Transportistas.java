@@ -20,7 +20,7 @@ public class Transportistas implements Serializable {
     private String numeroExterior;
     private String telefono;
     private String celular;
-    private String prooveedorGPS;
+    private String proveedorGPS;
     private String correoElectronico;
     private String contraseña;
 
@@ -42,7 +42,7 @@ public class Transportistas implements Serializable {
         this.nombre = nombre;
     }
 
-    public Transportistas(String nombre, String representanteLegal, String RFC, String estado, String ciudad, String colonia, String codigoPostal, String calle, String numeroInterior, String numeroExterior, String telefono, String celular, String prooveedorGPS, String correoElectronico, String contraseña, String tipoDeUsuario, String firebaseId, String estatus, Long fechaDeCreacion, Long fechaDeEdicion) {
+    public Transportistas(String nombre, String representanteLegal, String RFC, String estado, String ciudad, String colonia, String codigoPostal, String calle, String numeroInterior, String numeroExterior, String telefono, String celular, String proveedorGPS, String correoElectronico, String contraseña, String tipoDeUsuario, String firebaseId, String estatus, Long fechaDeCreacion, Long fechaDeEdicion) {
         this.nombre = nombre;
         this.representanteLegal = representanteLegal;
         this.RFC = RFC;
@@ -55,7 +55,7 @@ public class Transportistas implements Serializable {
         this.numeroExterior = numeroExterior;
         this.telefono = telefono;
         this.celular = celular;
-        this.prooveedorGPS = prooveedorGPS;
+        this.proveedorGPS = proveedorGPS;
         this.correoElectronico = correoElectronico;
         this.contraseña = contraseña;
         this.tipoDeUsuario = tipoDeUsuario;
@@ -161,12 +161,12 @@ public class Transportistas implements Serializable {
         this.celular = celular;
     }
 
-    public String getProoveedorGPS() {
-        return prooveedorGPS;
+    public String getProveedorGPS() {
+        return proveedorGPS;
     }
 
-    public void setProoveedorGPS(String prooveedorGPS) {
-        this.prooveedorGPS = prooveedorGPS;
+    public void setProveedorGPS(String proveedorGPS) {
+        this.proveedorGPS = proveedorGPS;
     }
 
     public String getCorreoElectronico() {

@@ -34,8 +34,12 @@ public interface MainRegisterInterface {
     void createUserChofer(Choferes chofer);
     /**Permite crear tractores**/
     void createTractores(Tractores tractor);
+    /**Permite editar tractores**/
+    void updateTractores(Tractores tractor);
     /**Permite crear remolques**/
     void createRemolques(Remolques remolque);
+    /**Permite editar remolques**/
+    void updateRemolques(Remolques remolque);
     /**Permite crear bodegas**/
     void createBodegas(Bodegas bodega);
     /**Permite editar bodegas**/

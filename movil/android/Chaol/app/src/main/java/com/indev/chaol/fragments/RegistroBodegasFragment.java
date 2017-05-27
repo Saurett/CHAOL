@@ -33,6 +33,7 @@ import com.indev.chaol.R;
 import com.indev.chaol.models.Bodegas;
 import com.indev.chaol.models.Clientes;
 import com.indev.chaol.models.DecodeExtraParams;
+import com.indev.chaol.models.Estados;
 import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
 
@@ -49,14 +50,17 @@ public class RegistroBodegasFragment extends Fragment implements View.OnClickLis
     private static final String TAG = RegistroBodegasFragment.class.getName();
 
     private Button btnTitulo;
-    private EditText txtNombre, txtEstado, txtCiudad, txtColonia, txtCodigoPostal, txtCalle, txtNumInt, txtNumExt;
+    private EditText txtNombre, txtCiudad, txtColonia, txtCodigoPostal, txtCalle, txtNumInt, txtNumExt;
     private LinearLayout linearLayoutClientes;
-    private Spinner spinnerCliente;
+    private Spinner spinnerCliente, spinnerEstado;
     private FloatingActionButton fabBodegas;
     private ProgressDialog pDialog;
 
     private static List<String> clientesList;
     private List<Clientes> clientes;
+
+    private static List<String> tiposEstadosList;
+    private List<Estados> tiposEstados;
 
     private static MainRegisterActivity activityInterface;
 
@@ -86,7 +90,6 @@ public class RegistroBodegasFragment extends Fragment implements View.OnClickLis
         btnTitulo = (Button) view.findViewById(R.id.btn_titulo_bodegas);
 
         txtNombre = (EditText) view.findViewById(R.id.txt_bodegas_nombre);
-        txtEstado = (EditText) view.findViewById(R.id.txt_bodegas_estado);
         txtCiudad = (EditText) view.findViewById(R.id.txt_bodegas_ciudad);
         txtColonia = (EditText) view.findViewById(R.id.txt_bodegas_colonia);
         txtCodigoPostal = (EditText) view.findViewById(R.id.txt_bodegas_codigo_postal);
@@ -96,11 +99,13 @@ public class RegistroBodegasFragment extends Fragment implements View.OnClickLis
 
         linearLayoutClientes = (LinearLayout) view.findViewById(R.id.item_bodegas_cliente);
         spinnerCliente = (Spinner) view.findViewById(R.id.spinner_bodegas_cliente);
+        spinnerEstado = (Spinner) view.findViewById(R.id.spinner_bodegas_estado);
 
         fabBodegas = (FloatingActionButton) view.findViewById(R.id.fab_bodegas);
 
         fabBodegas.setOnClickListener(this);
         spinnerCliente.setOnItemSelectedListener(this);
+        spinnerEstado.setOnItemSelectedListener(this);
 
         database = FirebaseDatabase.getInstance();
         drClientes = database.getReference(Constants.FB_KEY_MAIN_CLIENTES);
@@ -174,6 +179,10 @@ public class RegistroBodegasFragment extends Fragment implements View.OnClickLis
     }
 
     public void onPreRender() {
+
+        this.onCargarEstados();
+        this.onCargarSpinnerEstados();
+
         switch (_MAIN_DECODE.getAccionFragmento()) {
             case Constants.ACCION_EDITAR:
                 this.onPreRenderEditar();
@@ -212,7 +221,6 @@ public class RegistroBodegasFragment extends Fragment implements View.OnClickLis
                 _bodegaActual = bodega;
 
                 txtNombre.setText(bodega.getNombreDeLaBodega());
-                txtEstado.setText(bodega.getEstado());
                 txtCiudad.setText(bodega.getCiudad());
                 txtColonia.setText(bodega.getColonia());
                 txtCodigoPostal.setText(bodega.getCodigoPostal());
@@ -221,6 +229,8 @@ public class RegistroBodegasFragment extends Fragment implements View.OnClickLis
                 txtNumExt.setText(bodega.getNumeroExterior());
 
                 spinnerCliente.setEnabled(false);
+
+                onCargarSpinnerEstados();
 
                 pDialogRender.dismiss();
             }
@@ -277,6 +287,16 @@ public class RegistroBodegasFragment extends Fragment implements View.OnClickLis
             }
         }
 
+        if (spinnerEstado.getSelectedItemId() <= 0L) {
+            TextView errorTextSE = (TextView) spinnerEstado.getSelectedView();
+            errorTextSE.setError("El campo es obligatorio");
+            errorTextSE.setTextColor(Color.RED);
+            errorTextSE.setText("El campo es obligatorio");//changes t
+            errorTextSE.requestFocus();
+
+            authorized = false;
+        }
+
         if (authorized) {
             this.createSimpleValidBodega();
         } else {
@@ -299,6 +319,16 @@ public class RegistroBodegasFragment extends Fragment implements View.OnClickLis
             authorized = false;
         }
 
+        if (spinnerEstado.getSelectedItemId() <= 0L) {
+            TextView errorTextSE = (TextView) spinnerEstado.getSelectedView();
+            errorTextSE.setError("El campo es obligatorio");
+            errorTextSE.setTextColor(Color.RED);
+            errorTextSE.setText("El campo es obligatorio");//changes t
+            errorTextSE.requestFocus();
+
+            authorized = false;
+        }
+
         if (authorized) {
             this.updateBodega();
         } else {
@@ -312,7 +342,7 @@ public class RegistroBodegasFragment extends Fragment implements View.OnClickLis
         Bodegas bodega = new Bodegas();
 
         bodega.setNombreDeLaBodega(txtNombre.getText().toString().trim());
-        bodega.setEstado(txtEstado.getText().toString().trim());
+        bodega.setEstado(spinnerEstado.getSelectedItem().toString());
         bodega.setCiudad(txtCiudad.getText().toString().trim());
         bodega.setColonia(txtColonia.getText().toString().trim());
         bodega.setCodigoPostal(txtCodigoPostal.getText().toString().trim());
@@ -334,7 +364,7 @@ public class RegistroBodegasFragment extends Fragment implements View.OnClickLis
         Bodegas bodega = new Bodegas();
 
         bodega.setNombreDeLaBodega(txtNombre.getText().toString().trim());
-        bodega.setEstado(txtEstado.getText().toString().trim());
+        bodega.setEstado(spinnerEstado.getSelectedItem().toString());
         bodega.setCiudad(txtCiudad.getText().toString().trim());
         bodega.setColonia(txtColonia.getText().toString().trim());
         bodega.setCodigoPostal(txtCodigoPostal.getText().toString().trim());
@@ -342,12 +372,10 @@ public class RegistroBodegasFragment extends Fragment implements View.OnClickLis
         bodega.setNumeroInterior(txtNumInt.getText().toString().trim());
         bodega.setNumeroExterior(txtNumExt.getText().toString().trim());
 
-        Clientes cliente = getSelectCliente();
-
-        bodega.setFirebaseIdCliente(cliente.getFirebaseId());
-        bodega.setNombreDelCliente(cliente.getNombre());
+        bodega.setNombreDelCliente(getSelectCliente().getNombre());
 
         bodega.setFirebaseIdBodega(_bodegaActual.getFirebaseIdBodega());
+        bodega.setFirebaseIdCliente(_bodegaActual.getFirebaseIdCliente());
         bodega.setFechaDeCreacion(_bodegaActual.getFechaDeCreacion());
         bodega.setEstatus(_bodegaActual.getEstatus());
 
@@ -434,5 +462,57 @@ public class RegistroBodegasFragment extends Fragment implements View.OnClickLis
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    private void onCargarEstados() {
+        tiposEstadosList = new ArrayList<>();
+        tiposEstados = new ArrayList<>();
+        tiposEstadosList.add("Seleccione ...");
+
+        tiposEstadosList.add("CD MX");
+        tiposEstadosList.add("Chihuahua");
+        tiposEstadosList.add("Otro");
+
+        tiposEstados.add(new Estados(1, "CD MX"));
+        tiposEstados.add(new Estados(2, "Chihuahua"));
+        tiposEstados.add(new Estados(3, "Otro"));
+
+    }
+
+    private void onCargarSpinnerEstados() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
+                R.layout.text_spinner, tiposEstadosList);
+
+        int itemSelection = onPreRenderSelectEstados();
+
+        spinnerEstado.setAdapter(adapter);
+        spinnerEstado.setSelection(itemSelection);
+    }
+
+    private int onPreRenderSelectEstados() {
+        int item = 0;
+
+        if (_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE)) {
+
+            if (_MAIN_DECODE.getAccionFragmento() == Constants.ACCION_EDITAR) {
+                Bodegas bodega = (Bodegas) _MAIN_DECODE.getDecodeItem().getItemModel();
+                for (Estados estado : tiposEstados) {
+                    item++;
+                    if (estado.getEstado().equals(bodega.getEstado())) {
+                        break;
+                    }
+                }
+            }
+        } else if (_MAIN_DECODE.getAccionFragmento() == Constants.ACCION_EDITAR) {
+            Bodegas bodega = (Bodegas) _MAIN_DECODE.getDecodeItem().getItemModel();
+            for (Estados estado : tiposEstados) {
+                item++;
+                if (estado.getEstado().equals(bodega.getEstado())) {
+                    break;
+                }
+            }
+        }
+
+        return item;
     }
 }

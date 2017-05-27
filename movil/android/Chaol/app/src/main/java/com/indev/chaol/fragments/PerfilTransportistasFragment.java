@@ -165,7 +165,7 @@ public class PerfilTransportistasFragment extends Fragment implements View.OnCli
                 txtNumExt.setText(transportista.getNumeroExterior());
                 txtTelefono.setText(transportista.getTelefono());
                 txtCelular.setText(transportista.getCelular());
-                txtProveedorGPS.setText(transportista.getProoveedorGPS());
+                txtProveedorGPS.setText(transportista.getProveedorGPS());
                 txtCorreoElectronico.setText(transportista.getCorreoElectronico());
 
                 txtCorreoElectronico.setTag(txtCorreoElectronico.getKeyListener());
@@ -275,7 +275,7 @@ public class PerfilTransportistasFragment extends Fragment implements View.OnCli
         transportista.setNumeroExterior(txtNumExt.getText().toString().trim());
         transportista.setTelefono(txtTelefono.getText().toString().trim());
         transportista.setCelular(txtCelular.getText().toString().trim());
-        transportista.setProoveedorGPS(txtProveedorGPS.getText().toString().trim());
+        transportista.setProveedorGPS(txtProveedorGPS.getText().toString().trim());
         transportista.setCorreoElectronico(txtCorreoElectronico.getText().toString().trim());
         transportista.setContraseña(txtPassword.getText().toString().trim());
 

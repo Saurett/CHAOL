@@ -68,6 +68,7 @@ public class RegistroRemolquesFragment extends Fragment implements View.OnClickL
 
     FirebaseDatabase database;
     DatabaseReference drTransportistas;
+    private static Remolques _remolqueActual;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -97,7 +98,7 @@ public class RegistroRemolquesFragment extends Fragment implements View.OnClickL
         spinnerEmpresa.setOnItemSelectedListener(this);
 
         database = FirebaseDatabase.getInstance();
-        drTransportistas = database.getReference("listaDeTransportistas");
+        drTransportistas = database.getReference(Constants.FB_KEY_MAIN_TRANSPORTISTAS);
 
         pDialog = new ProgressDialog(getContext());
         pDialog.setMessage(getString(R.string.default_loading_msg));
@@ -118,13 +119,24 @@ public class RegistroRemolquesFragment extends Fragment implements View.OnClickL
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 
-                    String nombre = postSnapshot.getValue(String.class);
-                    String firebaseID = postSnapshot.getKey();
+                    for (DataSnapshot psTransportista : postSnapshot.getChildren()) {
 
-                    Transportistas transportista = new Transportistas(firebaseID, nombre);
+                        Transportistas transportista = psTransportista.getValue(Transportistas.class);
 
-                    transportistasList.add(nombre);
-                    transportistas.add(transportista);
+                        if (Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA.equals(transportista.getTipoDeUsuario())) {
+
+                            if (Constants.FB_KEY_ITEM_ESTATUS_ACTIVO.equals(transportista.getEstatus())) {
+
+                                String nombre = transportista.getNombre();
+                                String firebaseID = transportista.getFirebaseId();
+
+                                transportistasList.add(nombre);
+                                transportistas.add(new Transportistas(firebaseID, nombre));
+
+                            }
+                        }
+
+                    }
                 }
 
                 onCargarSpinnerTransportistas();
@@ -187,10 +199,10 @@ public class RegistroRemolquesFragment extends Fragment implements View.OnClickL
     private void onPreRenderEditar() {
         /**Obtiene el item selecionado en el fragmento de lista**/
         Remolques remolques = (Remolques) _MAIN_DECODE.getDecodeItem().getItemModel();
-        DatabaseReference dbTractor =
+        DatabaseReference dbRemolque =
                 FirebaseDatabase.getInstance().getReference()
                         .child(Constants.FB_KEY_MAIN_TRANSPORTISTAS)
-                        .child(remolques.getFirebaseIdTransportista())
+                        .child(remolques.getFirebaseIdDelTransportista())
                         .child(Constants.FB_KEY_MAIN_REMOLQUES)
                         .child(remolques.getFirebaseId());
 
@@ -202,10 +214,11 @@ public class RegistroRemolquesFragment extends Fragment implements View.OnClickL
         pDialogRender.setCancelable(false);
         pDialogRender.show();
 
-        dbTractor.addListenerForSingleValueEvent(new ValueEventListener() {
+        dbRemolque.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Remolques remolque = dataSnapshot.getValue(Remolques.class);
+                _remolqueActual = remolque;
 
                 txtNumEconomico.setText(remolque.getNumeroEconomico());
                 txtMarca.setText(remolque.getMarca());
@@ -217,6 +230,9 @@ public class RegistroRemolquesFragment extends Fragment implements View.OnClickL
                 onCargarSpinnerTiposRemolques();
 
                 spinnerTipoRemolque.setEnabled(false);
+                spinnerEmpresa.setEnabled(false);
+
+                _remolqueActual.setFirebaseIdDelTransportista(getSelectTransportista());
 
                 pDialogRender.dismiss();
             }
@@ -293,6 +309,54 @@ public class RegistroRemolquesFragment extends Fragment implements View.OnClickL
         }
     }
 
+    private void validationEditer() {
+        Boolean authorized = true;
+
+        String numEconomico = txtNumEconomico.getText().toString();
+        String numSerie = txtNumSerie.getText().toString();
+
+        if (TextUtils.isEmpty(numEconomico)) {
+            txtNumEconomico.setError("El campo es obligatorio", null);
+            txtNumEconomico.requestFocus();
+            authorized = false;
+        }
+
+        if (TextUtils.isEmpty(numSerie)) {
+            txtNumSerie.setError("El campo es obligatorio", null);
+            txtNumSerie.requestFocus();
+            authorized = false;
+        }
+
+        if (!_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA)) {
+            if (spinnerEmpresa.getSelectedItemId() <= 0L) {
+                TextView errorTextSE = (TextView) spinnerEmpresa.getSelectedView();
+                errorTextSE.setError("El campo es obligatorio");
+                errorTextSE.setTextColor(Color.RED);
+                errorTextSE.setText("El campo es obligatorio");//changes t
+                errorTextSE.requestFocus();
+
+                authorized = false;
+            }
+        }
+
+        if (spinnerTipoRemolque.getSelectedItemId() <= 0L) {
+            TextView errorTextSE = (TextView) spinnerTipoRemolque.getSelectedView();
+            errorTextSE.setError("El campo es obligatorio");
+            errorTextSE.setTextColor(Color.RED);
+            errorTextSE.setText("El campo es obligatorio");//changes t
+            errorTextSE.requestFocus();
+
+            authorized = false;
+        }
+
+        if (authorized) {
+            this.updateRemolque();
+        } else {
+            Toast.makeText(getContext(), "Es necesario capturar campos obligatorios",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void createSimpleRow() {
 
         Remolques remolque = new Remolques();
@@ -305,10 +369,31 @@ public class RegistroRemolquesFragment extends Fragment implements View.OnClickL
         remolque.setIdGPS(txtIdGPS.getText().toString().trim());
         remolque.setTipoRemolque(spinnerTipoRemolque.getSelectedItem().toString());
 
-        remolque.setFirebaseIdTransportista(getSelectTransportista());
+        remolque.setFirebaseIdDelTransportista(getSelectTransportista());
 
         /**metodo principal para crear usuario**/
         activityInterface.createRemolques(remolque);
+    }
+
+    private void updateRemolque() {
+
+        Remolques remolque = new Remolques();
+
+        remolque.setNumeroEconomico(txtNumEconomico.getText().toString().trim());
+        remolque.setMarca(txtMarca.getText().toString().trim());
+        remolque.setModelo(txtModelo.getText().toString().trim());
+        remolque.setNumeroDeSerie(txtNumSerie.getText().toString().trim());
+        remolque.setPlaca(txtPlaca.getText().toString().trim());
+        remolque.setIdGPS(txtIdGPS.getText().toString().trim());
+        remolque.setTipoRemolque(spinnerTipoRemolque.getSelectedItem().toString());
+
+        remolque.setFechaDeCreacion(_remolqueActual.getFechaDeCreacion());
+        remolque.setFirebaseId(_remolqueActual.getFirebaseId());
+        remolque.setFirebaseIdDelTransportista(_remolqueActual.getFirebaseIdDelTransportista());
+        remolque.setEstatus(_remolqueActual.getEstatus());
+
+        /**metodo principal para crear usuario**/
+        activityInterface.updateRemolques(remolque);
     }
 
     /**
@@ -338,7 +423,7 @@ public class RegistroRemolquesFragment extends Fragment implements View.OnClickL
             Remolques remolque = (Remolques) _MAIN_DECODE.getDecodeItem().getItemModel();
             for (Transportistas transportista : transportistas) {
                 item++;
-                if (transportista.getFirebaseId().equals(remolque.getFirebaseIdTransportista())) {
+                if (transportista.getFirebaseId().equals(remolque.getFirebaseIdDelTransportista())) {
                     break;
                 }
             }
@@ -377,7 +462,7 @@ public class RegistroRemolquesFragment extends Fragment implements View.OnClickL
     public void onClick(DialogInterface dialog, int which) {
         switch (which) {
             case DialogInterface.BUTTON_POSITIVE:
-
+                this.validationEditer();
                 break;
         }
     }

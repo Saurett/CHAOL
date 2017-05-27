@@ -96,27 +96,26 @@
             android:layout_marginTop="10dp"
             android:paddingLeft="20dp">
 
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
-                android:layout_marginRight="2dp"
+                android:layout_gravity="center|end"
+                android:layout_marginLeft="2dp"
                 android:layout_weight="1"
                 android:text="Estado"
                 android:textAlignment="textEnd"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="14sp" />
 
-            <EditText
-                android:id="@+id/txt_bodegas_estado"
+            <Spinner
+                android:id="@+id/spinner_bodegas_estado"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="20dp"
                 android:layout_weight="1"
-                android:hint="Estado"
-                android:inputType="text"
                 android:maxLines="1"
-                android:textSize="14sp"
                 android:theme="@style/AppTheme.Form" />
 
 

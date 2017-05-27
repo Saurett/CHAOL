@@ -3,11 +3,13 @@ package com.indev.chaol.fragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -161,7 +164,7 @@ public class RegistroChoferesFragment extends Fragment implements View.OnClickLi
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-
+            activityInterface = (MainRegisterActivity) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString() + "debe implementar");
         }
@@ -251,9 +254,74 @@ public class RegistroChoferesFragment extends Fragment implements View.OnClickLi
                 if (_MAIN_DECODE.getAccionFragmento() == Constants.ACCION_EDITAR) {
                     this.showQuestion();
                 } else {
+                    this.validationRegister();
                 }
                 break;
         }
+    }
+
+    private void validationRegister() {
+        Boolean authorized = true;
+
+        String email = txtCorreoElectronico.getText().toString();
+        String password = txtPassword.getText().toString();
+
+        if (TextUtils.isEmpty(email)) {
+            txtCorreoElectronico.setError("El campo es obligatorio", null);
+            txtCorreoElectronico.requestFocus();
+            authorized = false;
+        }
+
+        if (TextUtils.isEmpty(password)) {
+            txtPassword.setError("El campo es obligatorio", null);
+            txtPassword.requestFocus();
+            authorized = false;
+        }
+
+        if (spinnerEmpresa.getSelectedItemId() <= 0L) {
+            TextView errorTextSE = (TextView) spinnerEmpresa.getSelectedView();
+            errorTextSE.setError("El campo es obligatorio");
+            errorTextSE.setTextColor(Color.RED);
+            errorTextSE.setText("El campo es obligatorio");//changes t
+            errorTextSE.requestFocus();
+
+            authorized = false;
+        }
+
+        if (authorized) {
+            this.createSimpleValidUser();
+        } else {
+            Toast.makeText(getContext(), "Es necesario capturar campos obligatorios",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void createSimpleValidUser() {
+
+        Choferes chofer = new Choferes();
+
+        chofer.setNombre(txtNombre.getText().toString().trim());
+        chofer.setEmpresaTransportista(spinnerEmpresa.getSelectedItem().toString().trim());
+        chofer.setNumeroDeLicencia(txtNumeroLicencia.getText().toString().trim());
+        chofer.setNumeroDeSeguroSocial(txtNSS.getText().toString().trim());
+        chofer.setCURP(txtCURP.getText().toString().trim());
+        chofer.setEstado(txtEstado.getText().toString().trim());
+        chofer.setCiudad(txtCiudad.getText().toString().trim());
+        chofer.setColonia(txtColonia.getText().toString().trim());
+        chofer.setCodigoPostal(txtCodigoPostal.getText().toString().trim());
+        chofer.setCalle(txtCalle.getText().toString().trim());
+        chofer.setNumeroInterior(txtNumInt.getText().toString().trim());
+        chofer.setNumeroExterior(txtNumExt.getText().toString().trim());
+        chofer.setTelefono(txtTelefono.getText().toString().trim());
+        chofer.setCelular1(txtCelular1.getText().toString().trim());
+        chofer.setCelular2(txtCelular2.getText().toString().trim());
+        chofer.setCorreoElectronico(txtCorreoElectronico.getText().toString().trim());
+        chofer.setContraseña(txtPassword.getText().toString().trim());
+
+        chofer.setFirebaseIdTransportista(getSelectTransportista());
+
+        /**metodo principal para crear usuario**/
+        activityInterface.createUserChofer(chofer);
     }
 
     private void onCargarSpinnerTransportistas() {
@@ -264,6 +332,21 @@ public class RegistroChoferesFragment extends Fragment implements View.OnClickLi
 
         spinnerEmpresa.setAdapter(adapter);
         spinnerEmpresa.setSelection(itemSelection);
+    }
+
+    /**Obtiene el firebaseID del transportista seleccionado**/
+    private String getSelectTransportista() {
+        String firebaseID = "";
+
+        for (Transportistas transportista:
+                transportistas) {
+            if (transportista.getNombre().equals(spinnerEmpresa.getSelectedItem().toString())) {
+                firebaseID = transportista.getFirebaseId();
+                break;
+            }
+        }
+
+        return  firebaseID;
     }
 
     private int onPreRenderSelectTransportista() {

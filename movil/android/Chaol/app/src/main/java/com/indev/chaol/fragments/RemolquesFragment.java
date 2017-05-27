@@ -22,6 +22,7 @@ import com.indev.chaol.adapters.RemolquesAdapter;
 import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
 import com.indev.chaol.models.DecodeItem;
 import com.indev.chaol.models.Remolques;
+import com.indev.chaol.models.Transportistas;
 import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
 
@@ -84,12 +85,17 @@ public class RemolquesFragment extends Fragment implements View.OnClickListener 
                     for (DataSnapshot psRemolques : postSnapshot.child(Constants.FB_KEY_MAIN_REMOLQUES).getChildren()) {
                         Remolques remolque = psRemolques.getValue(Remolques.class);
 
+                        DataSnapshot psTransportista = postSnapshot.child(Constants.FB_KEY_ITEM_TRANSPORTISTA);
+                        Transportistas transportista = psTransportista.getValue(Transportistas.class);
+
+                        if (!Constants.FB_KEY_ITEM_ESTATUS_ACTIVO.equals(transportista.getEstatus())) break;
+
                         if (_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA)) {
                             if (!_SESSION_USER.getFirebaseId().equals(postSnapshot.getKey())) continue;
                         }
 
                         if (!remolque.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO)) {
-                            remolque.setFirebaseIdTransportista(postSnapshot.getKey());
+                            remolque.setFirebaseIdDelTransportista(postSnapshot.getKey());
                             remolquesList.add(remolque);
                         }
                     }

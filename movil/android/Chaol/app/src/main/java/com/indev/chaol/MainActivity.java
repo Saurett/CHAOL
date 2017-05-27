@@ -76,6 +76,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
+
+                    if (!user.isEmailVerified()) {
+                        user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    //Si el email se envio correctamente cierra sessión
+                                    Toast.makeText(getApplicationContext(),
+                                            "Correo de activación enviado...", Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        });
+                    }
+
                     // User is signed in
                     checkIfEmailVerified();
                     cleanLoginForm();
@@ -98,14 +112,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnBack.setOnClickListener(this);
 
 
-        Log.i(TAG," Unix Stamp " + DateTimeUtils.getTimeStamp());
+        Log.i(TAG, " Unix Stamp " + DateTimeUtils.getTimeStamp());
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
-        //FirebaseAuth.getInstance().signOut();
+        FirebaseAuth.getInstance().signOut();
     }
 
     @Override
@@ -184,6 +198,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 Toast.makeText(getApplicationContext(),
                                         ErrorMessages.showErrorMessage(task.getException()),
                                         Toast.LENGTH_SHORT).show();
+
                             }
                         }
                     });
@@ -249,13 +264,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (user.isEmailVerified()) {
             //Obtiene el usuario del firebase database
 
-           if (pDialog == null) {
-               pDialog = new ProgressDialog(MainActivity.this);
-               pDialog.setMessage(getString(R.string.default_loading_msg));
-               pDialog.setIndeterminate(false);
-               pDialog.setCancelable(false);
-               pDialog.show();
-           }
+            if (pDialog == null) {
+                pDialog = new ProgressDialog(MainActivity.this);
+                pDialog.setMessage(getString(R.string.default_loading_msg));
+                pDialog.setIndeterminate(false);
+                pDialog.setCancelable(false);
+                pDialog.show();
+            }
 
             getLoginUser();
 
@@ -268,13 +283,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    /**Obtiene los datos oficiales del usuario ya registrado y validado**/
+    /**
+     * Obtiene los datos oficiales del usuario ya registrado y validado
+     **/
     private void getLoginUser() {
         final FirebaseUser user = mAuth.getCurrentUser();
 
         DatabaseReference dbUsuario =
                 FirebaseDatabase.getInstance().getReference()
-                .child("usuarios").child(user.getUid());
+                        .child("usuarios").child(user.getUid());
 
         dbUsuario.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -284,7 +301,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     String tipoUsuario = dataSnapshot.getValue(String.class);
                     String key = dataSnapshot.getKey();
                     //Ejecuta el intent de navigationDrawer
-                    openNavigation(new Usuarios(tipoUsuario,key,""));
+                    openNavigation(new Usuarios(tipoUsuario, key, ""));
                 } else {
                     FirebaseAuth.getInstance().signOut();
                 }
@@ -312,7 +329,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      **/
     private void openNavigation(Usuarios usuario) {
         Intent intent = new Intent(this, NavigationDrawerActivity.class);
-        intent.putExtra(Constants.KEY_SESSION_USER,usuario);
+        intent.putExtra(Constants.KEY_SESSION_USER, usuario);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }

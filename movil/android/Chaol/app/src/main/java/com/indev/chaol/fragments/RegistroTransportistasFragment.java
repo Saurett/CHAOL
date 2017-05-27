@@ -162,7 +162,7 @@ public class RegistroTransportistasFragment extends Fragment implements View.OnC
                 txtNumExt.setText(transportista.getNumeroExterior());
                 txtTelefono.setText(transportista.getTelefono());
                 txtCelular.setText(transportista.getCelular());
-                txtProveedorGPS.setText(transportista.getProoveedorGPS());
+                txtProveedorGPS.setText(transportista.getProveedorGPS());
                 txtCorreoElectronico.setText(transportista.getCorreoElectronico());
 
                 txtCorreoElectronico.setTag(txtCorreoElectronico.getKeyListener());
@@ -228,7 +228,26 @@ public class RegistroTransportistasFragment extends Fragment implements View.OnC
     }
 
     private void createSimpleValidUser() {
+        Transportistas transportista = new Transportistas();
 
+        transportista.setNombre(txtNombre.getText().toString().trim());
+        transportista.setRepresentanteLegal(txtRepresentanteLegal.getText().toString().trim());
+        transportista.setRFC(txtRFC.getText().toString().trim());
+        transportista.setEstado(txtEstado.getText().toString().trim());
+        transportista.setCiudad(txtCiudad.getText().toString().trim());
+        transportista.setColonia(txtColonia.getText().toString().trim());
+        transportista.setCodigoPostal(txtCodigoPostal.getText().toString().trim());
+        transportista.setCalle(txtCalle.getText().toString().trim());
+        transportista.setNumeroInterior(txtNumInt.getText().toString().trim());
+        transportista.setNumeroExterior(txtNumExt.getText().toString().trim());
+        transportista.setTelefono(txtTelefono.getText().toString().trim());
+        transportista.setCelular(txtCelular.getText().toString().trim());
+        transportista.setProveedorGPS(txtProveedorGPS.getText().toString().trim());
+        transportista.setCorreoElectronico(txtCorreoElectronico.getText().toString().trim());
+        transportista.setContraseña(txtPassword.getText().toString().trim());
+
+        /**metodo principal para crear usuario**/
+        activityInterface.createUserTransportista(transportista);
     }
 
     private void validationEditer() {
@@ -268,7 +287,7 @@ public class RegistroTransportistasFragment extends Fragment implements View.OnC
         transportista.setNumeroExterior(txtNumExt.getText().toString().trim());
         transportista.setTelefono(txtTelefono.getText().toString().trim());
         transportista.setCelular(txtCelular.getText().toString().trim());
-        transportista.setProoveedorGPS(txtProveedorGPS.getText().toString().trim());
+        transportista.setProveedorGPS(txtProveedorGPS.getText().toString().trim());
         transportista.setCorreoElectronico(txtCorreoElectronico.getText().toString().trim());
         transportista.setContraseña(txtPassword.getText().toString().trim());
 
