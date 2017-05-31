@@ -1,130 +1,77 @@
-﻿<!--TIULO RUTA-->
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 titulo-ruta">
-    <h2>
-        <i class="fa fa-users" aria-hidden="true"></i>
-        Choferes
-    </h2>
-</div>
-<!--SECCION-->
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 titulo-seccion">
-</div>
-<!--CONTENIDO-->
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-    <div class="col-lg-12 caja">
-        <!--TITULO-->
-        <div class="col-lg-12 caja-titulo">
-            <h1>
-                LISTADO
-            </h1>
+﻿<div name="choferes" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+    <!--ENCABEZADO-->
+    <encabezado class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding"></encabezado>
+    <!--MENU-->
+    <md-sidenav class="md-sidenav-left md-whiteframe-4dp" md-component-id="left">
+        <menu></menu>
+    </md-sidenav>
+    <aside class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+        <!--TIULO RUTA-->
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 titulo-ruta">
+            <h2>
+                <i class="fa fa-user" aria-hidden="true"></i>
+                Choferes
+            </h2>
+        </div>
+        <!--SECCION-->
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 titulo-seccion">
         </div>
         <!--CONTENIDO-->
-        <div class="col-lg-12 caja-contenido">
-            <!--TABLA-->
-            <div class="col-lg-12">
-                <table class="col-lg-12 col-md-12 col-sm-12">
-                    <thead>
-                        <tr>
-                            <td class="text-center">
-                                No.
-                            </td>
-                            <td>
-                                Nombre
-                            </td>
-                            <td colspan="3" class="text-center">Acciones</td>
-                        </tr>
-                    </thead>
-                    <tr>
-                        <td class="text-center">
-                            <span>1</span>
-                        </td>
-                        <td>
-                            <span>Juan Zambrano Rodríguez</span>
-                        </td>
-                        <td class="text-center">
-                            <i class="fa fa-search" aria-hidden="true"></i>
-                        </td>
-                        <td class="text-center">
-                            <a href="#/choferes/editar">
-                                <i class="fa fa-pencil" aria-hidden="true"></i>
-                            </a>
-                        </td>
-                        <td class="text-center">
-                            <i class="fa fa-trash-o" aria-hidden="true"></i>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-center">2</td>
-                        <td>Sofía Torres Hernández</td>
-                        <td class="text-center">
-                            <i class="fa fa-search" aria-hidden="true"></i>
-                        </td>
-                        <td class="text-center">
-                            <a href="#/choferes/editar">
-                                <i class="fa fa-pencil" aria-hidden="true"></i>
-                            </a>
-                        </td>
-                        <td class="text-center">
-                            <i class="fa fa-trash-o" aria-hidden="true"></i>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-center">3</td>
-                        <td>Ernesto Ramírez Márquez</td>
-                        <td class="text-center">
-                            <i class="fa fa-search" aria-hidden="true"></i>
-                        </td>
-                        <td class="text-center">
-                            <a href="#/choferes/editar">
-                                <i class="fa fa-pencil" aria-hidden="true"></i>
-                            </a>
-                        </td>
-                        <td class="text-center">
-                            <i class="fa fa-trash-o" aria-hidden="true"></i>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-center">4</td>
-                        <td>Jorge Francisco Fernández Damián</td>
-                        <td class="text-center">
-                            <i class="fa fa-search" aria-hidden="true"></i>
-                        </td>
-                        <td class="text-center">
-                            <a href="#/choferes/editar">
-                                <i class="fa fa-pencil" aria-hidden="true"></i>
-                            </a>
-                        </td>
-                        <td class="text-center">
-                            <i class="fa fa-trash-o" aria-hidden="true"></i>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <!--PAGINACION-->
-            <div class="col-lg-12 text-right">
-                <ul class="pagination pagination-sm">
-                    <li>
-                        <a href="" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja">
+                <!--TITULO-->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-titulo">
+                    <h1>
+                        LISTADO
+                    </h1>
+                </div>
+                <!--CONTENIDO-->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-contenido">
+                    <!--TABLA-->
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <table class="col-lg-12 col-md-12 col-sm-12">
+                            <thead>
+                                <tr>
+                                    <td class="text-center">
+                                        No.
+                                    </td>
+                                    <td>
+                                        Nombre
+                                    </td>
+                                    <td colspan="3" class="text-center">Acciones</td>
+                                </tr>
+                            </thead>
+                            <tr ng-repeat="chofer in choferes" ng-mouseenter="hover = true" ng-mouseleave="hover = false">
+                                <td class="text-center">
+                                    <span>{{$index + 1}}</span>
+                                </td>
+                                <td>
+                                    <span>{{chofer.nombre}}</span>
+                                </td>
+                                <td class="text-center">
+                                    <a href="#/CHAOL/Choferes/{{chofer.firebaseId}}">
+                                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                                    </a>
+                                </td>
+                                <td class="text-center">
+                                    <md-switch class="md-primary" aria-label="{{chofer.estatus}}" ng-model="chofer.estatus" ng-true-value="'activo'" ng-false-value="'inactivo'" ng-change="cambiarEstatus(chofer)">
+                                    </md-switch>
+                                </td>
+                                <td class="text-center">
+                                    <i class="fa fa-trash-o" aria-hidden="true" ng-click="eliminar(chofer)"></i>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!--BOTON-->
+                    <div class="col-lg-offset-10 col-lg-2 col-md-12 col-sm-12 col-xs-12 text-right">
+                        <a href="#/CHAOL/Choferes/Nuevo">
+                            <i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i>
                         </a>
-                    </li>
-                    <li class="active"><a href="">1</a></li>
-                    <li><a href="">2</a></li>
-                    <li><a href="">3</a></li>
-                    <li><a href="">4</a></li>
-                    <li><a href="">5</a></li>
-                    <li>
-                        <a href="" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <!--BOTON-->
-            <div class="col-lg-offset-10 col-lg-2 text-right">
-                <a href="#/choferes/nuevo">
-                    <i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i>
-                </a>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+    </aside>
 </div>

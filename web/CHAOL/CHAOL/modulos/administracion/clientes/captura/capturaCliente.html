@@ -1,169 +1,171 @@
-﻿<!--TIULO RUTA-->
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 titulo-ruta">
-    <h2>
-        <i class="fa fa-user" aria-hidden="true"></i>
-        Clientes.Nuevo
-    </h2>
-</div>
-<!--SECCION-->
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 titulo-seccion">
-</div>
-<!--CONTENIDO-->
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja">
-        <!--TITULO-->
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-titulo">
-            <h1>
-                NUEVO
-            </h1>
+﻿<div name="cliente" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+    <!--ENCABEZADO-->
+    <encabezado class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding"></encabezado>
+    <!--MENU-->
+    <md-sidenav class="md-sidenav-left md-whiteframe-4dp" md-component-id="left">
+        <menu></menu>
+    </md-sidenav>
+    <aside class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+        <!--TIULO RUTA-->
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 titulo-ruta">
+            <h2>
+                <i class="fa fa-user-o" aria-hidden="true"></i>
+                Cliente.
+                <span ng-show="firebaseCliente.cliente.firebaseId">
+                    {{firebaseCliente.cliente.nombre}}
+                </span>
+                <span ng-hide="firebaseCliente.cliente.firebaseId">
+                    Nuevo
+                </span>
+            </h2>
+        </div>
+        <!--SECCION-->
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 titulo-seccion">
         </div>
         <!--CONTENIDO-->
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-contenido">
-            <!--FORMULARIO-->
-            <div class="col-lg-12">
-                <!--IMAGEN-->
-                <div class="col-lg-3 text-center">
-                    <a href="" class="col-lg-12">
-                        <div class="col-lg-12 margin-bottom-20">
-                            <i class="fa fa-user-circle fa-5x" aria-hidden="true">
-                            </i>
-                        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja">
+                <!--TITULO-->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-titulo">
+                    <h1 ng-show="firebaseCliente.cliente.firebaseId">
+                        EDITAR
+                    </h1>
+                    <h1 ng-hide="firebaseCliente.cliente.firebaseId">
+                        NUEVO
+                    </h1>
+                </div>
+                <!--CONTENIDO-->
+                <form name="clientes" ng-submit="clientes.$valid && registrarCliente()">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-contenido">
+                        <!--FORMULARIO-->
                         <div class="col-lg-12">
-                            <span class="text-blue">cambiar imagen</span>
+                            <!--IMAGEN-->
+                            <div class="col-lg-3 text-center" ng-show="ownUser">
+                                <div class="col-lg-12 margin-bottom-20">
+                                    <div>
+                                        <label for="input_foto_cliente" class="puntero">
+                                            <i id="i_perfil_cliente" class="fa fa-user-circle fa-5x" aria-hidden="true" ng-hide="firebaseCliente.cliente.imagenURL">
+                                            </i>
+                                            <img ng-src="{{firebaseCliente.cliente.imagenURL}}" alt="Cliente" id="img_perfil_cliente" height="150" width="150" class="imagen-perfil" ng-show="firebaseCliente.cliente.imagenURL"/>
+                                        </label>
+                                    </div>
+                                    <input type="file" name="foto" id="input_foto_cliente" accept="image/x-png, image/gif, image/jpeg" onchange="angular.element(this).scope().guardarFotoCliente()" ng-hide="true" />
+                                </div>
+                                <div class="col-lg-12">
+                                    <label for="input_foto_cliente" class="text-blue puntero">cambiar imagen</label>
+                                </div>
+                            </div>
+                            <!--DATOS-->
+                            <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+                                <!--NOMBRE-->
+                                <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                    <label>Nombre o Razón Social</label>
+                                    <input type="text" name="nombre" ng-model="firebaseCliente.cliente.nombre" required />
+                                    <div ng-messages="clientes.nombre.$error" role="alert">
+                                        <div ng-message="required">Por favor, compártenos tu nombre o razón social.</div>
+                                    </div>
+                                </md-input-container>
+                                <!--RFC-->
+                                <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                    <label>RFC</label>
+                                    <input type="text" name="rfc" ng-model="firebaseCliente.cliente.rfc" required />
+                                    <div ng-messages="clientes.rfc.$error" role="alert">
+                                        <div ng-message="required">Por favor, compártenos tu RFC.</div>
+                                    </div>
+                                </md-input-container>
+                                <!--NUMERO INTERIOR-->
+                                <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                    <label>Número Interior</label>
+                                    <input type="text" name="numeroInterior" ng-model="firebaseCliente.cliente.numeroInterior" />
+                                </md-input-container>
+                                <!--NÚMERO EXTERIOR-->
+                                <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                    <label>Número Exterior</label>
+                                    <input type="text" name="numeroExterior" ng-model="firebaseCliente.cliente.numeroExterior" />
+                                </md-input-container>
+                                <!--CALLE-->
+                                <md-input-container class="col-lg-offset-1 col-lg-11 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                    <label>Calle</label>
+                                    <input type="text" name="calle" ng-model="firebaseCliente.cliente.calle" />
+                                </md-input-container>
+                                <!--COLONIA-->
+                                <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                    <label>Colonia</label>
+                                    <input type="text" name="colonia" ng-model="firebaseCliente.cliente.colonia" />
+                                </md-input-container>
+                                <!--CIUDAD-->
+                                <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                    <label>Ciudad</label>
+                                    <input type="text" name="ciudad" ng-model="firebaseCliente.cliente.ciudad" />
+                                </md-input-container>
+                                <!--ESTADO-->
+                                <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                    <label>Estado</label>
+                                    <input type="text" name="estado" ng-model="firebaseCliente.cliente.estado" />
+                                </md-input-container>
+                                <!--CODIGO POSTAL-->
+                                <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                    <label>Código Postal</label>
+                                    <input type="text" name="codigoPostal" ng-model="firebaseCliente.cliente.codigoPostal" ng-pattern="/^[0-9]{5}$/" md-maxlength="5">
+                                    <div ng-messages="clientes.codigoPostal.$error" role="alert">
+                                        <div ng-message="pattern">
+                                            Este no parece un código postal válido.
+                                        </div>
+                                    </div>
+                                </md-input-container>
+                                <!--MÉTODO DE PAGO-->
+                                <md-input-container class="col-lg-offset-1 col-lg-11 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                    <label>Método de Pago</label>
+                                    <md-select name="metodoDePago" ng-model="firebaseCliente.cliente.metodoDePago" required>
+                                        <md-option ng-repeat="metodo in metodosDePago" value="{{metodo}}">
+                                            {{metodo}}
+                                        </md-option>
+                                    </md-select>
+                                    <div ng-messages="clientes.metodoDePago.$error" role="alert">
+                                        <div ng-message="required">Por favor, indícanos tu método de pago.</div>
+                                    </div>
+                                </md-input-container>
+                                <!--TELÉFONO-->
+                                <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                    <label>Teléfono</label>
+                                    <input type="text" name="telefono" ng-model="firebaseCliente.cliente.telefono" />
+                                </md-input-container>
+                                <!--CELULAR-->
+                                <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                    <label>Celular</label>
+                                    <input type="text" name="celular" ng-model="firebaseCliente.cliente.celular" />
+                                </md-input-container>
+                                <!--CORREO ELECTRÓNICO-->
+                                <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding" ng-show="ownUser">
+                                    <label>Correo Electrónico</label>
+                                    <input type="email" name="correoElectronico" ng-model="firebaseCliente.cliente.correoElectronico" required ng-pattern="/^.+@.+\..+$/" />
+                                    <div ng-messages="clientes.correoElectronico.$error" role="alert">
+                                        <div ng-message="required">Por favor, compártenos tu correo electrónico. Este será tu usuario.</div>
+                                        <div ng-message="pattern">Oops! Este no parece un correo electrónico válido.</div>
+                                    </div>
+                                </md-input-container>
+                                <!--CONTRASEÑA-->
+                                <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding" ng-show="ownUser">
+                                    <label>Contraseña</label>
+                                    <input type="password" name="contrasena" ng-model="firebaseCliente.cliente.contrasena" required minlength="8" />
+                                    <div ng-messages="clientes.contrasena.$error" role="alert">
+                                        <div ng-message="required">Por favor, indica tu contraseña.</div>
+                                        <div ng-message="minlength">Tu contraseña debe tener 8 caracteres como mínimo.</div>
+                                    </div>
+                                </md-input-container>
+                            </div>
                         </div>
-                    </a>
-                </div>
-                <!--DATOS-->
-                <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-                    <!--NOMBRE-->
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <span>Nombre o Razón Social</span>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
                         </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                            <input type="text" name="input_nombre" placeholder="Nombre o Razón Social" value="" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" />
+                        <!--BOTON-->
+                        <div class="col-lg-offset-10 col-lg-2 col-md-12 col-sm-12 col-xs-12 text-right">
+                            <md-button class="md-fab md-primary" aria-label="Resgistrarme" type="submit">
+                                <i class="fa fa-check fa-3x" aria-hidden="true"></i>
+                            </md-button>
                         </div>
                     </div>
-                    <!--RFC-->
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <span>RFC</span>
-                        </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                            <input type="text" name="input_rfc" placeholder="RFC" value="" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" />
-                        </div>
-                    </div>
-                    <!--CALLE-->
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <span>Calle</span>
-                        </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                            <input type="text" name="input_calle" placeholder="Calle" value="" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" />
-                        </div>
-                    </div>
-                    <!--NUMERO INTERIOR-->
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <span>Número Interior</span>
-                        </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                            <input type="text" name="input_numero_interior" placeholder="Número Interior" value="" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" />
-                        </div>
-                    </div>
-                    <!--NÚMERO EXTERIOR-->
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <span>Número Exterior</span>
-                        </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                            <input type="text" name="input_numero_exterior" placeholder="Número Exterior" value="" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" />
-                        </div>
-                    </div>
-                    <!--MÉTODO DE PAGO-->
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <span>Método de Pago</span>
-                        </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 dropdown">
-                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdown_metodo_pago" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                Método de Pago
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdown_metodo_pago">
-                                <li><a href="">Efectivo</a></li>
-                                <li><a href="">Cheque</a></li>
-                                <li><a href="">Transferencia Electrónica</a></li>
-                                <li><a href="">Tarjeta de Crédito</a></li>
-                                <li><a href="">Dinero Electrónico</a></li>
-                                <li><a href="">Tarjeta de Débito</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!--TELÉFONO-->
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <span>Teléfono</span>
-                        </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                            <input type="text" name="input_telefono" placeholder="Teléfono" value="" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" />
-                        </div>
-                    </div>
-                    <!--CELULAR-->
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <span>Celuar</span>
-                        </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                            <input type="text" name="input_celular" placeholder="Celular" value="" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" />
-                        </div>
-                    </div>
-                    <!--CORREO ELECTRÓNICO-->
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <span>Correo Electrónico</span>
-                        </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                            <input type="email" name="input_correo_electronico" placeholder="Corre Electrónico" value="" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" />
-                        </div>
-                    </div>
-                    <!--REPETIR CORREO-->
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <span>Confirmar correo electrónico</span>
-                        </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                            <input type="email" name="input_confirmar_correo_electronico" placeholder="Confirme Corre Electrónico" value="" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" />
-                        </div>
-                    </div>
-                    <!--CONTRASEÑA-->
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <span>Contraseña</span>
-                        </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                            <input type="password" name="input_contrasena" placeholder="Contraseña" value="" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" />
-                        </div>
-                    </div>
-                    <!--REPETIR CONTRASEÑA-->
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <span>Confirmar contraseña</span>
-                        </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                            <input type="password" name="input_confirmar_contrasena" placeholder="Confirme Contraseña" value="" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
-            </div>
-            <!--BOTON-->
-            <div class="col-lg-offset-10 col-lg-2 col-md-12 col-sm-12 col-xs-12 text-right">
-                <a href="#/clientes/listado">
-                    <i class="fa fa-check-circle fa-3x" aria-hidden="true"></i>
-                </a>
+                </form>
             </div>
         </div>
-    </div>
+    </aside>
 </div>

@@ -1,0 +1,89 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2/03/2017, 11:31:18 PM
+    Author     : Fred Gz
+*/
+
+/*IMPORTACIONES*/
+@import "base/estilos.less";
+
+body > div:nth-child(2) {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    font-family: 'Roboto';
+    font-size: 12pt;
+    z-index: 1;
+}
+
+#div_principal {
+    padding: 0;
+}
+
+#div_principal > ng-view > div,
+#div_principal > ng-view > div > div
+{
+    padding: 0;
+    margin: 0;
+    height: 100%;
+}
+
+#div_izquierdo {
+    display: flex;
+    align-items: flex-end;
+    background-color: rgba(255,255,255,0.5);
+    background-image: url(../imagenes/negocio/logo_1.png);
+    background-repeat: no-repeat;
+    background-position: 50%;
+    background-size: contain;
+}
+
+#div_izquierdo_lineas {
+    padding: 0;
+    margin-bottom: 10px;
+}
+
+#div_izquierdo_lineas div:not(.clearfix) {
+    height: 15px;
+    background-color: #5D4037;
+    margin-bottom: 20px;
+    bottom: 0;
+}
+
+#div_izquierdo_lineas img {
+    max-width: 60%;
+    margin-bottom: 30px;
+}
+
+#div_derecho {
+    background-color: @Dark_Primary_Color;
+    display: flex;
+    align-items: center;
+}
+
+#div_derecho label {
+    color: @Text_Icons;
+}
+
+#div_derecho input {
+    color: @Text_Icons;
+    border-color: @Text_Icons;
+}
+
+a {
+    color: @Light_Primary_Color;
+}
+
+a:hover {
+    color: @Primary_Color;
+}
+
+@media only screen and (max-width: 425px) {
+    #img_logo {
+        max-width: 100% !important;
+    }
+}

@@ -92,6 +92,9 @@ q:after {
   font-family: 'Roboto';
   src: url(../fuentes/Roboto-Regular.ttf);
 }
+html {
+  background: #FFFFFF;
+}
 html,
 body {
   height: 100%;
@@ -100,6 +103,10 @@ body {
   font-family: 'Roboto';
   font-size: 12pt;
   z-index: 1;
+}
+html,
+body {
+  display: block;
 }
 h1 {
   font-size: 20pt;
@@ -148,6 +155,9 @@ table tbody tr:hover {
 }
 table tbody tr td:not(:nth-child(2)) {
   width: 36px !important;
+}
+md-sidenav + aside {
+  background: #CFD8DC;
 }
 .md-closed {
   display: block !important;
@@ -342,6 +352,13 @@ table tbody tr td:not(:nth-child(2)) {
 .div-progress > md-progress-circular {
   top: 50%;
   left: 50%;
+}
+.margin-auto {
+  margin: auto;
+}
+.md-whiteframe-4dp,
+.md-whiteframe-z2 {
+  box-shadow: 0px -11px 4px -1px rgba(0, 0, 0, 0.2), -1px -9px 5px 0px rgba(0, 0, 0, 0.14), -1px -3px 10px 0px rgba(0, 0, 0, 0.12) !important;
 }
 /*!
  *  Font Awesome 4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
@@ -2916,6 +2933,12 @@ header {
   background-color: #0288D1;
   box-shadow: 0 4px 5px #757575;
   z-index: 1;
+}
+#img_imagen_usuario {
+  vertical-align: middle;
+  max-height: 50px;
+  max-width: 50px;
+  border-radius: 50px;
 }
 #div_usuario a {
   cursor: pointer;

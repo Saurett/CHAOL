@@ -70,7 +70,13 @@
     <Content Include="app_components\angular\app.js" />
     <Content Include="app_components\angular\components.js" />
     <Content Include="app_components\angular\config.js" />
+    <Content Include="app_components\angular\encabezadoController.js" />
     <Content Include="app_components\angular\menuController.js" />
+    <Content Include="app_components\angular\modulos\administracion\choferes\choferController.js" />
+    <Content Include="app_components\angular\modulos\administracion\choferes\choferesController.js" />
+    <Content Include="app_components\angular\modulos\administracion\transportistas\transportistaController.js" />
+    <Content Include="app_components\angular\modulos\administracion\transportistas\transportistasController.js" />
+    <Content Include="app_components\angular\modulos\administracion\clientes\clienteController.js" />
     <Content Include="app_components\angular\modulos\administracion\clientes\clientesController.js" />
     <Content Include="app_components\angular\modulos\inicioController.js" />
     <Content Include="app_components\angular\recuperarContrasenaController.js" />
@@ -756,6 +762,7 @@
     <Content Include="bower_components\less\dist\less.js" />
     <Content Include="bower_components\less\dist\less.min.js" />
     <Content Include="bower_components\less\index.js" />
+    <Content Include="construccion.html" />
     <Content Include="estilos\base.css" />
     <Content Include="estilos\login.css" />
     <Content Include="estilos\master.css" />
@@ -782,10 +789,10 @@
     <Content Include="js\base.js" />
     <Content Include="js\tools.js" />
     <Content Include="menu.html" />
-    <Content Include="recuperarContrasena.html" />
-    <Content Include="login.html" />
     <Content Include="modulos\administracion\choferes\captura\capturaChofer.html" />
     <Content Include="modulos\administracion\choferes\listado\listadoChoferes.html" />
+    <Content Include="recuperarContrasena.html" />
+    <Content Include="login.html" />
     <Content Include="modulos\administracion\clientes\captura\capturaCliente.html" />
     <Content Include="modulos\administracion\clientes\listado\listadoClientes.html" />
     <Content Include="modulos\administracion\remolques\captura\capturaRemolque.html" />
@@ -5247,6 +5254,7 @@
     <Content Include="bower_components\angular-sanitize\package.json" />
     <Content Include="bower_components\angular-sanitize\README.md" />
     <Content Include="chaol-75d99-firebase-adminsdk-xc0he-1de2d1ef7c.json" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
