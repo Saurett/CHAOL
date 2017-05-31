@@ -152,7 +152,7 @@
                             //CREACIÓN DE TRANSPORTISTA EN BD
                             console.log('Transportist image loaded to ' + url)
                             transportista.imagenURL = url;
-                            crearTransportistaBD(transportista);
+                            actualizarTransportistaBD(transportista);
                             actualizarPerfil(usuarioTransportista, transportista);
                         }).catch(function (error) {
                             console.log(error);
@@ -183,7 +183,7 @@
 
                     crearUsuarioBD($scope.firebaseTransportista.transportista).then(function () {
                         console.log('User created in DB');
-                        crearTransportistaBD($scope.firebaseTransportista.transportista);
+                        actualizarTransportistaBD($scope.firebaseTransportista.transportista);
                         crearTransportistaEnLista($scope.firebaseTransportista.transportista);
                         enviarCorreoConfirmacion(usuarioTransportista).then(function () {
                             console.log('Email sent');
@@ -232,6 +232,7 @@
                         //OBTENER CREDENCIALES
                         const credential = firebase.auth.EmailAuthProvider.credential(usuario().email, result);
                         const user = firebase.auth().currentUser;
+                        usuarioTransportista = user;
                         user.reauthenticateWithCredential(credential).then(function () {
                             //ACTUALIZAR EMAIL
                             auth().$updateEmail($scope.firebaseTransportista.transportista.correoElectronico).then(function () {

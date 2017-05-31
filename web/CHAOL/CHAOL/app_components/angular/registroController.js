@@ -204,8 +204,8 @@
                     var cargar = refPath.put(archivo).then(function () {
                         console.log('Image loaded');
                         refPath.getDownloadURL().then(function (url) {
-                            //CREACIÓN DE CLIENTE EN BD
-                            refCliente.child(usuario.uid).child('transportista').child('imagenURL').set(url);
+                            //ACTUALIZACIÓN DE IMAGEN EN BD
+                            refTransportista.child(usuario.uid).child('transportista').child('imagenURL').set(url);
                             console.log(url);
                             $scope.firebaseTransportista.transportista.imagenURL = url;
                             usuario.updateProfile({
@@ -303,31 +303,29 @@
         //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         //INICIALIZAR CHOFER
         $scope.firebaseChofer = {
-            chofer: {
-                nombre: "",
-                empresaTransportista: "",
-                numeroDeLicencia: "",
-                numeroDeSeguroSocial: "",
-                curp: "",
-                numeroInterior: "",
-                numeroExterior: "",
-                calle: "",
-                colonia: "",
-                ciudad: "",
-                estado: "",
-                codigoPostal: "",
-                telefono: "",
-                celular1: "",
-                celular2: "",
-                correoElectronico: "",
-                contrasena: "",
-                estatus: "inactivo",
-                fechaDeCreacion: unixTime(),
-                fechaDeEdicion: unixTime(),
-                imagenURL: "",
-                tipoDeUsuario: "chofer",
-                firebaseId: ""
-            }
+            nombre: "",
+            empresaTransportista: "",
+            numeroDeLicencia: "",
+            numeroDeSeguroSocial: "",
+            curp: "",
+            numeroInterior: "",
+            numeroExterior: "",
+            calle: "",
+            colonia: "",
+            ciudad: "",
+            estado: "",
+            codigoPostal: "",
+            telefono: "",
+            celular1: "",
+            celular2: "",
+            correoElectronico: "",
+            contrasena: "",
+            estatus: "inactivo",
+            fechaDeCreacion: unixTime(),
+            fechaDeEdicion: unixTime(),
+            imagenURL: "",
+            tipoDeUsuario: "chofer",
+            firebaseId: ""
         };
 
         //LISTADO TRANSPORTISTAS
@@ -345,9 +343,9 @@
             $scope.auth = $firebaseAuth();
             var usuario = $scope.auth.$getAuth();
             //SE CREA EL USUARIO
-            $scope.auth.$createUserWithEmailAndPassword($scope.firebaseChofer.chofer.correoElectronico, $scope.firebaseChofer.chofer.contrasena).then(function (usuario) {
+            $scope.auth.$createUserWithEmailAndPassword($scope.firebaseChofer.correoElectronico, $scope.firebaseChofer.contrasena).then(function (usuario) {
                 console.log('User created.');
-                $scope.firebaseChofer.chofer.firebaseId = usuario.uid;
+                $scope.firebaseChofer.firebaseId = usuario.uid;
 
                 //CARGA IMAGEN DE PERFIL
                 var archivo = document.getElementById("input_foto_chofer").files[0];
@@ -358,12 +356,12 @@
                     var cargar = refPath.put(archivo).then(function () {
                         console.log('Image loaded');
                         refPath.getDownloadURL().then(function (url) {
-                            //CREACIÓN DE CLIENTE EN BD
-                            refCliente.child(usuario.uid).child('chofer').child('imagenURL').set(url);
+                            //ACTUALIZACIÓN DE IMAGEN EN BD
+                            refChofer.child(usuario.uid).child('imagenURL').set(url);
                             console.log(url);
-                            $scope.firebaseChofer.chofer.imagenURL = url;
+                            $scope.firebaseChofer.imagenURL = url;
                             usuario.updateProfile({
-                                photoURL: $scope.firebaseChofer.chofer.imagenURL
+                                photoURL: $scope.firebaseChofer.imagenURL
                             });
                         }).catch(function (error) {
                             console.log(error);
@@ -375,13 +373,13 @@
                 }
 
                 //CREACIÓN DE CHOFER EN BD
-                refChofer.child(usuario.uid).set($scope.firebaseChofer.chofer);
+                refChofer.child(usuario.uid).set($scope.firebaseChofer);
                 refChofer.child(usuario.uid).child('contrasena').set(null);
 
                 //CREACIÓN DE PERFIL
                 usuario.updateProfile({
-                    displayName: $scope.firebaseChofer.chofer.nombre,
-                    photoURL: $scope.firebaseChofer.chofer.imagenURL
+                    displayName: $scope.firebaseChofer.nombre,
+                    photoURL: $scope.firebaseChofer.imagenURL
                 }).then(function () {
                     //ENVÍO DE CORREO
                     usuario.sendEmailVerification().then(function () {
@@ -398,8 +396,8 @@
                 });
 
                 //CREAR CHOFER EN TRANSPORTISTA
-                var refTransportista = firebase.database().ref('transportistas').child($scope.firebaseChofer.chofer.empresaTransportista).child('choferes');
-                refTransportista.child(usuario.uid).set($scope.firebaseChofer.chofer).then(function () {
+                var refTransportista = firebase.database().ref('transportistas').child($scope.firebaseChofer.empresaTransportista).child('choferes');
+                refTransportista.child(usuario.uid).set($scope.firebaseChofer).then(function () {
                     console.log('Client added in Transportist');
                 });
 
@@ -428,7 +426,7 @@
                             .parent(angular.element(document.querySelector('#registro')))
                             .clickOutsideToClose(false)
                             .title('Oops! Algo salió mal')
-                            .htmlContent('<br/> <p>Al parecer ' + $scope.firebaseChofer.chofer.correoElectronico + ' ya se encuentra registrado. </p> <p>Por favor, intenta con un correo electrónico diferente.</p> <br/> <p>¿<b>' + $scope.firebaseChofer.chofer.correoElectronico + '</b> es tu cuenta de correo?<br/> Recupera tu contraseña <a href="#/RecuperarContrasena"><i>aquí</i><a/></p>')
+                            .htmlContent('<br/> <p>Al parecer ' + $scope.firebaseChofer.correoElectronico + ' ya se encuentra registrado. </p> <p>Por favor, intenta con un correo electrónico diferente.</p> <br/> <p>¿<b>' + $scope.firebaseChofer.correoElectronico + '</b> es tu cuenta de correo?<br/> Recupera tu contraseña <a href="#/RecuperarContrasena"><i>aquí</i><a/></p>')
                             .ariaLabel('Alert Dialog Demo')
                             .ok('Aceptar')
                     );

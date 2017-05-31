@@ -3,74 +3,74 @@
         <i id="button_menu" class="fa fa-bars fa-2x" aria-hidden="true" ng-click="toggleLeft()"></i>
     </div>
     <ul id="ul_menu" class="col-lg-12 no-padding">
-        <li class="li-hijo activo">
+        <li class="li-hijo activo" ng-show="inicio">
             <a href="#/CHAOL">
                 <i class="fa fa-home" aria-hidden="true"></i>
                 Inicio
             </a>
         </li>
-        <li role="separator" class="divider"></li>
-        <li class="li-padre">
+        <li role="separator" class="divider" ng-show="administracion"></li>
+        <li class="li-padre" ng-show="administracion">
             Administración
         </li>
         <!--CLIENTES-->
-        <li class="li-hijo">
+        <li class="li-hijo" ng-show="administracion.clientes">
             <a href="#/CHAOL/Clientes">
                 <i class="fa fa-user" aria-hidden="true"></i>
                 Clientes
             </a>
         </li>
         <!--TRANSPORTISTAS-->
-        <li class="li-hijo">
+        <li class="li-hijo" ng-show="administracion.transportistas">
             <a href="#/CHAOL/Transportistas">
                 <i class="fa fa-user-o" aria-hidden="true"></i>
                 Transportistas
             </a>
         </li>
         <!--CHOFERES-->
-        <li class="li-hijo">
+        <li class="li-hijo" ng-show="administracion.choferes">
             <a href="#/CHAOL/Choferes">
                 <i class="fa fa-users" aria-hidden="true"></i>
                 Choferes
             </a>
         </li>
         <!--TRACTORES-->
-        <li class="li-hijo">
+        <li class="li-hijo" ng-show="administracion.tractores">
             <a href="#/CHAOL/Tractores">
                 <i class="fa fa-truck" aria-hidden="true"></i>
                 Tractores
             </a>
         </li>
         <!--REMOLQUES-->
-        <li class="li-hijo">
+        <li class="li-hijo" ng-show="administracion.remolques">
             <a href="#/CHAOL/Remolques">
                 <i class="fa fa-bus" aria-hidden="true"></i>
                 Remolques
             </a>
         </li>
-        <li role="separator" class="divider"></li>
-        <li class="li-padre">
+        <li role="separator" class="divider" ng-show="fletes"></li>
+        <li class="li-padre" ng-show="fletes">
             Fletes
         </li>
         <!--AGENDA-->
-        <li class="li-hijo">
+        <li class="li-hijo" ng-show="fletes.agenda">
             <a href="#/CHAOL/Fletes">
                 <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
                 Agenda
             </a>
         </li>
-        <li role="separator" class="divider"></li>
-        <li class="li-padre">
+        <li role="separator" class="divider" ng-show="cuenta"></li>
+        <li class="li-padre" ng-show="cuenta">
             Cuenta
         </li>
         <!--MI PERFIL-->
-        <li class="li-hijo">
+        <li class="li-hijo" ng-show="cuenta.miPerfil">
             <a href="{{redirect}}">
                 <i class="fa fa-user-circle" aria-hidden="true"></i>
                 Mi Perfil
             </a>
         </li>
-        <li class="li-hijo">
+        <li class="li-hijo" ng-show="cuenta.cerrarSesion">
             <a href="#" ng-click="cerrarSesion()">
                 <i class="fa fa-sign-out" aria-hidden="true"></i>
                 Cerrar Sesión

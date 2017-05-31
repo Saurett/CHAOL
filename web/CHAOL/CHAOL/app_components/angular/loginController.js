@@ -22,6 +22,7 @@
                 var refUsuario = firebase.database().ref('usuarios').child(user.uid);
                 var usuario = $firebaseObject(refUsuario);
                 AllowLogIn.getValidation(usuario);
+                document.getElementById('div_progress').className = 'col-lg-12 div-progress hidden';
             }).catch(function (error) {
                 //ERROR
                 if (error.code === 'auth/user-not-found') {
@@ -49,8 +50,8 @@
                 else {
                     console.log(error);
                 }
+                document.getElementById('div_progress').className = 'col-lg-12 div-progress hidden';
             });
-            document.getElementById('div_progress').className = 'col-lg-12 div-progress hidden';
         };
     });
 })();

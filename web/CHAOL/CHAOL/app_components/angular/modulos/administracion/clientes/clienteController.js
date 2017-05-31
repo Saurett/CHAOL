@@ -152,7 +152,7 @@
                             //CREACIÓN DE CLIENTE EN BD
                             console.log('Client image loaded to ' + url)
                             cliente.imagenURL = url;
-                            crearClienteBD(cliente);
+                            actualizarClienteBD(cliente);
                             actualizarPerfil(usuarioCliente, cliente);
                         }).catch(function (error) {
                             console.log(error);
@@ -231,6 +231,7 @@
                         //OBTENER CREDENCIALES
                         const credential = firebase.auth.EmailAuthProvider.credential(usuario().email, result);
                         const user = firebase.auth().currentUser;
+                        usuarioCliente = user;
                         user.reauthenticateWithCredential(credential).then(function () {
                             //ACTUALIZAR EMAIL
                             auth().$updateEmail($scope.firebaseCliente.cliente.correoElectronico).then(function () {

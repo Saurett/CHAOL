@@ -21,7 +21,7 @@
                 firebaseTransportista.estatus = transportista.estatus;
                 firebaseTransportista.$save().then(function () {
                     console.log('Estatus changed to ' + transportista.estatus);
-                    if (!firebaseListaTransportista.$value) {
+                    if (firebaseTransportista.estatus == 'activo') {
                         firebase.database().ref('listaDeTransportistas').child(transportista.firebaseId).set(transportista.nombre);
                     }
                     else {

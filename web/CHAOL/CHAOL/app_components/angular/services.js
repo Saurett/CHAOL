@@ -10,8 +10,13 @@
         return getTime;
     });
 
-    app.factory("Auth", function ($firebaseAuth) {
-        return $firebaseAuth();
+    app.factory("Auth", function ($firebaseAuth, $firebaseObject, $location) {
+        var firebase = {
+            Auth: $firebaseAuth(),
+            Object: $firebaseObject,
+            Location: $location
+        }
+        return firebase
     });
 
     //SERCIVIO QUE TERMINARÁ LA SESIÓN DEL USAURIO EN CASO DE QUE SEA ELIMINADO O INACTIVO

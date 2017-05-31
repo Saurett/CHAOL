@@ -55,8 +55,8 @@
                 templateUrl: "modulos/inicio.html",
                 controller: "inicioController",
                 resolve: {
-                    "currentAuth": ["Auth", function (Auth) {
-                        return Auth.$requireSignIn();
+                    "currentAuth": ["Auth", function (Firebase) {
+                        return Firebase.Auth.$requireSignIn();
                     }]
                 }
             })
@@ -65,8 +65,28 @@
                 templateUrl: "modulos/administracion/clientes/listado/listadoClientes.html",
                 controller: "clientesController",
                 resolve: {
-                    "currentAuth": ["Auth", function (Auth) {
-                        return Auth.$requireSignIn();
+                    "currentAuth": ["Auth", function (Firebase) {
+                        var auth = Firebase.Auth;
+                        var usuario = auth.$getAuth();
+                        var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
+                        var firebaseUsuario = Firebase.Object(refUsuario);
+                        firebaseUsuario.$loaded().then(function () {
+                            switch (firebaseUsuario.$value) {
+                                case 'administrador':
+                                    break;
+                                case 'cliente':
+                                    Firebase.Location.path('/Inicio');
+                                    break;
+                                case 'transportista':
+                                    Firebase.Location.path('/Inicio');
+                                    break;
+                                case 'chofer':
+                                    Firebase.Location.path('/Inicio');
+                                    break;
+                                default:
+                            }
+                            return Firebase.Auth.$requireSignIn();
+                        });
                     }]
                 }
             })
@@ -74,8 +94,28 @@
                 templateUrl: "modulos/administracion/clientes/captura/capturaCliente.html",
                 controller: "clienteController",
                 resolve: {
-                    "currentAuth": ["Auth", function (Auth) {
-                        return Auth.$requireSignIn();
+                    "currentAuth": ["Auth", function (Firebase) {
+                        var auth = Firebase.Auth;
+                        var usuario = auth.$getAuth();
+                        var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
+                        var firebaseUsuario = Firebase.Object(refUsuario);
+                        firebaseUsuario.$loaded().then(function () {
+                            switch (firebaseUsuario.$value) {
+                                case 'administrador':
+                                    break;
+                                case 'cliente':
+                                    Firebase.Location.path('/Inicio');
+                                    break;
+                                case 'transportista':
+                                    Firebase.Location.path('/Inicio');
+                                    break;
+                                case 'chofer':
+                                    Firebase.Location.path('/Inicio');
+                                    break;
+                                default:
+                            }
+                            return Firebase.Auth.$requireSignIn();
+                        });
                     }]
                 }
             })
@@ -83,8 +123,27 @@
                 templateUrl: "modulos/administracion/clientes/captura/capturaCliente.html",
                 controller: "clienteController",
                 resolve: {
-                    "currentAuth": ["Auth", function (Auth) {
-                        return Auth.$requireSignIn();
+                    "currentAuth": ["Auth", function (Firebase) {
+                        var auth = Firebase.Auth;
+                        var usuario = auth.$getAuth();
+                        var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
+                        var firebaseUsuario = Firebase.Object(refUsuario);
+                        firebaseUsuario.$loaded().then(function () {
+                            switch (firebaseUsuario.$value) {
+                                case 'administrador':
+                                    break;
+                                case 'cliente':
+                                    break;
+                                case 'transportista':
+                                    Firebase.Location.path('/Inicio');
+                                    break;
+                                case 'chofer':
+                                    Firebase.Location.path('/Inicio');
+                                    break;
+                                default:
+                            }
+                            return Firebase.Auth.$requireSignIn();
+                        });
                     }]
                 }
             })
@@ -93,8 +152,28 @@
                 templateUrl: "modulos/administracion/transportistas/listado/listadoTransportistas.html",
                 controller: "transportistasController",
                 resolve: {
-                    "currentAuth": ["Auth", function (Auth) {
-                        return Auth.$requireSignIn();
+                    "currentAuth": ["Auth", function (Firebase) {
+                        var auth = Firebase.Auth;
+                        var usuario = auth.$getAuth();
+                        var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
+                        var firebaseUsuario = Firebase.Object(refUsuario);
+                        firebaseUsuario.$loaded().then(function () {
+                            switch (firebaseUsuario.$value) {
+                                case 'administrador':
+                                    break;
+                                case 'cliente':
+                                    Firebase.Location.path('/Inicio');
+                                    break;
+                                case 'transportista':
+                                    Firebase.Location.path('/Inicio');
+                                    break;
+                                case 'chofer':
+                                    Firebase.Location.path('/Inicio');
+                                    break;
+                                default:
+                            }
+                            return Firebase.Auth.$requireSignIn();
+                        });
                     }]
                 }
             })
@@ -102,8 +181,28 @@
                 templateUrl: "modulos/administracion/transportistas/captura/capturaTransportista.html",
                 controller: "transportistaController",
                 resolve: {
-                    "currentAuth": ["Auth", function (Auth) {
-                        return Auth.$requireSignIn();
+                    "currentAuth": ["Auth", function (Firebase) {
+                        var auth = Firebase.Auth;
+                        var usuario = auth.$getAuth();
+                        var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
+                        var firebaseUsuario = Firebase.Object(refUsuario);
+                        firebaseUsuario.$loaded().then(function () {
+                            switch (firebaseUsuario.$value) {
+                                case 'administrador':
+                                    break;
+                                case 'cliente':
+                                    Firebase.Location.path('/Inicio');
+                                    break;
+                                case 'transportista':
+                                    Firebase.Location.path('/Inicio');
+                                    break;
+                                case 'chofer':
+                                    Firebase.Location.path('/Inicio');
+                                    break;
+                                default:
+                            }
+                            return Firebase.Auth.$requireSignIn();
+                        });
                     }]
                 }
             })
@@ -111,8 +210,27 @@
                 templateUrl: "modulos/administracion/transportistas/captura/capturaTransportista.html",
                 controller: "transportistaController",
                 resolve: {
-                    "currentAuth": ["Auth", function (Auth) {
-                        return Auth.$requireSignIn();
+                    "currentAuth": ["Auth", function (Firebase) {
+                        var auth = Firebase.Auth;
+                        var usuario = auth.$getAuth();
+                        var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
+                        var firebaseUsuario = Firebase.Object(refUsuario);
+                        firebaseUsuario.$loaded().then(function () {
+                            switch (firebaseUsuario.$value) {
+                                case 'administrador':
+                                    break;
+                                case 'cliente':
+                                    Firebase.Location.path('/Inicio');
+                                    break;
+                                case 'transportista':
+                                    break;
+                                case 'chofer':
+                                    Firebase.Location.path('/Inicio');
+                                    break;
+                                default:
+                            }
+                            return Firebase.Auth.$requireSignIn();
+                        });
                     }]
                 }
             })
@@ -121,8 +239,27 @@
                 templateUrl: "modulos/administracion/choferes/listado/listadoChoferes.html",
                 controller: "choferesController",
                 resolve: {
-                    "currentAuth": ["Auth", function (Auth) {
-                        return Auth.$requireSignIn();
+                    "currentAuth": ["Auth", function (Firebase) {
+                        var auth = Firebase.Auth;
+                        var usuario = auth.$getAuth();
+                        var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
+                        var firebaseUsuario = Firebase.Object(refUsuario);
+                        firebaseUsuario.$loaded().then(function () {
+                            switch (firebaseUsuario.$value) {
+                                case 'administrador':
+                                    break;
+                                case 'cliente':
+                                    Firebase.Location.path('/Inicio');
+                                    break;
+                                case 'transportista':
+                                    break;
+                                case 'chofer':
+                                    Firebase.Location.path('/Inicio');
+                                    break;
+                                default:
+                            }
+                            return Firebase.Auth.$requireSignIn();
+                        });
                     }]
                 }
             })
@@ -130,8 +267,27 @@
                 templateUrl: "modulos/administracion/choferes/captura/capturaChofer.html",
                 controller: "choferController",
                 resolve: {
-                    "currentAuth": ["Auth", function (Auth) {
-                        return Auth.$requireSignIn();
+                    "currentAuth": ["Auth", function (Firebase) {
+                        var auth = Firebase.Auth;
+                        var usuario = auth.$getAuth();
+                        var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
+                        var firebaseUsuario = Firebase.Object(refUsuario);
+                        firebaseUsuario.$loaded().then(function () {
+                            switch (firebaseUsuario.$value) {
+                                case 'administrador':
+                                    break;
+                                case 'cliente':
+                                    Firebase.Location.path('/Inicio');
+                                    break;
+                                case 'transportista':
+                                    break;
+                                case 'chofer':
+                                    Firebase.Location.path('/Inicio');
+                                    break;
+                                default:
+                            }
+                            return Firebase.Auth.$requireSignIn();
+                        });
                     }]
                 }
             })
@@ -139,8 +295,26 @@
                 templateUrl: "modulos/administracion/choferes/captura/capturaChofer.html",
                 controller: "choferController",
                 resolve: {
-                    "currentAuth": ["Auth", function (Auth) {
-                        return Auth.$requireSignIn();
+                    "currentAuth": ["Auth", function (Firebase) {
+                        var auth = Firebase.Auth;
+                        var usuario = auth.$getAuth();
+                        var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
+                        var firebaseUsuario = Firebase.Object(refUsuario);
+                        firebaseUsuario.$loaded().then(function () {
+                            switch (firebaseUsuario.$value) {
+                                case 'administrador':
+                                    break;
+                                case 'cliente':
+                                    Firebase.Location.path('/Inicio');
+                                    break;
+                                case 'transportista':
+                                    break;
+                                case 'chofer':
+                                    break;
+                                default:
+                            }
+                            return Firebase.Auth.$requireSignIn();
+                        });
                     }]
                 }
             })
@@ -204,8 +378,13 @@
         return getTime;
     });
 
-    app.factory("Auth", function ($firebaseAuth) {
-        return $firebaseAuth();
+    app.factory("Auth", function ($firebaseAuth, $firebaseObject, $location) {
+        var firebase = {
+            Auth: $firebaseAuth(),
+            Object: $firebaseObject,
+            Location: $location
+        }
+        return firebase
     });
 
     //SERCIVIO QUE TERMINARÁ LA SESIÓN DEL USAURIO EN CASO DE QUE SEA ELIMINADO O INACTIVO
@@ -341,6 +520,7 @@
                 var refUsuario = firebase.database().ref('usuarios').child(user.uid);
                 var usuario = $firebaseObject(refUsuario);
                 AllowLogIn.getValidation(usuario);
+                document.getElementById('div_progress').className = 'col-lg-12 div-progress hidden';
             }).catch(function (error) {
                 //ERROR
                 if (error.code === 'auth/user-not-found') {
@@ -368,8 +548,8 @@
                 else {
                     console.log(error);
                 }
+                document.getElementById('div_progress').className = 'col-lg-12 div-progress hidden';
             });
-            document.getElementById('div_progress').className = 'col-lg-12 div-progress hidden';
         };
     });
 })();
@@ -581,8 +761,8 @@
                     var cargar = refPath.put(archivo).then(function () {
                         console.log('Image loaded');
                         refPath.getDownloadURL().then(function (url) {
-                            //CREACIÓN DE CLIENTE EN BD
-                            refCliente.child(usuario.uid).child('transportista').child('imagenURL').set(url);
+                            //ACTUALIZACIÓN DE IMAGEN EN BD
+                            refTransportista.child(usuario.uid).child('transportista').child('imagenURL').set(url);
                             console.log(url);
                             $scope.firebaseTransportista.transportista.imagenURL = url;
                             usuario.updateProfile({
@@ -680,31 +860,29 @@
         //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         //INICIALIZAR CHOFER
         $scope.firebaseChofer = {
-            chofer: {
-                nombre: "",
-                empresaTransportista: "",
-                numeroDeLicencia: "",
-                numeroDeSeguroSocial: "",
-                curp: "",
-                numeroInterior: "",
-                numeroExterior: "",
-                calle: "",
-                colonia: "",
-                ciudad: "",
-                estado: "",
-                codigoPostal: "",
-                telefono: "",
-                celular1: "",
-                celular2: "",
-                correoElectronico: "",
-                contrasena: "",
-                estatus: "inactivo",
-                fechaDeCreacion: unixTime(),
-                fechaDeEdicion: unixTime(),
-                imagenURL: "",
-                tipoDeUsuario: "chofer",
-                firebaseId: ""
-            }
+            nombre: "",
+            empresaTransportista: "",
+            numeroDeLicencia: "",
+            numeroDeSeguroSocial: "",
+            curp: "",
+            numeroInterior: "",
+            numeroExterior: "",
+            calle: "",
+            colonia: "",
+            ciudad: "",
+            estado: "",
+            codigoPostal: "",
+            telefono: "",
+            celular1: "",
+            celular2: "",
+            correoElectronico: "",
+            contrasena: "",
+            estatus: "inactivo",
+            fechaDeCreacion: unixTime(),
+            fechaDeEdicion: unixTime(),
+            imagenURL: "",
+            tipoDeUsuario: "chofer",
+            firebaseId: ""
         };
 
         //LISTADO TRANSPORTISTAS
@@ -722,9 +900,9 @@
             $scope.auth = $firebaseAuth();
             var usuario = $scope.auth.$getAuth();
             //SE CREA EL USUARIO
-            $scope.auth.$createUserWithEmailAndPassword($scope.firebaseChofer.chofer.correoElectronico, $scope.firebaseChofer.chofer.contrasena).then(function (usuario) {
+            $scope.auth.$createUserWithEmailAndPassword($scope.firebaseChofer.correoElectronico, $scope.firebaseChofer.contrasena).then(function (usuario) {
                 console.log('User created.');
-                $scope.firebaseChofer.chofer.firebaseId = usuario.uid;
+                $scope.firebaseChofer.firebaseId = usuario.uid;
 
                 //CARGA IMAGEN DE PERFIL
                 var archivo = document.getElementById("input_foto_chofer").files[0];
@@ -735,12 +913,12 @@
                     var cargar = refPath.put(archivo).then(function () {
                         console.log('Image loaded');
                         refPath.getDownloadURL().then(function (url) {
-                            //CREACIÓN DE CLIENTE EN BD
-                            refCliente.child(usuario.uid).child('chofer').child('imagenURL').set(url);
+                            //ACTUALIZACIÓN DE IMAGEN EN BD
+                            refChofer.child(usuario.uid).child('imagenURL').set(url);
                             console.log(url);
-                            $scope.firebaseChofer.chofer.imagenURL = url;
+                            $scope.firebaseChofer.imagenURL = url;
                             usuario.updateProfile({
-                                photoURL: $scope.firebaseChofer.chofer.imagenURL
+                                photoURL: $scope.firebaseChofer.imagenURL
                             });
                         }).catch(function (error) {
                             console.log(error);
@@ -752,13 +930,13 @@
                 }
 
                 //CREACIÓN DE CHOFER EN BD
-                refChofer.child(usuario.uid).set($scope.firebaseChofer.chofer);
+                refChofer.child(usuario.uid).set($scope.firebaseChofer);
                 refChofer.child(usuario.uid).child('contrasena').set(null);
 
                 //CREACIÓN DE PERFIL
                 usuario.updateProfile({
-                    displayName: $scope.firebaseChofer.chofer.nombre,
-                    photoURL: $scope.firebaseChofer.chofer.imagenURL
+                    displayName: $scope.firebaseChofer.nombre,
+                    photoURL: $scope.firebaseChofer.imagenURL
                 }).then(function () {
                     //ENVÍO DE CORREO
                     usuario.sendEmailVerification().then(function () {
@@ -775,8 +953,8 @@
                 });
 
                 //CREAR CHOFER EN TRANSPORTISTA
-                var refTransportista = firebase.database().ref('transportistas').child($scope.firebaseChofer.chofer.empresaTransportista).child('choferes');
-                refTransportista.child(usuario.uid).set($scope.firebaseChofer.chofer).then(function () {
+                var refTransportista = firebase.database().ref('transportistas').child($scope.firebaseChofer.empresaTransportista).child('choferes');
+                refTransportista.child(usuario.uid).set($scope.firebaseChofer).then(function () {
                     console.log('Client added in Transportist');
                 });
 
@@ -805,7 +983,7 @@
                             .parent(angular.element(document.querySelector('#registro')))
                             .clickOutsideToClose(false)
                             .title('Oops! Algo salió mal')
-                            .htmlContent('<br/> <p>Al parecer ' + $scope.firebaseChofer.chofer.correoElectronico + ' ya se encuentra registrado. </p> <p>Por favor, intenta con un correo electrónico diferente.</p> <br/> <p>¿<b>' + $scope.firebaseChofer.chofer.correoElectronico + '</b> es tu cuenta de correo?<br/> Recupera tu contraseña <a href="#/RecuperarContrasena"><i>aquí</i><a/></p>')
+                            .htmlContent('<br/> <p>Al parecer ' + $scope.firebaseChofer.correoElectronico + ' ya se encuentra registrado. </p> <p>Por favor, intenta con un correo electrónico diferente.</p> <br/> <p>¿<b>' + $scope.firebaseChofer.correoElectronico + '</b> es tu cuenta de correo?<br/> Recupera tu contraseña <a href="#/RecuperarContrasena"><i>aquí</i><a/></p>')
                             .ariaLabel('Alert Dialog Demo')
                             .ok('Aceptar')
                     );
@@ -900,21 +1078,67 @@
             };
         }
 
+        //ESTATUS MENU
+        $scope.administracion = {
+            clientes: false,
+            transportistas: false,
+            choferes: false,
+            tractores: false,
+            remolques: false
+        }
+
+        $scope.fletes = {
+            agenda: false
+        }
+
+        $scope.cuenta = {
+            miPerfil: false,
+            cerrarSesion: false
+        }
+
         //BUSQUEDA DE FOTO EN EL OBJETO
         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
         var firebaseUsuario = $firebaseObject(refUsuario);
         firebaseUsuario.$loaded().then(function () {
             switch (firebaseUsuario.$value) {
                 case 'administrador':
+                    $scope.inicio = true;
+                    $scope.administracion.clientes = true;
+                    $scope.administracion.transportistas = true;
+                    $scope.administracion.choferes = true;
+                    $scope.administracion.tractores = true;
+                    $scope.administracion.remolques = true;
+                    $scope.fletes.agenda = true;
+                    $scope.cuenta.miPerfil = false;
+                    $scope.cuenta.cerrarSesion = true;
                     break;
                 case 'cliente':
                     $scope.redirect = '#/CHAOL/Clientes/' + usuario.uid;
+                    $scope.inicio = true;
+                    $scope.administracion = false;
+                    $scope.fletes.agenda = true;
+                    $scope.cuenta.miPerfil = true;
+                    $scope.cuenta.cerrarSesion = true;
                     break;
                 case 'transportista':
                     $scope.redirect = '#/CHAOL/Transportistas/' + usuario.uid;
+                    $scope.inicio = true;
+                    $scope.administracion.clientes = false;
+                    $scope.administracion.transportistas = false;
+                    $scope.administracion.choferes = true;
+                    $scope.administracion.tractores = true;
+                    $scope.administracion.remolques = true;
+                    $scope.fletes.agenda = true;
+                    $scope.cuenta.miPerfil = true;
+                    $scope.cuenta.cerrarSesion = true;
                     break;
                 case 'chofer':
                     $scope.redirect = '#/CHAOL/Choferes/' + usuario.uid;
+                    $scope.inicio = true;
+                    $scope.administracion = false;
+                    $scope.fletes.agenda = true;
+                    $scope.cuenta.miPerfil = true;
+                    $scope.cuenta.cerrarSesion = true;
                     break;
                 default:
             }
@@ -977,7 +1201,72 @@
 (function () {
     var app = angular.module('app');
 
-    app.controller('inicioController', function ($scope, $mdSidenav, $firebaseAuth) {
+    app.controller('inicioController', function ($scope, $mdSidenav, $firebaseAuth, $firebaseObject) {
+        var auth = $firebaseAuth();
+        var usuario = auth.$getAuth();
+
+        //ESTATUS MENU
+        $scope.administracion = {
+            clientes: false,
+            transportistas: false,
+            choferes: false,
+            tractores: false,
+            remolques: false
+        }
+
+        $scope.fletes = {
+            agenda: false
+        }
+
+        $scope.cuenta = {
+            miPerfil: false,
+            cerrarSesion: false
+        }
+
+        //BUSQUEDA DE FOTO EN EL OBJETO
+        var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
+        var firebaseUsuario = $firebaseObject(refUsuario);
+        firebaseUsuario.$loaded().then(function () {
+            switch (firebaseUsuario.$value) {
+                case 'administrador':
+                    $scope.inicio = true;
+                    $scope.administracion.clientes = true;
+                    $scope.administracion.transportistas = true;
+                    $scope.administracion.choferes = true;
+                    $scope.administracion.tractores = true;
+                    $scope.administracion.remolques = true;
+                    $scope.fletes.agenda = true;
+                    $scope.cuenta.miPerfil = false;
+                    $scope.cuenta.cerrarSesion = true;
+                    break;
+                case 'cliente':
+                    $scope.inicio = true;
+                    $scope.administracion = false;
+                    $scope.fletes.agenda = true;
+                    $scope.cuenta.miPerfil = true;
+                    $scope.cuenta.cerrarSesion = true;
+                    break;
+                case 'transportista':
+                    $scope.inicio = true;
+                    $scope.administracion.clientes = false;
+                    $scope.administracion.transportistas = false;
+                    $scope.administracion.choferes = true;
+                    $scope.administracion.tractores = true;
+                    $scope.administracion.remolques = true;
+                    $scope.fletes.agenda = true;
+                    $scope.cuenta.miPerfil = true;
+                    $scope.cuenta.cerrarSesion = true;
+                    break;
+                case 'chofer':
+                    $scope.inicio = true;
+                    $scope.administracion = false;
+                    $scope.fletes.agenda = true;
+                    $scope.cuenta.miPerfil = true;
+                    $scope.cuenta.cerrarSesion = true;
+                    break;
+                default:
+            }
+        });
     });
 })();
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1191,7 +1480,7 @@
                             //CREACIÓN DE CLIENTE EN BD
                             console.log('Client image loaded to ' + url)
                             cliente.imagenURL = url;
-                            crearClienteBD(cliente);
+                            actualizarClienteBD(cliente);
                             actualizarPerfil(usuarioCliente, cliente);
                         }).catch(function (error) {
                             console.log(error);
@@ -1270,6 +1559,7 @@
                         //OBTENER CREDENCIALES
                         const credential = firebase.auth.EmailAuthProvider.credential(usuario().email, result);
                         const user = firebase.auth().currentUser;
+                        usuarioCliente = user;
                         user.reauthenticateWithCredential(credential).then(function () {
                             //ACTUALIZAR EMAIL
                             auth().$updateEmail($scope.firebaseCliente.cliente.correoElectronico).then(function () {
@@ -1363,7 +1653,7 @@
                 firebaseTransportista.estatus = transportista.estatus;
                 firebaseTransportista.$save().then(function () {
                     console.log('Estatus changed to ' + transportista.estatus);
-                    if (!firebaseListaTransportista.$value) {
+                    if (firebaseTransportista.estatus == 'activo') {
                         firebase.database().ref('listaDeTransportistas').child(transportista.firebaseId).set(transportista.nombre);
                     }
                     else {
@@ -1570,7 +1860,7 @@
                             //CREACIÓN DE TRANSPORTISTA EN BD
                             console.log('Transportist image loaded to ' + url)
                             transportista.imagenURL = url;
-                            crearTransportistaBD(transportista);
+                            actualizarTransportistaBD(transportista);
                             actualizarPerfil(usuarioTransportista, transportista);
                         }).catch(function (error) {
                             console.log(error);
@@ -1601,7 +1891,7 @@
 
                     crearUsuarioBD($scope.firebaseTransportista.transportista).then(function () {
                         console.log('User created in DB');
-                        crearTransportistaBD($scope.firebaseTransportista.transportista);
+                        actualizarTransportistaBD($scope.firebaseTransportista.transportista);
                         crearTransportistaEnLista($scope.firebaseTransportista.transportista);
                         enviarCorreoConfirmacion(usuarioTransportista).then(function () {
                             console.log('Email sent');
@@ -1650,6 +1940,7 @@
                         //OBTENER CREDENCIALES
                         const credential = firebase.auth.EmailAuthProvider.credential(usuario().email, result);
                         const user = firebase.auth().currentUser;
+                        usuarioTransportista = user;
                         user.reauthenticateWithCredential(credential).then(function () {
                             //ACTUALIZAR EMAIL
                             auth().$updateEmail($scope.firebaseTransportista.transportista.correoElectronico).then(function () {
