@@ -258,3 +258,69 @@ and open the template in the editor.
 .md-whiteframe-4dp, .md-whiteframe-z2 {
     box-shadow: 0px -11px 4px -1px rgba(0, 0, 0, 0.2), -1px -9px 5px 0px rgba(0, 0, 0, 0.14), -1px -3px 10px 0px rgba(0, 0, 0, 0.12) !important;
 }
+
+ul.fletes-ico {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+ul.fletes-ico li {
+    padding-left: 1em;
+    text-indent: -.7em;
+}
+
+ul.fletes-ico li::before {
+    content: '';
+    border: 2px solid;
+    width: 13px;
+    height: 13px;
+    display: -webkit-inline-box;
+    border-radius: 26px;
+    margin-right: 10px;
+}
+
+ul.fletes-ico li.fletes-ico-cotizar::before {
+    border-color: #502CA7;
+    background-color: #7B4CFE;
+}
+
+ul.fletes-ico li.fletes-ico-solicitud::before {
+    border-color: #F47B00;
+    background-color: #FE9700;
+}
+
+ul.fletes-ico li.fletes-ico-confirmacion::before {
+    border-color: #FABF2C;
+    background-color: #FEEA3A;
+}
+
+ul.fletes-ico li.fletes-ico-asignacion::before {
+    border-color: #378D3B;
+    background-color: #4BAE4F;
+}
+
+ul.fletes-ico li.fletes-ico-envio::before {
+    border-color: #0096A6;
+    background-color: #00BBD3;
+}
+
+ul.fletes-ico li.fletes-ico-progreso::before {
+    border-color: #1875D1;
+    background-color: #2095F2;
+}
+
+ul.fletes-ico li.fletes-ico-entregado::before {
+    border-color: #606060;
+    background-color: #9D9D9D;
+}
+
+ul.fletes-ico li.fletes-ico-finalizado::before {
+    border-color: #212121;
+    background-color: #202020;
+}
+
+ul.fletes-ico li.fletes-ico-cancelado::before {
+    border-color: #D22E2E;
+    background-color: #F34235;
+}

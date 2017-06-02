@@ -4,8 +4,8 @@
     var app = angular.module('app');
 
     app.controller('loginController', function ($scope, $location, $firebaseObject, $firebaseAuth, $mdDialog, AllowLogIn) {
-        $scope.auth = $firebaseAuth();
-        $scope.auth.$signOut();
+        var auth = $firebaseAuth();
+        auth.$signOut();
 
         //ENVIO AL FORMULARIO DE REGISTRO
         $scope.registro = function () {
@@ -15,10 +15,10 @@
         //INICIO DE SESIÓN
         $scope.iniciarSesion = function () {
             document.getElementById('div_progress').className = 'col-lg-12 div-progress';
-            $scope.auth = $firebaseAuth();
-            $scope.auth.$signInWithEmailAndPassword($scope.usuario.usuario, $scope.usuario.contrasena).then(function () {
+            auth = $firebaseAuth();
+            auth.$signInWithEmailAndPassword($scope.usuario.usuario, $scope.usuario.contrasena).then(function () {
                 console.log($scope.usuario.usuario + ' logged in');
-                var user = $scope.auth.$getAuth();
+                var user = auth.$getAuth();
                 var refUsuario = firebase.database().ref('usuarios').child(user.uid);
                 var usuario = $firebaseObject(refUsuario);
                 AllowLogIn.getValidation(usuario);

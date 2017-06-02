@@ -22,21 +22,23 @@
         }
 
         //ESTATUS MENU
-        $scope.administracion = {
-            clientes: false,
-            transportistas: false,
-            choferes: false,
-            tractores: false,
-            remolques: false
-        }
-
-        $scope.fletes = {
-            agenda: false
-        }
-
-        $scope.cuenta = {
-            miPerfil: false,
-            cerrarSesion: false
+        $scope.menu = {
+            inicio: false,
+            administracion: {
+                clientes: false,
+                transportistas: false,
+                choferes: false,
+                tractores: false,
+                remolques: false
+            },
+            fletes: {
+                agenda: false
+            },
+            cuenta: {
+                miPerfil: false,
+                href: "",
+                cerrarSesion: false
+            }
         }
 
         //BUSQUEDA DE FOTO EN EL OBJETO
@@ -45,45 +47,46 @@
         firebaseUsuario.$loaded().then(function () {
             switch (firebaseUsuario.$value) {
                 case 'administrador':
-                    $scope.inicio = true;
-                    $scope.administracion.clientes = true;
-                    $scope.administracion.transportistas = true;
-                    $scope.administracion.choferes = true;
-                    $scope.administracion.tractores = true;
-                    $scope.administracion.remolques = true;
-                    $scope.fletes.agenda = true;
-                    $scope.cuenta.miPerfil = false;
-                    $scope.cuenta.cerrarSesion = true;
+                    $scope.menu.inicio = true;
+                    $scope.menu.administracion.clientes = true;
+                    $scope.menu.administracion.transportistas = true;
+                    $scope.menu.administracion.choferes = true;
+                    $scope.menu.administracion.tractores = true;
+                    $scope.menu.administracion.remolques = true;
+                    $scope.menu.fletes.agenda = true;
+                    $scope.menu.cuenta.miPerfil = false;
+                    $scope.menu.cuenta.cerrarSesion = true;
                     break;
                 case 'cliente':
-                    $scope.redirect = '#/CHAOL/Clientes/' + usuario.uid;
-                    $scope.inicio = true;
-                    $scope.administracion = false;
-                    $scope.fletes.agenda = true;
-                    $scope.cuenta.miPerfil = true;
-                    $scope.cuenta.cerrarSesion = true;
+                    $scope.menu.cuenta.href = '#/CHAOL/Clientes/' + usuario.uid;
+                    $scope.menu.inicio = true;
+                    $scope.menu.administracion = false;
+                    $scope.menu.fletes.agenda = true;
+                    $scope.menu.cuenta.miPerfil = true;
+                    $scope.menu.cuenta.cerrarSesion = true;
                     break;
                 case 'transportista':
-                    $scope.redirect = '#/CHAOL/Transportistas/' + usuario.uid;
-                    $scope.inicio = true;
-                    $scope.administracion.clientes = false;
-                    $scope.administracion.transportistas = false;
-                    $scope.administracion.choferes = true;
-                    $scope.administracion.tractores = true;
-                    $scope.administracion.remolques = true;
-                    $scope.fletes.agenda = true;
-                    $scope.cuenta.miPerfil = true;
-                    $scope.cuenta.cerrarSesion = true;
+                    $scope.menu.cuenta.href = '#/CHAOL/Transportistas/' + usuario.uid;
+                    $scope.menu.inicio = true;
+                    $scope.menu.administracion.clientes = false;
+                    $scope.menu.administracion.transportistas = false;
+                    $scope.menu.administracion.choferes = true;
+                    $scope.menu.administracion.tractores = true;
+                    $scope.menu.administracion.remolques = true;
+                    $scope.menu.fletes.agenda = true;
+                    $scope.menu.cuenta.miPerfil = true;
+                    $scope.menu.cuenta.cerrarSesion = true;
                     break;
                 case 'chofer':
-                    $scope.redirect = '#/CHAOL/Choferes/' + usuario.uid;
-                    $scope.inicio = true;
-                    $scope.administracion = false;
-                    $scope.fletes.agenda = true;
-                    $scope.cuenta.miPerfil = true;
-                    $scope.cuenta.cerrarSesion = true;
+                    $scope.menu.cuenta.href = '#/CHAOL/Choferes/' + usuario.uid;
+                    $scope.menu.inicio = true;
+                    $scope.menu.administracion = false;
+                    $scope.menu.fletes.agenda = true;
+                    $scope.menu.cuenta.miPerfil = true;
+                    $scope.menu.cuenta.cerrarSesion = true;
                     break;
                 default:
+                    break;
             }
         });
     });

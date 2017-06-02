@@ -502,8 +502,8 @@
     var app = angular.module('app');
 
     app.controller('loginController', function ($scope, $location, $firebaseObject, $firebaseAuth, $mdDialog, AllowLogIn) {
-        $scope.auth = $firebaseAuth();
-        $scope.auth.$signOut();
+        var auth = $firebaseAuth();
+        auth.$signOut();
 
         //ENVIO AL FORMULARIO DE REGISTRO
         $scope.registro = function () {
@@ -513,10 +513,10 @@
         //INICIO DE SESIÓN
         $scope.iniciarSesion = function () {
             document.getElementById('div_progress').className = 'col-lg-12 div-progress';
-            $scope.auth = $firebaseAuth();
-            $scope.auth.$signInWithEmailAndPassword($scope.usuario.usuario, $scope.usuario.contrasena).then(function () {
+            auth = $firebaseAuth();
+            auth.$signInWithEmailAndPassword($scope.usuario.usuario, $scope.usuario.contrasena).then(function () {
                 console.log($scope.usuario.usuario + ' logged in');
-                var user = $scope.auth.$getAuth();
+                var user = auth.$getAuth();
                 var refUsuario = firebase.database().ref('usuarios').child(user.uid);
                 var usuario = $firebaseObject(refUsuario);
                 AllowLogIn.getValidation(usuario);
@@ -607,10 +607,10 @@
 
         $scope.registrarCliente = function () {
             document.getElementById('div_progress').className = 'col-lg-12 div-progress';
-            $scope.auth = $firebaseAuth();
-            var usuario = $scope.auth.$getAuth();
+            var auth = $firebaseAuth();
+            var usuario = auth.$getAuth();
             //SE CREA EL USUARIO
-            $scope.auth.$createUserWithEmailAndPassword($scope.firebaseCliente.cliente.correoElectronico, $scope.firebaseCliente.cliente.contrasena).then(function (usuario) {
+            auth.$createUserWithEmailAndPassword($scope.firebaseCliente.cliente.correoElectronico, $scope.firebaseCliente.cliente.contrasena).then(function (usuario) {
                 console.log('User created.');
                 $scope.firebaseCliente.cliente.firebaseId = usuario.uid;
 
@@ -662,7 +662,7 @@
                 });
 
                 //CERRAR LA SESIÓN CREADA Y OCULTAR PROGRESS
-                $scope.auth.$signOut();
+                auth.$signOut();
                 document.getElementById('div_progress').className = 'col-lg-12 div-progress hidden';
 
                 //ALERTA
@@ -680,6 +680,7 @@
             }).catch(function (error) {
                 //ERROR
                 if (error.code === 'auth/email-already-in-use') {
+                    document.getElementById('div_progress').className = 'col-lg-12 div-progress hidden';
                     $mdDialog.show(
                         $mdDialog.alert()
                             .parent(angular.element(document.querySelector('#registro')))
@@ -745,10 +746,10 @@
 
         $scope.registrarTransportista = function () {
             document.getElementById('div_progress').className = 'col-lg-12 div-progress';
-            $scope.auth = $firebaseAuth();
-            var usuario = $scope.auth.$getAuth();
+            var auth = $firebaseAuth();
+            var usuario = auth.$getAuth();
             //SE CREA EL USUARIO
-            $scope.auth.$createUserWithEmailAndPassword($scope.firebaseTransportista.transportista.correoElectronico, $scope.firebaseTransportista.transportista.contrasena).then(function (usuario) {
+            auth.$createUserWithEmailAndPassword($scope.firebaseTransportista.transportista.correoElectronico, $scope.firebaseTransportista.transportista.contrasena).then(function (usuario) {
                 console.log('User created.');
                 $scope.firebaseTransportista.transportista.firebaseId = usuario.uid;
 
@@ -807,7 +808,7 @@
                 });
 
                 //CERRAR LA SESIÓN CREADA Y OCULTAR PROGRESS
-                $scope.auth.$signOut();
+                auth.$signOut();
                 document.getElementById('div_progress').className = 'col-lg-12 div-progress hidden';
 
                 //ALERTA
@@ -825,6 +826,7 @@
             }).catch(function (error) {
                 //ERROR
                 if (error.code === 'auth/email-already-in-use') {
+                    document.getElementById('div_progress').className = 'col-lg-12 div-progress hidden';
                     $mdDialog.show(
                         $mdDialog.alert()
                             .parent(angular.element(document.querySelector('#registro')))
@@ -897,10 +899,10 @@
 
         $scope.registrarChofer = function () {
             document.getElementById('div_progress').className = 'col-lg-12 div-progress';
-            $scope.auth = $firebaseAuth();
-            var usuario = $scope.auth.$getAuth();
+            var auth = $firebaseAuth();
+            var usuario = auth.$getAuth();
             //SE CREA EL USUARIO
-            $scope.auth.$createUserWithEmailAndPassword($scope.firebaseChofer.correoElectronico, $scope.firebaseChofer.contrasena).then(function (usuario) {
+            auth.$createUserWithEmailAndPassword($scope.firebaseChofer.correoElectronico, $scope.firebaseChofer.contrasena).then(function (usuario) {
                 console.log('User created.');
                 $scope.firebaseChofer.firebaseId = usuario.uid;
 
@@ -915,6 +917,8 @@
                         refPath.getDownloadURL().then(function (url) {
                             //ACTUALIZACIÓN DE IMAGEN EN BD
                             refChofer.child(usuario.uid).child('imagenURL').set(url);
+                            var refTransportista = firebase.database().ref('transportistas').child($scope.firebaseChofer.empresaTransportista).child('choferes');
+                            refTransportista.child(usuario.uid).child('imagenURL').set(url);
                             console.log(url);
                             $scope.firebaseChofer.imagenURL = url;
                             usuario.updateProfile({
@@ -959,7 +963,7 @@
                 });
 
                 //CERRAR LA SESIÓN CREADA Y OCULTAR PROGRESS
-                $scope.auth.$signOut();
+                auth.$signOut();
                 document.getElementById('div_progress').className = 'col-lg-12 div-progress hidden';
 
                 //ALERTA
@@ -1023,9 +1027,9 @@
 
         //RECUPERACION DE CONTRASEÑA
         $scope.enviarContrasena = function () {
-            $scope.auth = $firebaseAuth();
+            var auth = $firebaseAuth();
             //RESET DE CONTRASEÑA
-            $scope.auth.$sendPasswordResetEmail($scope.usuario.usuario).then(function () {
+            auth.$sendPasswordResetEmail($scope.usuario.usuario).then(function () {
                 //ALERTA
                 $mdDialog.show(
                     $mdDialog.alert()
@@ -1079,21 +1083,23 @@
         }
 
         //ESTATUS MENU
-        $scope.administracion = {
-            clientes: false,
-            transportistas: false,
-            choferes: false,
-            tractores: false,
-            remolques: false
-        }
-
-        $scope.fletes = {
-            agenda: false
-        }
-
-        $scope.cuenta = {
-            miPerfil: false,
-            cerrarSesion: false
+        $scope.menu = {
+            inicio: false,
+            administracion: {
+                clientes: false,
+                transportistas: false,
+                choferes: false,
+                tractores: false,
+                remolques: false
+            },
+            fletes: {
+                agenda: false
+            },
+            cuenta: {
+                miPerfil: false,
+                href: "",
+                cerrarSesion: false
+            }
         }
 
         //BUSQUEDA DE FOTO EN EL OBJETO
@@ -1102,45 +1108,46 @@
         firebaseUsuario.$loaded().then(function () {
             switch (firebaseUsuario.$value) {
                 case 'administrador':
-                    $scope.inicio = true;
-                    $scope.administracion.clientes = true;
-                    $scope.administracion.transportistas = true;
-                    $scope.administracion.choferes = true;
-                    $scope.administracion.tractores = true;
-                    $scope.administracion.remolques = true;
-                    $scope.fletes.agenda = true;
-                    $scope.cuenta.miPerfil = false;
-                    $scope.cuenta.cerrarSesion = true;
+                    $scope.menu.inicio = true;
+                    $scope.menu.administracion.clientes = true;
+                    $scope.menu.administracion.transportistas = true;
+                    $scope.menu.administracion.choferes = true;
+                    $scope.menu.administracion.tractores = true;
+                    $scope.menu.administracion.remolques = true;
+                    $scope.menu.fletes.agenda = true;
+                    $scope.menu.cuenta.miPerfil = false;
+                    $scope.menu.cuenta.cerrarSesion = true;
                     break;
                 case 'cliente':
-                    $scope.redirect = '#/CHAOL/Clientes/' + usuario.uid;
-                    $scope.inicio = true;
-                    $scope.administracion = false;
-                    $scope.fletes.agenda = true;
-                    $scope.cuenta.miPerfil = true;
-                    $scope.cuenta.cerrarSesion = true;
+                    $scope.menu.cuenta.href = '#/CHAOL/Clientes/' + usuario.uid;
+                    $scope.menu.inicio = true;
+                    $scope.menu.administracion = false;
+                    $scope.menu.fletes.agenda = true;
+                    $scope.menu.cuenta.miPerfil = true;
+                    $scope.menu.cuenta.cerrarSesion = true;
                     break;
                 case 'transportista':
-                    $scope.redirect = '#/CHAOL/Transportistas/' + usuario.uid;
-                    $scope.inicio = true;
-                    $scope.administracion.clientes = false;
-                    $scope.administracion.transportistas = false;
-                    $scope.administracion.choferes = true;
-                    $scope.administracion.tractores = true;
-                    $scope.administracion.remolques = true;
-                    $scope.fletes.agenda = true;
-                    $scope.cuenta.miPerfil = true;
-                    $scope.cuenta.cerrarSesion = true;
+                    $scope.menu.cuenta.href = '#/CHAOL/Transportistas/' + usuario.uid;
+                    $scope.menu.inicio = true;
+                    $scope.menu.administracion.clientes = false;
+                    $scope.menu.administracion.transportistas = false;
+                    $scope.menu.administracion.choferes = true;
+                    $scope.menu.administracion.tractores = true;
+                    $scope.menu.administracion.remolques = true;
+                    $scope.menu.fletes.agenda = true;
+                    $scope.menu.cuenta.miPerfil = true;
+                    $scope.menu.cuenta.cerrarSesion = true;
                     break;
                 case 'chofer':
-                    $scope.redirect = '#/CHAOL/Choferes/' + usuario.uid;
-                    $scope.inicio = true;
-                    $scope.administracion = false;
-                    $scope.fletes.agenda = true;
-                    $scope.cuenta.miPerfil = true;
-                    $scope.cuenta.cerrarSesion = true;
+                    $scope.menu.cuenta.href = '#/CHAOL/Choferes/' + usuario.uid;
+                    $scope.menu.inicio = true;
+                    $scope.menu.administracion = false;
+                    $scope.menu.fletes.agenda = true;
+                    $scope.menu.cuenta.miPerfil = true;
+                    $scope.menu.cuenta.cerrarSesion = true;
                     break;
                 default:
+                    break;
             }
         });
     });
@@ -1201,72 +1208,330 @@
 (function () {
     var app = angular.module('app');
 
-    app.controller('inicioController', function ($scope, $mdSidenav, $firebaseAuth, $firebaseObject) {
+    app.controller('inicioController', function ($scope, $mdSidenav, $firebaseAuth, $firebaseObject, $firebaseArray) {
         var auth = $firebaseAuth();
         var usuario = auth.$getAuth();
 
-        //ESTATUS MENU
-        $scope.administracion = {
-            clientes: false,
-            transportistas: false,
-            choferes: false,
-            tractores: false,
-            remolques: false
+        //ESTATUS PANELES
+        $scope.paneles = {
+            clientes: {
+                autorizados: "0",
+                noAutorizados: "0"
+            },
+            transportistas: {
+                autorizados: "0",
+                noAutorizados: "0"
+            },
+            choferes: {
+                autorizados: "0",
+                noAutorizados: "0"
+            },
+            tractores: {
+                registrados: "0"
+            },
+            remolques: {
+                registrados: "0"
+            },
+            fletes: {
+                porCotizar: "0",
+                esperandoPorTransportista: "0",
+                transportistaPorConfirmar: "0",
+                unidadesPorAsignar: "0",
+                envioPorIniciar: "0",
+                enProgreso: "0",
+                entregado: "0",
+                finalizado: "0",
+                cancelado: "0"
+            }
         }
 
-        $scope.fletes = {
-            agenda: false
-        }
-
-        $scope.cuenta = {
-            miPerfil: false,
-            cerrarSesion: false
-        }
-
-        //BUSQUEDA DE FOTO EN EL OBJETO
+        //ACTIVACIÓN DINÁMICA DE PANELES EN EL OBJETO
         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
         var firebaseUsuario = $firebaseObject(refUsuario);
         firebaseUsuario.$loaded().then(function () {
             switch (firebaseUsuario.$value) {
                 case 'administrador':
-                    $scope.inicio = true;
-                    $scope.administracion.clientes = true;
-                    $scope.administracion.transportistas = true;
-                    $scope.administracion.choferes = true;
-                    $scope.administracion.tractores = true;
-                    $scope.administracion.remolques = true;
-                    $scope.fletes.agenda = true;
-                    $scope.cuenta.miPerfil = false;
-                    $scope.cuenta.cerrarSesion = true;
+                    var refFletes = firebase.database().ref().child('fletesPorAsignar').orderByChild('flete/estatus');
+                    buscarFletes(refFletes);
+                    buscarClientes();
+                    buscarTransportistas();
+                    var refChoferes = firebase.database().ref().child('choferes').orderByChild('estatus');
+                    buscarChoferes(refChoferes);
+                    var refTractores = firebase.database().ref().child('transportistas').orderByChild('tractores/estatus');
+                    buscarTractores(refTractores);
+                    var refRemolques = firebase.database().ref().child('transportistas').orderByChild('remolques/estatus');
+                    buscarRemolques(refRemolques);
                     break;
                 case 'cliente':
-                    $scope.inicio = true;
-                    $scope.administracion = false;
-                    $scope.fletes.agenda = true;
-                    $scope.cuenta.miPerfil = true;
-                    $scope.cuenta.cerrarSesion = true;
+                    var refFletes = firebase.database().ref().child('fletesPorAsignar').child('flete/cliente').equalTo('Fred Gómez Leyva - Cliente');
+                    buscarFletes(refFletes);
+                    $scope.paneles.clientes = false;
+                    $scope.paneles.transportistas = false;
+                    $scope.paneles.choferes = false;
+                    $scope.paneles.tractores = false;
+                    $scope.paneles.remolques = false;
                     break;
                 case 'transportista':
-                    $scope.inicio = true;
-                    $scope.administracion.clientes = false;
-                    $scope.administracion.transportistas = false;
-                    $scope.administracion.choferes = true;
-                    $scope.administracion.tractores = true;
-                    $scope.administracion.remolques = true;
-                    $scope.fletes.agenda = true;
-                    $scope.cuenta.miPerfil = true;
-                    $scope.cuenta.cerrarSesion = true;
+                    buscarFletes();
+                    $scope.paneles.clientes = false;
+                    $scope.paneles.transportistas = false;
+                    $scope.paneles.choferes = true;
+                    $scope.paneles.tractores = true;
+                    $scope.paneles.remolques = true;
+                    $scope.paneles.fletes = true;
                     break;
                 case 'chofer':
-                    $scope.inicio = true;
-                    $scope.administracion = false;
-                    $scope.fletes.agenda = true;
-                    $scope.cuenta.miPerfil = true;
-                    $scope.cuenta.cerrarSesion = true;
+                    buscarFletes();
+                    $scope.paneles.clientes = false;
+                    $scope.paneles.transportistas = false;
+                    $scope.paneles.choferes = false;
+                    $scope.paneles.tractores = false;
+                    $scope.paneles.remolques = false;
                     break;
                 default:
             }
         });
+
+        //BUSQUEDA DE FLETES
+        var buscarFletes = function (refFletes) {
+            //POR COTIZAR
+            refFletesPorCotizar = refFletes.equalTo('fletePorCotizar');
+            firebaseFletesPorCotizar = $firebaseArray(refFletesPorCotizar);
+            firebaseFletesPorCotizar.$loaded().then(function () {
+                $scope.paneles.fletes.porCotizar = firebaseFletesPorCotizar.length;
+            });
+            refFletesPorCotizar.on('value', function (dataSnapShot) {
+                firebaseFletesPorCotizar = $firebaseArray(refFletesPorCotizar);
+                firebaseFletesPorCotizar.$loaded().then(function () {
+                    $scope.paneles.fletes.porCotizar = firebaseFletesPorCotizar.length;
+                });
+            });
+
+            //ESPERANDO POR TRANSPORTISTA
+            refFletesEsperandoPorTransportista = refFletes.equalTo('esperandoPorTransportista');
+            firebaseFletesEsperandoPorTransportista = $firebaseArray(refFletesEsperandoPorTransportista);
+            firebaseFletesEsperandoPorTransportista.$loaded().then(function () {
+                $scope.paneles.fletes.esperandoPorTransportista = firebaseFletesEsperandoPorTransportista.length;
+            });
+            refFletesEsperandoPorTransportista.on('value', function (dataSnapShot) {
+                firebaseFletesEsperandoPorTransportista = $firebaseArray(refFletesEsperandoPorTransportista);
+                firebaseFletesEsperandoPorTransportista.$loaded().then(function () {
+                    $scope.paneles.fletes.esperandoPorTransportista = firebaseFletesEsperandoPorTransportista.length;
+                });
+            });
+
+            //TRANSPORTISTA POR CONFIRMAR
+            refFletesTransportistaPorConfirmar = refFletes.equalTo('transportistaPorConfirmar');
+            firebaseFletesTransportistaPorConfirmar = $firebaseArray(refFletesTransportistaPorConfirmar);
+            firebaseFletesTransportistaPorConfirmar.$loaded().then(function () {
+                $scope.paneles.fletes.transportistaPorConfirmar = firebaseFletesTransportistaPorConfirmar.length;
+            });
+            refFletesTransportistaPorConfirmar.on('value', function (dataSnapShot) {
+                firebaseFletesTransportistaPorConfirmar = $firebaseArray(refFletesTransportistaPorConfirmar);
+                firebaseFletesTransportistaPorConfirmar.$loaded().then(function () {
+                    $scope.paneles.fletes.transportistaPorConfirmar = firebaseFletesTransportistaPorConfirmar.length;
+                });
+            });
+
+            //UNIDADES POR ASIGNAR
+            refFletesUnidadesPorAsignar = refFletes.equalTo('unidadesPorAsignar');
+            firebaseFletesUnidadesPorAsignar = $firebaseArray(refFletesUnidadesPorAsignar);
+            firebaseFletesUnidadesPorAsignar.$loaded().then(function () {
+                $scope.paneles.fletes.unidadesPorAsignar = firebaseFletesUnidadesPorAsignar.length;
+            });
+            refFletesUnidadesPorAsignar.on('value', function (dataSnapShot) {
+                firebaseFletesUnidadesPorAsignar = $firebaseArray(refFletesUnidadesPorAsignar);
+                firebaseFletesUnidadesPorAsignar.$loaded().then(function () {
+                    $scope.paneles.fletes.unidadesPorAsignar = firebaseFletesUnidadesPorAsignar.length;
+                });
+            });
+
+            //EN PROGRESO
+            refFletesEnProgreso = refFletes.equalTo('enProgreso');
+            firebaseFletesEnProgreso = $firebaseArray(refFletesEnProgreso);
+            firebaseFletesEnProgreso.$loaded().then(function () {
+                $scope.paneles.fletes.enProgreso = firebaseFletesEnProgreso.length;
+            });
+            refFletesEnProgreso.on('value', function (dataSnapShot) {
+                firebaseFletesEnProgreso = $firebaseArray(refFletesEnProgreso);
+                firebaseFletesEnProgreso.$loaded().then(function () {
+                    $scope.paneles.fletes.enProgreso = firebaseFletesEnProgreso.length;
+                });
+            });
+
+            //ENVIO POR INICIAR
+            refFletesEnviosPorIniciar = refFletes.equalTo('envioPorIniciar');
+            firebaseFletesEnviosPorIniciar = $firebaseArray(refFletesEnviosPorIniciar);
+            firebaseFletesEnviosPorIniciar.$loaded().then(function () {
+                $scope.paneles.fletes.envioPorIniciar = firebaseFletesEnviosPorIniciar.length;
+            });
+            refFletesEnviosPorIniciar.on('value', function (dataSnapShot) {
+                firebaseFletesEnviosPorIniciar = $firebaseArray(refFletesEnviosPorIniciar);
+                firebaseFletesEnviosPorIniciar.$loaded().then(function () {
+                    $scope.paneles.fletes.envioPorIniciar = firebaseFletesEnviosPorIniciar.length;
+                });
+            });
+
+            //ENTREGADO
+            refFletesEntregados = refFletes.equalTo('entregado');
+            firebaseFletesEntregados = $firebaseArray(refFletesEntregados);
+            firebaseFletesEntregados.$loaded().then(function () {
+                $scope.paneles.fletes.entregado = firebaseFletesEntregados.length;
+            });
+            refFletesEntregados.on('value', function (dataSnapShot) {
+                firebaseFletesEntregados = $firebaseArray(refFletesEntregados);
+                firebaseFletesEntregados.$loaded().then(function () {
+                    $scope.paneles.fletes.entregado = firebaseFletesEntregados.length;
+                });
+            });
+
+            //FINALIZADO
+            refFletesFinalizados = refFletes.equalTo('finalizado');
+            firebaseFletesFinalizados = $firebaseArray(refFletesFinalizados);
+            firebaseFletesFinalizados.$loaded().then(function () {
+                $scope.paneles.fletes.finalizado = firebaseFletesFinalizados.length;
+            });
+            refFletesFinalizados.on('value', function (dataSnapShot) {
+                firebaseFletesFinalizados = $firebaseArray(refFletesFinalizados);
+                firebaseFletesFinalizados.$loaded().then(function () {
+                    $scope.paneles.fletes.finalizado = firebaseFletesFinalizados.length;
+                });
+            });
+
+            //CANCELADOS
+            refFletesCancelados = refFletes.equalTo('cancelado');
+            firebaseFletesCancelados = $firebaseArray(refFletesCancelados);
+            firebaseFletesCancelados.$loaded().then(function () {
+                $scope.paneles.fletes.cancelado = firebaseFletesCancelados.length;
+            });
+            refFletesCancelados.on('value', function (dataSnapShot) {
+                firebaseFletesCancelados = $firebaseArray(refFletesCancelados);
+                firebaseFletesCancelados.$loaded().then(function () {
+                    $scope.paneles.fletes.cancelado = firebaseFletesCancelados.length;
+                });
+            });
+        };
+
+        //BUSQUEDA DE CLIENTES
+        var buscarClientes = function () {
+            refClientes = firebase.database().ref().child('clientes').orderByChild('cliente/estatus');
+            //AUTORIZADOS
+            refClientesAutorizados = refClientes.equalTo('activo');
+            firebaseClientesAutorizados = $firebaseArray(refClientesAutorizados);
+            firebaseClientesAutorizados.$loaded().then(function () {
+                $scope.paneles.clientes.autorizados = firebaseClientesAutorizados.length;
+            });
+            refClientesAutorizados.on('value', function (dataSnapShot) {
+                firebaseClientesAutorizados = $firebaseArray(refClientesAutorizados);
+                firebaseClientesAutorizados.$loaded().then(function () {
+                    $scope.paneles.clientes.autorizados = firebaseClientesAutorizados.length;
+                });
+            });
+
+            //NO AUTORIZADOS
+            refClientesNoAutorizados = refClientes.equalTo('inactivo');
+            firebaseClientesNoAutorizados = $firebaseArray(refClientesNoAutorizados);
+            firebaseClientesNoAutorizados.$loaded().then(function () {
+                $scope.paneles.clientes.noAutorizados = firebaseClientesNoAutorizados.length;
+            });
+            refClientesNoAutorizados.on('value', function (dataSnapShot) {
+                firebaseClientesNoAutorizados = $firebaseArray(refClientesNoAutorizados);
+                firebaseClientesNoAutorizados.$loaded().then(function () {
+                    $scope.paneles.clientes.noAutorizados = firebaseClientesNoAutorizados.length;
+                });
+            });
+        };
+
+        //TRANSPORTISTAS
+        var buscarTransportistas = function () {
+            refTransportistas = firebase.database().ref().child('transportistas').orderByChild('transportista/estatus');
+            //AUTORIZADOS
+            refTransportistasAutorizados = refTransportistas.equalTo('activo');
+            firebaseTransportistasAutorizados = $firebaseArray(refTransportistasAutorizados);
+            firebaseTransportistasAutorizados.$loaded().then(function () {
+                $scope.paneles.transportistas.autorizados = firebaseTransportistasAutorizados.length;
+            });
+            refTransportistasAutorizados.on('value', function (dataSnapShot) {
+                firebaseTransportistasAutorizados = $firebaseArray(refTransportistasAutorizados);
+                firebaseTransportistasAutorizados.$loaded().then(function () {
+                    $scope.paneles.transportistas.autorizados = firebaseTransportistasAutorizados.length;
+                });
+            });
+
+            //NO AUTORIZADOS
+            refTransportistasNoAutorizados = refTransportistas.equalTo('inactivo');
+            firebaseTransportistasNoAutorizados = $firebaseArray(refTransportistasNoAutorizados);
+            firebaseTransportistasNoAutorizados.$loaded().then(function () {
+                $scope.paneles.transportistas.noAutorizados = firebaseTransportistasNoAutorizados.length;
+            });
+            refTransportistasNoAutorizados.on('value', function (dataSnapShot) {
+                firebaseTransportistasNoAutorizados = $firebaseArray(refTransportistasNoAutorizados);
+                firebaseTransportistasNoAutorizados.$loaded().then(function () {
+                    $scope.paneles.transportistas.noAutorizados = firebaseTransportistasNoAutorizados.length;
+                });
+            });
+        };
+
+        //CHOFERES
+        var buscarChoferes = function (refChoferes) {
+            //AUTORIZADOS
+            refChoferesAutorizados = refChoferes.equalTo('activo');
+            firebaseChoferesAutorizados = $firebaseArray(refChoferesAutorizados);
+            firebaseChoferesAutorizados.$loaded().then(function () {
+                $scope.paneles.choferes.autorizados = firebaseChoferesAutorizados.length;
+            });
+            refChoferesAutorizados.on('value', function (dataSnapShot) {
+                firebaseChoferesAutorizados = $firebaseArray(refChoferesAutorizados);
+                firebaseChoferesAutorizados.$loaded().then(function () {
+                    $scope.paneles.choferes.autorizados = firebaseChoferesAutorizados.length;
+                });
+            });
+
+            //NO AUTORIZADOS
+            refChoferesNoAutorizados = refChoferes.equalTo('inactivo');
+            firebaseChoferesNoAutorizados = $firebaseArray(refChoferesNoAutorizados);
+            firebaseChoferesNoAutorizados.$loaded().then(function () {
+                $scope.paneles.choferes.noAutorizados = firebaseChoferesNoAutorizados.length;
+            });
+            refChoferesNoAutorizados.on('value', function (dataSnapShot) {
+                firebaseChoferesNoAutorizados = $firebaseArray(refChoferesNoAutorizados);
+                firebaseChoferesNoAutorizados.$loaded().then(function () {
+                    $scope.paneles.choferes.noAutorizados = firebaseChoferesNoAutorizados.length;
+                });
+            });
+        };
+
+        //TRACTORES
+        var buscarTractores = function (refTractores) {
+            //TOTAL
+            refTractoresNoAutorizados = refTractores;
+            firebaseTractoresNoAutorizados = $firebaseArray(refTractoresNoAutorizados);
+            firebaseTractoresNoAutorizados.$loaded().then(function () {
+                $scope.paneles.tractores.registrados = firebaseTractoresNoAutorizados.length;
+            });
+            refTractoresNoAutorizados.on('value', function (dataSnapShot) {
+                firebaseTractoresNoAutorizados = $firebaseArray(refTractoresNoAutorizados);
+                firebaseTractoresNoAutorizados.$loaded().then(function () {
+                    $scope.paneles.tractores.registrados = firebaseTractoresNoAutorizados.length;
+                });
+            });
+        };
+
+        //REMOLQUES
+        var buscarRemolques = function (refRemolques) {
+            //TOTAL
+            refRemolquesAutorizados = refRemolques;
+            firebaseRemolquesAutorizados = $firebaseArray(refRemolquesAutorizados);
+            firebaseRemolquesAutorizados.$loaded().then(function () {
+                $scope.paneles.remolques.registrados = firebaseRemolquesAutorizados.length;
+            });
+            refRemolquesAutorizados.on('value', function (dataSnapShot) {
+                firebaseRemolquesAutorizados = $firebaseArray(refRemolquesAutorizados);
+                firebaseRemolquesAutorizados.$loaded().then(function () {
+                    $scope.paneles.remolques.registrados = firebaseRemolquesAutorizados.length;
+                });
+            });
+        };
     });
 })();
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

@@ -10,9 +10,9 @@
 
         //RECUPERACION DE CONTRASEÑA
         $scope.enviarContrasena = function () {
-            $scope.auth = $firebaseAuth();
+            var auth = $firebaseAuth();
             //RESET DE CONTRASEÑA
-            $scope.auth.$sendPasswordResetEmail($scope.usuario.usuario).then(function () {
+            auth.$sendPasswordResetEmail($scope.usuario.usuario).then(function () {
                 //ALERTA
                 $mdDialog.show(
                     $mdDialog.alert()

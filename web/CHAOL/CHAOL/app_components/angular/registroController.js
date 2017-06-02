@@ -50,10 +50,10 @@
 
         $scope.registrarCliente = function () {
             document.getElementById('div_progress').className = 'col-lg-12 div-progress';
-            $scope.auth = $firebaseAuth();
-            var usuario = $scope.auth.$getAuth();
+            var auth = $firebaseAuth();
+            var usuario = auth.$getAuth();
             //SE CREA EL USUARIO
-            $scope.auth.$createUserWithEmailAndPassword($scope.firebaseCliente.cliente.correoElectronico, $scope.firebaseCliente.cliente.contrasena).then(function (usuario) {
+            auth.$createUserWithEmailAndPassword($scope.firebaseCliente.cliente.correoElectronico, $scope.firebaseCliente.cliente.contrasena).then(function (usuario) {
                 console.log('User created.');
                 $scope.firebaseCliente.cliente.firebaseId = usuario.uid;
 
@@ -105,7 +105,7 @@
                 });
 
                 //CERRAR LA SESIÓN CREADA Y OCULTAR PROGRESS
-                $scope.auth.$signOut();
+                auth.$signOut();
                 document.getElementById('div_progress').className = 'col-lg-12 div-progress hidden';
 
                 //ALERTA
@@ -123,6 +123,7 @@
             }).catch(function (error) {
                 //ERROR
                 if (error.code === 'auth/email-already-in-use') {
+                    document.getElementById('div_progress').className = 'col-lg-12 div-progress hidden';
                     $mdDialog.show(
                         $mdDialog.alert()
                             .parent(angular.element(document.querySelector('#registro')))
@@ -188,10 +189,10 @@
 
         $scope.registrarTransportista = function () {
             document.getElementById('div_progress').className = 'col-lg-12 div-progress';
-            $scope.auth = $firebaseAuth();
-            var usuario = $scope.auth.$getAuth();
+            var auth = $firebaseAuth();
+            var usuario = auth.$getAuth();
             //SE CREA EL USUARIO
-            $scope.auth.$createUserWithEmailAndPassword($scope.firebaseTransportista.transportista.correoElectronico, $scope.firebaseTransportista.transportista.contrasena).then(function (usuario) {
+            auth.$createUserWithEmailAndPassword($scope.firebaseTransportista.transportista.correoElectronico, $scope.firebaseTransportista.transportista.contrasena).then(function (usuario) {
                 console.log('User created.');
                 $scope.firebaseTransportista.transportista.firebaseId = usuario.uid;
 
@@ -250,7 +251,7 @@
                 });
 
                 //CERRAR LA SESIÓN CREADA Y OCULTAR PROGRESS
-                $scope.auth.$signOut();
+                auth.$signOut();
                 document.getElementById('div_progress').className = 'col-lg-12 div-progress hidden';
 
                 //ALERTA
@@ -268,6 +269,7 @@
             }).catch(function (error) {
                 //ERROR
                 if (error.code === 'auth/email-already-in-use') {
+                    document.getElementById('div_progress').className = 'col-lg-12 div-progress hidden';
                     $mdDialog.show(
                         $mdDialog.alert()
                             .parent(angular.element(document.querySelector('#registro')))
@@ -340,10 +342,10 @@
 
         $scope.registrarChofer = function () {
             document.getElementById('div_progress').className = 'col-lg-12 div-progress';
-            $scope.auth = $firebaseAuth();
-            var usuario = $scope.auth.$getAuth();
+            var auth = $firebaseAuth();
+            var usuario = auth.$getAuth();
             //SE CREA EL USUARIO
-            $scope.auth.$createUserWithEmailAndPassword($scope.firebaseChofer.correoElectronico, $scope.firebaseChofer.contrasena).then(function (usuario) {
+            auth.$createUserWithEmailAndPassword($scope.firebaseChofer.correoElectronico, $scope.firebaseChofer.contrasena).then(function (usuario) {
                 console.log('User created.');
                 $scope.firebaseChofer.firebaseId = usuario.uid;
 
@@ -358,6 +360,8 @@
                         refPath.getDownloadURL().then(function (url) {
                             //ACTUALIZACIÓN DE IMAGEN EN BD
                             refChofer.child(usuario.uid).child('imagenURL').set(url);
+                            var refTransportista = firebase.database().ref('transportistas').child($scope.firebaseChofer.empresaTransportista).child('choferes');
+                            refTransportista.child(usuario.uid).child('imagenURL').set(url);
                             console.log(url);
                             $scope.firebaseChofer.imagenURL = url;
                             usuario.updateProfile({
@@ -402,7 +406,7 @@
                 });
 
                 //CERRAR LA SESIÓN CREADA Y OCULTAR PROGRESS
-                $scope.auth.$signOut();
+                auth.$signOut();
                 document.getElementById('div_progress').className = 'col-lg-12 div-progress hidden';
 
                 //ALERTA
