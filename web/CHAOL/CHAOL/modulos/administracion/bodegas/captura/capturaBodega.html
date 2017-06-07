@@ -1,0 +1,126 @@
+﻿<div name="bodega" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+    <!--ENCABEZADO-->
+    <encabezado class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding"></encabezado>
+    <!--MENU-->
+    <md-sidenav class="md-sidenav-left md-whiteframe-4dp" md-component-id="left">
+        <menu></menu>
+    </md-sidenav>
+    <aside class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+        <!--TIULO RUTA-->
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 titulo-ruta">
+            <h2>
+                <i class="fa fa-archive" aria-hidden="true"></i>
+                Bodega.
+                <span ng-show="firebaseBodega.firebaseIdBodega">
+                    {{firebaseBodega.nombreDeLaBodega}}
+                </span>
+                <span ng-hide="firebaseBodega.firebaseIdBodega">
+                    Nuevo
+                </span>
+            </h2>
+        </div>
+        <!--SECCION-->
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 titulo-seccion">
+        </div>
+        <!--CONTENIDO-->
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja">
+                <!--TITULO-->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-titulo">
+                    <h1 ng-show="firebaseBodega.firebaseIdBodega">
+                        EDITAR
+                    </h1>
+                    <h1 ng-hide="firebaseBodega.firebaseIdBodega">
+                        NUEVO
+                    </h1>
+                </div>
+                <!--CONTENIDO-->
+                <form name="bodegas" ng-submit="bodegas.$valid && registrarBodega()">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-contenido">
+                        <!--FORMULARIO-->
+                        <div class="col-lg-12">
+                            <!--DATOS-->
+                            <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+                                <!--CLIENTE-->
+                                <md-input-container class="col-lg-11 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                    <label>Cliente</label>
+                                    <md-select name="cliente" ng-model="firebaseBodega.nombreDelCliente" ng-disabled="((firebaseBodega.firebaseIdBodega && administrador) || (cliente))" ng-required="true">
+                                        <md-option ng-repeat="cliente in clientes" ng-value="cliente.nombre">
+                                            {{cliente.nombre}}
+                                        </md-option>
+                                    </md-select>
+                                    <div ng-messages="bodegas.clientes.$error" role="alert">
+                                        <div ng-message="required">Por favor, selecciona al cliente responsable de esta bodega.</div>
+                                    </div>
+                                </md-input-container>
+                                <!--NOMBRE-->
+                                <md-input-container class="col-lg-11 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                    <label>Nombre</label>
+                                    <input type="text" name="nombre" ng-model="firebaseBodega.nombreDeLaBodega" required />
+                                    <div ng-messages="bodegas.nombre.$error" role="alert">
+                                        <div ng-message="required">Por favor, compártenos el nombre para esta bodega.</div>
+                                    </div>
+                                </md-input-container>
+                                <!--NUMERO INTERIOR-->
+                                <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                    <label>Número Interior</label>
+                                    <input type="text" name="numeroInterior" ng-model="firebaseBodega.numeroInterior" />
+                                </md-input-container>
+                                <!--NÚMERO EXTERIOR-->
+                                <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                    <label>Número Exterior</label>
+                                    <input type="text" name="numeroExterior" ng-model="firebaseBodega.numeroExterior" />
+                                </md-input-container>
+                                <!--CALLE-->
+                                <md-input-container class="col-lg-offset-1 col-lg-11 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                    <label>Calle</label>
+                                    <input type="text" name="calle" ng-model="firebaseBodega.calle" />
+                                </md-input-container>
+                                <!--COLONIA-->
+                                <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                    <label>Colonia</label>
+                                    <input type="text" name="colonia" ng-model="firebaseBodega.colonia" />
+                                </md-input-container>
+                                <!--CIUDAD-->
+                                <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                    <label>Ciudad</label>
+                                    <input type="text" name="ciudad" ng-model="firebaseBodega.ciudad" />
+                                </md-input-container>
+                                <!--ESTADO-->
+                                <md-input-container class="col-lg-11 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                    <label>Estado</label>
+                                    <md-select name="estado" ng-model="firebaseBodega.estado" ng-required="true">
+                                        <md-option ng-repeat="estado in estados" ng-value="estado">
+                                            {{estado}}
+                                        </md-option>
+                                    </md-select>
+                                    <div ng-messages="bodegas.estado.$error" role="alert">
+                                        <div ng-message="required">Por favor, el estado donde se encuentra esta bodega.</div>
+                                    </div>
+                                </md-input-container>
+                                <!--CODIGO POSTAL-->
+                                <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                    <label>Código Postal</label>
+                                    <input type="text" name="codigoPostal" ng-model="firebaseBodega.codigoPostal" ng-pattern="/^[0-9]{5}$/" md-maxlength="5">
+                                    <div ng-messages="bodegas.codigoPostal.$error" role="alert">
+                                        <div ng-message="pattern">
+                                            Este no parece un código postal válido.
+                                        </div>
+                                    </div>
+                                </md-input-container>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
+                        </div>
+                        <!--BOTON-->
+                        <div class="col-lg-offset-10 col-lg-2 col-md-12 col-sm-12 col-xs-12 text-right">
+                            <md-button class="md-fab md-primary" aria-label="Resgistrarme" type="submit">
+                                <i class="fa fa-check fa-3x" aria-hidden="true"></i>
+                            </md-button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </aside>
+</div>

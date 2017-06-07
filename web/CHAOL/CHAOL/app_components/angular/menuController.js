@@ -29,7 +29,8 @@
                 transportistas: false,
                 choferes: false,
                 tractores: false,
-                remolques: false
+                remolques: false,
+                bodegas: false
             },
             fletes: {
                 agenda: false
@@ -53,6 +54,7 @@
                     $scope.menu.administracion.choferes = true;
                     $scope.menu.administracion.tractores = true;
                     $scope.menu.administracion.remolques = true;
+                    $scope.menu.administracion.bodegas = true;
                     $scope.menu.fletes.agenda = true;
                     $scope.menu.cuenta.miPerfil = false;
                     $scope.menu.cuenta.cerrarSesion = true;
@@ -60,7 +62,7 @@
                 case 'cliente':
                     $scope.menu.cuenta.href = '#/CHAOL/Clientes/' + usuario.uid;
                     $scope.menu.inicio = true;
-                    $scope.menu.administracion = false;
+                    $scope.menu.administracion.bodegas = true;
                     $scope.menu.fletes.agenda = true;
                     $scope.menu.cuenta.miPerfil = true;
                     $scope.menu.cuenta.cerrarSesion = true;
@@ -68,8 +70,6 @@
                 case 'transportista':
                     $scope.menu.cuenta.href = '#/CHAOL/Transportistas/' + usuario.uid;
                     $scope.menu.inicio = true;
-                    $scope.menu.administracion.clientes = false;
-                    $scope.menu.administracion.transportistas = false;
                     $scope.menu.administracion.choferes = true;
                     $scope.menu.administracion.tractores = true;
                     $scope.menu.administracion.remolques = true;

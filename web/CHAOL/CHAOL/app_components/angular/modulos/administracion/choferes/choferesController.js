@@ -4,11 +4,37 @@
     var app = angular.module('app');
 
     app.controller('choferesController', function ($scope, $firebaseArray, $firebaseObject, $firebaseAuth, $mdDialog) {
-        var refChoferes = firebase.database().ref().child('choferes').orderByChild('nombre');
-        $scope.choferes = $firebaseArray(refChoferes);
-        refChoferes.on('value', function (snap) {
-            $scope.choferes.$value = snap.key;
+        //USUARIO
+        //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        var auth = $firebaseAuth();
+        var usuario = auth.$getAuth();
+
+        //ACTIVACIÓN DINÁMICA DE CONTROLES EN EL OBJETO
+        var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
+        var firebaseUsuario = $firebaseObject(refUsuario);
+        firebaseUsuario.$loaded().then(function () {
+            var refChoferes;
+            switch (firebaseUsuario.$value) {
+                case 'administrador':
+                    var refChoferes = firebase.database().ref().child('choferes').orderByChild('nombre');
+                    break;
+                case "transportista":
+                    var refChoferes = firebase.database().ref().child('transportistas').child(usuario.uid).child('choferes').orderByChild('nombre');
+                    break;
+            }
+
+            refChoferes.on("value", function (snapshot) {
+                var arrayChoferes = [];
+                snapshot.forEach(function (childSnapshot) {
+                    choferes = childSnapshot.val();
+                    if (choferes.estatus !== 'eliminado') {
+                        arrayChoferes.push(choferes);
+                    }
+                });
+                $scope.choferes = arrayChoferes;
+            });
         });
+        //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
         $scope.cambiarEstatus = function (chofer) {
             //NODO CHOFERES
@@ -19,9 +45,19 @@
                 firebaseChofer.estatus = chofer.estatus;
                 firebaseChofer.$save().then(function () {
                     console.log('Estatus changed to ' + chofer.estatus);
-                    var refTransportistas = firebase.database().ref().child('transportistas');
-                    refTransportistas.orderByChild('transportista/nombre').equalTo(chofer.empresaTransportista).on("child_added", function (snapshot) {
-                        refTransportistas.child(snapshot.key).child('choferes').child(chofer.firebaseId).child('estatus').set(chofer.estatus);
+                    //CREAR CHOFER EN TRANSPORTISTA
+                    var refTransportista = firebase.database().ref('transportistas');
+                    refTransportista.once("value").then(function (snapshot) {
+                        snapshot.forEach(function (childSnapshot) {
+                            var transportista = childSnapshot.val();
+                            if (transportista.transportista.nombre === chofer.empresaTransportista) {
+                                var id = transportista.transportista.firebaseId;
+                                var refTrans = firebase.database().ref('transportistas').child(id).child('choferes').child(chofer.firebaseId).child('estatus');
+                                refTrans.set(chofer.estatus).then(function () {
+                                    console.log('Client added in Transportist');
+                                });
+                            }
+                        });
                     });
                 }).catch(function (error) {
                     console.log(error);

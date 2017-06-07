@@ -38,15 +38,15 @@
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-contenido">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <ul class="fletes-ico">
-                                <li class="fletes-ico-cotizar">{{paneles.fletes.porCotizar}} fletes por cotizar</li>
-                                <li class="fletes-ico-solicitud">{{paneles.fletes.esperandoPorTransportista}} fletes solicitudes de transportista</li>
-                                <li class="fletes-ico-confirmacion">{{paneles.fletes.transportistaPorConfirmar}} fletes esperando confirmaci&oacuten de transportistas</li>
-                                <li class="fletes-ico-asignacion">{{paneles.fletes.unidadesPorAsignar}} fletes esperando asignaci&oacuten de unidades</li>
-                                <li class="fletes-ico-envio">{{paneles.fletes.envioPorIniciar}} fletes esperando inicio de env&iacuteo</li>
-                                <li class="fletes-ico-progreso">{{paneles.fletes.enProgreso}} fletes en progreso</li>
-                                <li class="fletes-ico-entregado">{{paneles.fletes.entregado}} fletes entregados</li>
-                                <li class="fletes-ico-finalizado">{{paneles.fletes.finalizado}} fletes finalizados</li>
-                                <li class="fletes-ico-cancelado">{{paneles.fletes.cancelado}} fletes cancelados</li>
+                                <li class="fletes-ico-cotizar" ng-show="paneles.fletes.porCotizar">{{paneles.fletes.porCotizar}} fletes por cotizar</li>
+                                <li class="fletes-ico-solicitud" ng-show="paneles.fletes.esperandoPorTransportista">{{paneles.fletes.esperandoPorTransportista}} solicitudes de transportista</li>
+                                <li class="fletes-ico-confirmacion" ng-show="paneles.fletes.transportistaPorConfirmar">{{paneles.fletes.transportistaPorConfirmar}} fletes esperando confirmaci&oacuten de transportistas</li>
+                                <li class="fletes-ico-asignacion" ng-show="paneles.fletes.unidadesPorAsignar">{{paneles.fletes.unidadesPorAsignar}} fletes esperando asignaci&oacuten de unidades</li>
+                                <li class="fletes-ico-envio" ng-show="paneles.fletes.envioPorIniciar">{{paneles.fletes.envioPorIniciar}} fletes esperando inicio de env&iacuteo</li>
+                                <li class="fletes-ico-progreso" ng-show="paneles.fletes.enProgreso">{{paneles.fletes.enProgreso}} fletes en progreso</li>
+                                <li class="fletes-ico-entregado" ng-show="paneles.fletes.entregado">{{paneles.fletes.entregado}} fletes entregados</li>
+                                <li class="fletes-ico-finalizado" ng-show="paneles.fletes.finalizado">{{paneles.fletes.finalizado}} fletes finalizados</li>
+                                <li class="fletes-ico-cancelado" ng-show="paneles.fletes.cancelado">{{paneles.fletes.cancelado}} fletes cancelados</li>
                             </ul>
                         </div>
                         <div class="col-lg-offset-10 col-lg-2 no-padding text-right">
@@ -132,7 +132,9 @@
                     </div>
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-contenido">
                         <div class="col-lg-12">
-                            <span>{{paneles.choferes.autorizados}} choferes autorizados</span>
+                            <span>{{paneles.choferes.libres}} choferes libres</span>
+                            <br />
+                            <span>{{paneles.choferes.asignados}} choferes asignados</span>
                             <br />
                             <span>{{paneles.choferes.noAutorizados}} choferes no autorizados</span>
                         </div>
@@ -161,7 +163,9 @@
                     </div>
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-contenido">
                         <div class="col-lg-12">
-                            <span>{{paneles.tractores.registrados}} tractores registrados</span>
+                            <span>{{paneles.tractores.asignados}} tractores asignados</span>
+                            <br />
+                            <span>{{paneles.tractores.libres}} tractores libres</span>
                         </div>
                         <div class="col-lg-offset-10 col-lg-2 no-padding text-right">
                             <a href="#/CHAOL/Tractores/Nuevo">
@@ -188,10 +192,39 @@
                     </div>
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-contenido">
                         <div class="col-lg-12">
-                            <span>{{paneles.remolques.registrados}} remolques registrados</span>
+                            <span>{{paneles.remolques.asignados}} remolques asignados</span>
+                            <br />
+                            <span>{{paneles.remolques.libres}} remolques libres</span>
                         </div>
                         <div class="col-lg-offset-10 col-lg-2 no-padding text-right">
                             <a href="#/CHAOL/Remolques/Nuevo">
+                                <i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-show="paneles.bodegas">
+                <!--BODEGAS-->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-titulo">
+                        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 no-padding">
+                            <h2>
+                                <a href="#/CHAOL/Bodegas">BODEGAS</a>
+                            </h2>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-right">
+                            <a href="#/CHAOL/Bodegas">
+                                <i class="fa fa-bars fa-lg" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-contenido">
+                        <div class="col-lg-12">
+                            <span>{{paneles.bodegas.registrados}} bodegas registradas</span>
+                        </div>
+                        <div class="col-lg-offset-10 col-lg-2 no-padding text-right">
+                            <a href="#/CHAOL/Bodegas/Nuevo">
                                 <i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
                             </a>
                         </div>

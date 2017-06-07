@@ -4,10 +4,16 @@
     var app = angular.module('app');
 
     app.controller('transportistasController', function ($scope, $firebaseArray, $firebaseObject, $firebaseAuth, $mdDialog) {
-        var refTransportistas = firebase.database().ref().child('transportistas').orderByChild('transportista/nombre');
-        $scope.transportistas = $firebaseArray(refTransportistas);
-        refTransportistas.on('value', function (snap) {
-            $scope.transportistas.$value = snap.key;
+        var refTransportistas = firebase.database().ref().child('transportistas');
+        refTransportistas.on("value", function (snapshot) {
+            var arrayTransportistas = [];
+            snapshot.forEach(function (childSnapshot) {
+                transportistas = childSnapshot.val();
+                if (transportistas.transportista.estatus !== 'eliminado') {
+                    arrayTransportistas.push(transportistas);
+                }
+            });
+            $scope.transportistas = arrayTransportistas;
         });
 
         $scope.cambiarEstatus = function (transportista) {

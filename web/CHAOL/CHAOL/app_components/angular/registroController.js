@@ -337,7 +337,7 @@
             $scope.empresasTransportista.$value = snap.key;
         });
 
-        //GUARDAR TRANSPORTISTA
+        //GUARDAR CHOFER
         var refChofer = firebase.database().ref().child('choferes');
 
         $scope.registrarChofer = function () {
@@ -400,9 +400,18 @@
                 });
 
                 //CREAR CHOFER EN TRANSPORTISTA
-                var refTransportista = firebase.database().ref('transportistas').child($scope.firebaseChofer.empresaTransportista).child('choferes');
-                refTransportista.child(usuario.uid).set($scope.firebaseChofer).then(function () {
-                    console.log('Client added in Transportist');
+                var refTransportista = firebase.database().ref('transportistas');
+                refTransportista.on("value", function (snapshot) {
+                    snapshot.forEach(function (childSnapshot) {
+                        var transportista = childSnapshot.val();
+                        if (transportista.transportista.nombre === $scope.firebaseChofer.empresaTransportista) {
+                            var id = transportista.transportista.firebaseId;
+                            var refTrans = firebase.database().ref('transportistas').child(id).child('choferes').child(usuario.uid);
+                            refTrans.set($scope.firebaseChofer).then(function () {
+                                console.log('Client added in Transportist');
+                            });
+                        }
+                    });
                 });
 
                 //CERRAR LA SESIÓN CREADA Y OCULTAR PROGRESS

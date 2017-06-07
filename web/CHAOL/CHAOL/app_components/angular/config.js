@@ -293,23 +293,258 @@
             })
             //TRACTORES
             .when("/CHAOL/Tractores", {
-                templateUrl: "construccion.html"
+                templateUrl: "modulos/administracion/tractores/listado/listadoTractores.html",
+                controller: "tractoresController",
+                resolve: {
+                    "currentAuth": ["Auth", function (Firebase) {
+                        var auth = Firebase.Auth;
+                        var usuario = auth.$getAuth();
+                        var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
+                        var firebaseUsuario = Firebase.Object(refUsuario);
+                        firebaseUsuario.$loaded().then(function () {
+                            switch (firebaseUsuario.$value) {
+                                case 'administrador':
+                                    break;
+                                case 'cliente':
+                                    Firebase.Location.path('/Inicio');
+                                    break;
+                                case 'transportista':
+                                    break;
+                                case 'chofer':
+                                    Firebase.Location.path('/Inicio');
+                                    break;
+                                default:
+                            }
+                            return Firebase.Auth.$requireSignIn();
+                        });
+                    }]
+                }
             })
             .when("/CHAOL/Tractores/Nuevo", {
-                templateUrl: "construccion.html"
+                templateUrl: "modulos/administracion/tractores/captura/capturaTractor.html",
+                controller: "tractorController",
+                resolve: {
+                    "currentAuth": ["Auth", function (Firebase) {
+                        var auth = Firebase.Auth;
+                        var usuario = auth.$getAuth();
+                        var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
+                        var firebaseUsuario = Firebase.Object(refUsuario);
+                        firebaseUsuario.$loaded().then(function () {
+                            switch (firebaseUsuario.$value) {
+                                case 'administrador':
+                                    break;
+                                case 'cliente':
+                                    Firebase.Location.path('/Inicio');
+                                    break;
+                                case 'transportista':
+                                    break;
+                                case 'chofer':
+                                    Firebase.Location.path('/Inicio');
+                                    break;
+                                default:
+                            }
+                            return Firebase.Auth.$requireSignIn();
+                        });
+                    }]
+                }
             })
-            .when("/CHAOL/Tractores/Editar", {
-                templateUrl: "construccion.html"
+            .when("/CHAOL/Tractores/:ID", {
+                templateUrl: "modulos/administracion/tractores/captura/capturaTractor.html",
+                controller: "tractorController",
+                resolve: {
+                    "currentAuth": ["Auth", function (Firebase) {
+                        var auth = Firebase.Auth;
+                        var usuario = auth.$getAuth();
+                        var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
+                        var firebaseUsuario = Firebase.Object(refUsuario);
+                        firebaseUsuario.$loaded().then(function () {
+                            switch (firebaseUsuario.$value) {
+                                case 'administrador':
+                                    break;
+                                case 'cliente':
+                                    Firebase.Location.path('/Inicio');
+                                    break;
+                                case 'transportista':
+                                    break;
+                                case 'chofer':
+                                    Firebase.Location.path('/Inicio');
+                                    break;
+                                default:
+                            }
+                            return Firebase.Auth.$requireSignIn();
+                        });
+                    }]
+                }
             })
             //REMOLQUES
             .when("/CHAOL/Remolques", {
-                templateUrl: "construccion.html"
+                templateUrl: "modulos/administracion/remolques/listado/listadoRemolques.html",
+                controller: "remolquesController",
+                resolve: {
+                    "currentAuth": ["Auth", function (Firebase) {
+                        var auth = Firebase.Auth;
+                        var usuario = auth.$getAuth();
+                        var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
+                        var firebaseUsuario = Firebase.Object(refUsuario);
+                        firebaseUsuario.$loaded().then(function () {
+                            switch (firebaseUsuario.$value) {
+                                case 'administrador':
+                                    break;
+                                case 'cliente':
+                                    Firebase.Location.path('/Inicio');
+                                    break;
+                                case 'transportista':
+                                    break;
+                                case 'chofer':
+                                    Firebase.Location.path('/Inicio');
+                                    break;
+                                default:
+                            }
+                            return Firebase.Auth.$requireSignIn();
+                        });
+                    }]
+                }
             })
             .when("/CHAOL/Remolques/Nuevo", {
-                templateUrl: "construccion.html"
+                templateUrl: "modulos/administracion/remolques/captura/capturaRemolque.html",
+                controller: "remolqueController",
+                resolve: {
+                    "currentAuth": ["Auth", function (Firebase) {
+                        var auth = Firebase.Auth;
+                        var usuario = auth.$getAuth();
+                        var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
+                        var firebaseUsuario = Firebase.Object(refUsuario);
+                        firebaseUsuario.$loaded().then(function () {
+                            switch (firebaseUsuario.$value) {
+                                case 'administrador':
+                                    break;
+                                case 'cliente':
+                                    Firebase.Location.path('/Inicio');
+                                    break;
+                                case 'transportista':
+                                    break;
+                                case 'chofer':
+                                    Firebase.Location.path('/Inicio');
+                                    break;
+                                default:
+                            }
+                            return Firebase.Auth.$requireSignIn();
+                        });
+                    }]
+                }
             })
-            .when("/CHAOL/Remolques/Editar", {
-                templateUrl: "construccion.html"
+            .when("/CHAOL/Remolques/:ID", {
+                templateUrl: "modulos/administracion/remolques/captura/capturaRemolque.html",
+                controller: "remolqueController",
+                resolve: {
+                    "currentAuth": ["Auth", function (Firebase) {
+                        var auth = Firebase.Auth;
+                        var usuario = auth.$getAuth();
+                        var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
+                        var firebaseUsuario = Firebase.Object(refUsuario);
+                        firebaseUsuario.$loaded().then(function () {
+                            switch (firebaseUsuario.$value) {
+                                case 'administrador':
+                                    break;
+                                case 'cliente':
+                                    Firebase.Location.path('/Inicio');
+                                    break;
+                                case 'transportista':
+                                    break;
+                                case 'chofer':
+                                    Firebase.Location.path('/Inicio');
+                                    break;
+                                default:
+                            }
+                            return Firebase.Auth.$requireSignIn();
+                        });
+                    }]
+                }
+            })
+            //BODEGAS
+            .when("/CHAOL/Bodegas", {
+                templateUrl: "modulos/administracion/bodegas/listado/listadoBodegas.html",
+                controller: "bodegasController",
+                resolve: {
+                    "currentAuth": ["Auth", function (Firebase) {
+                        var auth = Firebase.Auth;
+                        var usuario = auth.$getAuth();
+                        var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
+                        var firebaseUsuario = Firebase.Object(refUsuario);
+                        firebaseUsuario.$loaded().then(function () {
+                            switch (firebaseUsuario.$value) {
+                                case 'administrador':
+                                    break;
+                                case 'cliente':
+                                    break;
+                                case 'transportista':
+                                    Firebase.Location.path('/Inicio');
+                                    break;
+                                case 'chofer':
+                                    Firebase.Location.path('/Inicio');
+                                    break;
+                                default:
+                            }
+                            return Firebase.Auth.$requireSignIn();
+                        });
+                    }]
+                }
+            })
+            .when("/CHAOL/Bodegas/Nuevo", {
+                templateUrl: "modulos/administracion/bodegas/captura/capturaBodega.html",
+                controller: "bodegaController",
+                resolve: {
+                    "currentAuth": ["Auth", function (Firebase) {
+                        var auth = Firebase.Auth;
+                        var usuario = auth.$getAuth();
+                        var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
+                        var firebaseUsuario = Firebase.Object(refUsuario);
+                        firebaseUsuario.$loaded().then(function () {
+                            switch (firebaseUsuario.$value) {
+                                case 'administrador':
+                                    break;
+                                case 'cliente':
+                                    break;
+                                case 'transportista':
+                                    Firebase.Location.path('/Inicio');
+                                    break;
+                                case 'chofer':
+                                    Firebase.Location.path('/Inicio');
+                                    break;
+                                default:
+                            }
+                            return Firebase.Auth.$requireSignIn();
+                        });
+                    }]
+                }
+            })
+            .when("/CHAOL/Bodegas/:ID", {
+                templateUrl: "modulos/administracion/bodegas/captura/capturaBodega.html",
+                controller: "bodegaController",
+                resolve: {
+                    "currentAuth": ["Auth", function (Firebase) {
+                        var auth = Firebase.Auth;
+                        var usuario = auth.$getAuth();
+                        var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
+                        var firebaseUsuario = Firebase.Object(refUsuario);
+                        firebaseUsuario.$loaded().then(function () {
+                            switch (firebaseUsuario.$value) {
+                                case 'administrador':
+                                    break;
+                                case 'cliente':
+                                    break;
+                                case 'transportista':
+                                    Firebase.Location.path('/Inicio');
+                                    break;
+                                case 'chofer':
+                                    Firebase.Location.path('/Inicio');
+                                    break;
+                                default:
+                            }
+                            return Firebase.Auth.$requireSignIn();
+                        });
+                    }]
+                }
             })
             //PERFIL
             .when("/CHAOL/Perfil", {
@@ -317,7 +552,30 @@
             })
             //AGENDA
             .when("/CHAOL/Fletes", {
-                templateUrl: "construccion.html"
+                templateUrl: "modulos/fletes/agenda/agenda.html",
+                controller: "agendaController",
+                resolve: {
+                    "currentAuth": ["Auth", function (Firebase) {
+                        var auth = Firebase.Auth;
+                        var usuario = auth.$getAuth();
+                        var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
+                        var firebaseUsuario = Firebase.Object(refUsuario);
+                        firebaseUsuario.$loaded().then(function () {
+                            switch (firebaseUsuario.$value) {
+                                case 'administrador':
+                                    break;
+                                case 'cliente':
+                                    break;
+                                case 'transportista':
+                                    break;
+                                case 'chofer':
+                                    break;
+                                default:
+                            }
+                            return Firebase.Auth.$requireSignIn();
+                        });
+                    }]
+                }
             })
             .when("/CHAOL/Fletes/Nuevo", {
                 templateUrl: "construccion.html"

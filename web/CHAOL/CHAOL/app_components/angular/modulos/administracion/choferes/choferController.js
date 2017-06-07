@@ -4,23 +4,6 @@
     var app = angular.module('app');
 
     app.controller('choferController', function ($scope, $location, $firebaseObject, $firebaseArray, unixTime, $firebaseAuth, $mdDialog, $firebaseStorage, createUserService, $routeParams) {
-        var refUsuarios = firebase.database().ref().child('usuarios');
-        var refChofer = firebase.database().ref().child('choferes');
-        var refTransportistas = firebase.database().ref().child('transportistas');
-        var refListadoTransportistas = firebase.database().ref().child('listaDeTransportistas').orderByValue();
-
-        //USUARIO
-        //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-        var auth = function () {
-            return $firebaseAuth();
-        }
-        var usuario = function () {
-            return auth().$getAuth();
-        }
-        //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-        //CHOFER
-        //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         //INICIALIZAR CHOFER
         $scope.firebaseChofer = {
             nombre: "",
@@ -48,19 +31,55 @@
             firebaseId: ""
         }
 
+        var refUsuarios = firebase.database().ref().child('usuarios');
+        var refChofer = firebase.database().ref().child('choferes');
+        var refTransportistas = firebase.database().ref().child('transportistas');
+        var refListadoTransportistas = firebase.database().ref().child('listaDeTransportistas').orderByValue();
+
         //LISTADO TRANSPORTISTAS
         $scope.empresasTransportista = $firebaseArray(refListadoTransportistas);
         refListadoTransportistas.on('value', function (snap) {
             $scope.empresasTransportista.$value = snap.key;
         });
 
+        //USUARIO
+        //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        var auth = $firebaseAuth();
+        var usuario = auth.$getAuth();
+
+        //ACTIVACIÓN DINÁMICA DE PANELES EN EL OBJETO
+        var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
+        var firebaseUsuario = $firebaseObject(refUsuario);
+        firebaseUsuario.$loaded().then(function () {
+            var refChoferes;
+            switch (firebaseUsuario.$value) {
+                case 'administrador':
+                    $scope.administrador = true;
+                    break;
+                case "transportista":
+                    $scope.transportista = true;
+                    var refTransportistaUsuario = firebase.database().ref('transportistas').child(usuario.uid).child('transportista');
+                    var firebaseTransportistaUsuario = $firebaseObject(refTransportistaUsuario);
+                    firebaseTransportistaUsuario.$loaded().then(function () {
+                        $scope.firebaseChofer.empresaTransportista = firebaseTransportistaUsuario.nombre;
+                    })
+                    break;
+                case "chofer":
+                    $scope.chofer = true;
+                    break;
+            }
+        });
+        //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+        //CHOFER
+        //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         //CONSULTAR CHOFER
         if ($routeParams.ID) {
             var chofer = $firebaseObject(refChofer.child($routeParams.ID));
             chofer.$loaded().then(function () {
                 $scope.firebaseChofer = chofer;
                 console.log('Chofer found');
-                if (usuario().uid === $routeParams.ID) {
+                if (usuario.uid === $routeParams.ID) {
                     $scope.correoElectronicoAnterior = $scope.firebaseChofer.correoElectronico;
                     $scope.ownUser = true;
                 }
@@ -86,7 +105,7 @@
             var actualizarChoferBD = function (chofer) {
                 var objetoChofer = $firebaseObject(refChofer.child(chofer.firebaseId));
                 objetoChofer.nombre = chofer.nombre;
-                objetoChofer.empresasTransportista = chofer.empresaTransportista;
+                objetoChofer.empresaTransportista = chofer.empresaTransportista;
                 objetoChofer.numeroDeLicencia = chofer.numeroDeLicencia;
                 objetoChofer.numeroDeSeguroSocial = chofer.numeroDeSeguroSocial;
                 objetoChofer.curp = chofer.curp;
@@ -193,7 +212,7 @@
                             //CREACIÓN DE CHOFER EN BD
                             console.log('Chofer image loaded to ' + url)
                             chofer.imagenURL = url;
-                            crearChoferBD(chofer);
+                            actualizarChoferBD(chofer);
                             actualizarPerfil(usuarioChofer, chofer);
                         }).catch(function (error) {
                             console.log(error);
@@ -258,30 +277,30 @@
             //ACTUALIZACIÓN DEL CHOFER
             else {
                 //VALIDAR SI SE TRATA DEL USUARIO CORRECTO
-                if (usuario().uid === $scope.firebaseChofer.firebaseId) {
+                if (usuario.uid === $scope.firebaseChofer.firebaseId) {
                     $mdDialog.show(
                         $mdDialog.prompt()
                             .parent(angular.element(document.querySelector('#registro')))
                             .clickOutsideToClose(false)
                             .title('Confirmación de credenciales')
-                            .htmlContent('<br/><p>Para confirmar tu identidad, ingresa la contraseña que utilizaste para <b>' + usuario().email + '</b>')
+                            .htmlContent('<br/><p>Para confirmar tu identidad, ingresa la contraseña que utilizaste para <b>' + usuario.email + '</b>')
                             .ariaLabel('Alert Dialog Demo')
                             .ok('Aceptar')
                             .cancel('Cancelar')
                     ).then(function (result) {
                         document.getElementById('div_progress').className = 'col-lg-12 div-progress';
                         //OBTENER CREDENCIALES
-                        const credential = firebase.auth.EmailAuthProvider.credential(usuario().email, result);
+                        const credential = firebase.auth.EmailAuthProvider.credential(usuario.email, result);
                         const user = firebase.auth().currentUser;
                         user.reauthenticateWithCredential(credential).then(function () {
                             //ACTUALIZAR EMAIL
-                            auth().$updateEmail($scope.firebaseChofer.correoElectronico).then(function () {
+                            auth.$updateEmail($scope.firebaseChofer.correoElectronico).then(function () {
                                 console.log('Email updated');
                                 //ACTUALIZAR CONTRASEÑA
-                                auth().$updatePassword($scope.firebaseChofer.contrasena).then(function () {
+                                auth.$updatePassword($scope.firebaseChofer.contrasena).then(function () {
                                     actualizarChoferBD($scope.firebaseChofer);
                                     cargarImagen($scope.firebaseChofer);
-                                    auth().$signInWithEmailAndPassword($scope.firebaseChofer.correoElectronico, result).then(function () {
+                                    auth.$signInWithEmailAndPassword($scope.firebaseChofer.correoElectronico, result).then(function () {
                                         console.log('Login succesful');
                                         alerta('<br/> <p>Cuenta actualizada. </p> <p> Hemos actualizado los datos de tu cuenta exitosamente.</p>', '/CHAOL');
                                         document.getElementById('div_progress').className = 'col-lg-12 div-progress hidden';

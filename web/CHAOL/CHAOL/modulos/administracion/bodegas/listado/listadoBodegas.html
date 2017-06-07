@@ -1,4 +1,4 @@
-﻿<div name="tractores" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+﻿<div name="bodegas" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
     <!--ENCABEZADO-->
     <encabezado class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding"></encabezado>
     <!--MENU-->
@@ -9,8 +9,8 @@
         <!--TIULO RUTA-->
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 titulo-ruta">
             <h2>
-                <i class="fa fa-truck" aria-hidden="true"></i>
-                TRACTORES
+                <i class="fa fa-archive" aria-hidden="true"></i>
+                Bodegas
             </h2>
         </div>
         <!--SECCION-->
@@ -41,20 +41,20 @@
                                     <td colspan="3" class="text-center">Acciones</td>
                                 </tr>
                             </thead>
-                            <tr ng-repeat="tractor in tractores" ng-mouseenter="hover = true" ng-mouseleave="hover = false">
+                            <tr ng-repeat="bodega in bodegas" ng-mouseenter="hover = true" ng-mouseleave="hover = false">
                                 <td class="text-center">
                                     <span>{{$index + 1}}</span>
                                 </td>
                                 <td>
-                                    <span>{{tractor.marca}} - {{tractor.modelo}} - {{tractor.placa}}</span>
+                                    <span>{{bodega.nombreDeLaBodega}}</span>
                                 </td>
                                 <td class="text-center">
-                                    <a href="#/CHAOL/Tractores/{{tractor.firebaseId}}">
+                                    <a href="#/CHAOL/Bodegas/{{bodega.firebaseIdBodega}}">
                                         <i class="fa fa-pencil" aria-hidden="true"></i>
                                     </a>
                                 </td>
                                 <td class="text-center">
-                                    <i class="fa fa-trash-o" aria-hidden="true" ng-click="eliminar(tractor)"></i>
+                                    <i class="fa fa-trash-o" aria-hidden="true" ng-click="eliminar(bodega)"></i>
                                 </td>
                             </tr>
                         </table>
@@ -62,7 +62,7 @@
 
                     <!--BOTON-->
                     <div class="col-lg-offset-10 col-lg-2 col-md-12 col-sm-12 col-xs-12 text-right">
-                        <a href="#/CHAOL/Tractores/Nuevo">
+                        <a href="#/CHAOL/Bodegas/Nuevo">
                             <i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i>
                         </a>
                     </div>

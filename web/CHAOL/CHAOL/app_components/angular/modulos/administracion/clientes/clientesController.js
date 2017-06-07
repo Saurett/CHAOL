@@ -4,10 +4,17 @@
     var app = angular.module('app');
 
     app.controller('clientesController', function ($scope, $firebaseArray, $firebaseObject, $firebaseAuth, $mdDialog) {
-        var refClientes = firebase.database().ref().child('clientes').orderByChild('cliente/nombre');
-        $scope.clientes = $firebaseArray(refClientes);
-        refClientes.on('value', function (snap) {
-            $scope.clientes.$value = snap.key;
+        //CLIENTES
+        var refClientes = firebase.database().ref().child('clientes');
+        refClientes.on("value", function (snapshot) {
+            var arrayClientes = [];
+            snapshot.forEach(function (childSnapshot) {
+                clientes = childSnapshot.val();
+                if (clientes.cliente.estatus !== 'eliminado') {
+                    arrayClientes.push(clientes);
+                }
+            });
+            $scope.clientes = arrayClientes;
         });
 
         $scope.cambiarEstatus = function (cliente) {

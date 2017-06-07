@@ -1,107 +1,113 @@
-﻿<!--TIULO RUTA-->
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 titulo-ruta">
-    <h2>
-        <i class="fa fa-bus" aria-hidden="true"></i>
-        Remolques.Nuevo
-    </h2>
-</div>
-<!--SECCION-->
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 titulo-seccion">
-</div>
-<!--CONTENIDO-->
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja">
-        <!--TITULO-->
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-titulo">
-            <h1>
-                NUEVO
-            </h1>
+﻿<div name="remolque" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+    <!--ENCABEZADO-->
+    <encabezado class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding"></encabezado>
+    <!--MENU-->
+    <md-sidenav class="md-sidenav-left md-whiteframe-4dp" md-component-id="left">
+        <menu></menu>
+    </md-sidenav>
+    <aside class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+        <!--TIULO RUTA-->
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 titulo-ruta">
+            <h2>
+                <i class="fa fa-truck" aria-hidden="true"></i>
+                Remolque.
+                <span ng-show="firebaseRemolque.firebaseId">
+                    {{firebaseRemolque.numeroDeSerie}}
+                </span>
+                <span ng-hide="firebaseRemolque.firebaseId">
+                    Nuevo
+                </span>
+            </h2>
+        </div>
+        <!--SECCION-->
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 titulo-seccion">
         </div>
         <!--CONTENIDO-->
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-contenido">
-            <!--FORMULARIO-->
-            <div class="col-lg-12">
-                <!--DATOS-->
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <!--NÚMERO ECONÓMICO-->
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <span>Número Económico</span>
-                        </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                            <input type="text" name="input_numero_economico" placeholder="Número Económico" value="" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" />
-                        </div>
-                    </div>
-                    <!--MARCA-->
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <span>Marca</span>
-                        </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                            <input type="text" name="input_marca" placeholder="Marca" value="" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" />
-                        </div>
-                    </div>
-                    <!--MODELO-->
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <span>Modelo</span>
-                        </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                            <input type="text" name="input_modelo" placeholder="Modelo" value="" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" />
-                        </div>
-                    </div>
-                    <!--NÚMERO DE SERIE-->
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <span>Número de Serie</span>
-                        </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                            <input type="text" name="input_numero_serie" placeholder="Número de Serie" value="" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" />
-                        </div>
-                    </div>
-                    <!--PLACAS-->
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <span>Placas</span>
-                        </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                            <input type="text" name="input_placas" placeholder="Placas" value="" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" />
-                        </div>
-                    </div>
-                    <!--ID GPS-->
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <span>ID GPS</span>
-                        </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                            <input type="text" name="input_id_gps" placeholder="ID GPS" value="" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" />
-                        </div>
-                    </div>
-                    <!--TIPO REMOLQUE-->
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <span>Tipo de Remolque</span>
-                        </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 dropdown">
-                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdown_metodo_pago" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                Tipo de Remolque
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdown_metodo_pago">
-                                <li><a href="">Caja Refrigerada</a></li>
-                            </ul>
-                        </div>
-                    </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja">
+                <!--TITULO-->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-titulo">
+                    <h1 ng-show="firebaseRemolque.firebaseId">
+                        EDITAR
+                    </h1>
+                    <h1 ng-hide="firebaseRemolque.firebaseId">
+                        NUEVO
+                    </h1>
                 </div>
-            </div>
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
-            </div>
-            <!--BOTON-->
-            <div class="col-lg-offset-10 col-lg-2 col-md-12 col-sm-12 col-xs-12 text-right">
-                <a href="#/remolques/listado">
-                    <i class="fa fa-check-circle fa-3x" aria-hidden="true"></i>
-                </a>
+                <!--CONTENIDO-->
+                <form name="remolques" ng-submit="remolques.$valid && registrarRemolque()">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-contenido">
+                        <!--FORMULARIO-->
+                        <div class="col-lg-12">
+                            <!--DATOS-->
+                            <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+                                <!--EMPRESA TRANSPORTISTA-->
+                                <md-input-container class="col-lg-11 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                    <label>Empresa Transportista</label>
+                                    <md-select name="empresaTransportista" ng-model="firebaseRemolque.empresaTransportista" ng-disabled="((firebaseRemolque.firebaseId && administrador) || (transportista))" ng-required="true">
+                                        <md-option ng-repeat="empresa in empresasTransportista" ng-value="empresa.nombre">
+                                            {{empresa.nombre}}
+                                        </md-option>
+                                    </md-select>
+                                    <div ng-messages="remolques.empresaTransportista.$error" role="alert">
+                                        <div ng-message="required">Por favor, selecciona la empresa a la que perteneces.</div>
+                                    </div>
+                                </md-input-container>
+                                <!--MARCA-->
+                                <md-input-container class="col-lg-11 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                    <label>Marca</label>
+                                    <input type="text" name="marca" ng-model="firebaseRemolque.marca" />
+                                </md-input-container>
+                                <!--MODELO-->
+                                <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                    <label>Modelo</label>
+                                    <input type="text" name="modelo" ng-model="firebaseRemolque.modelo" />
+                                </md-input-container>
+                                <!--NÚMERO DE SERIE-->
+                                <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                    <label>Número de Serie</label>
+                                    <input type="text" name="numeroDeSerie" ng-model="firebaseRemolque.numeroDeSerie" />
+                                </md-input-container>
+                                <!--NÚMERO ECONÓMICO-->
+                                <md-input-container class="col-lg-offset-1 col-lg-11 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                    <label>Número Económico</label>
+                                    <input type="text" name="numeroEconomico" ng-model="firebaseRemolque.numeroEconomico" />
+                                </md-input-container>
+                                <!--PLACA-->
+                                <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                    <label>Placa</label>
+                                    <input type="text" name="placa" ng-model="firebaseRemolque.placa" />
+                                </md-input-container>
+                                <!--ID GPS-->
+                                <md-input-container class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                    <label>ID GPS</label>
+                                    <input type="text" name="idGPS" ng-model="firebaseRemolque.idGPS" />
+                                </md-input-container>
+                                <!--TIPO DE REMOLQUE-->
+                                <md-input-container class="col-lg-11 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                    <label>Tipo de Remolque</label>
+                                    <md-select name="tipoDeRemolque" ng-model="firebaseRemolque.tipoDeRemolque" required>
+                                        <md-option ng-repeat="tipo in tiposRemolques" ng-value="tipo">
+                                            {{tipo}}
+                                        </md-option>
+                                    </md-select>
+                                    <div ng-messages="remolques.empresaTransportista.$error" role="alert">
+                                        <div ng-message="required">Por favor, selecciona la empresa a la que perteneces.</div>
+                                    </div>
+                                </md-input-container>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
+                        </div>
+                        <!--BOTON-->
+                        <div class="col-lg-offset-10 col-lg-2 col-md-12 col-sm-12 col-xs-12 text-right">
+                            <md-button class="md-fab md-primary" aria-label="Resgistrarme" type="submit">
+                                <i class="fa fa-check fa-3x" aria-hidden="true"></i>
+                            </md-button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
-    </div>
+    </aside>
 </div>

@@ -29,7 +29,7 @@
                         var auth = $firebaseAuth();
                         var userAuth = auth.$getAuth();
                         if (user.firebaseId === userAuth.uid) {
-                            if (user.estatus !== 'activo') {
+                            if (user.estatus === 'inactivo' || user.estatus === 'eliminado') {
                                 auth.$signOut();
                                 $location.path('/Inicio');
                             }
@@ -69,7 +69,7 @@
                     }
                     if (objeto) {
                         objeto.$loaded().then(function () {
-                            if (objeto.estatus !== 'activo') {
+                            if (objeto.estatus === 'inactivo' || objeto.estatus === "eliminado") {
                                 $mdDialog.show(
                                     $mdDialog.alert()
                                         .parent(angular.element(document.querySelector('#login')))
