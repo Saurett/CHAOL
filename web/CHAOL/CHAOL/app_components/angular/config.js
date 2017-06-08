@@ -580,6 +580,9 @@
             .when("/CHAOL/Fletes/Nuevo", {
                 templateUrl: "construccion.html"
             })
+            .when("/CHAOL/Fletes/:ID", {
+                templateUrl: "construccion.html"
+            })
             .otherwise({
                 redirectTo: '/Inicio'
             });

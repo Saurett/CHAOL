@@ -77,14 +77,35 @@
         //AQUI ESTA LO DE LOS COLORES
         _initializeDatasourceColors: function () {
             for (var i in this.options.dataSource) {
-                //switch (this.options.dataSource[i].idEstatus) {
-                //    case 1:
-                //        this.options.dataSource[i].color = 'black';
-                //        break;
-                //    default:
-                //        this.options.dataSource[i].color = 'blue';
-                //        break;
-                //}
+                switch (this.options.dataSource[i].estatus) {
+                    case 'Por Cotizar':
+                        this.options.dataSource[i].color = '#7B4CFE';
+                        break;
+                    case 'Esperando Por Transportista':
+                        this.options.dataSource[i].color = '#FE9700';
+                        break;
+                    case 'Transportisa Por Confirma':
+                        this.options.dataSource[i].color = '#FEEA3A';
+                        break;
+                    case 'Unidades Por Asignar':
+                        this.options.dataSource[i].color = '#4BAE4F';
+                        break;
+                    case 'Envio Por Iniciar':
+                        this.options.dataSource[i].color = '#00BBD3';
+                        break;
+                    case 'En Progreso':
+                        this.options.dataSource[i].color = '#2095F2';
+                        break;
+                    case 'Entregado':
+                        this.options.dataSource[i].color = '#9D9D9D';
+                        break;
+                    case 'Finalizado':
+                        this.options.dataSource[i].color = '#202020';
+                        break;
+                    case 'Cancelado':
+                        this.options.dataSource[i].color = '#F34235';
+                        break;
+                }
                 if(this.options.dataSource[i].color == null) {
                 	this.options.dataSource[i].color = colors[i % colors.length];
                 }
@@ -1088,7 +1109,17 @@
         }
     };
 
-    var colors = $.fn.calendar.colors = ['#2C8FC9', '#9CB703', '#F5BB00', '#FF4A32', '#B56CE2', '#45A597'];
+    var colors = $.fn.calendar.colors = [
+        '#7B4CFE', //POR COTIZAR
+        '#FE9700', //TRANSPORTISTA POR SOLICITAR
+        '#FEEA3A', //TRANSPORTISTA POR CONFIRMAR
+        '#4BAE4F', //ASIGNACIÓN DE UNIDADES
+        '#00BBD3', //INICIO DE ENVIO
+        '#2095F2', //EN PROGRESO
+        '#9D9D9D', //ENTREGADO
+        '#202020', //FINALIZADO
+        '#F34235', //CANCELADO
+    ];
 
     $(function () {
         $('[data-provide="calendar"]').each(function () {

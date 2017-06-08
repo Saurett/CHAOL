@@ -147,6 +147,9 @@ table tbody tr:hover {
 table tbody tr td:not(:nth-child(2)) {
   width: 36px !important;
 }
+table.initial tbody tr td:not(:nth-child(2)) {
+  width: initial !important;
+}
 md-sidenav + aside {
   background: #CFD8DC;
 }

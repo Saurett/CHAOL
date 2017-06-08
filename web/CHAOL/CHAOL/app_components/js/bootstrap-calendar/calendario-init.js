@@ -1,170 +1,75 @@
-﻿function iniciar_calendario(div) {
-    var currentYear = new Date().getFullYear();
+﻿//function iniciar_calendario(div, fletes) {
+//    var currentYear = new Date().getFullYear();
 
-    //DETERMINAR FECHA DE HOY
-    var hoy = new Date(currentYear, new Date().getMonth(), new Date().getDate()).getTime();
+//    //DETERMINAR FECHA DE HOY
+//    var hoy = new Date(currentYear, new Date().getMonth(), new Date().getDate()).getTime();
 
-    //CONSULTAR LOS FLETES CORRESPONDIENTES
-    var auth = $firebaseAuth();
-    var usuario = auth.$getAuth();
-    var fletes;
+//    $(div).calendar({
+//        enableContextMenu: true,
 
-    var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
-    var firebaseUsuario = $firebaseObject(refUsuario);
-    firebaseUsuario.$loaded().then(function () {
-        switch (firebaseUsuario.$value) {
-            case 'administrador':
-                //FLETES
-                var refFletes = firebase.database().ref().child('fletesPorAsignar');
-                refFletes.on("value", function (snapshot) {
-                    var arrayFletes = [];
-                    snapshot.forEach(function (childSnapshot) {
-                        fletes = childSnapshot.val();
-                        arrayFletes.push({
-                            id: fletes.flete.idFlete,
-                            cliente: fletes.flete.cliente,
-                            trasnportista: "ninguno",
-                            name: "este es el nombre",
-                            startDate: fletes.flete.fechaDeSalida,
-                            endDate: fletes.flete.fechaDeSalida,
-                            estatus: fletes.flete.estatus
-                        });
-                    });
-                    fletes = arrayFletes;
-                });
-                break;
-            case 'cliente':
-                //FLETES
-                var refFletes = firebase.database().ref().child('fletesPorAsignar');
-                refFletes.on("value", function (snapshot) {
-                    var arrayFletes = [];
-                    snapshot.forEach(function (childSnapshot) {
-                        fletes = childSnapshot.val();
-                        if (fletes.bodegaDeCarga.firebaseIdDelCliente === usuario.uid) {
-                            arrayFletes.push(fletes.flete);
-                        }
-                    });
-                    buscarFletes(arrayFletes);
-                });
-                break;
-            case 'transportista':
-                //FLETES DISPONIBLES
-                var refFletes = firebase.database().ref().child('fletesPorAsignar');
-                refFletes.on("value", function (snapshot) {
-                    var arrayFletes = [];
-                    snapshot.forEach(function (childSnapshot) {
-                        fletes = childSnapshot.val();
-                        if (fletes.flete.estatus === "esperandoPorTransportista") {
-                            arrayFletes.push(fletes.flete);
-                        }
-                    });
-                    buscarEsperandoPorTransportista(arrayFletes);
-                });
+//        customDayRenderer: function (element, date) {
+//            if (date.getTime() == hoy) {
+//                $(element).css('background-color', '#F34235');
+//                $(element).css('font-weight', 'bold');
+//                $(element).css('color', 'white');
+//                $(element).css('padding', '0px');
+//            }
+//        },
 
-                //FLETES INTERESADOS
-                var refFletes = firebase.database().ref().child('fletesPorAsignar');
-                refFletes.on("value", function (snapshot) {
-                    var arrayFletes = [];
-                    snapshot.forEach(function (childSnapshot) {
-                        fletes = childSnapshot.val();
-                        if (fletes.transportistasInteresados !== undefined) {
-                            if (fletes.transportistasInteresados.key === usuario.uid && fletes.flete.estatus === "transportistaPorConfirmar") {
-                                arrayFletes.push(fletes.flete);
-                            }
-                        }
-                    });
-                    buscarTransportistaPorConfirmar(arrayFletes);
-                });
+//        enableRangeSelection: true,
+//        language: 'es',
+//        contextMenuItems: [
+//            {
+//                text: 'Detalle',
+//                click: detalle
+//            }
+//        ],
+//        selectRange: function (e) {
+//            editEvent({ startDate: e.startDate, endDate: e.endDate });
+//        },
+//        mouseOnDay: function (e) {
+//            if (e.events.length > 0) {
+//                var content = '';
 
-                //FLETES ASIGNADOS
-                var refFletes = firebase.database().ref().child('fletesPorAsignar');
-                refFletes.on("value", function (snapshot) {
-                    var arrayFletes = [];
-                    snapshot.forEach(function (childSnapshot) {
-                        fletes = childSnapshot.val();
-                        if (fletes.transportistaSeleccionado !== undefined) {
-                            if (fletes.transportistaSeleccionado.key === usuario.uid) {
-                                arrayFletes.push(fletes.flete);
-                            }
-                        }
-                    });
-                    buscarUnidadesPorAsignar(arrayFletes);
-                    buscarEnvioPorIniciar(arrayFletes);
-                    buscarEnProgreso(arrayFletes);
-                });
-                break;
-            case 'chofer':
-                //FLETES ASIGNADOS
-                var refFletes = firebase.database().ref().child('fletesPorAsignar');
-                refFletes.on("value", function (snapshot) {
-                    var arrayFletes = [];
-                    snapshot.forEach(function (childSnapshot) {
-                        fletes = childSnapshot.val();
-                        if (fletes.choferSeleccionado !== undefined) {
-                            if (fletes.choferSeleccionado.key === usuario.uid && (fletes.flete.estatus === "envioPorIniciar" || fletes.flete.estatus === "enProgreso")) {
-                                arrayFletes.push(fletes.flete);
-                            }
-                        }
-                    });
-                    buscarEnvioPorIniciar(arrayFletes);
-                    buscarEnProgreso(arrayFletes);
-                });
-                break;
-            default:
-        }
-    });
+//                for (var i in e.events) {
+//                    if (i < 3) {
+//                        content += '<div class="event-tooltip-content">'
+//                            + '<div class="event-name"><span>Estatus: </span><span style="color:' + e.events[i].color + '"><b>' + e.events[i].estatus + '</b></span></div>'
+//                            + '<div class="event-name">Cliente: <b>' + e.events[i].cliente + '</b></div>'
+//                            + '<div class="event-location">Transportista: <b>' + e.events[i].transportista + '</b></div>'
+//                            + '</div>'
+//                            + '<hr/>';
+//                    }
+//                    else {
+//                        content += '<div class="event-tooltip-content">'
+//                            + '<div class="event-name text-center">' + (e.events.length - 3).toString() + ' fletes más</div>';
+//                        break;
+//                    }
+//                }
 
-    $(div).calendar({
-        enableContextMenu: true,
+//                $(e.element).popover({
+//                    trigger: 'manual',
+//                    container: 'body',
+//                    html: true,
+//                    content: content
+//                });
 
-        customDayRenderer: function (element, date) {
-            if (date.getTime() == hoy) {
-                $(element).css('font-weight', 'bold');
-                $(element).css('font-size', '15px');
-                $(element).css('color', 'green');
-            }
-        },
+//                $(e.element).popover('show');
+//            }
+//        },
+//        mouseOutDay: function (e) {
+//            if (e.events.length > 0) {
+//                $(e.element).popover('hide');
+//            }
+//        },
+//        dayContextMenu: function (e) {
+//            $(e.element).popover('hide');
+//        },
+//        dataSource: fletes
+//    });
 
-        enableRangeSelection: true,
-        language: 'es',
-        contextMenuItems: [
-            {
-                text: 'Detalle'
-                //click: editEvent
-            }
-        ],
-        selectRange: function (e) {
-            editEvent({ startDate: e.startDate, endDate: e.endDate });
-        },
-        mouseOnDay: function (e) {
-            if (e.events.length > 0) {
-                var content = '';
-
-                for (var i in e.events) {
-                    content += '<div class="event-tooltip-content">'
-                        + '<div class="event-name" style="color:' + e.events[i].color + '">Cliente: ' + e.events[i].cliente + '</div>'
-                        + '<div class="event-location">Transportista: ' + e.events[i].transportista + '</div>'
-                        + '</div>';
-                }
-
-                $(e.element).popover({
-                    trigger: 'manual',
-                    container: 'body',
-                    html: true,
-                    content: content
-                });
-
-                $(e.element).popover('show');
-            }
-        },
-        mouseOutDay: function (e) {
-            if (e.events.length > 0) {
-                $(e.element).popover('hide');
-            }
-        },
-        dayContextMenu: function (e) {
-            $(e.element).popover('hide');
-        },
-        dataSource: fletes
-    });
-}
+//    function detalle(event) {
+//        var id = event.firebaseId;
+//        console.log(id)
+//    }
+//}
