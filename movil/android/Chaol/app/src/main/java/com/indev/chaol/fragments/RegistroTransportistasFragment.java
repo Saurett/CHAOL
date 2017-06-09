@@ -291,11 +291,12 @@ public class RegistroTransportistasFragment extends Fragment implements View.OnC
         transportista.setCorreoElectronico(txtCorreoElectronico.getText().toString().trim());
         transportista.setContraseña(txtPassword.getText().toString().trim());
 
+        transportista.setFirebaseId(_transportistActual.getFirebaseId());
         transportista.setFechaDeCreacion(_transportistActual.getFechaDeCreacion());
         transportista.setEstatus(_transportistActual.getEstatus());
 
         /**metodo principal para actualizar usuario**/
-        //activityInterface.updateUserTransportista(transportista);
+        activityInterface.updateTransportista(transportista);
     }
 
     private void showQuestion() {

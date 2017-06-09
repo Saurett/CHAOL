@@ -4,6 +4,7 @@ import com.indev.chaol.models.Bodegas;
 import com.indev.chaol.models.Choferes;
 import com.indev.chaol.models.Clientes;
 import com.indev.chaol.models.DecodeItem;
+import com.indev.chaol.models.Fletes;
 import com.indev.chaol.models.Remolques;
 import com.indev.chaol.models.Tractores;
 import com.indev.chaol.models.Transportistas;
@@ -44,6 +45,16 @@ public interface MainRegisterInterface {
     void createBodegas(Bodegas bodega);
     /**Permite editar bodegas**/
     void updateBodega(Bodegas bodega);
+    /**Permite editar clientes**/
+    void updateCliente(Clientes cliente);
+    /**Permite editar bodegas**/
+    void updateTransportista(Transportistas transportista);
+    /**Permite editar bodegas**/
+    void updateChofer(Choferes chofer);
+    /**Permite crear la solicitud de cotizacion**/
+    void createSolicitudCotizacion(Fletes flete, Bodegas _bodegaCargaActual, Bodegas _bodegaDescargaActual);
+    /**Permite actualizar la solicitud de cotizacion**/
+    void updateSolicitudCotizacion(Fletes flete);
 
 
 }

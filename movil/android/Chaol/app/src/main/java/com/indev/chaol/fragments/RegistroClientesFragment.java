@@ -135,16 +135,6 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
 
         switch (_MAIN_DECODE.getAccionFragmento()) {
             case Constants.ACCION_EDITAR:
-                /**Obtiene el item selecionado en el fragmento de lista**/
-                Clientes clientes = (Clientes) _MAIN_DECODE.getDecodeItem().getItemModel();
-
-                /**Asigna valores del item seleccionado**/
-                txtNombre.setText(clientes.getNombre());
-
-                /**Modifica valores predeterminados de ciertos elementos**/
-                btnTitulo.setText(getString(Constants.TITLE_FORM_ACTION.get(_MAIN_DECODE.getAccionFragmento())));
-                fabClientes.setImageDrawable(getResources().getDrawable(R.mipmap.ic_mode_edit_white_18dp));
-
                 this.onPreRenderEditar();
                 break;
             case Constants.ACCION_REGISTRAR:
@@ -314,6 +304,30 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
 
     }
 
+    /**
+     * Verifica los campos obligatorios para editar
+     **/
+    private void validationEditer() {
+
+        Boolean authorized = true;
+
+        String email = txtCorreoElectronico.getText().toString();
+
+        if (TextUtils.isEmpty(email)) {
+            txtCorreoElectronico.setError("El campo es obligatorio", null);
+            txtCorreoElectronico.requestFocus();
+            authorized = false;
+        }
+
+        if (authorized) {
+            this.updateUserCliente();
+        } else {
+            Toast.makeText(getContext(), "Es necesario capturar campos obligatorios",
+                    Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
     private void createSimpleValidUser() {
         Clientes clientes = new Clientes();
 
@@ -336,6 +350,33 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
         activityInterface.createUserCliente(clientes);
     }
 
+    private void updateUserCliente() {
+
+        Clientes cliente = new Clientes();
+
+        cliente.setNombre(txtNombre.getText().toString().trim());
+        cliente.setRFC(txtRFC.getText().toString().trim());
+        cliente.setEstado(txtEstado.getText().toString().trim());
+        cliente.setCiudad(txtCiudad.getText().toString().trim());
+        cliente.setColonia(txtColonia.getText().toString().trim());
+        cliente.setCodigoPostal(txtCodigoPostal.getText().toString().trim());
+        cliente.setCalle(txtCalle.getText().toString().trim());
+        cliente.setNumeroInterior(txtNumInt.getText().toString().trim());
+        cliente.setNumeroExterior(txtNumExt.getText().toString().trim());
+        cliente.setMetodoDePago(spinnerMetodoPago.getSelectedItem().toString());
+        cliente.setTelefono(txtTelefono.getText().toString().trim());
+        cliente.setCelular(txtCelular.getText().toString().trim());
+        cliente.setCorreoElectronico(txtCorreoElectronico.getText().toString().trim());
+        cliente.setPassword(txtPassword.getText().toString().trim());
+
+        cliente.setFirebaseId(_clienteActual.getFirebaseId());
+        cliente.setFechaDeCreacion(_clienteActual.getFechaDeCreacion());
+        cliente.setEstatus(_clienteActual.getEstatus());
+
+        /**metodo principal para actualizar usuario**/
+        activityInterface.updateCliente(cliente);
+    }
+
     private void showQuestion() {
         AlertDialog.Builder ad = new AlertDialog.Builder(getContext());
 
@@ -351,6 +392,7 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
     public void onClick(DialogInterface dialog, int which) {
         switch (which) {
             case DialogInterface.BUTTON_POSITIVE:
+                this.validationEditer();
                 break;
         }
     }

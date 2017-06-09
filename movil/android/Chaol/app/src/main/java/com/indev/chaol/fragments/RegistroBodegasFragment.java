@@ -116,7 +116,7 @@ public class RegistroBodegasFragment extends Fragment implements View.OnClickLis
         pDialog.setCancelable(false);
         pDialog.show();
 
-        /**Metodo que llama la lista de transportistas**/
+        /**Metodo que llama la lista**/
         drClientes.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
@@ -204,7 +204,7 @@ public class RegistroBodegasFragment extends Fragment implements View.OnClickLis
 
         DatabaseReference dbCliente =
                 FirebaseDatabase.getInstance().getReference()
-                        .child(Constants.FB_KEY_MAIN_CLIENTES).child(bodega.getFirebaseIdCliente())
+                        .child(Constants.FB_KEY_MAIN_CLIENTES).child(bodega.getFirebaseIdDelCliente())
                         .child(Constants.FB_KEY_MAIN_BODEGAS).child(bodega.getFirebaseIdBodega());
 
         final ProgressDialog pDialogRender = new ProgressDialog(getContext());
@@ -352,7 +352,7 @@ public class RegistroBodegasFragment extends Fragment implements View.OnClickLis
 
         Clientes cliente = getSelectCliente();
 
-        bodega.setFirebaseIdCliente(cliente.getFirebaseId());
+        bodega.setFirebaseIdDelCliente(cliente.getFirebaseId());
         bodega.setNombreDelCliente(cliente.getNombre());
 
         /**metodo principal para crear usuario**/
@@ -375,7 +375,7 @@ public class RegistroBodegasFragment extends Fragment implements View.OnClickLis
         bodega.setNombreDelCliente(getSelectCliente().getNombre());
 
         bodega.setFirebaseIdBodega(_bodegaActual.getFirebaseIdBodega());
-        bodega.setFirebaseIdCliente(_bodegaActual.getFirebaseIdCliente());
+        bodega.setFirebaseIdDelCliente(_bodegaActual.getFirebaseIdDelCliente());
         bodega.setFechaDeCreacion(_bodegaActual.getFechaDeCreacion());
         bodega.setEstatus(_bodegaActual.getEstatus());
 
@@ -411,7 +411,7 @@ public class RegistroBodegasFragment extends Fragment implements View.OnClickLis
             Bodegas bodega = (Bodegas) _MAIN_DECODE.getDecodeItem().getItemModel();
             for (Clientes miCliente : clientes) {
                 item++;
-                if (miCliente.getFirebaseId().equals(bodega.getFirebaseIdCliente())) {
+                if (miCliente.getFirebaseId().equals(bodega.getFirebaseIdDelCliente())) {
                     break;
                 }
             }

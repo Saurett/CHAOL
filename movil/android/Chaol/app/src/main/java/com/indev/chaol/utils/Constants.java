@@ -54,6 +54,27 @@ public final class Constants {
     public static final String FB_KEY_MAIN_LISTA_TRANSPORTISTAS = "listaDeTransportistas";
     public static final String FB_KEY_MAIN_TRACTORES = "tractores";
     public static final String FB_KEY_MAIN_REMOLQUES = "remolques";
+    public static final String FB_KEY_MAIN_FLETE_ID = "fleteId";
+    public static final String FB_KEY_MAIN_FLETES_POR_ASIGNAR = "fletesPorAsignar";
+    public static final String FB_KEY_MAIN_FLETE = "flete";
+    public static final String FB_KEY_MAIN_BODEGA_DE_CARGA = "bodegaDeCarga";
+    public static final String FB_KEY_MAIN_BODEGA_DE_DESCARGA = "bodegaDeDescarga";
+    public static final String FB_KEY_MAIN_TRANSPORTISTAS_INTERESADOS = "transportistasInteresados";
+    public static final String FB_KEY_MAIN_TRANSPORTISTA_SELECCIONADO = "transportistaSeleccionado";
+    public static final String FB_KEY_MAIN_CHOFER_SELECCIONADO = "choferSeleccionado";
+
+
+    /**Contiene los valores de los status dle flete**/
+    public static final String FB_KEY_ITEM_STATUS_FLETE_POR_COTIZAR = "fletePorCotizar";
+    public static final String FB_KEY_ITEM_STATUS_ESPERANDO_POR_TRANSPORTISTA = "esperandoPorTransportista";
+    public static final String FB_KEY_ITEM_STATUS_TRANSPORTISTA_POR_CONFIRMAR = "transportistaPorConfirmar";
+    public static final String FB_KEY_ITEM_STATUS_UNIDADES_POR_ASIGNAR = "unidadesPorAsignar";
+    public static final String FB_KEY_ITEM_STATUS_ENVIO_POR_INICIAR = "envioPorIniciar";
+    public static final String FB_KEY_ITEM_STATUS_EN_PROGRESO = "enProgreso";
+    public static final String FB_KEY_ITEM_STATUS_ENTREGADO = "entregado";
+    public static final String FB_KEY_ITEM_STATUS_FINALIZADO = "finalizado";
+    public static final String FB_KEY_ITEM_STATUS_CANCELADO = "cancelado";
+
 
     /**Key Extraparam**/
     public static String KEY_MAIN_DECODE = "key_main_decode";
@@ -298,5 +319,8 @@ public final class Constants {
         TITLE_FORM_ACTION.put(Constants.ACCION_REGISTRAR,R.string.default_form_title_new);
         TITLE_FORM_ACTION.put(Constants.ACCION_EDITAR,R.string.default_form_title_edit);
     }
+
+
+
     //endregion
 }

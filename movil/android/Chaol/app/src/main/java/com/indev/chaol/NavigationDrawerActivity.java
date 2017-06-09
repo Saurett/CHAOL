@@ -755,7 +755,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         DatabaseReference dbBodega =
                 FirebaseDatabase.getInstance().getReference()
                         .child(Constants.FB_KEY_MAIN_CLIENTES)
-                        .child(bodega.getFirebaseIdCliente())
+                        .child(bodega.getFirebaseIdDelCliente())
                         .child(Constants.FB_KEY_MAIN_BODEGAS)
                         .child(bodega.getFirebaseIdBodega());
 

@@ -35,6 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"
+                android:visibility="gone"
                 android:paddingLeft="20dp">
 
                 <TextView
@@ -64,32 +65,33 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/item_datos_generales_cliente"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"
+                android:visibility="gone"
                 android:paddingLeft="20dp">
+
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
-                    android:layout_marginRight="2dp"
+                    android:layout_gravity="center|end"
+                    android:layout_marginLeft="2dp"
                     android:layout_weight="1"
                     android:text="Cliente"
                     android:textAlignment="textEnd"
                     android:textColor="@color/colorPrimaryText"
                     android:textSize="14sp" />
 
-                <EditText
-                    android:id="@+id/txt_dg_cliente"
+                <Spinner
+                    android:id="@+id/spinner_datos_generales_cliente"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="2dp"
                     android:layout_marginRight="20dp"
                     android:layout_weight="1"
-                    android:hint="Cliente"
-                    android:inputType="text"
                     android:maxLines="1"
-                    android:textSize="14sp"
                     android:theme="@style/AppTheme.Form" />
 
 
@@ -165,31 +167,32 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/item_datos_generales_bodega_carga"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"
                 android:paddingLeft="20dp">
 
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
-                    android:layout_marginRight="2dp"
+                    android:layout_gravity="center|end"
+                    android:layout_marginLeft="2dp"
                     android:layout_weight="1"
-                    android:text="Bodega de carga"
+                    android:text="Bodega de Carga"
                     android:textAlignment="textEnd"
                     android:textColor="@color/colorPrimaryText"
                     android:textSize="14sp" />
 
-                <EditText
+                <Spinner
+                    android:id="@+id/spinner_datos_generales_bodega_carga"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="2dp"
                     android:layout_marginRight="20dp"
                     android:layout_weight="1"
-                    android:hint="Bodega de carga"
-                    android:inputType="text"
                     android:maxLines="1"
-                    android:textSize="14sp"
                     android:theme="@style/AppTheme.Form" />
 
 
@@ -242,7 +245,7 @@
                     android:textSize="14sp" />
 
                 <EditText
-                    android:id="@+id/txt_clientes_ciudad"
+                    android:id="@+id/txt_dg_ciudad_carga"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="2dp"
@@ -274,7 +277,7 @@
                     android:textSize="14sp" />
 
                 <EditText
-                    android:id="@+id/txt_clientes_colonia"
+                    android:id="@+id/txt_dg_colonia_carga"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="2dp"
@@ -306,7 +309,7 @@
                     android:textSize="14sp" />
 
                 <EditText
-                    android:id="@+id/txt_clientes_codigo_postal"
+                    android:id="@+id/txt_dg_codigo_postal_carga"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="2dp"
@@ -339,7 +342,7 @@
                     android:textSize="14sp" />
 
                 <EditText
-                    android:id="@+id/txt_clientes_calle"
+                    android:id="@+id/txt_dg_calle_carga"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="2dp"
@@ -371,7 +374,7 @@
                     android:textSize="14sp" />
 
                 <EditText
-                    android:id="@+id/txt_clientes_num_int"
+                    android:id="@+id/txt_dg_num_int_carga"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="2dp"
@@ -403,7 +406,7 @@
                     android:textSize="14sp" />
 
                 <EditText
-                    android:id="@+id/txt_clientes_num_ext"
+                    android:id="@+id/txt_dg_num_ext_carga"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="2dp"
@@ -485,6 +488,7 @@
                     android:textSize="14sp" />
 
                 <EditText
+                    android:id="@+id/txt_dg_carga"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="2dp"
@@ -517,6 +521,7 @@
                     android:textSize="14sp" />
 
                 <EditText
+                    android:id="@+id/txt_dg_num_embarque"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="2dp"
@@ -559,7 +564,6 @@
 
 
                 <TextView
-                    android:id="@+id/textView6"
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
                     android:layout_gravity="center|end"
@@ -571,6 +575,7 @@
                     android:textSize="14sp" />
 
                 <EditText
+                    android:id="@+id/txt_dg_destinatario"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="2dp"
@@ -585,32 +590,32 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/item_datos_generales_bodega_descarga"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"
                 android:paddingLeft="20dp">
 
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
-                    android:layout_marginRight="2dp"
+                    android:layout_gravity="center|end"
+                    android:layout_marginLeft="2dp"
                     android:layout_weight="1"
-                    android:text="Bodega descarga"
+                    android:text="Bodega de descarga"
                     android:textAlignment="textEnd"
                     android:textColor="@color/colorPrimaryText"
                     android:textSize="14sp" />
 
-                <EditText
-                    android:id="@+id/txt_clientes_telefono"
+                <Spinner
+                    android:id="@+id/spinner_datos_generales_bodega_descarga"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="2dp"
                     android:layout_marginRight="20dp"
                     android:layout_weight="1"
-                    android:hint="Bodega descarga"
-                    android:inputType="number"
                     android:maxLines="1"
-                    android:textSize="14sp"
                     android:theme="@style/AppTheme.Form" />
 
 
@@ -663,6 +668,7 @@
                     android:textSize="14sp" />
 
                 <EditText
+                    android:id="@+id/txt_dg_ciudad_destino"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="2dp"
@@ -694,6 +700,7 @@
                     android:textSize="14sp" />
 
                 <EditText
+                    android:id="@+id/txt_dg_colonia_destino"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="2dp"
@@ -725,6 +732,7 @@
                     android:textSize="14sp" />
 
                 <EditText
+                    android:id="@+id/txt_dg_codigo_postal_destino"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="2dp"
@@ -757,6 +765,7 @@
                     android:textSize="14sp" />
 
                 <EditText
+                    android:id="@+id/txt_dg_calle_destino"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="2dp"
@@ -788,6 +797,7 @@
                     android:textSize="14sp" />
 
                 <EditText
+                    android:id="@+id/txt_dg_num_int_destino"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="2dp"
@@ -819,6 +829,7 @@
                     android:textSize="14sp" />
 
                 <EditText
+                    android:id="@+id/txt_dg_num_ext_destino"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="2dp"
@@ -833,6 +844,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/linear_btn_zone_datos_generales"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
@@ -840,6 +852,7 @@
                 android:orientation="vertical">
 
                 <Button
+                    android:id="@+id/btn_solicitar_cotizacion_datos_generales"
                     android:layout_width="200dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"

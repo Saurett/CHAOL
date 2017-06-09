@@ -18,7 +18,11 @@
     <color name="colorPanelFletesDos">#ffa500</color>
     <color name="colorPanelFletesTres">#ffff00</color>
     <color name="colorPanelFletesCuatro">#008000</color>
-    <color name="colorPanelFletesCinco">#0000ff</color>
+    <color name="colorPanelFletesCinco">#03A9F4</color>
+    <color name="colorPanelFletesSeis">#0000ff</color>
+    <color name="colorPanelFletesSiete">#757575</color>
+    <color name="colorPanelFletesOcho">#212121</color>
+    <color name="colorPanelFletesNueve">#FF5252</color>
 
     <color name="colorPanelTransportistasUno">#ffff00</color>
     <color name="colorPanelTransportistasDos">#0000ff</color>

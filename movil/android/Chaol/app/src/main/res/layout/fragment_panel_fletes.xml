@@ -28,6 +28,7 @@
             android:textColor="@color/colorIcons" />
 
         <LinearLayout
+            android:id="@+id/linear_item_flete_por_cotizar"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginTop="10dp"
@@ -42,11 +43,12 @@
                 app:elevation="0dp" />
 
             <TextView
+                android:id="@+id/item_num_flete_por_cotizar"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
-                android:text="1"
+                android:text="0"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="15sp" />
@@ -56,7 +58,7 @@
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
-                android:text="Flete por cotizar"
+                android:text="Fletes por cotizar"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="15sp" />
 
@@ -64,6 +66,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linear_item_esperando_transportista"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginTop="10dp"
@@ -78,11 +81,12 @@
                 app:elevation="0dp" />
 
             <TextView
+                android:id="@+id/item_num_esperando_transportista"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
-                android:text="2"
+                android:text="0"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="15sp" />
@@ -92,7 +96,7 @@
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
-                android:text="Esperando transportista"
+                android:text="Esperando por transportista"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="15sp" />
 
@@ -100,6 +104,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linear_item_transportista_por_confirmar"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginTop="10dp"
@@ -114,11 +119,12 @@
                 app:elevation="0dp" />
 
             <TextView
+                android:id="@+id/item_num_transportista_por_confirmar"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
-                android:text="3"
+                android:text="0"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="15sp" />
@@ -128,7 +134,7 @@
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
-                android:text="Transportista por confirmar"
+                android:text="Transportistas por confirmar"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="15sp" />
 
@@ -136,6 +142,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linear_unidades_por_asignar"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginTop="10dp"
@@ -150,11 +157,12 @@
                 app:elevation="0dp" />
 
             <TextView
+                android:id="@+id/item_num_unidades_por_asignar"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
-                android:text="4"
+                android:text="0"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="15sp" />
@@ -171,6 +179,44 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linear_item_envio_por_iniciar"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20dp">
+
+            <android.support.design.widget.FloatingActionButton
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="5dp"
+                app:backgroundTint="@color/colorPanelFletesCinco"
+                app:elevation="0dp" />
+
+            <TextView
+                android:id="@+id/item_num_envio_por_iniciar"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:text="0"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:text="Fletes esperando inicio de envío"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_item_en_progreso"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginTop="10dp"
@@ -182,15 +228,16 @@
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginRight="5dp"
-                app:backgroundTint="@color/colorPanelFletesCinco"
+                app:backgroundTint="@color/colorPanelFletesSeis"
                 app:elevation="0dp" />
 
             <TextView
+                android:id="@+id/item_num_en_progreso"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
-                android:text="4"
+                android:text="0"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="15sp" />
@@ -200,7 +247,118 @@
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
-                android:text="En progreso"
+                android:text="Fletes en progreso"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_item_entregado"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20dp">
+
+            <android.support.design.widget.FloatingActionButton
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="5dp"
+                app:backgroundTint="@color/colorPanelFletesSiete"
+                app:elevation="0dp" />
+
+            <TextView
+                android:id="@+id/item_num_entregado"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:text="0"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:text="Fletes Entregados"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_item_finalizado"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20dp">
+
+            <android.support.design.widget.FloatingActionButton
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="5dp"
+                app:backgroundTint="@color/colorPanelFletesOcho"
+                app:elevation="0dp" />
+
+            <TextView
+                android:id="@+id/item_num_finalizado"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:text="0"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:text="Fletes finalizados"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_item_cancelado"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20dp">
+
+            <android.support.design.widget.FloatingActionButton
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="5dp"
+                app:backgroundTint="@color/colorPanelFletesNueve"
+                app:elevation="0dp" />
+
+            <TextView
+                android:id="@+id/item_num_cancelado"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:text="0"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:text="Fletes cancelados"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="15sp" />
 

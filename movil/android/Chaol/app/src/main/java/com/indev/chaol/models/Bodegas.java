@@ -20,7 +20,7 @@ public class Bodegas implements Serializable {
     private String nombreDelCliente;
 
     private String firebaseIdBodega;
-    private String firebaseIdCliente;
+    private String firebaseIdDelCliente;
     private String estatus;
     private Long fechaDeCreacion;
     private Long fechaDeEdicion;
@@ -30,7 +30,7 @@ public class Bodegas implements Serializable {
 
     }
 
-    public Bodegas(String nombreDeLaBodega, String estado, String ciudad, String colonia, String codigoPostal, String calle, String numeroInterior, String numeroExterior, String nombreDelCliente, String firebaseIdBodega, String firebaseIdCliente, String estatus, Long fechaDeCreacion, Long fechaDeEdicion) {
+    public Bodegas(String nombreDeLaBodega, String estado, String ciudad, String colonia, String codigoPostal, String calle, String numeroInterior, String numeroExterior, String nombreDelCliente, String firebaseIdBodega, String firebaseIdDelCliente, String estatus, Long fechaDeCreacion, Long fechaDeEdicion) {
         this.nombreDeLaBodega = nombreDeLaBodega;
         this.estado = estado;
         this.ciudad = ciudad;
@@ -41,7 +41,7 @@ public class Bodegas implements Serializable {
         this.numeroExterior = numeroExterior;
         this.nombreDelCliente = nombreDelCliente;
         this.firebaseIdBodega = firebaseIdBodega;
-        this.firebaseIdCliente = firebaseIdCliente;
+        this.firebaseIdDelCliente = firebaseIdDelCliente;
         this.estatus = estatus;
         this.fechaDeCreacion = fechaDeCreacion;
         this.fechaDeEdicion = fechaDeEdicion;
@@ -119,12 +119,12 @@ public class Bodegas implements Serializable {
         this.firebaseIdBodega = firebaseIdBodega;
     }
 
-    public String getFirebaseIdCliente() {
-        return firebaseIdCliente;
+    public String getFirebaseIdDelCliente() {
+        return firebaseIdDelCliente;
     }
 
-    public void setFirebaseIdCliente(String firebaseIdCliente) {
-        this.firebaseIdCliente = firebaseIdCliente;
+    public void setFirebaseIdDelCliente(String firebaseIdDelCliente) {
+        this.firebaseIdDelCliente = firebaseIdDelCliente;
     }
 
     public String getEstatus() {

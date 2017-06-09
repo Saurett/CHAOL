@@ -324,6 +324,60 @@ public class RegistroChoferesFragment extends Fragment implements View.OnClickLi
         activityInterface.createUserChofer(chofer);
     }
 
+    /**Verifica los campos obligatorios para editar**/
+    private void validationEditer() {
+
+        Boolean authorized = true;
+
+        String email = txtCorreoElectronico.getText().toString();
+
+        if (TextUtils.isEmpty(email)) {
+            txtCorreoElectronico.setError("El campo es obligatorio", null);
+            txtCorreoElectronico.requestFocus();
+            authorized = false;
+        }
+
+        if (authorized) {
+            this.updateUserChofer();
+        } else {
+            Toast.makeText(getContext(), "Es necesario capturar campos obligatorios",
+                    Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    private void updateUserChofer() {
+
+        Choferes chofer = new Choferes();
+
+        chofer.setNombre(txtNombre.getText().toString().trim());
+        chofer.setEmpresaTransportista(spinnerEmpresa.getSelectedItem().toString().trim());
+        chofer.setNumeroDeLicencia(txtNumeroLicencia.getText().toString().trim());
+        chofer.setNumeroDeSeguroSocial(txtNSS.getText().toString().trim());
+        chofer.setCURP(txtCURP.getText().toString().trim());
+        chofer.setEstado(txtEstado.getText().toString().trim());
+        chofer.setCiudad(txtCiudad.getText().toString().trim());
+        chofer.setColonia(txtColonia.getText().toString().trim());
+        chofer.setCodigoPostal(txtCodigoPostal.getText().toString().trim());
+        chofer.setCalle(txtCalle.getText().toString().trim());
+        chofer.setNumeroInterior(txtNumInt.getText().toString().trim());
+        chofer.setNumeroExterior(txtNumExt.getText().toString().trim());
+        chofer.setTelefono(txtTelefono.getText().toString().trim());
+        chofer.setCelular1(txtCelular1.getText().toString().trim());
+        chofer.setCelular2(txtCelular2.getText().toString().trim());
+        chofer.setCorreoElectronico(txtCorreoElectronico.getText().toString().trim());
+        chofer.setContraseña(txtPassword.getText().toString().trim());
+
+        chofer.setFirebaseId(_choferActual.getFirebaseId());
+        chofer.setFechaDeCreacion(_choferActual.getFechaDeCreacion());
+        chofer.setFirebaseIdTransportista(_choferActual.getFirebaseIdTransportista());
+        chofer.setEstatus(_choferActual.getEstatus());
+
+        /**metodo principal para actualizar usuario**/
+        activityInterface.updateChofer(chofer);
+    }
+
+
     private void onCargarSpinnerTransportistas() {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
                 R.layout.text_spinner, transportistasList);
@@ -387,6 +441,7 @@ public class RegistroChoferesFragment extends Fragment implements View.OnClickLi
     public void onClick(DialogInterface dialog, int which) {
         switch (which) {
             case DialogInterface.BUTTON_POSITIVE:
+                this.validationEditer();
                 break;
         }
     }

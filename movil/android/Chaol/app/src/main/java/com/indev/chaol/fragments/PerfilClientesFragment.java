@@ -180,6 +180,7 @@ public class PerfilClientesFragment extends Fragment implements View.OnClickList
                 txtTelefono.setText(cliente.getTelefono());
                 txtCelular.setText(cliente.getCelular());
                 txtCorreoElectronico.setText(cliente.getCorreoElectronico());
+
                 txtCorreoElectronico.setTag(txtCorreoElectronico.getKeyListener());
                 txtCorreoElectronico.setKeyListener(null);
 

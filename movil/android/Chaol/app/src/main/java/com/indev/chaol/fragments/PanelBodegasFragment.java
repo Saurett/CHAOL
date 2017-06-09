@@ -88,6 +88,10 @@ public class PanelBodegasFragment extends Fragment implements View.OnClickListen
 
                         if (!Constants.FB_KEY_ITEM_ESTATUS_ACTIVO.equals(cliente.getEstatus())) break;
 
+                        if (_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE)) {
+                            if (!_SESSION_USER.getFirebaseId().equals(postSnapshot.getKey())) continue;
+                        }
+
                         if (bodega.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ACTIVO)) {
                             count++;
                             txtNumBodegas.setText(String.valueOf(count));

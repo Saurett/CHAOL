@@ -23,6 +23,7 @@ import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
 import com.indev.chaol.models.Bodegas;
 import com.indev.chaol.models.Clientes;
 import com.indev.chaol.models.DecodeItem;
+import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
 
 import java.util.ArrayList;
@@ -42,6 +43,8 @@ public class BodegasFragment extends Fragment implements View.OnClickListener {
     private ProgressDialog pDialog;
     private static NavigationDrawerInterface navigationDrawerInterface;
 
+    private static Usuarios _SESSION_USER;
+
     /**
      * Declaraciones para Firebase
      **/
@@ -52,6 +55,8 @@ public class BodegasFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_bodegas, container, false);
+
+        _SESSION_USER = (Usuarios) getActivity().getIntent().getSerializableExtra(Constants.KEY_SESSION_USER);
 
         recyclerViewBodegas = (RecyclerView) view.findViewById(R.id.recycler_view_bodegas);
         bodegasAdapter = new BodegasAdapter();
@@ -86,8 +91,12 @@ public class BodegasFragment extends Fragment implements View.OnClickListener {
 
                         if (!Constants.FB_KEY_ITEM_ESTATUS_ACTIVO.equals(cliente.getEstatus())) break;
 
+                        if (_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE)) {
+                            if (!_SESSION_USER.getFirebaseId().equals(postSnapshot.getKey())) continue;
+                        }
+
                         if (bodega.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ACTIVO)) {
-                            bodega.setFirebaseIdCliente(postSnapshot.getKey());
+                            bodega.setFirebaseIdDelCliente(postSnapshot.getKey());
                             bodegasList.add(bodega);
                         }
                     }
