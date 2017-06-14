@@ -71,7 +71,7 @@
                         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
                         var firebaseUsuario = Firebase.Object(refUsuario);
                         firebaseUsuario.$loaded().then(function () {
-                            switch (firebaseUsuario.$value) {
+                            switch (firebaseUsuario.tipoDeUsuario) {
                                 case 'administrador':
                                     break;
                                 case 'cliente':
@@ -100,7 +100,7 @@
                         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
                         var firebaseUsuario = Firebase.Object(refUsuario);
                         firebaseUsuario.$loaded().then(function () {
-                            switch (firebaseUsuario.$value) {
+                            switch (firebaseUsuario.tipoDeUsuario) {
                                 case 'administrador':
                                     break;
                                 case 'cliente':
@@ -129,7 +129,7 @@
                         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
                         var firebaseUsuario = Firebase.Object(refUsuario);
                         firebaseUsuario.$loaded().then(function () {
-                            switch (firebaseUsuario.$value) {
+                            switch (firebaseUsuario.tipoDeUsuario) {
                                 case 'administrador':
                                     break;
                                 case 'cliente':
@@ -158,7 +158,7 @@
                         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
                         var firebaseUsuario = Firebase.Object(refUsuario);
                         firebaseUsuario.$loaded().then(function () {
-                            switch (firebaseUsuario.$value) {
+                            switch (firebaseUsuario.tipoDeUsuario) {
                                 case 'administrador':
                                     break;
                                 case 'cliente':
@@ -187,7 +187,7 @@
                         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
                         var firebaseUsuario = Firebase.Object(refUsuario);
                         firebaseUsuario.$loaded().then(function () {
-                            switch (firebaseUsuario.$value) {
+                            switch (firebaseUsuario.tipoDeUsuario) {
                                 case 'administrador':
                                     break;
                                 case 'cliente':
@@ -216,7 +216,7 @@
                         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
                         var firebaseUsuario = Firebase.Object(refUsuario);
                         firebaseUsuario.$loaded().then(function () {
-                            switch (firebaseUsuario.$value) {
+                            switch (firebaseUsuario.tipoDeUsuario) {
                                 case 'administrador':
                                     break;
                                 case 'cliente':
@@ -245,7 +245,7 @@
                         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
                         var firebaseUsuario = Firebase.Object(refUsuario);
                         firebaseUsuario.$loaded().then(function () {
-                            switch (firebaseUsuario.$value) {
+                            switch (firebaseUsuario.tipoDeUsuario) {
                                 case 'administrador':
                                     break;
                                 case 'cliente':
@@ -273,7 +273,7 @@
                         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
                         var firebaseUsuario = Firebase.Object(refUsuario);
                         firebaseUsuario.$loaded().then(function () {
-                            switch (firebaseUsuario.$value) {
+                            switch (firebaseUsuario.tipoDeUsuario) {
                                 case 'administrador':
                                     break;
                                 case 'cliente':
@@ -301,7 +301,7 @@
                         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
                         var firebaseUsuario = Firebase.Object(refUsuario);
                         firebaseUsuario.$loaded().then(function () {
-                            switch (firebaseUsuario.$value) {
+                            switch (firebaseUsuario.tipoDeUsuario) {
                                 case 'administrador':
                                     break;
                                 case 'cliente':
@@ -329,7 +329,7 @@
                         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
                         var firebaseUsuario = Firebase.Object(refUsuario);
                         firebaseUsuario.$loaded().then(function () {
-                            switch (firebaseUsuario.$value) {
+                            switch (firebaseUsuario.tipoDeUsuario) {
                                 case 'administrador':
                                     break;
                                 case 'cliente':
@@ -357,7 +357,7 @@
                         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
                         var firebaseUsuario = Firebase.Object(refUsuario);
                         firebaseUsuario.$loaded().then(function () {
-                            switch (firebaseUsuario.$value) {
+                            switch (firebaseUsuario.tipoDeUsuario) {
                                 case 'administrador':
                                     break;
                                 case 'cliente':
@@ -385,7 +385,7 @@
                         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
                         var firebaseUsuario = Firebase.Object(refUsuario);
                         firebaseUsuario.$loaded().then(function () {
-                            switch (firebaseUsuario.$value) {
+                            switch (firebaseUsuario.tipoDeUsuario) {
                                 case 'administrador':
                                     break;
                                 case 'cliente':
@@ -414,7 +414,7 @@
                         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
                         var firebaseUsuario = Firebase.Object(refUsuario);
                         firebaseUsuario.$loaded().then(function () {
-                            switch (firebaseUsuario.$value) {
+                            switch (firebaseUsuario.tipoDeUsuario) {
                                 case 'administrador':
                                     break;
                                 case 'cliente':
@@ -442,7 +442,7 @@
                         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
                         var firebaseUsuario = Firebase.Object(refUsuario);
                         firebaseUsuario.$loaded().then(function () {
-                            switch (firebaseUsuario.$value) {
+                            switch (firebaseUsuario.tipoDeUsuario) {
                                 case 'administrador':
                                     break;
                                 case 'cliente':
@@ -470,7 +470,7 @@
                         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
                         var firebaseUsuario = Firebase.Object(refUsuario);
                         firebaseUsuario.$loaded().then(function () {
-                            switch (firebaseUsuario.$value) {
+                            switch (firebaseUsuario.tipoDeUsuario) {
                                 case 'administrador':
                                     break;
                                 case 'cliente':
@@ -499,7 +499,7 @@
                         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
                         var firebaseUsuario = Firebase.Object(refUsuario);
                         firebaseUsuario.$loaded().then(function () {
-                            switch (firebaseUsuario.$value) {
+                            switch (firebaseUsuario.tipoDeUsuario) {
                                 case 'administrador':
                                     break;
                                 case 'cliente':
@@ -527,7 +527,7 @@
                         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
                         var firebaseUsuario = Firebase.Object(refUsuario);
                         firebaseUsuario.$loaded().then(function () {
-                            switch (firebaseUsuario.$value) {
+                            switch (firebaseUsuario.tipoDeUsuario) {
                                 case 'administrador':
                                     break;
                                 case 'cliente':
@@ -555,7 +555,7 @@
                         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
                         var firebaseUsuario = Firebase.Object(refUsuario);
                         firebaseUsuario.$loaded().then(function () {
-                            switch (firebaseUsuario.$value) {
+                            switch (firebaseUsuario.tipoDeUsuario) {
                                 case 'administrador':
                                     break;
                                 case 'cliente':
@@ -588,7 +588,7 @@
                         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
                         var firebaseUsuario = Firebase.Object(refUsuario);
                         firebaseUsuario.$loaded().then(function () {
-                            switch (firebaseUsuario.$value) {
+                            switch (firebaseUsuario.tipoDeUsuario) {
                                 case 'administrador':
                                     break;
                                 case 'cliente':
@@ -678,7 +678,7 @@
                 usuario.$loaded().then(function () {
                     var refObjeto;
                     var objeto;
-                    switch (usuario.$value) {
+                    switch (usuario.tipoDeUsuario) {
                         case 'administrador':
                             $location.path('/CHAOL');
                             break;
@@ -918,7 +918,7 @@
                 console.log('Client created.');
 
                 //CREAR USUARIO EN DB
-                refUsuarios.child(usuario.uid).set('cliente').then(function () {
+                refUsuarios.child(usuario.uid).child('tipoDeUsuario').set('cliente').then(function () {
                     console.log('User added in DB.');
                 });
 
@@ -1058,7 +1058,7 @@
                 console.log('Client created.');
 
                 //CREAR USUARIO EN DB
-                refUsuarios.child(usuario.uid).set('transportista').then(function () {
+                refUsuarios.child(usuario.uid).child('tipoDeUsuario').set('transportista').then(function () {
                     console.log('User added in DB.');
                 });
 
@@ -1124,7 +1124,7 @@
         //INICIALIZAR CHOFER
         $scope.firebaseChofer = {
             nombre: "",
-            empresaTransportista: "",
+            firebaseIdDelTransportista: "",
             numeroDeLicencia: "",
             numeroDeSeguroSocial: "",
             curp: "",
@@ -1178,7 +1178,7 @@
                         refPath.getDownloadURL().then(function (url) {
                             //ACTUALIZACIÓN DE IMAGEN EN BD
                             refChofer.child(usuario.uid).child('imagenURL').set(url);
-                            var refTransportista = firebase.database().ref('transportistas').child($scope.firebaseChofer.empresaTransportista).child('choferes');
+                            var refTransportista = firebase.database().ref('transportistas').child($scope.firebaseChofer.firebaseIdDelTransportista).child('choferes');
                             refTransportista.child(usuario.uid).child('imagenURL').set(url);
                             console.log(url);
                             $scope.firebaseChofer.imagenURL = url;
@@ -1213,7 +1213,7 @@
                 console.log('Transportist created.');
 
                 //CREAR USUARIO EN DB
-                refUsuarios.child(usuario.uid).set('chofer').then(function () {
+                refUsuarios.child(usuario.uid).child('tipoDeUsuario').set('chofer').then(function () {
                     console.log('User added in DB.');
                 });
 
@@ -1222,7 +1222,7 @@
                 refTransportista.on("value", function (snapshot) {
                     snapshot.forEach(function (childSnapshot) {
                         var transportista = childSnapshot.val();
-                        if (transportista.transportista.nombre === $scope.firebaseChofer.empresaTransportista) {
+                        if (transportista.transportista.firebaseId === $scope.firebaseChofer.firebaseIdDelTransportista) {
                             var id = transportista.transportista.firebaseId;
                             var refTrans = firebase.database().ref('transportistas').child(id).child('choferes').child(usuario.uid);
                             refTrans.set($scope.firebaseChofer).then(function () {
@@ -1377,7 +1377,7 @@
         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
         var firebaseUsuario = $firebaseObject(refUsuario);
         firebaseUsuario.$loaded().then(function () {
-            switch (firebaseUsuario.$value) {
+            switch (firebaseUsuario.tipoDeUsuario) {
                 case 'administrador':
                     $scope.menu.inicio = true;
                     $scope.menu.administracion.clientes = true;
@@ -1439,7 +1439,7 @@
         firebaseUsuario.$loaded().then(function () {
             var refObjeto;
             var objeto;
-            switch (firebaseUsuario.$value) {
+            switch (firebaseUsuario.tipoDeUsuario) {
                 case 'administrador':
                     break;
                 case 'cliente':
@@ -1525,7 +1525,7 @@
         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
         var firebaseUsuario = $firebaseObject(refUsuario);
         firebaseUsuario.$loaded().then(function () {
-            switch (firebaseUsuario.$value) {
+            switch (firebaseUsuario.tipoDeUsuario) {
                 case 'administrador':
                     //FLETES
                     var refFletes = firebase.database().ref().child('fletesPorAsignar');
@@ -2223,7 +2223,7 @@
 
             //CREAR USUARIO EN BASE DE DATOS
             var crearUsuarioBD = function (cliente) {
-                return refUsuarios.child(cliente.firebaseId).set('cliente');
+                return refUsuarios.child(cliente.firebaseId).child('tipoDeUsuario').set('cliente');
             }
 
             //ACTUALIZACIÓN DE CLIENTE EN BD
@@ -2600,7 +2600,7 @@
 
             //CREAR USUARIO EN BASE DE DATOS
             var crearUsuarioBD = function (transportista) {
-                return refUsuarios.child(transportista.firebaseId).set('transportista');
+                return refUsuarios.child(transportista.firebaseId).child('tipoDeUsuario').set('transportista');
             }
 
             //ACTUALIZACIÓN DE TRANSPORTISTA EN BD
@@ -2847,7 +2847,7 @@
         var firebaseUsuario = $firebaseObject(refUsuario);
         firebaseUsuario.$loaded().then(function () {
             var refChoferes;
-            switch (firebaseUsuario.$value) {
+            switch (firebaseUsuario.tipoDeUsuario) {
                 case 'administrador':
                     var refChoferes = firebase.database().ref().child('choferes').orderByChild('nombre');
                     break;
@@ -2883,10 +2883,10 @@
                     refTransportista.once("value").then(function (snapshot) {
                         snapshot.forEach(function (childSnapshot) {
                             var transportista = childSnapshot.val();
-                            if (transportista.transportista.nombre === chofer.empresaTransportista) {
+                            if (transportista.transportista.firebaseId === chofer.firebaseIdDelTransportista) {
                                 var id = transportista.transportista.firebaseId;
                                 var refTrans = firebase.database().ref('transportistas').child(id).child('choferes').child(chofer.firebaseId).child('estatus');
-                                refTrans.set(chofer.estatus).then(function () {
+                                refTrans.set(firebaseChofer.estatus).then(function () {
                                     console.log('Client added in Transportist');
                                 });
                             }
@@ -2922,8 +2922,8 @@
                     });
 
                     var refTransportistas = firebase.database().ref().child('transportistas');
-                    refTransportistas.orderByChild('transportista/nombre').equalTo(chofer.empresaTransportista).on("child_added", function (snapshot) {
-                        refTransportistas.child(snapshot.key).child('choferes').child(chofer.firebaseId).child('estatus').set('eliminado');
+                    refTransportistas.child(chofer.firebaseIdDelTransportista).on("child_added", function (snapshot) {
+                        refTransportistas.child(chofer.firebaseIdDelTransportista).child('choferes').child(chofer.firebaseId).child('estatus').set('eliminado');
                     });
                 });
             });
@@ -2941,7 +2941,7 @@
         //INICIALIZAR CHOFER
         $scope.firebaseChofer = {
             nombre: "",
-            empresaTransportista: "",
+            firebaseIdDelTransportista: "",
             numeroDeLicencia: "",
             numeroDeSeguroSocial: "",
             curp: "",
@@ -2986,17 +2986,13 @@
         var firebaseUsuario = $firebaseObject(refUsuario);
         firebaseUsuario.$loaded().then(function () {
             var refChoferes;
-            switch (firebaseUsuario.$value) {
+            switch (firebaseUsuario.tipoDeUsuario) {
                 case 'administrador':
                     $scope.administrador = true;
                     break;
                 case "transportista":
                     $scope.transportista = true;
-                    var refTransportistaUsuario = firebase.database().ref('transportistas').child(usuario.uid).child('transportista');
-                    var firebaseTransportistaUsuario = $firebaseObject(refTransportistaUsuario);
-                    firebaseTransportistaUsuario.$loaded().then(function () {
-                        $scope.firebaseChofer.empresaTransportista = firebaseTransportistaUsuario.nombre;
-                    })
+                    $scope.firebaseChofer.firebaseIdDelTransportista = usuario.uid;
                     break;
                 case "chofer":
                     $scope.chofer = true;
@@ -3015,7 +3011,6 @@
                 console.log('Chofer found');
                 if (usuario.uid === $routeParams.ID) {
                     $scope.correoElectronicoAnterior = $scope.firebaseChofer.correoElectronico;
-                    $scope.ownUser = true;
                 }
             }).catch(function (error) {
                 console.log(error);
@@ -3032,14 +3027,14 @@
 
             //CREAR USUARIO EN BASE DE DATOS
             var crearUsuarioBD = function (chofer) {
-                return refUsuarios.child(chofer.firebaseId).set('chofer');
+                return refUsuarios.child(chofer.firebaseId).child('tipoDeUsuario').set('chofer');
             }
 
             //ACTUALIZACIÓN DE CHOFER EN BD
             var actualizarChoferBD = function (chofer) {
                 var objetoChofer = $firebaseObject(refChofer.child(chofer.firebaseId));
                 objetoChofer.nombre = chofer.nombre;
-                objetoChofer.empresaTransportista = chofer.empresaTransportista;
+                objetoChofer.firebaseIdDelTransportista = chofer.firebaseIdDelTransportista;
                 objetoChofer.numeroDeLicencia = chofer.numeroDeLicencia;
                 objetoChofer.numeroDeSeguroSocial = chofer.numeroDeSeguroSocial;
                 objetoChofer.curp = chofer.curp;
@@ -3065,10 +3060,10 @@
                     console.log('Chofer updated');
                 });
 
-                refTransportistas.orderByChild('transportista/nombre').equalTo(chofer.empresaTransportista).on("child_added", function (snapshot) {
-                    var ObjetoChoferTransportista = $firebaseObject(refTransportistas.child(snapshot.key).child('choferes').child(chofer.firebaseId));
+                refTransportistas.child(chofer.firebaseIdDelTransportista).on("child_added", function (snapshot) {
+                    var ObjetoChoferTransportista = $firebaseObject(refTransportistas.child(chofer.firebaseIdDelTransportista).child('choferes').child(chofer.firebaseId));
                     ObjetoChoferTransportista.nombre = chofer.nombre;
-                    ObjetoChoferTransportista.empresaTransportista = chofer.empresaTransportista;
+                    ObjetoChoferTransportista.firebaseIdDelTransportista = chofer.firebaseIdDelTransportista;
                     ObjetoChoferTransportista.numeroDeLicencia = chofer.numeroDeLicencia;
                     ObjetoChoferTransportista.numeroDeSeguroSocial = chofer.numeroDeSeguroSocial;
                     ObjetoChoferTransportista.curp = chofer.curp;
@@ -3106,9 +3101,9 @@
 
             //CREACIÓN DE CHOFER EN TRANSPORTISTA
             var crearChoferTransportista = function (chofer) {
-                refTransportistas.orderByChild('transportista/nombre').equalTo(chofer.empresaTransportista).on("child_added", function (snapshot) {
-                    refTransportistas.child(snapshot.key).child('choferes').child(chofer.firebaseId).set(chofer);
-                    refTransportistas.child(snapshot.key).child('choferes').child(chofer.firebaseId).child(contrasena).set(null);;
+                refTransportistas.child(chofer.firebaseIdDelTransportista).on("child_added", function (snapshot) {
+                    refTransportistas.child(chofer.firebaseIdDelTransportista).child('choferes').child(chofer.firebaseId).set(chofer);
+                    refTransportistas.child(chofer.firebaseIdDelTransportista).child('choferes').child(chofer.firebaseId).child(contrasena).set(null);;
                 });
                 console.log('Chofer created in Transportist DB');
             }
@@ -3357,7 +3352,7 @@
         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
         var firebaseUsuario = $firebaseObject(refUsuario);
         firebaseUsuario.$loaded().then(function () {
-            switch (firebaseUsuario.$value) {
+            switch (firebaseUsuario.tipoDeUsuario) {
                 case 'administrador':
                     $scope.administrador = true;
                     break;
@@ -3490,7 +3485,7 @@
         var firebaseUsuario = $firebaseObject(refUsuario);
         firebaseUsuario.$loaded().then(function () {
             var refBodegas;
-            switch (firebaseUsuario.$value) {
+            switch (firebaseUsuario.tipoDeUsuario) {
                 case 'administrador':
                     refBodegas = firebase.database().ref().child('clientes');
                     refBodegas.on("value", function (snapshot) {
@@ -3571,7 +3566,6 @@
     app.controller('tractorController', function ($scope, $location, $firebaseObject, $firebaseArray, unixTime, $firebaseAuth, $mdDialog, $firebaseStorage, createUserService, $routeParams) {
         //INICIALIZAR TRACTOR
         $scope.firebaseTractor = {
-            empresaTransportista: "",
             marca: "",
             modelo: "",
             numeroDeSerie: "",
@@ -3586,23 +3580,12 @@
 
         var refUsuarios = firebase.database().ref().child('usuarios');
         var refTransportista = firebase.database().ref().child('transportistas');
+        var refListadoTransportistas = firebase.database().ref().child('listaDeTransportistas').orderByValue();
 
         //LISTADO TRANSPORTISTAS
-        var refTransportistas = firebase.database().ref().child('transportistas');
-        refTransportistas.on("value", function (snapshot) {
-            var arrayTractores  = [];
-            snapshot.forEach(function (childSnapshot) {
-                transportistas = childSnapshot.val();
-                if (transportistas.transportista.estatus !== 'eliminado') {
-                    childSnapshot.forEach(function (transportistaSnapShot) {
-                        if (transportistaSnapShot.key === 'transportista') {
-                            var transportista = transportistaSnapShot.val();
-                            arrayTractores.push(transportista);
-                        }
-                    })
-                }
-            });
-            $scope.empresasTransportista = arrayTractores;
+        $scope.empresasTransportista = $firebaseArray(refListadoTransportistas);
+        refListadoTransportistas.on('value', function (snap) {
+            $scope.empresasTransportista.$value = snap.key;
         });
 
         //USUARIO
@@ -3614,17 +3597,13 @@
         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
         var firebaseUsuario = $firebaseObject(refUsuario);
         firebaseUsuario.$loaded().then(function () {
-            switch (firebaseUsuario.$value) {
+            switch (firebaseUsuario.tipoDeUsuario) {
                 case 'administrador':
                     $scope.administrador = true;
                     break;
                 case "transportista":
                     $scope.transportista = true;
-                    var refTransportistaUsuario = firebase.database().ref('transportistas').child(usuario.uid).child('transportista');
-                    var firebaseTransportistaUsuario = $firebaseObject(refTransportistaUsuario);
-                    firebaseTransportistaUsuario.$loaded().then(function () {
-                        $scope.firebaseTractor.empresaTransportista = firebaseTransportistaUsuario.nombre;
-                    })
+                    $scope.firebaseTractor.firebaseIdDelTransportista = usuario.uid;
                     break;
             }
         });
@@ -3658,7 +3637,7 @@
             //ACTUALIZACIÓN DE CLIENTE EN BD
             var actualizarTractorBD = function (tractor) {
                 var objetoTractor = $firebaseObject(refTransportista.child(tractor.firebaseIdDelTransportista).child('tractores').child(tractor.firebaseId));
-                objetoTractor.empresaTransportista = tractor.empresaTransportista;
+                objetoTractor.firebaseIdDelTransportista = tractor.firebaseIdDelTransportista;
                 objetoTractor.marca = tractor.marca;
                 objetoTractor.modelo = tractor.modelo;
                 objetoTractor.numeroDeSerie = tractor.numeroDeSerie;
@@ -3682,7 +3661,7 @@
                 refTransportistas.once("value", function (snapshot) {
                     snapshot.forEach(function (childSnapshot) {
                         transportistas = childSnapshot.val();
-                        if (transportistas.transportista.nombre === $scope.firebaseTractor.empresaTransportista) {
+                        if (transportistas.transportista.firebaseId === $scope.firebaseTractor.firebaseIdDelTransportista) {
                             tractor.firebaseIdDelTransportista = transportistas.transportista.firebaseId;
                             var firebaseTractor = refTransportista.child(tractor.firebaseIdDelTransportista).child('tractores').push();
                             tractor.firebaseId = firebaseTractor.key;
@@ -3743,7 +3722,7 @@
         var firebaseUsuario = $firebaseObject(refUsuario);
         firebaseUsuario.$loaded().then(function () {
             var refTractores;
-            switch (firebaseUsuario.$value) {
+            switch (firebaseUsuario.tipoDeUsuario) {
                 case 'administrador':
                     refTractores = firebase.database().ref().child('transportistas');
                     refTractores.on("value", function (snapshot) {
@@ -3829,7 +3808,6 @@
 
         //INICIALIZAR TRACTOR
         $scope.firebaseRemolque = {
-            empresaTransportista: "",
             marca: "",
             modelo: "",
             numeroDeSerie: "",
@@ -3845,23 +3823,12 @@
 
         var refUsuarios = firebase.database().ref().child('usuarios');
         var refTransportista = firebase.database().ref().child('transportistas');
+        var refListadoTransportistas = firebase.database().ref().child('listaDeTransportistas').orderByValue();
 
         //LISTADO TRANSPORTISTAS
-        var refTransportistas = firebase.database().ref().child('transportistas');
-        refTransportistas.on("value", function (snapshot) {
-            var arrayTransportistas  = [];
-            snapshot.forEach(function (childSnapshot) {
-                transportistas = childSnapshot.val();
-                if (transportistas.transportista.estatus !== 'eliminado') {
-                    childSnapshot.forEach(function (transportistaSnapShot) {
-                        if (transportistaSnapShot.key === 'transportista') {
-                            var transportista = transportistaSnapShot.val();
-                            arrayTransportistas.push(transportista);
-                        }
-                    })
-                }
-            });
-            $scope.empresasTransportista = arrayTransportistas;
+        $scope.empresasTransportista = $firebaseArray(refListadoTransportistas);
+        refListadoTransportistas.on('value', function (snap) {
+            $scope.empresasTransportista.$value = snap.key;
         });
 
         //USUARIO
@@ -3873,17 +3840,13 @@
         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
         var firebaseUsuario = $firebaseObject(refUsuario);
         firebaseUsuario.$loaded().then(function () {
-            switch (firebaseUsuario.$value) {
+            switch (firebaseUsuario.tipoDeUsuario) {
                 case 'administrador':
                     $scope.administrador = true;
                     break;
                 case "transportista":
                     $scope.transportista = true;
-                    var refTransportistaUsuario = firebase.database().ref('transportistas').child(usuario.uid).child('transportista');
-                    var firebaseTransportistaUsuario = $firebaseObject(refTransportistaUsuario);
-                    firebaseTransportistaUsuario.$loaded().then(function () {
-                        $scope.firebaseRemolque.empresaTransportista = firebaseTransportistaUsuario.nombre;
-                    })
+                    $scope.firebaseRemolque.firebaseIdDelTransportista = usuario.uid;
                     break;
             }
         });
@@ -3918,7 +3881,7 @@
             //ACTUALIZACIÓN DE CLIENTE EN BD
             var actualizarRemolqueBD = function (remolque) {
                 var objetoRemolque = $firebaseObject(refTransportista.child(remolque.firebaseIdDelTransportista).child('remolques').child(remolque.firebaseId));
-                objetoRemolque.empresaTransportista = remolque.empresaTransportista;
+                objetoRemolque.firebaseIdDelTransportista = remolque.firebaseIdDelTransportista;
                 objetoRemolque.marca = remolque.marca;
                 objetoRemolque.modelo = remolque.modelo;
                 objetoRemolque.numeroDeSerie = remolque.numeroDeSerie;
@@ -3943,7 +3906,7 @@
                 refTransportistas.once("value", function (snapshot) {
                     snapshot.forEach(function (childSnapshot) {
                         transportistas = childSnapshot.val();
-                        if (transportistas.transportista.nombre === $scope.firebaseRemolque.empresaTransportista) {
+                        if (transportistas.transportista.firebaseId === $scope.firebaseRemolque.firebaseIdDelTransportista) {
                             remolque.firebaseIdDelTransportista = transportistas.transportista.firebaseId;
                             var firebaseRemolque = refTransportista.child(remolque.firebaseIdDelTransportista).child('remolques').push();
                             remolque.firebaseId = firebaseRemolque.key;
@@ -4004,7 +3967,7 @@
         var firebaseUsuario = $firebaseObject(refUsuario);
         firebaseUsuario.$loaded().then(function () {
             var refRemolques;
-            switch (firebaseUsuario.$value) {
+            switch (firebaseUsuario.tipoDeUsuario) {
                 case 'administrador':
                     refRemolques = firebase.database().ref().child('transportistas');
                     refRemolques.on("value", function (snapshot) {
@@ -4090,7 +4053,7 @@
         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
         var firebaseUsuario = $firebaseObject(refUsuario);
         firebaseUsuario.$loaded().then(function () {
-            switch (firebaseUsuario.$value) {
+            switch (firebaseUsuario.tipoDeUsuario) {
                 case 'administrador':
                     //FLETES
                     var refFletes = firebase.database().ref().child('fletesPorAsignar').orderByChild('flete/fechaDeSalida');
@@ -4099,9 +4062,20 @@
                         var arrayListado = [];
                         var arrayFletes = [];
                         snapshot.forEach(function (childSnapshot) {
+                            //FLETE ENCONTRADO
                             fletes = childSnapshot.val();
+                            //TRANSPORTISTA SELECCIONADO
                             var transportistaSeleccionado = buscarTransportistaSeleccionado(fletes, childSnapshot);
+                            //ESTATUS DEL FLETE
                             var estatusFlete = buscarEstatusFlete(fletes);
+                            //ICONO QUE INDICA LA ALERTA
+                            var alerta = false;
+                            if (estatusFlete === 'Por Cotizar'
+                                || estatusFlete === 'Transportista Por Confirmar') {
+                                alerta = true;
+                            }
+
+                            //ANEXO A ARREGLO PARA CALENDARIO
                             arrayFletes.push({
                                 id: fletes.flete.idFlete,
                                 firebaseId: fletes.flete.firebaseId,
@@ -4110,12 +4084,16 @@
                                 name: fletes.flete.cliente,
                                 startDate: new Date(parseInt(fletes.flete.fechaDeSalida * 1000)),
                                 endDate: new Date(parseInt(fletes.flete.fechaDeSalida * 1000)),
-                                estatus: estatusFlete
+                                estatus: estatusFlete,
+                                alert: alerta
                             });
+
+                            //ANEXO A ARREGLO PARA LA LISTA DE LA DERECHA
                             if (estatusFlete === 'Por Cotizar'
                                 || estatusFlete === 'Esperando Por Transportista'
                                 || estatusFlete === 'Transportisa Por Confirmar'
-                                || estatusFlete === 'Unidades Por Asignar') {
+                                || estatusFlete === 'Unidades Por Asignar'
+                                || estatusFlete === 'Envío Por Iniciar') {
                                 arrayListado.push({
                                     id: fletes.flete.idFlete,
                                     firebaseId: fletes.flete.firebaseId,
@@ -4135,65 +4113,207 @@
                     break;
                 case 'cliente':
                     //FLETES
-                    var refFletes = firebase.database().ref().child('fletesPorAsignar');
+                    var refFletes = firebase.database().ref().child('fletesPorAsignar').orderByChild('flete/fechaDeSalida');
                     refFletes.on("value", function (snapshot) {
+                        var arrayListado = [];
                         var arrayFletes = [];
                         snapshot.forEach(function (childSnapshot) {
+                            //FLETE ENCONTRADO
                             fletes = childSnapshot.val();
                             if (fletes.bodegaDeCarga.firebaseIdDelCliente === usuario.uid) {
-                                arrayFletes.push(fletes.flete);
+                                //TRANSPORTISTA SELECCIONADO
+                                var transportistaSeleccionado = buscarTransportistaSeleccionado(fletes, childSnapshot);
+                                //ESTATUS DEL FLETE
+                                var estatusFlete = buscarEstatusFlete(fletes);
+                                //ICONO QUE INDICA LA ALERTA
+                                var alerta = false;
+
+                                //ANEXO A ARREGLO PARA CALENDARIO
+                                arrayFletes.push({
+                                    id: fletes.flete.idFlete,
+                                    firebaseId: fletes.flete.firebaseId,
+                                    cliente: fletes.flete.cliente,
+                                    transportista: transportistaSeleccionado,
+                                    name: fletes.flete.cliente,
+                                    startDate: new Date(parseInt(fletes.flete.fechaDeSalida * 1000)),
+                                    endDate: new Date(parseInt(fletes.flete.fechaDeSalida * 1000)),
+                                    estatus: estatusFlete,
+                                    alert: alerta
+                                });
+
+                                //ANEXO A ARREGLO PARA LA LISTA DE LA DERECHA
+                                if (estatusFlete === 'Por Cotizar'
+                                    || estatusFlete === 'Esperando Por Transportista'
+                                    || estatusFlete === 'Transportisa Por Confirmar'
+                                    || estatusFlete === 'Unidades Por Asignar'
+                                    || estatusFlete === 'Envío Por Iniciar') {
+                                    arrayListado.push({
+                                        id: fletes.flete.idFlete,
+                                        firebaseId: fletes.flete.firebaseId,
+                                        cliente: fletes.flete.cliente,
+                                        transportista: transportistaSeleccionado,
+                                        name: fletes.flete.cliente,
+                                        startDate: new Date(parseInt(fletes.flete.fechaDeSalida * 1000)),
+                                        endDate: new Date(parseInt(fletes.flete.fechaDeSalida * 1000)),
+                                        estatus: estatusFlete
+                                    });
+                                }
                             }
                         });
-                        buscarFletes(arrayFletes);
+                        $scope.listadoFletes = arrayListado;
+                        iniciar_calendario('#div_calendario', arrayFletes);
+                        document.getElementById('div_progress').className = 'col-lg-12 div-progress hidden';
                     });
                     break;
                 case 'transportista':
-                    //FLETES DISPONIBLES
-                    var refFletes = firebase.database().ref().child('fletesPorAsignar');
+                    //FLETES
+                    var refFletes = firebase.database().ref().child('fletesPorAsignar').orderByChild('flete/fechaDeSalida');
                     refFletes.on("value", function (snapshot) {
+                        var arrayListado = [];
                         var arrayFletes = [];
                         snapshot.forEach(function (childSnapshot) {
+                            //FLETE ENCONTRADO
                             fletes = childSnapshot.val();
-                            if (fletes.flete.estatus === "esperandoPorTransportista") {
-                                arrayFletes.push(fletes.flete);
-                            }
-                        });
-                        buscarEsperandoPorTransportista(arrayFletes);
-                    });
+                            //TRANSPORTISTA SELECCIONADO
+                            var transportistaSeleccionado = buscarTransportistaSeleccionado(fletes, childSnapshot);
+                            //ESTATUS DEL FLETE
+                            var estatusFlete = buscarEstatusFlete(fletes);
+                            //ICONO QUE INDICA LA ALERTA
+                            var alerta = true;
 
-                    //FLETES INTERESADOS
-                    var refFletes = firebase.database().ref().child('fletesPorAsignar');
-                    refFletes.on("value", function (snapshot) {
-                        var arrayFletes = [];
-                        snapshot.forEach(function (childSnapshot) {
-                            fletes = childSnapshot.val();
-                            if (fletes.transportistasInteresados !== undefined) {
-                                if (fletes.transportistasInteresados.key === usuario.uid && fletes.flete.estatus === "transportistaPorConfirmar") {
-                                    arrayFletes.push(fletes.flete);
-                                }
+                            switch (estatusFlete) {
+                                case 'Esperando Por Transportista':
+                                case 'Transportista Por Confirmar':
+                                    snapshot.forEach(function (childSnapshot) {
+                                        if (childSnapshot.key === 'transportistasInteresados') {
+                                            childSnapshot.forEach(function (interesadosSnapshot) {
+                                                var interesado = interesadosSnapshot.val();
+                                                if (interesado.firebaseId === usuario.uid) {
+                                                    alerta = false;
+                                                }
+                                            });
+                                        }
+                                    });
+                                    arrayFletes.push({
+                                        id: fletes.flete.idFlete,
+                                        firebaseId: fletes.flete.firebaseId,
+                                        cliente: fletes.flete.cliente,
+                                        transportista: transportistaSeleccionado,
+                                        name: fletes.flete.cliente,
+                                        startDate: new Date(parseInt(fletes.flete.fechaDeSalida * 1000)),
+                                        endDate: new Date(parseInt(fletes.flete.fechaDeSalida * 1000)),
+                                        estatus: estatusFlete,
+                                        alert: alerta
+                                    });
+                                    break;
+                                case 'Unidades Por Asignar':
+                                case 'Envío Por Iniciar':
+                                case 'Entregado':
+                                case 'Finalizado':
+                                case 'Cancelado':
+                                    if (estatusFlete === 'Entregado'
+                                        || estatusFlete == 'Finalizado'
+                                        || estatusFlete === 'Cancelado') {
+                                        alerta = false;
+                                    }
+                                    snapshot.forEach(function (childSnapshot) {
+                                        if (childSnapshot.key === 'transportistaSeleccionado') {
+                                            childSnapshot.forEach(function (transportistaSnapshot) {
+                                                var transportista = transportistaSnapshot.val();
+                                                if (transportista.firebaseId === usuario.uid) {
+                                                    arrayFletes.push({
+                                                        id: fletes.flete.idFlete,
+                                                        firebaseId: fletes.flete.firebaseId,
+                                                        cliente: fletes.flete.cliente,
+                                                        transportista: transportistaSeleccionado,
+                                                        name: fletes.flete.cliente,
+                                                        startDate: new Date(parseInt(fletes.flete.fechaDeSalida * 1000)),
+                                                        endDate: new Date(parseInt(fletes.flete.fechaDeSalida * 1000)),
+                                                        estatus: estatusFlete,
+                                                        alert: alerta
+                                                    });
+                                                    arrayListado.push({
+                                                        id: fletes.flete.idFlete,
+                                                        firebaseId: fletes.flete.firebaseId,
+                                                        cliente: fletes.flete.cliente,
+                                                        transportista: transportistaSeleccionado,
+                                                        name: fletes.flete.cliente,
+                                                        startDate: new Date(parseInt(fletes.flete.fechaDeSalida * 1000)),
+                                                        endDate: new Date(parseInt(fletes.flete.fechaDeSalida * 1000)),
+                                                        estatus: estatusFlete
+                                                    });
+                                                }
+                                            })
+                                        }
+                                    });
+                                    break;
+                                default:
                             }
                         });
-                        buscarTransportistaPorConfirmar(arrayFletes);
-                    });
-
-                    //FLETES ASIGNADOS
-                    var refFletes = firebase.database().ref().child('fletesPorAsignar');
-                    refFletes.on("value", function (snapshot) {
-                        var arrayFletes = [];
-                        snapshot.forEach(function (childSnapshot) {
-                            fletes = childSnapshot.val();
-                            if (fletes.transportistaSeleccionado !== undefined) {
-                                if (fletes.transportistaSeleccionado.key === usuario.uid) {
-                                    arrayFletes.push(fletes.flete);
-                                }
-                            }
-                        });
-                        buscarUnidadesPorAsignar(arrayFletes);
-                        buscarEnvioPorIniciar(arrayFletes);
-                        buscarEnProgreso(arrayFletes);
+                        $scope.listadoFletes = arrayListado;
+                        iniciar_calendario('#div_calendario', arrayFletes);
+                        document.getElementById('div_progress').className = 'col-lg-12 div-progress hidden';
                     });
                     break;
                 case 'chofer':
+                    //FLETES
+                    var refFletes = firebase.database().ref().child('fletesPorAsignar').orderByChild('flete/fechaDeSalida');
+                    refFletes.on("value", function (snapshot) {
+                        var arrayListado = [];
+                        var arrayFletes = [];
+                        snapshot.forEach(function (childSnapshot) {
+                            //FLETE ENCONTRADO
+                            fletes = childSnapshot.val();
+                            //TRANSPORTISTA SELECCIONADO
+                            var transportistaSeleccionado = buscarTransportistaSeleccionado(fletes, childSnapshot);
+                            //ESTATUS DEL FLETE
+                            var estatusFlete = buscarEstatusFlete(fletes);
+                            //ICONO QUE INDICA LA ALERTA
+                            var alerta = false;
+
+                            switch (estatusFlete) {
+                                case 'Envío Por Iniciar':
+                                case 'Entregado':
+                                case 'Finalizado':
+                                case 'Cancelado':
+                                    snapshot.forEach(function (childSnapshot) {
+                                        if (childSnapshot.key === 'transportistaSeleccionado') {
+                                            childSnapshot.forEach(function (transportistaSnapshot) {
+                                                var transportista = transportistaSnapshot.val();
+                                                if (transportista.firebaseId === usuario.uid) {
+                                                    arrayFletes.push({
+                                                        id: fletes.flete.idFlete,
+                                                        firebaseId: fletes.flete.firebaseId,
+                                                        cliente: fletes.flete.cliente,
+                                                        transportista: transportistaSeleccionado,
+                                                        name: fletes.flete.cliente,
+                                                        startDate: new Date(parseInt(fletes.flete.fechaDeSalida * 1000)),
+                                                        endDate: new Date(parseInt(fletes.flete.fechaDeSalida * 1000)),
+                                                        estatus: estatusFlete
+                                                    });
+                                                    arrayListado.push({
+                                                        id: fletes.flete.idFlete,
+                                                        firebaseId: fletes.flete.firebaseId,
+                                                        cliente: fletes.flete.cliente,
+                                                        transportista: transportistaSeleccionado,
+                                                        name: fletes.flete.cliente,
+                                                        startDate: new Date(parseInt(fletes.flete.fechaDeSalida * 1000)),
+                                                        endDate: new Date(parseInt(fletes.flete.fechaDeSalida * 1000)),
+                                                        estatus: estatusFlete
+                                                    });
+                                                }
+                                            })
+                                        }
+                                    });
+                                    break;
+                                default:
+                            }
+                        });
+                        $scope.listadoFletes = arrayListado;
+                        iniciar_calendario('#div_calendario', arrayFletes);
+                        document.getElementById('div_progress').className = 'col-lg-12 div-progress hidden';
+                    });
+                    break;
                     //FLETES ASIGNADOS
                     var refFletes = firebase.database().ref().child('fletesPorAsignar');
                     refFletes.on("value", function (snapshot) {
@@ -4250,7 +4370,7 @@
                     estatusFlete = "En Progreso";
                     break;
                 case "envioPorIniciar":
-                    estatusFlete = "Envio Por Iniciar"
+                    estatusFlete = "Envío Por Iniciar"
                     break;
                 case "entregado":
                     estatusFlete = "Entregado";
@@ -4288,7 +4408,7 @@
                 language: 'es',
                 contextMenuItems: [
                     {
-                        text: 'Consultar Flete Completo',
+                        text: 'Consultar',
                         click: detalle
                     }
                 ],

@@ -60,12 +60,12 @@
                                 <!--EMPRESA TRANSPORTISTA-->
                                 <md-input-container class="col-lg-11 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
                                     <label>Empresa Transportista</label>
-                                    <md-select name="empresaTransportista" ng-model="firebaseChofer.empresaTransportista" ng-disabled="((firebaseChofer.firebaseId && administrador) || (transportista))" ng-required="true">
-                                        <md-option ng-repeat="empresa in empresasTransportista" ng-value="empresa.$value" >
+                                    <md-select name="firebaseIdDelTransportista" ng-model="firebaseChofer.firebaseIdDelTransportista" ng-disabled="((firebaseChofer.firebaseId && administrador) || (transportista) || (chofer))" ng-required="true">
+                                        <md-option ng-repeat="empresa in empresasTransportista" ng-value="empresa.$id" >
                                             {{empresa.$value}}
                                         </md-option>
                                     </md-select>
-                                    <div ng-messages="choferes.empresaTransportista.$error" role="alert">
+                                    <div ng-messages="choferes.firebaseIdDelTransportista.$error" role="alert">
                                         <div ng-message="required">Por favor, selecciona la empresa a la que perteneces.</div>
                                     </div>
                                 </md-input-container>

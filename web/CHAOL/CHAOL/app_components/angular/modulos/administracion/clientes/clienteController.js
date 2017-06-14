@@ -81,7 +81,7 @@
 
             //CREAR USUARIO EN BASE DE DATOS
             var crearUsuarioBD = function (cliente) {
-                return refUsuarios.child(cliente.firebaseId).set('cliente');
+                return refUsuarios.child(cliente.firebaseId).child('tipoDeUsuario').set('cliente');
             }
 
             //ACTUALIZACIÓN DE CLIENTE EN BD

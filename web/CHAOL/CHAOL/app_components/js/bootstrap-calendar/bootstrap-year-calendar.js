@@ -402,6 +402,12 @@
 
                         elt.parent().css('box-shadow', boxShadow);
                     }
+                    for (var i = 0; i < events.length; i++) {
+                        if (events[i].alert) {
+                            elt.append(' <i class="fa fa-exclamation" aria-hidden="true"></i>');
+                            break;
+                        }
+                    }
                     break;
 
                 case 'background':

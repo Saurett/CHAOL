@@ -49,7 +49,7 @@
                 usuario.$loaded().then(function () {
                     var refObjeto;
                     var objeto;
-                    switch (usuario.$value) {
+                    switch (usuario.tipoDeUsuario) {
                         case 'administrador':
                             $location.path('/CHAOL');
                             break;

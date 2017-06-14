@@ -20,9 +20,20 @@
                         var arrayListado = [];
                         var arrayFletes = [];
                         snapshot.forEach(function (childSnapshot) {
+                            //FLETE ENCONTRADO
                             fletes = childSnapshot.val();
+                            //TRANSPORTISTA SELECCIONADO
                             var transportistaSeleccionado = buscarTransportistaSeleccionado(fletes, childSnapshot);
+                            //ESTATUS DEL FLETE
                             var estatusFlete = buscarEstatusFlete(fletes);
+                            //ICONO QUE INDICA LA ALERTA
+                            var alerta = false;
+                            if (estatusFlete === 'Por Cotizar'
+                                || estatusFlete === 'Transportista Por Confirmar') {
+                                alerta = true;
+                            }
+
+                            //ANEXO A ARREGLO PARA CALENDARIO
                             arrayFletes.push({
                                 id: fletes.flete.idFlete,
                                 firebaseId: fletes.flete.firebaseId,
@@ -31,12 +42,16 @@
                                 name: fletes.flete.cliente,
                                 startDate: new Date(parseInt(fletes.flete.fechaDeSalida * 1000)),
                                 endDate: new Date(parseInt(fletes.flete.fechaDeSalida * 1000)),
-                                estatus: estatusFlete
+                                estatus: estatusFlete,
+                                alert: alerta
                             });
+
+                            //ANEXO A ARREGLO PARA LA LISTA DE LA DERECHA
                             if (estatusFlete === 'Por Cotizar'
                                 || estatusFlete === 'Esperando Por Transportista'
                                 || estatusFlete === 'Transportisa Por Confirmar'
-                                || estatusFlete === 'Unidades Por Asignar') {
+                                || estatusFlete === 'Unidades Por Asignar'
+                                || estatusFlete === 'Envío Por Iniciar') {
                                 arrayListado.push({
                                     id: fletes.flete.idFlete,
                                     firebaseId: fletes.flete.firebaseId,
@@ -56,65 +71,207 @@
                     break;
                 case 'cliente':
                     //FLETES
-                    var refFletes = firebase.database().ref().child('fletesPorAsignar');
+                    var refFletes = firebase.database().ref().child('fletesPorAsignar').orderByChild('flete/fechaDeSalida');
                     refFletes.on("value", function (snapshot) {
+                        var arrayListado = [];
                         var arrayFletes = [];
                         snapshot.forEach(function (childSnapshot) {
+                            //FLETE ENCONTRADO
                             fletes = childSnapshot.val();
                             if (fletes.bodegaDeCarga.firebaseIdDelCliente === usuario.uid) {
-                                arrayFletes.push(fletes.flete);
+                                //TRANSPORTISTA SELECCIONADO
+                                var transportistaSeleccionado = buscarTransportistaSeleccionado(fletes, childSnapshot);
+                                //ESTATUS DEL FLETE
+                                var estatusFlete = buscarEstatusFlete(fletes);
+                                //ICONO QUE INDICA LA ALERTA
+                                var alerta = false;
+
+                                //ANEXO A ARREGLO PARA CALENDARIO
+                                arrayFletes.push({
+                                    id: fletes.flete.idFlete,
+                                    firebaseId: fletes.flete.firebaseId,
+                                    cliente: fletes.flete.cliente,
+                                    transportista: transportistaSeleccionado,
+                                    name: fletes.flete.cliente,
+                                    startDate: new Date(parseInt(fletes.flete.fechaDeSalida * 1000)),
+                                    endDate: new Date(parseInt(fletes.flete.fechaDeSalida * 1000)),
+                                    estatus: estatusFlete,
+                                    alert: alerta
+                                });
+
+                                //ANEXO A ARREGLO PARA LA LISTA DE LA DERECHA
+                                if (estatusFlete === 'Por Cotizar'
+                                    || estatusFlete === 'Esperando Por Transportista'
+                                    || estatusFlete === 'Transportisa Por Confirmar'
+                                    || estatusFlete === 'Unidades Por Asignar'
+                                    || estatusFlete === 'Envío Por Iniciar') {
+                                    arrayListado.push({
+                                        id: fletes.flete.idFlete,
+                                        firebaseId: fletes.flete.firebaseId,
+                                        cliente: fletes.flete.cliente,
+                                        transportista: transportistaSeleccionado,
+                                        name: fletes.flete.cliente,
+                                        startDate: new Date(parseInt(fletes.flete.fechaDeSalida * 1000)),
+                                        endDate: new Date(parseInt(fletes.flete.fechaDeSalida * 1000)),
+                                        estatus: estatusFlete
+                                    });
+                                }
                             }
                         });
-                        buscarFletes(arrayFletes);
+                        $scope.listadoFletes = arrayListado;
+                        iniciar_calendario('#div_calendario', arrayFletes);
+                        document.getElementById('div_progress').className = 'col-lg-12 div-progress hidden';
                     });
                     break;
                 case 'transportista':
-                    //FLETES DISPONIBLES
-                    var refFletes = firebase.database().ref().child('fletesPorAsignar');
+                    //FLETES
+                    var refFletes = firebase.database().ref().child('fletesPorAsignar').orderByChild('flete/fechaDeSalida');
                     refFletes.on("value", function (snapshot) {
+                        var arrayListado = [];
                         var arrayFletes = [];
                         snapshot.forEach(function (childSnapshot) {
+                            //FLETE ENCONTRADO
                             fletes = childSnapshot.val();
-                            if (fletes.flete.estatus === "esperandoPorTransportista") {
-                                arrayFletes.push(fletes.flete);
-                            }
-                        });
-                        buscarEsperandoPorTransportista(arrayFletes);
-                    });
+                            //TRANSPORTISTA SELECCIONADO
+                            var transportistaSeleccionado = buscarTransportistaSeleccionado(fletes, childSnapshot);
+                            //ESTATUS DEL FLETE
+                            var estatusFlete = buscarEstatusFlete(fletes);
+                            //ICONO QUE INDICA LA ALERTA
+                            var alerta = true;
 
-                    //FLETES INTERESADOS
-                    var refFletes = firebase.database().ref().child('fletesPorAsignar');
-                    refFletes.on("value", function (snapshot) {
-                        var arrayFletes = [];
-                        snapshot.forEach(function (childSnapshot) {
-                            fletes = childSnapshot.val();
-                            if (fletes.transportistasInteresados !== undefined) {
-                                if (fletes.transportistasInteresados.key === usuario.uid && fletes.flete.estatus === "transportistaPorConfirmar") {
-                                    arrayFletes.push(fletes.flete);
-                                }
+                            switch (estatusFlete) {
+                                case 'Esperando Por Transportista':
+                                case 'Transportista Por Confirmar':
+                                    snapshot.forEach(function (childSnapshot) {
+                                        if (childSnapshot.key === 'transportistasInteresados') {
+                                            childSnapshot.forEach(function (interesadosSnapshot) {
+                                                var interesado = interesadosSnapshot.val();
+                                                if (interesado.firebaseId === usuario.uid) {
+                                                    alerta = false;
+                                                }
+                                            });
+                                        }
+                                    });
+                                    arrayFletes.push({
+                                        id: fletes.flete.idFlete,
+                                        firebaseId: fletes.flete.firebaseId,
+                                        cliente: fletes.flete.cliente,
+                                        transportista: transportistaSeleccionado,
+                                        name: fletes.flete.cliente,
+                                        startDate: new Date(parseInt(fletes.flete.fechaDeSalida * 1000)),
+                                        endDate: new Date(parseInt(fletes.flete.fechaDeSalida * 1000)),
+                                        estatus: estatusFlete,
+                                        alert: alerta
+                                    });
+                                    break;
+                                case 'Unidades Por Asignar':
+                                case 'Envío Por Iniciar':
+                                case 'Entregado':
+                                case 'Finalizado':
+                                case 'Cancelado':
+                                    if (estatusFlete === 'Entregado'
+                                        || estatusFlete == 'Finalizado'
+                                        || estatusFlete === 'Cancelado') {
+                                        alerta = false;
+                                    }
+                                    snapshot.forEach(function (childSnapshot) {
+                                        if (childSnapshot.key === 'transportistaSeleccionado') {
+                                            childSnapshot.forEach(function (transportistaSnapshot) {
+                                                var transportista = transportistaSnapshot.val();
+                                                if (transportista.firebaseId === usuario.uid) {
+                                                    arrayFletes.push({
+                                                        id: fletes.flete.idFlete,
+                                                        firebaseId: fletes.flete.firebaseId,
+                                                        cliente: fletes.flete.cliente,
+                                                        transportista: transportistaSeleccionado,
+                                                        name: fletes.flete.cliente,
+                                                        startDate: new Date(parseInt(fletes.flete.fechaDeSalida * 1000)),
+                                                        endDate: new Date(parseInt(fletes.flete.fechaDeSalida * 1000)),
+                                                        estatus: estatusFlete,
+                                                        alert: alerta
+                                                    });
+                                                    arrayListado.push({
+                                                        id: fletes.flete.idFlete,
+                                                        firebaseId: fletes.flete.firebaseId,
+                                                        cliente: fletes.flete.cliente,
+                                                        transportista: transportistaSeleccionado,
+                                                        name: fletes.flete.cliente,
+                                                        startDate: new Date(parseInt(fletes.flete.fechaDeSalida * 1000)),
+                                                        endDate: new Date(parseInt(fletes.flete.fechaDeSalida * 1000)),
+                                                        estatus: estatusFlete
+                                                    });
+                                                }
+                                            })
+                                        }
+                                    });
+                                    break;
+                                default:
                             }
                         });
-                        buscarTransportistaPorConfirmar(arrayFletes);
-                    });
-
-                    //FLETES ASIGNADOS
-                    var refFletes = firebase.database().ref().child('fletesPorAsignar');
-                    refFletes.on("value", function (snapshot) {
-                        var arrayFletes = [];
-                        snapshot.forEach(function (childSnapshot) {
-                            fletes = childSnapshot.val();
-                            if (fletes.transportistaSeleccionado !== undefined) {
-                                if (fletes.transportistaSeleccionado.key === usuario.uid) {
-                                    arrayFletes.push(fletes.flete);
-                                }
-                            }
-                        });
-                        buscarUnidadesPorAsignar(arrayFletes);
-                        buscarEnvioPorIniciar(arrayFletes);
-                        buscarEnProgreso(arrayFletes);
+                        $scope.listadoFletes = arrayListado;
+                        iniciar_calendario('#div_calendario', arrayFletes);
+                        document.getElementById('div_progress').className = 'col-lg-12 div-progress hidden';
                     });
                     break;
                 case 'chofer':
+                    //FLETES
+                    var refFletes = firebase.database().ref().child('fletesPorAsignar').orderByChild('flete/fechaDeSalida');
+                    refFletes.on("value", function (snapshot) {
+                        var arrayListado = [];
+                        var arrayFletes = [];
+                        snapshot.forEach(function (childSnapshot) {
+                            //FLETE ENCONTRADO
+                            fletes = childSnapshot.val();
+                            //TRANSPORTISTA SELECCIONADO
+                            var transportistaSeleccionado = buscarTransportistaSeleccionado(fletes, childSnapshot);
+                            //ESTATUS DEL FLETE
+                            var estatusFlete = buscarEstatusFlete(fletes);
+                            //ICONO QUE INDICA LA ALERTA
+                            var alerta = false;
+
+                            switch (estatusFlete) {
+                                case 'Envío Por Iniciar':
+                                case 'Entregado':
+                                case 'Finalizado':
+                                case 'Cancelado':
+                                    snapshot.forEach(function (childSnapshot) {
+                                        if (childSnapshot.key === 'transportistaSeleccionado') {
+                                            childSnapshot.forEach(function (transportistaSnapshot) {
+                                                var transportista = transportistaSnapshot.val();
+                                                if (transportista.firebaseId === usuario.uid) {
+                                                    arrayFletes.push({
+                                                        id: fletes.flete.idFlete,
+                                                        firebaseId: fletes.flete.firebaseId,
+                                                        cliente: fletes.flete.cliente,
+                                                        transportista: transportistaSeleccionado,
+                                                        name: fletes.flete.cliente,
+                                                        startDate: new Date(parseInt(fletes.flete.fechaDeSalida * 1000)),
+                                                        endDate: new Date(parseInt(fletes.flete.fechaDeSalida * 1000)),
+                                                        estatus: estatusFlete
+                                                    });
+                                                    arrayListado.push({
+                                                        id: fletes.flete.idFlete,
+                                                        firebaseId: fletes.flete.firebaseId,
+                                                        cliente: fletes.flete.cliente,
+                                                        transportista: transportistaSeleccionado,
+                                                        name: fletes.flete.cliente,
+                                                        startDate: new Date(parseInt(fletes.flete.fechaDeSalida * 1000)),
+                                                        endDate: new Date(parseInt(fletes.flete.fechaDeSalida * 1000)),
+                                                        estatus: estatusFlete
+                                                    });
+                                                }
+                                            })
+                                        }
+                                    });
+                                    break;
+                                default:
+                            }
+                        });
+                        $scope.listadoFletes = arrayListado;
+                        iniciar_calendario('#div_calendario', arrayFletes);
+                        document.getElementById('div_progress').className = 'col-lg-12 div-progress hidden';
+                    });
+                    break;
                     //FLETES ASIGNADOS
                     var refFletes = firebase.database().ref().child('fletesPorAsignar');
                     refFletes.on("value", function (snapshot) {
@@ -171,7 +328,7 @@
                     estatusFlete = "En Progreso";
                     break;
                 case "envioPorIniciar":
-                    estatusFlete = "Envio Por Iniciar"
+                    estatusFlete = "Envío Por Iniciar"
                     break;
                 case "entregado":
                     estatusFlete = "Entregado";

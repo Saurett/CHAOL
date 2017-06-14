@@ -72,7 +72,7 @@
 
             //CREAR USUARIO EN BASE DE DATOS
             var crearUsuarioBD = function (transportista) {
-                return refUsuarios.child(transportista.firebaseId).set('transportista');
+                return refUsuarios.child(transportista.firebaseId).child('tipoDeUsuario').set('transportista');
             }
 
             //ACTUALIZACIÓN DE TRANSPORTISTA EN BD

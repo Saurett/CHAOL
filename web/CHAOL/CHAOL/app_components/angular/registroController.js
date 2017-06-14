@@ -100,7 +100,7 @@
                 console.log('Client created.');
 
                 //CREAR USUARIO EN DB
-                refUsuarios.child(usuario.uid).set('cliente').then(function () {
+                refUsuarios.child(usuario.uid).child('tipoDeUsuario').set('cliente').then(function () {
                     console.log('User added in DB.');
                 });
 
@@ -240,7 +240,7 @@
                 console.log('Client created.');
 
                 //CREAR USUARIO EN DB
-                refUsuarios.child(usuario.uid).set('transportista').then(function () {
+                refUsuarios.child(usuario.uid).child('tipoDeUsuario').set('transportista').then(function () {
                     console.log('User added in DB.');
                 });
 
@@ -306,7 +306,7 @@
         //INICIALIZAR CHOFER
         $scope.firebaseChofer = {
             nombre: "",
-            empresaTransportista: "",
+            firebaseIdDelTransportista: "",
             numeroDeLicencia: "",
             numeroDeSeguroSocial: "",
             curp: "",
@@ -360,7 +360,7 @@
                         refPath.getDownloadURL().then(function (url) {
                             //ACTUALIZACIÓN DE IMAGEN EN BD
                             refChofer.child(usuario.uid).child('imagenURL').set(url);
-                            var refTransportista = firebase.database().ref('transportistas').child($scope.firebaseChofer.empresaTransportista).child('choferes');
+                            var refTransportista = firebase.database().ref('transportistas').child($scope.firebaseChofer.firebaseIdDelTransportista).child('choferes');
                             refTransportista.child(usuario.uid).child('imagenURL').set(url);
                             console.log(url);
                             $scope.firebaseChofer.imagenURL = url;
@@ -395,7 +395,7 @@
                 console.log('Transportist created.');
 
                 //CREAR USUARIO EN DB
-                refUsuarios.child(usuario.uid).set('chofer').then(function () {
+                refUsuarios.child(usuario.uid).child('tipoDeUsuario').set('chofer').then(function () {
                     console.log('User added in DB.');
                 });
 
@@ -404,7 +404,7 @@
                 refTransportista.on("value", function (snapshot) {
                     snapshot.forEach(function (childSnapshot) {
                         var transportista = childSnapshot.val();
-                        if (transportista.transportista.nombre === $scope.firebaseChofer.empresaTransportista) {
+                        if (transportista.transportista.firebaseId === $scope.firebaseChofer.firebaseIdDelTransportista) {
                             var id = transportista.transportista.firebaseId;
                             var refTrans = firebase.database().ref('transportistas').child(id).child('choferes').child(usuario.uid);
                             refTrans.set($scope.firebaseChofer).then(function () {

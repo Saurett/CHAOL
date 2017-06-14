@@ -254,6 +254,9 @@ md-sidenav + aside {
 .caja-contenido i {
   color: #0288D1;
 }
+.caja-contenido i.fa-exclamation {
+  color: #D22E2E;
+}
 .caja-contenido table thead tr td {
   color: #757575;
 }

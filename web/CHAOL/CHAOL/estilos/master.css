@@ -254,6 +254,9 @@ md-sidenav + aside {
 .caja-contenido i {
   color: #0288D1;
 }
+.caja-contenido i.fa-exclamation {
+  color: #D22E2E;
+}
 .caja-contenido table thead tr td {
   color: #757575;
 }
@@ -2804,7 +2807,7 @@ ul.fletes-ico li.fletes-ico-cancelado::before {
 .calendar table td,
 .calendar table th {
   text-align: center;
-  width: 20px;
+  width: 35px;
   height: 20px;
   border: none;
   padding: 4px 5px;
