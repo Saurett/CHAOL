@@ -6,7 +6,6 @@
     app.controller('tractorController', function ($scope, $location, $firebaseObject, $firebaseArray, unixTime, $firebaseAuth, $mdDialog, $firebaseStorage, createUserService, $routeParams) {
         //INICIALIZAR TRACTOR
         $scope.firebaseTractor = {
-            empresaTransportista: "",
             marca: "",
             modelo: "",
             numeroDeSerie: "",
@@ -21,23 +20,12 @@
 
         var refUsuarios = firebase.database().ref().child('usuarios');
         var refTransportista = firebase.database().ref().child('transportistas');
+        var refListadoTransportistas = firebase.database().ref().child('listaDeTransportistas').orderByValue();
 
         //LISTADO TRANSPORTISTAS
-        var refTransportistas = firebase.database().ref().child('transportistas');
-        refTransportistas.on("value", function (snapshot) {
-            var arrayTractores  = [];
-            snapshot.forEach(function (childSnapshot) {
-                transportistas = childSnapshot.val();
-                if (transportistas.transportista.estatus !== 'eliminado') {
-                    childSnapshot.forEach(function (transportistaSnapShot) {
-                        if (transportistaSnapShot.key === 'transportista') {
-                            var transportista = transportistaSnapShot.val();
-                            arrayTractores.push(transportista);
-                        }
-                    })
-                }
-            });
-            $scope.empresasTransportista = arrayTractores;
+        $scope.empresasTransportista = $firebaseArray(refListadoTransportistas);
+        refListadoTransportistas.on('value', function (snap) {
+            $scope.empresasTransportista.$value = snap.key;
         });
 
         //USUARIO
@@ -49,17 +37,13 @@
         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
         var firebaseUsuario = $firebaseObject(refUsuario);
         firebaseUsuario.$loaded().then(function () {
-            switch (firebaseUsuario.$value) {
+            switch (firebaseUsuario.tipoDeUsuario) {
                 case 'administrador':
                     $scope.administrador = true;
                     break;
                 case "transportista":
                     $scope.transportista = true;
-                    var refTransportistaUsuario = firebase.database().ref('transportistas').child(usuario.uid).child('transportista');
-                    var firebaseTransportistaUsuario = $firebaseObject(refTransportistaUsuario);
-                    firebaseTransportistaUsuario.$loaded().then(function () {
-                        $scope.firebaseTractor.empresaTransportista = firebaseTransportistaUsuario.nombre;
-                    })
+                    $scope.firebaseTractor.firebaseIdDelTransportista = usuario.uid;
                     break;
             }
         });
@@ -93,7 +77,7 @@
             //ACTUALIZACIÓN DE CLIENTE EN BD
             var actualizarTractorBD = function (tractor) {
                 var objetoTractor = $firebaseObject(refTransportista.child(tractor.firebaseIdDelTransportista).child('tractores').child(tractor.firebaseId));
-                objetoTractor.empresaTransportista = tractor.empresaTransportista;
+                objetoTractor.firebaseIdDelTransportista = tractor.firebaseIdDelTransportista;
                 objetoTractor.marca = tractor.marca;
                 objetoTractor.modelo = tractor.modelo;
                 objetoTractor.numeroDeSerie = tractor.numeroDeSerie;
@@ -117,7 +101,7 @@
                 refTransportistas.once("value", function (snapshot) {
                     snapshot.forEach(function (childSnapshot) {
                         transportistas = childSnapshot.val();
-                        if (transportistas.transportista.nombre === $scope.firebaseTractor.empresaTransportista) {
+                        if (transportistas.transportista.firebaseId === $scope.firebaseTractor.firebaseIdDelTransportista) {
                             tractor.firebaseIdDelTransportista = transportistas.transportista.firebaseId;
                             var firebaseTractor = refTransportista.child(tractor.firebaseIdDelTransportista).child('tractores').push();
                             tractor.firebaseId = firebaseTractor.key;

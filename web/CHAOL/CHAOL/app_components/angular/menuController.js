@@ -46,7 +46,7 @@
         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
         var firebaseUsuario = $firebaseObject(refUsuario);
         firebaseUsuario.$loaded().then(function () {
-            switch (firebaseUsuario.$value) {
+            switch (firebaseUsuario.tipoDeUsuario) {
                 case 'administrador':
                     $scope.menu.inicio = true;
                     $scope.menu.administracion.clientes = true;

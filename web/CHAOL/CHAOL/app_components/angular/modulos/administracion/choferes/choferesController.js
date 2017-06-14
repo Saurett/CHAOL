@@ -14,7 +14,7 @@
         var firebaseUsuario = $firebaseObject(refUsuario);
         firebaseUsuario.$loaded().then(function () {
             var refChoferes;
-            switch (firebaseUsuario.$value) {
+            switch (firebaseUsuario.tipoDeUsuario) {
                 case 'administrador':
                     var refChoferes = firebase.database().ref().child('choferes').orderByChild('nombre');
                     break;
@@ -50,10 +50,10 @@
                     refTransportista.once("value").then(function (snapshot) {
                         snapshot.forEach(function (childSnapshot) {
                             var transportista = childSnapshot.val();
-                            if (transportista.transportista.nombre === chofer.empresaTransportista) {
+                            if (transportista.transportista.firebaseId === chofer.firebaseIdDelTransportista) {
                                 var id = transportista.transportista.firebaseId;
                                 var refTrans = firebase.database().ref('transportistas').child(id).child('choferes').child(chofer.firebaseId).child('estatus');
-                                refTrans.set(chofer.estatus).then(function () {
+                                refTrans.set(firebaseChofer.estatus).then(function () {
                                     console.log('Client added in Transportist');
                                 });
                             }
@@ -89,8 +89,8 @@
                     });
 
                     var refTransportistas = firebase.database().ref().child('transportistas');
-                    refTransportistas.orderByChild('transportista/nombre').equalTo(chofer.empresaTransportista).on("child_added", function (snapshot) {
-                        refTransportistas.child(snapshot.key).child('choferes').child(chofer.firebaseId).child('estatus').set('eliminado');
+                    refTransportistas.child(chofer.firebaseIdDelTransportista).on("child_added", function (snapshot) {
+                        refTransportistas.child(chofer.firebaseIdDelTransportista).child('choferes').child(chofer.firebaseId).child('estatus').set('eliminado');
                     });
                 });
             });

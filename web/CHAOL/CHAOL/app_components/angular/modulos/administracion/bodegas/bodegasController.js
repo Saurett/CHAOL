@@ -14,7 +14,7 @@
         var firebaseUsuario = $firebaseObject(refUsuario);
         firebaseUsuario.$loaded().then(function () {
             var refBodegas;
-            switch (firebaseUsuario.$value) {
+            switch (firebaseUsuario.tipoDeUsuario) {
                 case 'administrador':
                     refBodegas = firebase.database().ref().child('clientes');
                     refBodegas.on("value", function (snapshot) {

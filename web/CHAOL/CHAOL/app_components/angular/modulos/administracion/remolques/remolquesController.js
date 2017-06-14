@@ -14,7 +14,7 @@
         var firebaseUsuario = $firebaseObject(refUsuario);
         firebaseUsuario.$loaded().then(function () {
             var refRemolques;
-            switch (firebaseUsuario.$value) {
+            switch (firebaseUsuario.tipoDeUsuario) {
                 case 'administrador':
                     refRemolques = firebase.database().ref().child('transportistas');
                     refRemolques.on("value", function (snapshot) {

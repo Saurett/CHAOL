@@ -7,7 +7,7 @@
         //INICIALIZAR CHOFER
         $scope.firebaseChofer = {
             nombre: "",
-            empresaTransportista: "",
+            firebaseIdDelTransportista: "",
             numeroDeLicencia: "",
             numeroDeSeguroSocial: "",
             curp: "",
@@ -52,17 +52,13 @@
         var firebaseUsuario = $firebaseObject(refUsuario);
         firebaseUsuario.$loaded().then(function () {
             var refChoferes;
-            switch (firebaseUsuario.$value) {
+            switch (firebaseUsuario.tipoDeUsuario) {
                 case 'administrador':
                     $scope.administrador = true;
                     break;
                 case "transportista":
                     $scope.transportista = true;
-                    var refTransportistaUsuario = firebase.database().ref('transportistas').child(usuario.uid).child('transportista');
-                    var firebaseTransportistaUsuario = $firebaseObject(refTransportistaUsuario);
-                    firebaseTransportistaUsuario.$loaded().then(function () {
-                        $scope.firebaseChofer.empresaTransportista = firebaseTransportistaUsuario.nombre;
-                    })
+                    $scope.firebaseChofer.firebaseIdDelTransportista = usuario.uid;
                     break;
                 case "chofer":
                     $scope.chofer = true;
@@ -81,7 +77,6 @@
                 console.log('Chofer found');
                 if (usuario.uid === $routeParams.ID) {
                     $scope.correoElectronicoAnterior = $scope.firebaseChofer.correoElectronico;
-                    $scope.ownUser = true;
                 }
             }).catch(function (error) {
                 console.log(error);
@@ -98,14 +93,14 @@
 
             //CREAR USUARIO EN BASE DE DATOS
             var crearUsuarioBD = function (chofer) {
-                return refUsuarios.child(chofer.firebaseId).set('chofer');
+                return refUsuarios.child(chofer.firebaseId).child('tipoDeUsuario').set('chofer');
             }
 
             //ACTUALIZACIÓN DE CHOFER EN BD
             var actualizarChoferBD = function (chofer) {
                 var objetoChofer = $firebaseObject(refChofer.child(chofer.firebaseId));
                 objetoChofer.nombre = chofer.nombre;
-                objetoChofer.empresaTransportista = chofer.empresaTransportista;
+                objetoChofer.firebaseIdDelTransportista = chofer.firebaseIdDelTransportista;
                 objetoChofer.numeroDeLicencia = chofer.numeroDeLicencia;
                 objetoChofer.numeroDeSeguroSocial = chofer.numeroDeSeguroSocial;
                 objetoChofer.curp = chofer.curp;
@@ -131,10 +126,10 @@
                     console.log('Chofer updated');
                 });
 
-                refTransportistas.orderByChild('transportista/nombre').equalTo(chofer.empresaTransportista).on("child_added", function (snapshot) {
-                    var ObjetoChoferTransportista = $firebaseObject(refTransportistas.child(snapshot.key).child('choferes').child(chofer.firebaseId));
+                refTransportistas.child(chofer.firebaseIdDelTransportista).on("child_added", function (snapshot) {
+                    var ObjetoChoferTransportista = $firebaseObject(refTransportistas.child(chofer.firebaseIdDelTransportista).child('choferes').child(chofer.firebaseId));
                     ObjetoChoferTransportista.nombre = chofer.nombre;
-                    ObjetoChoferTransportista.empresaTransportista = chofer.empresaTransportista;
+                    ObjetoChoferTransportista.firebaseIdDelTransportista = chofer.firebaseIdDelTransportista;
                     ObjetoChoferTransportista.numeroDeLicencia = chofer.numeroDeLicencia;
                     ObjetoChoferTransportista.numeroDeSeguroSocial = chofer.numeroDeSeguroSocial;
                     ObjetoChoferTransportista.curp = chofer.curp;
@@ -172,9 +167,9 @@
 
             //CREACIÓN DE CHOFER EN TRANSPORTISTA
             var crearChoferTransportista = function (chofer) {
-                refTransportistas.orderByChild('transportista/nombre').equalTo(chofer.empresaTransportista).on("child_added", function (snapshot) {
-                    refTransportistas.child(snapshot.key).child('choferes').child(chofer.firebaseId).set(chofer);
-                    refTransportistas.child(snapshot.key).child('choferes').child(chofer.firebaseId).child(contrasena).set(null);;
+                refTransportistas.child(chofer.firebaseIdDelTransportista).on("child_added", function (snapshot) {
+                    refTransportistas.child(chofer.firebaseIdDelTransportista).child('choferes').child(chofer.firebaseId).set(chofer);
+                    refTransportistas.child(chofer.firebaseIdDelTransportista).child('choferes').child(chofer.firebaseId).child(contrasena).set(null);;
                 });
                 console.log('Chofer created in Transportist DB');
             }

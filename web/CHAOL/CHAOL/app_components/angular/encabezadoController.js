@@ -14,7 +14,7 @@
         firebaseUsuario.$loaded().then(function () {
             var refObjeto;
             var objeto;
-            switch (firebaseUsuario.$value) {
+            switch (firebaseUsuario.tipoDeUsuario) {
                 case 'administrador':
                     break;
                 case 'cliente':

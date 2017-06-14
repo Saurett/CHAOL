@@ -44,7 +44,7 @@
                         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
                         var firebaseUsuario = Firebase.Object(refUsuario);
                         firebaseUsuario.$loaded().then(function () {
-                            switch (firebaseUsuario.$value) {
+                            switch (firebaseUsuario.tipoDeUsuario) {
                                 case 'administrador':
                                     break;
                                 case 'cliente':
@@ -73,7 +73,7 @@
                         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
                         var firebaseUsuario = Firebase.Object(refUsuario);
                         firebaseUsuario.$loaded().then(function () {
-                            switch (firebaseUsuario.$value) {
+                            switch (firebaseUsuario.tipoDeUsuario) {
                                 case 'administrador':
                                     break;
                                 case 'cliente':
@@ -102,7 +102,7 @@
                         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
                         var firebaseUsuario = Firebase.Object(refUsuario);
                         firebaseUsuario.$loaded().then(function () {
-                            switch (firebaseUsuario.$value) {
+                            switch (firebaseUsuario.tipoDeUsuario) {
                                 case 'administrador':
                                     break;
                                 case 'cliente':
@@ -131,7 +131,7 @@
                         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
                         var firebaseUsuario = Firebase.Object(refUsuario);
                         firebaseUsuario.$loaded().then(function () {
-                            switch (firebaseUsuario.$value) {
+                            switch (firebaseUsuario.tipoDeUsuario) {
                                 case 'administrador':
                                     break;
                                 case 'cliente':
@@ -160,7 +160,7 @@
                         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
                         var firebaseUsuario = Firebase.Object(refUsuario);
                         firebaseUsuario.$loaded().then(function () {
-                            switch (firebaseUsuario.$value) {
+                            switch (firebaseUsuario.tipoDeUsuario) {
                                 case 'administrador':
                                     break;
                                 case 'cliente':
@@ -189,7 +189,7 @@
                         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
                         var firebaseUsuario = Firebase.Object(refUsuario);
                         firebaseUsuario.$loaded().then(function () {
-                            switch (firebaseUsuario.$value) {
+                            switch (firebaseUsuario.tipoDeUsuario) {
                                 case 'administrador':
                                     break;
                                 case 'cliente':
@@ -218,7 +218,7 @@
                         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
                         var firebaseUsuario = Firebase.Object(refUsuario);
                         firebaseUsuario.$loaded().then(function () {
-                            switch (firebaseUsuario.$value) {
+                            switch (firebaseUsuario.tipoDeUsuario) {
                                 case 'administrador':
                                     break;
                                 case 'cliente':
@@ -246,7 +246,7 @@
                         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
                         var firebaseUsuario = Firebase.Object(refUsuario);
                         firebaseUsuario.$loaded().then(function () {
-                            switch (firebaseUsuario.$value) {
+                            switch (firebaseUsuario.tipoDeUsuario) {
                                 case 'administrador':
                                     break;
                                 case 'cliente':
@@ -274,7 +274,7 @@
                         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
                         var firebaseUsuario = Firebase.Object(refUsuario);
                         firebaseUsuario.$loaded().then(function () {
-                            switch (firebaseUsuario.$value) {
+                            switch (firebaseUsuario.tipoDeUsuario) {
                                 case 'administrador':
                                     break;
                                 case 'cliente':
@@ -302,7 +302,7 @@
                         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
                         var firebaseUsuario = Firebase.Object(refUsuario);
                         firebaseUsuario.$loaded().then(function () {
-                            switch (firebaseUsuario.$value) {
+                            switch (firebaseUsuario.tipoDeUsuario) {
                                 case 'administrador':
                                     break;
                                 case 'cliente':
@@ -330,7 +330,7 @@
                         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
                         var firebaseUsuario = Firebase.Object(refUsuario);
                         firebaseUsuario.$loaded().then(function () {
-                            switch (firebaseUsuario.$value) {
+                            switch (firebaseUsuario.tipoDeUsuario) {
                                 case 'administrador':
                                     break;
                                 case 'cliente':
@@ -358,7 +358,7 @@
                         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
                         var firebaseUsuario = Firebase.Object(refUsuario);
                         firebaseUsuario.$loaded().then(function () {
-                            switch (firebaseUsuario.$value) {
+                            switch (firebaseUsuario.tipoDeUsuario) {
                                 case 'administrador':
                                     break;
                                 case 'cliente':
@@ -387,7 +387,7 @@
                         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
                         var firebaseUsuario = Firebase.Object(refUsuario);
                         firebaseUsuario.$loaded().then(function () {
-                            switch (firebaseUsuario.$value) {
+                            switch (firebaseUsuario.tipoDeUsuario) {
                                 case 'administrador':
                                     break;
                                 case 'cliente':
@@ -415,7 +415,7 @@
                         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
                         var firebaseUsuario = Firebase.Object(refUsuario);
                         firebaseUsuario.$loaded().then(function () {
-                            switch (firebaseUsuario.$value) {
+                            switch (firebaseUsuario.tipoDeUsuario) {
                                 case 'administrador':
                                     break;
                                 case 'cliente':
@@ -443,7 +443,7 @@
                         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
                         var firebaseUsuario = Firebase.Object(refUsuario);
                         firebaseUsuario.$loaded().then(function () {
-                            switch (firebaseUsuario.$value) {
+                            switch (firebaseUsuario.tipoDeUsuario) {
                                 case 'administrador':
                                     break;
                                 case 'cliente':
@@ -472,7 +472,7 @@
                         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
                         var firebaseUsuario = Firebase.Object(refUsuario);
                         firebaseUsuario.$loaded().then(function () {
-                            switch (firebaseUsuario.$value) {
+                            switch (firebaseUsuario.tipoDeUsuario) {
                                 case 'administrador':
                                     break;
                                 case 'cliente':
@@ -500,7 +500,7 @@
                         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
                         var firebaseUsuario = Firebase.Object(refUsuario);
                         firebaseUsuario.$loaded().then(function () {
-                            switch (firebaseUsuario.$value) {
+                            switch (firebaseUsuario.tipoDeUsuario) {
                                 case 'administrador':
                                     break;
                                 case 'cliente':
@@ -528,7 +528,7 @@
                         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
                         var firebaseUsuario = Firebase.Object(refUsuario);
                         firebaseUsuario.$loaded().then(function () {
-                            switch (firebaseUsuario.$value) {
+                            switch (firebaseUsuario.tipoDeUsuario) {
                                 case 'administrador':
                                     break;
                                 case 'cliente':
@@ -561,7 +561,7 @@
                         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
                         var firebaseUsuario = Firebase.Object(refUsuario);
                         firebaseUsuario.$loaded().then(function () {
-                            switch (firebaseUsuario.$value) {
+                            switch (firebaseUsuario.tipoDeUsuario) {
                                 case 'administrador':
                                     break;
                                 case 'cliente':

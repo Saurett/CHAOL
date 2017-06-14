@@ -11,7 +11,6 @@
 
         //INICIALIZAR TRACTOR
         $scope.firebaseRemolque = {
-            empresaTransportista: "",
             marca: "",
             modelo: "",
             numeroDeSerie: "",
@@ -27,23 +26,12 @@
 
         var refUsuarios = firebase.database().ref().child('usuarios');
         var refTransportista = firebase.database().ref().child('transportistas');
+        var refListadoTransportistas = firebase.database().ref().child('listaDeTransportistas').orderByValue();
 
         //LISTADO TRANSPORTISTAS
-        var refTransportistas = firebase.database().ref().child('transportistas');
-        refTransportistas.on("value", function (snapshot) {
-            var arrayTransportistas  = [];
-            snapshot.forEach(function (childSnapshot) {
-                transportistas = childSnapshot.val();
-                if (transportistas.transportista.estatus !== 'eliminado') {
-                    childSnapshot.forEach(function (transportistaSnapShot) {
-                        if (transportistaSnapShot.key === 'transportista') {
-                            var transportista = transportistaSnapShot.val();
-                            arrayTransportistas.push(transportista);
-                        }
-                    })
-                }
-            });
-            $scope.empresasTransportista = arrayTransportistas;
+        $scope.empresasTransportista = $firebaseArray(refListadoTransportistas);
+        refListadoTransportistas.on('value', function (snap) {
+            $scope.empresasTransportista.$value = snap.key;
         });
 
         //USUARIO
@@ -55,17 +43,13 @@
         var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
         var firebaseUsuario = $firebaseObject(refUsuario);
         firebaseUsuario.$loaded().then(function () {
-            switch (firebaseUsuario.$value) {
+            switch (firebaseUsuario.tipoDeUsuario) {
                 case 'administrador':
                     $scope.administrador = true;
                     break;
                 case "transportista":
                     $scope.transportista = true;
-                    var refTransportistaUsuario = firebase.database().ref('transportistas').child(usuario.uid).child('transportista');
-                    var firebaseTransportistaUsuario = $firebaseObject(refTransportistaUsuario);
-                    firebaseTransportistaUsuario.$loaded().then(function () {
-                        $scope.firebaseRemolque.empresaTransportista = firebaseTransportistaUsuario.nombre;
-                    })
+                    $scope.firebaseRemolque.firebaseIdDelTransportista = usuario.uid;
                     break;
             }
         });
@@ -100,7 +84,7 @@
             //ACTUALIZACIÓN DE CLIENTE EN BD
             var actualizarRemolqueBD = function (remolque) {
                 var objetoRemolque = $firebaseObject(refTransportista.child(remolque.firebaseIdDelTransportista).child('remolques').child(remolque.firebaseId));
-                objetoRemolque.empresaTransportista = remolque.empresaTransportista;
+                objetoRemolque.firebaseIdDelTransportista = remolque.firebaseIdDelTransportista;
                 objetoRemolque.marca = remolque.marca;
                 objetoRemolque.modelo = remolque.modelo;
                 objetoRemolque.numeroDeSerie = remolque.numeroDeSerie;
@@ -125,7 +109,7 @@
                 refTransportistas.once("value", function (snapshot) {
                     snapshot.forEach(function (childSnapshot) {
                         transportistas = childSnapshot.val();
-                        if (transportistas.transportista.nombre === $scope.firebaseRemolque.empresaTransportista) {
+                        if (transportistas.transportista.firebaseId === $scope.firebaseRemolque.firebaseIdDelTransportista) {
                             remolque.firebaseIdDelTransportista = transportistas.transportista.firebaseId;
                             var firebaseRemolque = refTransportista.child(remolque.firebaseIdDelTransportista).child('remolques').push();
                             remolque.firebaseId = firebaseRemolque.key;
