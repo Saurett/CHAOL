@@ -49,7 +49,7 @@
                             //ANEXO A ARREGLO PARA LA LISTA DE LA DERECHA
                             if (estatusFlete === 'Por Cotizar'
                                 || estatusFlete === 'Esperando Por Transportista'
-                                || estatusFlete === 'Transportisa Por Confirmar'
+                                || estatusFlete === 'Transportista Por Confirmar'
                                 || estatusFlete === 'Unidades Por Asignar'
                                 || estatusFlete === 'Envío Por Iniciar') {
                                 arrayListado.push({
@@ -102,7 +102,7 @@
                                 //ANEXO A ARREGLO PARA LA LISTA DE LA DERECHA
                                 if (estatusFlete === 'Por Cotizar'
                                     || estatusFlete === 'Esperando Por Transportista'
-                                    || estatusFlete === 'Transportisa Por Confirmar'
+                                    || estatusFlete === 'Transportista Por Confirmar'
                                     || estatusFlete === 'Unidades Por Asignar'
                                     || estatusFlete === 'Envío Por Iniciar') {
                                     arrayListado.push({
@@ -142,12 +142,17 @@
                             switch (estatusFlete) {
                                 case 'Esperando Por Transportista':
                                 case 'Transportista Por Confirmar':
-                                    snapshot.forEach(function (childSnapshot) {
-                                        if (childSnapshot.key === 'transportistasInteresados') {
-                                            childSnapshot.forEach(function (interesadosSnapshot) {
+                                    childSnapshot.forEach(function (nodoSnapshot) {
+                                        if (nodoSnapshot.key === 'transportistasInteresados') {
+                                            nodoSnapshot.forEach(function (interesadosSnapshot) {
                                                 var interesado = interesadosSnapshot.val();
+                                                var existe = false;
                                                 if (interesado.firebaseId === usuario.uid) {
+                                                    var existe = true;
                                                     alerta = false;
+                                                }
+                                                if (!existe) {
+                                                    estatusFlete = 'Esperando Por Transportista';
                                                 }
                                             });
                                         }
@@ -166,6 +171,7 @@
                                     break;
                                 case 'Unidades Por Asignar':
                                 case 'Envío Por Iniciar':
+                                case 'En Progreso':
                                 case 'Entregado':
                                 case 'Finalizado':
                                 case 'Cancelado':
@@ -174,9 +180,9 @@
                                         || estatusFlete === 'Cancelado') {
                                         alerta = false;
                                     }
-                                    snapshot.forEach(function (childSnapshot) {
-                                        if (childSnapshot.key === 'transportistaSeleccionado') {
-                                            childSnapshot.forEach(function (transportistaSnapshot) {
+                                    childSnapshot.forEach(function (nodoSnapshot) {
+                                        if (nodoSnapshot.key === 'transportistaSeleccionado') {
+                                            nodoSnapshot.forEach(function (transportistaSnapshot) {
                                                 var transportista = transportistaSnapshot.val();
                                                 if (transportista.firebaseId === usuario.uid) {
                                                     arrayFletes.push({
@@ -234,9 +240,9 @@
                                 case 'Entregado':
                                 case 'Finalizado':
                                 case 'Cancelado':
-                                    snapshot.forEach(function (childSnapshot) {
-                                        if (childSnapshot.key === 'transportistaSeleccionado') {
-                                            childSnapshot.forEach(function (transportistaSnapshot) {
+                                    childSnapshot.forEach(function (nodoSnapshot) {
+                                        if (nodoSnapshot.key === 'choferSeleccionado') {
+                                            nodoSnapshot.forEach(function (transportistaSnapshot) {
                                                 var transportista = transportistaSnapshot.val();
                                                 if (transportista.firebaseId === usuario.uid) {
                                                     arrayFletes.push({
@@ -319,7 +325,7 @@
                     estatusFlete = "Esperando Por Transportista";
                     break;
                 case "transportistaPorConfirmar":
-                    estatusFlete = "Transportisa Por Confirmar";
+                    estatusFlete = "Transportista Por Confirmar";
                     break;
                 case "unidadesPorAsignar":
                     estatusFlete = "Unidades Por Asignar";
@@ -418,6 +424,7 @@
                 document.getElementById('div_progress').className = 'col-lg-12 div-progress';
                 var id = event.firebaseId;
                 $location.path('/CHAOL/Fletes/' + id);
+                $scope.$apply();
                 document.getElementById('div_progress').className = 'col-lg-12 div-progress hidden';
             }
         }

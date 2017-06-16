@@ -38,7 +38,7 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>06/14/2017 16:34:07</publishTime>
     </File>
     <File Include="app_components/angular/modulos/administracion/choferes/choferesController.js">
-      <publishTime>06/14/2017 16:55:33</publishTime>
+      <publishTime>06/15/2017 14:22:39</publishTime>
     </File>
     <File Include="app_components/angular/modulos/administracion/clientes/clienteController.js">
       <publishTime>06/13/2017 20:01:42</publishTime>
@@ -65,10 +65,10 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>06/07/2017 03:28:02</publishTime>
     </File>
     <File Include="app_components/angular/modulos/fletes/agendaController.js">
-      <publishTime>06/14/2017 14:57:32</publishTime>
+      <publishTime>06/15/2017 21:45:54</publishTime>
     </File>
     <File Include="app_components/angular/modulos/inicioController.js">
-      <publishTime>06/14/2017 14:57:32</publishTime>
+      <publishTime>06/15/2017 17:27:56</publishTime>
     </File>
     <File Include="app_components/angular/recuperarContrasenaController.js">
       <publishTime>06/02/2017 14:10:25</publishTime>
@@ -92,7 +92,7 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>05/30/2017 19:39:08</publishTime>
     </File>
     <File Include="app_components/js/bootstrap-calendar/bootstrap-year-calendar.js">
-      <publishTime>06/12/2017 20:56:00</publishTime>
+      <publishTime>06/15/2017 21:36:52</publishTime>
     </File>
     <File Include="app_components/js/bootstrap-calendar/calendario-init.js">
       <publishTime>06/08/2017 00:05:13</publishTime>
@@ -3128,13 +3128,13 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>06/02/2017 16:25:36</publishTime>
     </File>
     <File Include="js/app.js">
-      <publishTime>06/14/2017 18:44:35</publishTime>
+      <publishTime>06/15/2017 21:55:03</publishTime>
     </File>
     <File Include="js/base.js">
-      <publishTime>06/12/2017 21:16:42</publishTime>
+      <publishTime>06/15/2017 11:49:39</publishTime>
     </File>
     <File Include="js/tools.js">
-      <publishTime>06/12/2017 21:16:46</publishTime>
+      <publishTime>06/15/2017 21:37:10</publishTime>
     </File>
     <File Include="login.html">
       <publishTime>05/30/2017 19:39:24</publishTime>
@@ -3188,7 +3188,7 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>05/30/2017 19:39:24</publishTime>
     </File>
     <File Include="modulos/inicio.html">
-      <publishTime>06/06/2017 22:03:12</publishTime>
+      <publishTime>06/15/2017 21:31:10</publishTime>
     </File>
     <File Include="node_modules/.bin/cleancss">
       <publishTime>05/30/2017 19:39:24</publishTime>

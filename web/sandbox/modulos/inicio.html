@@ -1,4 +1,4 @@
-<div name="inicio" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+<<div name="inicio" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
     <!--ENCABEZADO-->
     <encabezado class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding"></encabezado>
     <!--MENU-->
@@ -39,7 +39,7 @@
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <ul class="fletes-ico">
                                 <li class="fletes-ico-cotizar" ng-show="paneles.fletes.porCotizar">{{paneles.fletes.porCotizar}} fletes por cotizar</li>
-                                <li class="fletes-ico-solicitud" ng-show="paneles.fletes.esperandoPorTransportista">{{paneles.fletes.esperandoPorTransportista}} solicitudes de transportista</li>
+                                <li class="fletes-ico-solicitud" ng-show="paneles.fletes.esperandoPorTransportista">{{paneles.fletes.esperandoPorTransportista}} solicitudes disponibles</li>
                                 <li class="fletes-ico-confirmacion" ng-show="paneles.fletes.transportistaPorConfirmar">{{paneles.fletes.transportistaPorConfirmar}} fletes esperando confirmaci&oacuten de transportistas</li>
                                 <li class="fletes-ico-asignacion" ng-show="paneles.fletes.unidadesPorAsignar">{{paneles.fletes.unidadesPorAsignar}} fletes esperando asignaci&oacuten de unidades</li>
                                 <li class="fletes-ico-envio" ng-show="paneles.fletes.envioPorIniciar">{{paneles.fletes.envioPorIniciar}} fletes esperando inicio de env&iacuteo</li>
@@ -163,9 +163,9 @@
                     </div>
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-contenido">
                         <div class="col-lg-12">
-                            <span>{{paneles.tractores.asignados}} tractores asignados</span>
-                            <br />
                             <span>{{paneles.tractores.libres}} tractores libres</span>
+                            <br />
+                            <span>{{paneles.tractores.asignados}} tractores asignados</span>
                         </div>
                         <div class="col-lg-offset-10 col-lg-2 no-padding text-right">
                             <a href="#/CHAOL/Tractores/Nuevo">
@@ -192,9 +192,9 @@
                     </div>
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-contenido">
                         <div class="col-lg-12">
-                            <span>{{paneles.remolques.asignados}} remolques asignados</span>
-                            <br />
                             <span>{{paneles.remolques.libres}} remolques libres</span>
+                            <br />
+                            <span>{{paneles.remolques.asignados}} remolques asignados</span>
                         </div>
                         <div class="col-lg-offset-10 col-lg-2 no-padding text-right">
                             <a href="#/CHAOL/Remolques/Nuevo">

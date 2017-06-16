@@ -84,13 +84,13 @@
                     case 'Esperando Por Transportista':
                         this.options.dataSource[i].color = '#FE9700';
                         break;
-                    case 'Transportisa Por Confirma':
+                    case 'Transportista Por Confirmar':
                         this.options.dataSource[i].color = '#FEEA3A';
                         break;
                     case 'Unidades Por Asignar':
                         this.options.dataSource[i].color = '#4BAE4F';
                         break;
-                    case 'Envio Por Iniciar':
+                    case 'Env\u00EDo Por Iniciar':
                         this.options.dataSource[i].color = '#00BBD3';
                         break;
                     case 'En Progreso':

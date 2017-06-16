@@ -1478,7 +1478,7 @@
 (function () {
     var app = angular.module('app');
 
-    app.controller('inicioController', function ($scope, $mdSidenav, $firebaseAuth, $firebaseObject, $firebaseArray) {
+    app.controller('inicioController', function ($scope, $mdSidenav, $firebaseAuth, $firebaseObject, $firebaseArray, $timeout) {
         var auth = $firebaseAuth();
         var usuario = auth.$getAuth();
 
@@ -1530,107 +1530,290 @@
                     //FLETES
                     var refFletes = firebase.database().ref().child('fletesPorAsignar');
                     refFletes.on("value", function (snapshot) {
-                        var arrayFletes = [];
+                        var fletesPorCotizar = 0;
+                        var esperandoPorTransportista = 0;
+                        var transportistaPorConfirmar = 0;
+                        var unidadesPorAsignar = 0;
+                        var enProgreso = 0;
+                        var envioPorIniciar = 0;
+                        var entregado = 0;
+                        var finalizado = 0;
+                        var cancelado = 0;
                         snapshot.forEach(function (childSnapshot) {
-                            fletes = childSnapshot.val();
-                            arrayFletes.push(fletes.flete);
+                            var fletes = childSnapshot.val();
+                            switch (fletes.flete.estatus) {
+                                case 'fletePorCotizar':
+                                    fletesPorCotizar++;
+                                    break;
+                                case 'esperandoPorTransportista':
+                                    esperandoPorTransportista++;
+                                    break;
+                                case 'transportistaPorConfirmar':
+                                    transportistaPorConfirmar++;
+                                    break;
+                                case 'unidadesPorAsignar':
+                                    unidadesPorAsignar++;
+                                    break;
+                                case 'enProgreso':
+                                    enProgreso++;
+                                    break;
+                                case 'envioPorIniciar':
+                                    envioPorIniciar++;
+                                    break;
+                                case 'entregado':
+                                    entregado++;
+                                    break;
+                                case 'finalizado':
+                                    finalizado++;
+                                    break;
+                                case 'cancelado':
+                                    cancelado++;
+                                    break;
+                                default:
+                            }
                         });
-                        buscarFletes(arrayFletes);
+                        $timeout(function () {
+                            $scope.paneles.fletes.porCotizar = fletesPorCotizar.toString();
+                            $scope.paneles.fletes.esperandoPorTransportista = esperandoPorTransportista.toString();
+                            $scope.paneles.fletes.transportistaPorConfirmar = transportistaPorConfirmar.toString();
+                            $scope.paneles.fletes.unidadesPorAsignar = unidadesPorAsignar.toString();
+                            $scope.paneles.fletes.enProgreso = enProgreso.toString();
+                            $scope.paneles.fletes.envioPorIniciar = envioPorIniciar.toString();
+                            $scope.paneles.fletes.entregado = entregado.toString();
+                            $scope.paneles.fletes.finalizado = finalizado.toString();
+                            $scope.paneles.fletes.cancelado = cancelado.toString();
+                        });
                     });
 
                     //CLIENTES
                     var refClientes = firebase.database().ref().child('clientes');
                     refClientes.on("value", function (snapshot) {
-                        var arrayClientes = [];
+                        var autorizados = 0;
+                        var noAutorizados = 0;
                         snapshot.forEach(function (childSnapshot) {
-                            clientes = childSnapshot.val();
-                            arrayClientes.push(clientes.cliente);
+                            childSnapshot.forEach(function (nodoSnapshot) {
+                                if (nodoSnapshot.key === 'cliente') {
+                                    var cliente = nodoSnapshot.val();
+                                    switch (cliente.estatus) {
+                                        case "activo":
+                                            autorizados++;
+                                            break;
+                                        case "inactivo":
+                                            noAutorizados++;
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
+                            });
                         });
-                        buscarClientes(arrayClientes);
+                        $timeout(function () {
+                            $scope.paneles.clientes.autorizados = autorizados.toString();
+                            $scope.paneles.clientes.noAutorizados = noAutorizados.toString();
+                        });
                     });
 
                     //TRANSPORTISTAS
                     var refTransportistas = firebase.database().ref().child('transportistas');
                     refTransportistas.on("value", function (snapshot) {
-                        var arrayTransportistas = [];
+                        var autorizados = 0;
+                        var noAutorizados = 0;
                         snapshot.forEach(function (childSnapshot) {
-                            transportistas = childSnapshot.val();
-                            arrayTransportistas.push(transportistas.transportista);
+                            childSnapshot.forEach(function (nodoSnapshot) {
+                                if (nodoSnapshot.key === 'transportista') {
+                                    var transportista = nodoSnapshot.val();
+                                    switch (transportista.estatus) {
+                                        case "activo":
+                                            autorizados++;
+                                            break;
+                                        case "inactivo":
+                                            noAutorizados++;
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
+                            });
                         });
-                        buscarTransportistas(arrayTransportistas);
+                        $timeout(function () {
+                            $scope.paneles.transportistas.autorizados = autorizados.toString();
+                            $scope.paneles.transportistas.noAutorizados = noAutorizados.toString();
+                        });
                     });
 
                     //CHOFERES
                     var refChoferes = firebase.database().ref().child('choferes');
                     refChoferes.on("value", function (snapshot) {
-                        var arrayChoferes = [];
+                        var libres = 0;
+                        var asignados = 0;
+                        var noAutorizados = 0;
                         snapshot.forEach(function (childSnapshot) {
-                            choferes = childSnapshot.val();
-                            arrayChoferes.push(choferes);
+                            var chofer = childSnapshot.val();
+                            switch (chofer.estatus) {
+                                case "libre":
+                                    libres++;
+                                    break;
+                                case "asignado":
+                                    asignados++;
+                                    break;
+                                case "inactivo":
+                                    noAutorizados++;
+                                    break;
+                                default:
+                                    break;
+                            }
                         });
-                        buscarChoferes(arrayChoferes);
+                        $timeout(function () {
+                            $scope.paneles.choferes.libres = libres.toString();
+                            $scope.paneles.choferes.asignados = asignados.toString();
+                            $scope.paneles.choferes.noAutorizados = noAutorizados.toString();
+                        });
                     });
 
                     //TRACTORES
                     var refTractores = firebase.database().ref().child('transportistas');
                     refTractores.on("value", function (snapshot) {
-                        var arrayTractores = [];
+                        var libres = 0;
+                        var asignados = 0;
                         snapshot.forEach(function (childSnapshot) {
-                            childSnapshot.forEach(function (tractorSnapshot) {
-                                if (tractorSnapshot.key === "tractores") {
-                                    tractorSnapshot.forEach(function (tractor) {
-                                        arrayTractores.push(tractor.val());
+                            childSnapshot.forEach(function (nodoSnapshot) {
+                                if (nodoSnapshot.key === "tractores") {
+                                    nodoSnapshot.forEach(function (tractorSnapshot) {
+                                        var tractor = tractorSnapshot.val();
+                                        switch (tractor.estatus) {
+                                            case "libre":
+                                                libres++;
+                                                break;
+                                            case "asignado":
+                                                asignados++;
+                                                break;
+                                            default:
+                                                break;
+                                        }
                                     });
                                 }
                             })
                         });
-                        buscarTractores(arrayTractores);
+                        $timeout(function () {
+                            $scope.paneles.tractores.libres = libres.toString();
+                            $scope.paneles.tractores.asignados = asignados.toString();
+                        });
                     });
 
                     //REMOLQUES
                     var refRemolques = firebase.database().ref().child('transportistas');
                     refRemolques.on("value", function (snapshot) {
-                        var arrayRemolques = [];
+                        var libres = 0;
+                        var asignados = 0;
                         snapshot.forEach(function (childSnapshot) {
-                            childSnapshot.forEach(function (remolqueSnapshot) {
-                                if (remolqueSnapshot.key === "remolques") {
-                                    remolqueSnapshot.forEach(function (remolque) {
-                                        arrayRemolques.push(remolque.val());
+                            childSnapshot.forEach(function (nodoSnapshot) {
+                                if (nodoSnapshot.key === "remolques") {
+                                    nodoSnapshot.forEach(function (remolqueSnapshot) {
+                                        var remolque = remolqueSnapshot.val();
+                                        switch (remolque.estatus) {
+                                            case "libre":
+                                                libres++;
+                                                break;
+                                            case "asignado":
+                                                asignados++;
+                                                break;
+                                            default:
+                                                break;
+                                        }
                                     });
                                 }
                             })
                         });
-                        buscarRemolques(arrayRemolques);
+                        $timeout(function () {
+                            $scope.paneles.remolques.libres = libres.toString();
+                            $scope.paneles.remolques.asignados = asignados.toString();
+                        });
                     });
 
                     //BODEGAS
                     var refBodegas = firebase.database().ref().child('clientes');
                     refBodegas.on("value", function (snapshot) {
-                        var arrayBodegas = [];
+                        var activos = 0;
                         snapshot.forEach(function (childSnapshot) {
-                            childSnapshot.forEach(function (bodegaSnapshot) {
-                                if (bodegaSnapshot.key === "bodegas") {
-                                    bodegaSnapshot.forEach(function (bodega) {
-                                        arrayBodegas.push(bodega.val());
+                            childSnapshot.forEach(function (nodoSnapshot) {
+                                if (nodoSnapshot.key === "bodegas") {
+                                    nodoSnapshot.forEach(function (bodegaSnapshot) {
+                                        var bodega = bodegaSnapshot.val();
+                                        switch (bodega.estatus) {
+                                            case "activo":
+                                                activos++;
+                                                break;
+                                            default:
+                                                break;
+                                        }
                                     });
                                 }
                             })
                         });
-                        buscarBodegas(arrayBodegas);
+                        $timeout(function () {
+                            $scope.paneles.bodegas.registrados = activos.toString();
+                        });
                     });
                     break;
                 case 'cliente':
                     //FLETES
                     var refFletes = firebase.database().ref().child('fletesPorAsignar');
                     refFletes.on("value", function (snapshot) {
-                        var arrayFletes = [];
+                        var fletesPorCotizar = 0;
+                        var esperandoPorTransportista = 0;
+                        var transportistaPorConfirmar = 0;
+                        var unidadesPorAsignar = 0;
+                        var enProgreso = 0;
+                        var envioPorIniciar = 0;
+                        var entregado = 0;
+                        var finalizado = 0;
+                        var cancelado = 0;
                         snapshot.forEach(function (childSnapshot) {
-                            fletes = childSnapshot.val();
+                            var fletes = childSnapshot.val();
                             if (fletes.bodegaDeCarga.firebaseIdDelCliente === usuario.uid) {
-                                arrayFletes.push(fletes.flete);
+                                switch (fletes.flete.estatus) {
+                                    case 'fletePorCotizar':
+                                        fletesPorCotizar++;
+                                        break;
+                                    case 'esperandoPorTransportista':
+                                        esperandoPorTransportista++;
+                                        break;
+                                    case 'transportistaPorConfirmar':
+                                        transportistaPorConfirmar++;
+                                        break;
+                                    case 'unidadesPorAsignar':
+                                        unidadesPorAsignar++;
+                                        break;
+                                    case 'enProgreso':
+                                        enProgreso++;
+                                        break;
+                                    case 'envioPorIniciar':
+                                        envioPorIniciar++;
+                                        break;
+                                    case 'entregado':
+                                        entregado++;
+                                        break;
+                                    case 'finalizado':
+                                        finalizado++;
+                                        break;
+                                    case 'cancelado':
+                                        cancelado++;
+                                        break;
+                                    default:
+                                }
                             }
                         });
-                        buscarFletes(arrayFletes);
+                        $timeout(function () {
+                            $scope.paneles.fletes.porCotizar = fletesPorCotizar.toString();
+                            $scope.paneles.fletes.esperandoPorTransportista = esperandoPorTransportista.toString();
+                            $scope.paneles.fletes.transportistaPorConfirmar = transportistaPorConfirmar.toString();
+                            $scope.paneles.fletes.unidadesPorAsignar = unidadesPorAsignar.toString();
+                            $scope.paneles.fletes.enProgreso = enProgreso.toString();
+                            $scope.paneles.fletes.envioPorIniciar = envioPorIniciar.toString();
+                            $scope.paneles.fletes.entregado = entregado.toString();
+                            $scope.paneles.fletes.finalizado = finalizado.toString();
+                            $scope.paneles.fletes.cancelado = cancelado.toString();
+                        });
                     });
 
                     //CLIENTES
@@ -1651,61 +1834,110 @@
                     //BODEGAS
                     var refBodegas = firebase.database().ref().child('clientes').child(usuario.uid);
                     refBodegas.on("value", function (snapshot) {
-                        var arrayBodegas = [];
+                        var activos = 0;
                         snapshot.forEach(function (childSnapshot) {
                             if (childSnapshot.key === "bodegas") {
-                                childSnapshot.forEach(function (bodega) {
-                                    arrayBodegas.push(bodega.val());
+                                childSnapshot.forEach(function (bodegaSnapshot) {
+                                    var bodega = bodegaSnapshot.val();
+                                    switch (bodega.estatus) {
+                                        case "activo":
+                                            activos++;
+                                            break;
+                                        default:
+                                            break;
+                                    }
                                 });
                             }
                         });
-                        buscarBodegas(arrayBodegas);
+                        $timeout(function () {
+                            $scope.paneles.bodegas.registrados = activos.toString();
+                        });
                     });
                     break;
                 case 'transportista':
-                    //FLETES DISPONIBLES
+                    //FLETES
                     var refFletes = firebase.database().ref().child('fletesPorAsignar');
                     refFletes.on("value", function (snapshot) {
-                        var arrayFletes = [];
+                        var fletesPorCotizar = 0;
+                        var esperandoPorTransportista = 0;
+                        var transportistaPorConfirmar = 0;
+                        var unidadesPorAsignar = 0;
+                        var enProgreso = 0;
+                        var envioPorIniciar = 0;
+                        var entregado = 0;
+                        var finalizado = 0;
+                        var cancelado = 0;
                         snapshot.forEach(function (childSnapshot) {
-                            fletes = childSnapshot.val();
-                            if (fletes.flete.estatus === "esperandoPorTransportista") {
-                                arrayFletes.push(fletes.flete);
+                            var fletes = childSnapshot.val();
+                            switch (fletes.flete.estatus) {
+                                case 'esperandoPorTransportista':
+                                    esperandoPorTransportista++;
+                                    break;
+                                case 'transportistaPorConfirmar':
+                                    childSnapshot.forEach(function (nodoFleteSnapshot) {
+                                        if (nodoFleteSnapshot.key === 'transportistasInteresados') {
+                                            nodoFleteSnapshot.forEach(function (transportistasInteresadosSnapshot) {
+                                                var transportistasInteresados = transportistasInteresadosSnapshot.val();
+                                                var existe = false;
+                                                if (transportistasInteresados.firebaseId === usuario.uid) {
+                                                    existe = true;
+                                                }
+                                                if (existe) {
+                                                    transportistaPorConfirmar++;
+                                                }
+                                                else {
+                                                    esperandoPorTransportista++;
+                                                }
+                                            });
+                                        }
+                                    });
+                                    break;
+                                case 'unidadesPorAsignar':
+                                    childSnapshot.forEach(function (nodoFleteSnapshot) {
+                                        if (nodoFleteSnapshot.key === 'transportistaSeleccionado') {
+                                            nodoFleteSnapshot.forEach(function (transportistasSeleccionadoSnapshot) {
+                                                var transportistasSeleccionado = transportistasSeleccionadoSnapshot.val();
+                                                if (transportistasSeleccionado.firebaseId === usuario.uid) {
+                                                    unidadesPorAsignar++;
+                                                }
+                                            });
+                                        }
+                                    });
+                                    break;
+                                case 'enProgreso':
+                                    childSnapshot.forEach(function (nodoFleteSnapshot) {
+                                        if (nodoFleteSnapshot.key === 'transportistaSeleccionado') {
+                                            nodoFleteSnapshot.forEach(function (transportistasSeleccionadoSnapshot) {
+                                                var transportistasSeleccionado = transportistasSeleccionadoSnapshot.val();
+                                                if (transportistasSeleccionado.firebaseId === usuario.uid) {
+                                                    enProgreso++;
+                                                }
+                                            });
+                                        }
+                                    });
+                                    break;
+                                case 'envioPorIniciar':
+                                    childSnapshot.forEach(function (nodoFleteSnapshot) {
+                                        if (nodoFleteSnapshot.key === 'transportistaSeleccionado') {
+                                            nodoFleteSnapshot.forEach(function (transportistasSeleccionadoSnapshot) {
+                                                var transportistasSeleccionado = transportistasSeleccionadoSnapshot.val();
+                                                if (transportistasSeleccionado.firebaseId === usuario.uid) {
+                                                    envioPorIniciar++;
+                                                }
+                                            });
+                                        }
+                                    });
+                                    break;
+                                default:
                             }
                         });
-                        buscarEsperandoPorTransportista(arrayFletes);
-                    });
-
-                    //FLETES INTERESADOS
-                    var refFletes = firebase.database().ref().child('fletesPorAsignar');
-                    refFletes.on("value", function (snapshot) {
-                        var arrayFletes = [];
-                        snapshot.forEach(function (childSnapshot) {
-                            fletes = childSnapshot.val();
-                            if (fletes.transportistasInteresados !== undefined) {
-                                if (fletes.transportistasInteresados.key === usuario.uid && fletes.flete.estatus === "transportistaPorConfirmar") {
-                                    arrayFletes.push(fletes.flete);
-                                }
-                            }
+                        $timeout(function () {
+                            $scope.paneles.fletes.esperandoPorTransportista = esperandoPorTransportista.toString();
+                            $scope.paneles.fletes.transportistaPorConfirmar = transportistaPorConfirmar.toString();
+                            $scope.paneles.fletes.unidadesPorAsignar = unidadesPorAsignar.toString();
+                            $scope.paneles.fletes.enProgreso = enProgreso.toString();
+                            $scope.paneles.fletes.envioPorIniciar = envioPorIniciar.toString();
                         });
-                        buscarTransportistaPorConfirmar(arrayFletes);
-                    });
-
-                    //FLETES ASIGNADOS
-                    var refFletes = firebase.database().ref().child('fletesPorAsignar');
-                    refFletes.on("value", function (snapshot) {
-                        var arrayFletes = [];
-                        snapshot.forEach(function (childSnapshot) {
-                            fletes = childSnapshot.val();
-                            if (fletes.transportistaSeleccionado !== undefined) {
-                                if (fletes.transportistaSeleccionado.key === usuario.uid) {
-                                    arrayFletes.push(fletes.flete);
-                                }
-                            }
-                        });
-                        buscarUnidadesPorAsignar(arrayFletes);
-                        buscarEnvioPorIniciar(arrayFletes);
-                        buscarEnProgreso(arrayFletes);
                     });
 
                     //FLETES INHABILITADOS
@@ -1723,66 +1955,130 @@
                     //CHOFERES
                     var refChoferes = firebase.database().ref().child('transportistas').child(usuario.uid).child("choferes");
                     refChoferes.on("value", function (snapshot) {
-                        var arrayChoferes = [];
+                        var libres = 0;
+                        var asignados = 0;
+                        var noAutorizados = 0;
                         snapshot.forEach(function (childSnapshot) {
-                            choferes = childSnapshot.val();
-                            arrayChoferes.push(choferes);
+                            var chofer = childSnapshot.val();
+                            switch (chofer.estatus) {
+                                case "libre":
+                                    libres++;
+                                    break;
+                                case "asignado":
+                                    asignados++;
+                                    break;
+                                case "inactivo":
+                                    noAutorizados++;
+                                    break;
+                                default:
+                                    break;
+                            }
                         });
-                        buscarChoferes(arrayChoferes);
+                        $timeout(function () {
+                            $scope.paneles.choferes.libres = libres.toString();
+                            $scope.paneles.choferes.asignados = asignados.toString();
+                            $scope.paneles.choferes.noAutorizados = noAutorizados.toString();
+                        });
                     });
 
                     //TRACTORES
-                    var refTractores = firebase.database().ref().child('transportistas').child(usuario.uid);
+                    var refTractores = firebase.database().ref().child('transportistas').child(usuario.uid).child('tractores');
                     refTractores.on("value", function (snapshot) {
-                        var arrayTractores = [];
+                        var libres = 0;
+                        var asignados = 0;
                         snapshot.forEach(function (childSnapshot) {
-                            if (childSnapshot.key === "tractores") {
-                                childSnapshot.forEach(function (tractorSnapshot) {
-                                    tractor = tractorSnapshot.val();
-                                    if (tractor.estatus !== 'eliminado') {
-                                        arrayTractores.push(tractor);
-                                    }
-                                })
+                            var tractor = childSnapshot.val();
+                            switch (tractor.estatus) {
+                                case "libre":
+                                    libres++;
+                                    break;
+                                case "asignado":
+                                    asignados++;
+                                    break;
+                                default:
+                                    break;
                             }
                         });
-                        buscarTractores(arrayTractores);
+                        $timeout(function () {
+                            $scope.paneles.tractores.libres = libres.toString();
+                            $scope.paneles.tractores.asignados = asignados.toString();
+                        });
                     });
 
                     //REMOLQUES
-                    var refRemolques = firebase.database().ref().child('transportistas').child(usuario.uid);
+                    var refRemolques = firebase.database().ref().child('transportistas').child(usuario.uid).child('remolques');
                     refRemolques.on("value", function (snapshot) {
-                        var arrayRemolques = [];
+                        var libres = 0;
+                        var asignados = 0;
                         snapshot.forEach(function (childSnapshot) {
-                            if (childSnapshot.key === "remolques") {
-                                childSnapshot.forEach(function (remolqueSnapshot) {
-                                    remolque = remolqueSnapshot.val();
-                                    if (remolque.estatus !== 'eliminado') {
-                                        arrayRemolques.push(remolque);
-                                    }
-                                })
+                            var remolque = childSnapshot.val();
+                            switch (remolque.estatus) {
+                                case "libre":
+                                    libres++;
+                                    break;
+                                case "asignado":
+                                    asignados++;
+                                    break;
+                                default:
+                                    break;
                             }
                         });
-                        buscarRemolques(arrayRemolques);
+                        $timeout(function () {
+                            $scope.paneles.remolques.libres = libres.toString();
+                            $scope.paneles.remolques.asignados = asignados.toString();
+                        });
                     });
 
                     //BODEGAS
                     $scope.paneles.bodegas = false;
                     break;
                 case 'chofer':
-                    //FLETES ASIGNADOS
+                    //FLETES
                     var refFletes = firebase.database().ref().child('fletesPorAsignar');
                     refFletes.on("value", function (snapshot) {
-                        var arrayFletes = [];
+                        var fletesPorCotizar = 0;
+                        var esperandoPorTransportista = 0;
+                        var transportistaPorConfirmar = 0;
+                        var unidadesPorAsignar = 0;
+                        var enProgreso = 0;
+                        var envioPorIniciar = 0;
+                        var entregado = 0;
+                        var finalizado = 0;
+                        var cancelado = 0;
                         snapshot.forEach(function (childSnapshot) {
-                            fletes = childSnapshot.val();
-                            if (fletes.choferSeleccionado !== undefined) {
-                                if (fletes.choferSeleccionado.key === usuario.uid && (fletes.flete.estatus === "envioPorIniciar" || fletes.flete.estatus === "enProgreso")) {
-                                    arrayFletes.push(fletes.flete);
-                                }
+                            var fletes = childSnapshot.val();
+                            switch (fletes.flete.estatus) {
+                                case 'enProgreso':
+                                    childSnapshot.forEach(function (nodoFleteSnapshot) {
+                                        if (nodoFleteSnapshot.key === 'choferSeleccionado') {
+                                            nodoFleteSnapshot.forEach(function (choferSeleccionadoSnapshot) {
+                                                var choferSeleccionado = choferSeleccionadoSnapshot.val();
+                                                if (choferSeleccionado.firebaseId === usuario.uid) {
+                                                    enProgreso++;
+                                                }
+                                            });
+                                        }
+                                    });
+                                    break;
+                                case 'envioPorIniciar':
+                                    childSnapshot.forEach(function (nodoFleteSnapshot) {
+                                        if (nodoFleteSnapshot.key === 'choferSeleccionado') {
+                                            nodoFleteSnapshot.forEach(function (choferSeleccionadoSnapshot) {
+                                                var choferSeleccionado = choferSeleccionadoSnapshot.val();
+                                                if (choferSeleccionado.firebaseId === usuario.uid) {
+                                                    envioPorIniciar++;
+                                                }
+                                            });
+                                        }
+                                    });
+                                    break;
+                                default:
                             }
                         });
-                        buscarEnvioPorIniciar(arrayFletes);
-                        buscarEnProgreso(arrayFletes);
+                        $timeout(function () {
+                            $scope.paneles.fletes.enProgreso = enProgreso.toString();
+                            $scope.paneles.fletes.envioPorIniciar = envioPorIniciar.toString();
+                        });
                     });
 
                     //FLETES INHABILITADOS
@@ -1815,265 +2111,6 @@
                 default:
             }
         });
-
-        //BUSQUEDA DE FLETES
-        var buscarFletesPorCotizar = function (arreglo) {
-            var fletesPorCotizar = 0;
-            arreglo.forEach(function (flete) {
-                switch (flete.estatus) {
-                    case 'fletePorCotizar':
-                        fletesPorCotizar++;
-                        break;
-                }
-            });
-            $scope.paneles.fletes.porCotizar = fletesPorCotizar.toString();
-        }
-
-        var buscarEsperandoPorTransportista = function (arreglo) {
-            var esperandoPorTransportista = 0;
-            arreglo.forEach(function (flete) {
-                switch (flete.estatus) {
-                    case 'esperandoPorTransportista':
-                        esperandoPorTransportista++;
-                        break;
-                }
-            });
-            $scope.paneles.fletes.esperandoPorTransportista = esperandoPorTransportista.toString();
-        }
-
-        var buscarTransportistaPorConfirmar = function (arreglo) {
-            var transportistaPorConfirmar = 0;
-            arreglo.forEach(function (flete) {
-                switch (flete.estatus) {
-                    case 'transportistaPorConfirmar':
-                        transportistaPorConfirmar++;
-                        break;
-                }
-            });
-            $scope.paneles.fletes.transportistaPorConfirmar = transportistaPorConfirmar.toString();
-        }
-
-        var buscarUnidadesPorAsignar = function (arreglo) {
-            var unidadesPorAsignar = 0;
-            arreglo.forEach(function (flete) {
-                switch (flete.estatus) {
-                    case 'unidadesPorAsignar':
-                        unidadesPorAsignar++;
-                        break;
-                }
-            });
-            $scope.paneles.fletes.unidadesPorAsignar = unidadesPorAsignar.toString();
-        }
-
-        var buscarEnProgreso = function (arreglo) {
-            var enProgreso = 0;
-            arreglo.forEach(function (flete) {
-                switch (flete.estatus) {
-                    case 'enProgreso':
-                        enProgreso++;
-                        break;
-                }
-            });
-            $scope.paneles.fletes.enProgreso = enProgreso.toString();
-        }
-
-        var buscarEnvioPorIniciar = function (arreglo) {
-            var envioPorIniciar = 0;
-            arreglo.forEach(function (flete) {
-                switch (flete.estatus) {
-                    case 'envioPorIniciar':
-                        envioPorIniciar++;
-                        break;
-                }
-            });
-            $scope.paneles.fletes.envioPorIniciar = envioPorIniciar.toString();
-        }
-
-        var buscarEntregado = function (arreglo) {
-            var entregado = 0;
-            arreglo.forEach(function (flete) {
-                switch (flete.estatus) {
-                    case 'entregado':
-                        entregado++;
-                        break;
-                }
-            });
-            $scope.paneles.fletes.entregado = entregado.toString();
-        }
-
-        var buscarFinalizado = function (arreglo) {
-            var finalizado = 0;
-            arreglo.forEach(function (flete) {
-                switch (flete.estatus) {
-                    case 'finalizado':
-                        finalizado++;
-                        break;
-                }
-            });
-            $scope.paneles.fletes.finalizado = finalizado.toString();
-        }
-
-        var buscarCancelado = function (arreglo) {
-            var cancelado = 0;
-            arreglo.forEach(function (flete) {
-                switch (flete.estatus) {
-                    case 'cancelado':
-                        cancelado++;
-                        break;
-                }
-            });
-            $scope.paneles.fletes.cancelado = cancelado.toString();
-        }
-
-        var buscarFletes = function (arreglo) {
-            buscarFletesPorCotizar(arreglo);
-            buscarEsperandoPorTransportista(arreglo);
-            buscarTransportistaPorConfirmar(arreglo);
-            buscarUnidadesPorAsignar(arreglo);
-            buscarEnvioPorIniciar(arreglo);
-            buscarEnProgreso(arreglo);
-            buscarEntregado(arreglo);
-            buscarFinalizado(arreglo);
-            buscarCancelado(arreglo);
-        };
-
-        //BUSQUEDA DE CLIENTES
-        var buscarClientes = function (arreglo) {
-            var autorizados = 0;
-            var noAutorizados = 0;
-
-            arreglo.forEach(function (cliente) {
-                switch (cliente.estatus) {
-                    case "activo":
-                        autorizados++;
-                        break;
-                    case "inactivo":
-                        noAutorizados++;
-                        break;
-                    default:
-                        break;
-                }
-            });
-
-            $scope.paneles.clientes.autorizados = autorizados.toString();
-            $scope.paneles.clientes.noAutorizados = noAutorizados.toString();
-            $scope.$apply();
-        };
-
-        //BUSQUEDA DE TRANSPORTISTAS
-        var buscarTransportistas = function (arreglo) {
-            var autorizados = 0;
-            var noAutorizados = 0;
-
-            arreglo.forEach(function (transportista) {
-                switch (transportista.estatus) {
-                    case "activo":
-                        autorizados++;
-                        break;
-                    case "inactivo":
-                        noAutorizados++;
-                        break;
-                    default:
-                        break;
-                }
-            });
-
-            $scope.paneles.transportistas.autorizados = autorizados.toString();
-            $scope.paneles.transportistas.noAutorizados = noAutorizados.toString();
-            $scope.$apply();
-        };
-
-        //BUSQUEDA DE CHOFERES
-        var buscarChoferes = function (arreglo) {
-            var libres = 0;
-            var asignados = 0;
-            var noAutorizados = 0;
-
-            arreglo.forEach(function (chofer) {
-                switch (chofer.estatus) {
-                    case "libre":
-                        libres++;
-                        break;
-                    case "asignado":
-                        asignados++;
-                        break;
-                    case "inactivo":
-                        noAutorizados++;
-                        break;
-                    default:
-                        break;
-                }
-            });
-
-            $scope.paneles.choferes.libres = libres.toString();
-            $scope.paneles.choferes.asignados = asignados.toString();
-            $scope.paneles.choferes.noAutorizados = noAutorizados.toString();
-            $scope.$apply();
-        };
-
-        //BUSQUEDA DE TRACTORES
-        var buscarTractores = function (arreglo) {
-            var libres = 0;
-            var asignados = 0;
-
-            arreglo.forEach(function (tractor) {
-                switch (tractor.estatus) {
-                    case "libre":
-                        libres++;
-                        break;
-                    case "asignado":
-                        asignados++;
-                        break;
-                    default:
-                        break;
-                }
-            });
-
-            $scope.paneles.tractores.libres = libres.toString();
-            $scope.paneles.tractores.asignados = asignados.toString();
-            $scope.$apply();
-        };
-
-        //BUSQUEDA DE REMOLQUES
-        var buscarRemolques = function (arreglo) {
-            var libres = 0;
-            var asignados = 0;
-
-            arreglo.forEach(function (remolque) {
-                switch (remolque.estatus) {
-                    case "libre":
-                        libres++;
-                        break;
-                    case "asignado":
-                        asignados++;
-                        break;
-                    default:
-                        break;
-                }
-            });
-
-            $scope.paneles.remolques.libres = libres.toString();
-            $scope.paneles.remolques.asignados = asignados.toString();
-            $scope.$apply();
-        };
-
-        //BUSQUEDA DE BODEGAS
-        var buscarBodegas = function (arreglo) {
-            var activos = 0;
-
-            arreglo.forEach(function (bodega) {
-                switch (bodega.estatus) {
-                    case "activo":
-                        activos++;
-                        break;
-                    default:
-                        break;
-                }
-            });
-
-            $scope.paneles.bodegas.registrados = activos.toString();
-            $scope.$apply();
-        };
     });
 })();
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -4091,7 +4128,7 @@
                             //ANEXO A ARREGLO PARA LA LISTA DE LA DERECHA
                             if (estatusFlete === 'Por Cotizar'
                                 || estatusFlete === 'Esperando Por Transportista'
-                                || estatusFlete === 'Transportisa Por Confirmar'
+                                || estatusFlete === 'Transportista Por Confirmar'
                                 || estatusFlete === 'Unidades Por Asignar'
                                 || estatusFlete === 'Envío Por Iniciar') {
                                 arrayListado.push({
@@ -4144,7 +4181,7 @@
                                 //ANEXO A ARREGLO PARA LA LISTA DE LA DERECHA
                                 if (estatusFlete === 'Por Cotizar'
                                     || estatusFlete === 'Esperando Por Transportista'
-                                    || estatusFlete === 'Transportisa Por Confirmar'
+                                    || estatusFlete === 'Transportista Por Confirmar'
                                     || estatusFlete === 'Unidades Por Asignar'
                                     || estatusFlete === 'Envío Por Iniciar') {
                                     arrayListado.push({
@@ -4184,12 +4221,17 @@
                             switch (estatusFlete) {
                                 case 'Esperando Por Transportista':
                                 case 'Transportista Por Confirmar':
-                                    snapshot.forEach(function (childSnapshot) {
-                                        if (childSnapshot.key === 'transportistasInteresados') {
-                                            childSnapshot.forEach(function (interesadosSnapshot) {
+                                    childSnapshot.forEach(function (nodoSnapshot) {
+                                        if (nodoSnapshot.key === 'transportistasInteresados') {
+                                            nodoSnapshot.forEach(function (interesadosSnapshot) {
                                                 var interesado = interesadosSnapshot.val();
+                                                var existe = false;
                                                 if (interesado.firebaseId === usuario.uid) {
+                                                    var existe = true;
                                                     alerta = false;
+                                                }
+                                                if (!existe) {
+                                                    estatusFlete = 'Esperando Por Transportista';
                                                 }
                                             });
                                         }
@@ -4208,6 +4250,7 @@
                                     break;
                                 case 'Unidades Por Asignar':
                                 case 'Envío Por Iniciar':
+                                case 'En Progreso':
                                 case 'Entregado':
                                 case 'Finalizado':
                                 case 'Cancelado':
@@ -4216,9 +4259,9 @@
                                         || estatusFlete === 'Cancelado') {
                                         alerta = false;
                                     }
-                                    snapshot.forEach(function (childSnapshot) {
-                                        if (childSnapshot.key === 'transportistaSeleccionado') {
-                                            childSnapshot.forEach(function (transportistaSnapshot) {
+                                    childSnapshot.forEach(function (nodoSnapshot) {
+                                        if (nodoSnapshot.key === 'transportistaSeleccionado') {
+                                            nodoSnapshot.forEach(function (transportistaSnapshot) {
                                                 var transportista = transportistaSnapshot.val();
                                                 if (transportista.firebaseId === usuario.uid) {
                                                     arrayFletes.push({
@@ -4276,9 +4319,9 @@
                                 case 'Entregado':
                                 case 'Finalizado':
                                 case 'Cancelado':
-                                    snapshot.forEach(function (childSnapshot) {
-                                        if (childSnapshot.key === 'transportistaSeleccionado') {
-                                            childSnapshot.forEach(function (transportistaSnapshot) {
+                                    childSnapshot.forEach(function (nodoSnapshot) {
+                                        if (nodoSnapshot.key === 'choferSeleccionado') {
+                                            nodoSnapshot.forEach(function (transportistaSnapshot) {
                                                 var transportista = transportistaSnapshot.val();
                                                 if (transportista.firebaseId === usuario.uid) {
                                                     arrayFletes.push({
@@ -4361,7 +4404,7 @@
                     estatusFlete = "Esperando Por Transportista";
                     break;
                 case "transportistaPorConfirmar":
-                    estatusFlete = "Transportisa Por Confirmar";
+                    estatusFlete = "Transportista Por Confirmar";
                     break;
                 case "unidadesPorAsignar":
                     estatusFlete = "Unidades Por Asignar";
@@ -4460,6 +4503,7 @@
                 document.getElementById('div_progress').className = 'col-lg-12 div-progress';
                 var id = event.firebaseId;
                 $location.path('/CHAOL/Fletes/' + id);
+                $scope.$apply();
                 document.getElementById('div_progress').className = 'col-lg-12 div-progress hidden';
             }
         }
