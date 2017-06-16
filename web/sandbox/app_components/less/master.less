@@ -1,0 +1,123 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 3/03/2017, 01:03:48 PM
+    Author     : Fred Gz
+*/
+
+/*IMPORTACIONES*/
+@import "base/estilos.less";
+@import "../../bower_components/font-awesome/less/font-awesome.less";
+@import "utilerias//bootstrap-calendar.less";
+/*@import "utilerias//bootstrap-datepicker.less";*/
+
+body {
+    /*padding-left: 54px !important;*/
+    background: @Background;
+    min-height: 100% !important;
+    height: auto;
+    padding-right: 0;
+}
+
+body > div:nth-child(2) > ng-view > div:first-child {
+    padding-left: 54px;
+    height: 100vh;
+}
+
+header {
+    padding: 10px 0;
+    color: @Text_Icons;
+    background-color: @Dark_Primary_Color;
+    box-shadow: 0 4px 5px @Sombra;
+    z-index: 1;
+}
+
+#img_imagen_usuario {
+    vertical-align: middle;
+    max-height: 50px;
+    max-width: 50px;
+    border-radius: 50px;
+}
+
+#div_usuario a {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+#div_usuario i {
+    vertical-align: middle;
+}
+
+#div_usuario span {
+    padding-right: 10px;
+}
+
+/*MENU*/
+md-sidenav {
+    color: @Dark_Primary_Color;
+    height: 100vh;
+}
+
+md-sidenav ul li {
+    list-style: none;
+}
+
+md-sidenav li {
+    padding: 0.5em 1em;
+    transition: background-color 0.2s cubic-bezier(0.45, 0.05, 0.55, 0.95) 0s;
+}
+
+md-sidenav li li {
+    padding: 0.5em 1em;
+}
+
+md-sidenav:not(.md-closed) > menu > md-content > ul > li.li-hijo:hover {
+    background: @Dark_Primary_Color;
+    color: #ffffff;
+}
+
+md-sidenav li a:hover {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+md-sidenav .li-padre {
+    color: @Secondary_Text;
+}
+
+#button_menu {
+    color: @Dark_Primary_Color;
+    cursor: pointer;
+    margin: 18px 0;
+}
+
+#button_menu:focus {
+    outline: none;
+}
+
+#div_menu_opciones {
+    transition: opacity 0.5s ease-in-out 0s;
+}
+/*FIN MENU*/
+
+md-switch {
+    margin: 0;
+}
+
+md-switch.md-default-theme.md-checked.md-primary .md-thumb, md-switch.md-checked.md-primary .md-thumb {
+    background-color: @Primary_Color;
+    color: @Primary_Color;
+}
+
+md-switch.md-default-theme.md-checked.md-primary .md-bar, md-switch.md-checked.md-primary .md-bar {
+    background-color: rgba(3,169,244,0.5);
+}
+
+@media only screen and (max-width: 425px) {
+    #img_usuario {
+        display: none;
+    }
+}

@@ -20,178 +20,213 @@
         </div>
         <!--CONTENIDO-->
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <!--PRIMER FILA-->
-            <div class="col-lg-12">
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <!--FLETES-->
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-titulo">
-                            <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 no-padding">
-                                <h2>
-                                    <a href="#/CHAOL/Fletes">FLETES</a>
-                                </h2>
-                            </div>
-                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-right">
-                                <a href="#/CHAOL/Fletes">
-                                    <i class="fa fa-bars fa-lg" aria-hidden="true"></i>
-                                </a>
-                            </div>
+            <div class="col-lg-12 col-md-6 col-sm-12 col-xs-12" ng-show="paneles.fletes">
+                <!--FLETES-->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-titulo">
+                        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 no-padding">
+                            <h2>
+                                <a href="#/CHAOL/Fletes">FLETES</a>
+                            </h2>
                         </div>
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-contenido">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <ul>
-                                    <li>1 flete por cotizar</li>
-                                    <li>2 cotizaciones por confirmar</li>
-                                    <li>3 solicitudes de transportistas pendientes</li>
-                                    <li>4 asignaciones de choferes pendientes</li>
-                                </ul>
-                            </div>
-                            <div class="col-lg-offset-10 col-lg-2 no-padding text-right">
-                                <a href="#/CHAOL/Fletes/Nuevo">
-                                    <i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
-                                </a>
-                            </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-right">
+                            <a href="#/CHAOL/Fletes">
+                                <i class="fa fa-bars fa-lg" aria-hidden="true"></i>
+                            </a>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <!--CLIENTES-->
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-titulo">
-                            <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
-                                <h2>
-                                    <a href="#/CHAOL/Clientes">CLIENTES</a>
-                                </h2>
-                            </div>
-                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-right">
-                                <a href="#/CHAOL/Clientes">
-                                    <i class="fa fa-bars fa-lg" aria-hidden="true"></i>
-                                </a>
-                            </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-contenido">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <ul class="fletes-ico">
+                                <li class="fletes-ico-cotizar" ng-show="paneles.fletes.porCotizar">{{paneles.fletes.porCotizar}} fletes por cotizar</li>
+                                <li class="fletes-ico-solicitud" ng-show="paneles.fletes.esperandoPorTransportista">{{paneles.fletes.esperandoPorTransportista}} solicitudes de transportista</li>
+                                <li class="fletes-ico-confirmacion" ng-show="paneles.fletes.transportistaPorConfirmar">{{paneles.fletes.transportistaPorConfirmar}} fletes esperando confirmaci&oacuten de transportistas</li>
+                                <li class="fletes-ico-asignacion" ng-show="paneles.fletes.unidadesPorAsignar">{{paneles.fletes.unidadesPorAsignar}} fletes esperando asignaci&oacuten de unidades</li>
+                                <li class="fletes-ico-envio" ng-show="paneles.fletes.envioPorIniciar">{{paneles.fletes.envioPorIniciar}} fletes esperando inicio de env&iacuteo</li>
+                                <li class="fletes-ico-progreso" ng-show="paneles.fletes.enProgreso">{{paneles.fletes.enProgreso}} fletes en progreso</li>
+                                <li class="fletes-ico-entregado" ng-show="paneles.fletes.entregado">{{paneles.fletes.entregado}} fletes entregados</li>
+                                <li class="fletes-ico-finalizado" ng-show="paneles.fletes.finalizado">{{paneles.fletes.finalizado}} fletes finalizados</li>
+                                <li class="fletes-ico-cancelado" ng-show="paneles.fletes.cancelado">{{paneles.fletes.cancelado}} fletes cancelados</li>
+                            </ul>
                         </div>
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-contenido">
-                            <div class="col-lg-12">
-                                <span>5 clientes registrados</span>
-                            </div>
-                            <div class="col-lg-offset-10 col-lg-2 no-padding text-right">
-                                <a href="#/CHAOL/Clientes/Nuevo">
-                                    <i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
-                                </a>
-                            </div>
+                        <div class="col-lg-offset-10 col-lg-2 no-padding text-right">
+                            <a href="#/CHAOL/Fletes/Nuevo">
+                                <i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
-            <!--SEGUNDA FILA-->
-            <div class="col-lg-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <!--TRANSPORTISTAS-->
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-titulo">
-                            <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 no-padding">
-                                <h2>
-                                    <a href="#/CHAOL/Transportistas">TRANSPORTISTAS</a>
-                                </h2>
-                            </div>
-                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-right">
-                                <a href="#/CHAOL/Transportistas">
-                                    <i class="fa fa-bars fa-lg" aria-hidden="true"></i>
-                                </a>
-                            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-show="paneles.clientes">
+                <!--CLIENTES-->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-titulo">
+                        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
+                            <h2>
+                                <a href="#/CHAOL/Clientes">CLIENTES</a>
+                            </h2>
                         </div>
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-contenido">
-                            <div class="col-lg-12">
-                                <span>6 transportistas registrados</span>
-                            </div>
-                            <div class="col-lg-offset-10 col-lg-2 no-padding text-right">
-                                <a href="#/CHAOL/Transportistas/Nuevo">
-                                    <i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
-                                </a>
-                            </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-right">
+                            <a href="#/CHAOL/Clientes">
+                                <i class="fa fa-bars fa-lg" aria-hidden="true"></i>
+                            </a>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <!--CHOFERES-->
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-titulo">
-                            <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 no-padding">
-                                <h2>
-                                    <a href="#/CHAOL/Choferes">CHOFERES</a>
-                                </h2>
-                            </div>
-                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-right">
-                                <a href="#/CHAOL/Choferes">
-                                    <i class="fa fa-bars fa-lg" aria-hidden="true"></i>
-                                </a>
-                            </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-contenido">
+                        <div class="col-lg-12">
+                            <span>{{paneles.clientes.autorizados}} clientes autorizados</span>
+                            <br />
+                            <span>{{paneles.clientes.noAutorizados}} clientes no autorizados</span>
                         </div>
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-contenido">
-                            <div class="col-lg-12">
-                                <span>7 choferes registrados</span>
-                            </div>
-                            <div class="col-lg-offset-10 col-lg-2 no-padding text-right">
-                                <a href="#/CHAOL/Choferes/Nuevo">
-                                    <i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
-                                </a>
-                            </div>
+                        <div class="col-lg-offset-10 col-lg-2 no-padding text-right">
+                            <a href="#/CHAOL/Clientes/Nuevo">
+                                <i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
-            <!--TERCERA FILA-->
-            <div class="col-lg-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <!--TRACTORES-->
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-titulo">
-                            <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 no-padding">
-                                <h2>
-                                    <a href="#/CHAOL/Tractores">TRACTORES</a>
-                                </h2>
-                            </div>
-                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-right">
-                                <a href="#/CHAOL/Tractores">
-                                    <i class="fa fa-bars fa-lg" aria-hidden="true"></i>
-                                </a>
-                            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-show="paneles.transportistas">
+                <!--TRANSPORTISTAS-->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-titulo">
+                        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 no-padding">
+                            <h2>
+                                <a href="#/CHAOL/Transportistas">TRANSPORTISTAS</a>
+                            </h2>
                         </div>
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-contenido">
-                            <div class="col-lg-12">
-                                <span>8 tractores registrados</span>
-                            </div>
-                            <div class="col-lg-offset-10 col-lg-2 no-padding text-right">
-                                <a href="#/CHAOL/Tractores/Nuevo">
-                                    <i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
-                                </a>
-                            </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-right">
+                            <a href="#/CHAOL/Transportistas">
+                                <i class="fa fa-bars fa-lg" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-contenido">
+                        <div class="col-lg-12">
+                            <span>{{paneles.transportistas.autorizados}} transportistas autorizados</span>
+                            <br />
+                            <span>{{paneles.transportistas.noAutorizados}} transportistas no autorizados</span>
+                        </div>
+                        <div class="col-lg-offset-10 col-lg-2 no-padding text-right">
+                            <a href="#/CHAOL/Transportistas/Nuevo">
+                                <i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <!--REMOLQUES-->
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-titulo">
-                            <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 no-padding">
-                                <h2>
-                                    <a href="#/CHAOL/Remolques">REMOLQUES</a>
-                                </h2>
-                            </div>
-                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-right">
-                                <a href="#/CHAOL/Remolques">
-                                    <i class="fa fa-bars fa-lg" aria-hidden="true"></i>
-                                </a>
-                            </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-show="paneles.choferes">
+                <!--CHOFERES-->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-titulo">
+                        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 no-padding">
+                            <h2>
+                                <a href="#/CHAOL/Choferes">CHOFERES</a>
+                            </h2>
                         </div>
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-contenido">
-                            <div class="col-lg-12">
-                                <span>9 remolques registrados</span>
-                            </div>
-                            <div class="col-lg-offset-10 col-lg-2 no-padding text-right">
-                                <a href="#/CHAOL/Remolques/Nuevo">
-                                    <i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
-                                </a>
-                            </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-right">
+                            <a href="#/CHAOL/Choferes">
+                                <i class="fa fa-bars fa-lg" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-contenido">
+                        <div class="col-lg-12">
+                            <span>{{paneles.choferes.libres}} choferes libres</span>
+                            <br />
+                            <span>{{paneles.choferes.asignados}} choferes asignados</span>
+                            <br />
+                            <span>{{paneles.choferes.noAutorizados}} choferes no autorizados</span>
+                        </div>
+                        <div class="col-lg-offset-10 col-lg-2 no-padding text-right">
+                            <a href="#/CHAOL/Choferes/Nuevo">
+                                <i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-show="paneles.tractores">
+                <!--TRACTORES-->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-titulo">
+                        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 no-padding">
+                            <h2>
+                                <a href="#/CHAOL/Tractores">TRACTORES</a>
+                            </h2>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-right">
+                            <a href="#/CHAOL/Tractores">
+                                <i class="fa fa-bars fa-lg" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-contenido">
+                        <div class="col-lg-12">
+                            <span>{{paneles.tractores.asignados}} tractores asignados</span>
+                            <br />
+                            <span>{{paneles.tractores.libres}} tractores libres</span>
+                        </div>
+                        <div class="col-lg-offset-10 col-lg-2 no-padding text-right">
+                            <a href="#/CHAOL/Tractores/Nuevo">
+                                <i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-show="paneles.remolques">
+                <!--REMOLQUES-->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-titulo">
+                        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 no-padding">
+                            <h2>
+                                <a href="#/CHAOL/Remolques">REMOLQUES</a>
+                            </h2>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-right">
+                            <a href="#/CHAOL/Remolques">
+                                <i class="fa fa-bars fa-lg" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-contenido">
+                        <div class="col-lg-12">
+                            <span>{{paneles.remolques.asignados}} remolques asignados</span>
+                            <br />
+                            <span>{{paneles.remolques.libres}} remolques libres</span>
+                        </div>
+                        <div class="col-lg-offset-10 col-lg-2 no-padding text-right">
+                            <a href="#/CHAOL/Remolques/Nuevo">
+                                <i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-show="paneles.bodegas">
+                <!--BODEGAS-->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-titulo">
+                        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 no-padding">
+                            <h2>
+                                <a href="#/CHAOL/Bodegas">BODEGAS</a>
+                            </h2>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-right">
+                            <a href="#/CHAOL/Bodegas">
+                                <i class="fa fa-bars fa-lg" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-contenido">
+                        <div class="col-lg-12">
+                            <span>{{paneles.bodegas.registrados}} bodegas registradas</span>
+                        </div>
+                        <div class="col-lg-offset-10 col-lg-2 no-padding text-right">
+                            <a href="#/CHAOL/Bodegas/Nuevo">
+                                <i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
+                            </a>
                         </div>
                     </div>
                 </div>

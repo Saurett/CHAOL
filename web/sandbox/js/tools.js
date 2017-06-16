@@ -77,14 +77,35 @@
         //AQUI ESTA LO DE LOS COLORES
         _initializeDatasourceColors: function () {
             for (var i in this.options.dataSource) {
-                //switch (this.options.dataSource[i].idEstatus) {
-                //    case 1:
-                //        this.options.dataSource[i].color = 'black';
-                //        break;
-                //    default:
-                //        this.options.dataSource[i].color = 'blue';
-                //        break;
-                //}
+                switch (this.options.dataSource[i].estatus) {
+                    case 'Por Cotizar':
+                        this.options.dataSource[i].color = '#7B4CFE';
+                        break;
+                    case 'Esperando Por Transportista':
+                        this.options.dataSource[i].color = '#FE9700';
+                        break;
+                    case 'Transportisa Por Confirma':
+                        this.options.dataSource[i].color = '#FEEA3A';
+                        break;
+                    case 'Unidades Por Asignar':
+                        this.options.dataSource[i].color = '#4BAE4F';
+                        break;
+                    case 'Envio Por Iniciar':
+                        this.options.dataSource[i].color = '#00BBD3';
+                        break;
+                    case 'En Progreso':
+                        this.options.dataSource[i].color = '#2095F2';
+                        break;
+                    case 'Entregado':
+                        this.options.dataSource[i].color = '#9D9D9D';
+                        break;
+                    case 'Finalizado':
+                        this.options.dataSource[i].color = '#202020';
+                        break;
+                    case 'Cancelado':
+                        this.options.dataSource[i].color = '#F34235';
+                        break;
+                }
                 if(this.options.dataSource[i].color == null) {
                 	this.options.dataSource[i].color = colors[i % colors.length];
                 }
@@ -380,6 +401,12 @@
                         }
 
                         elt.parent().css('box-shadow', boxShadow);
+                    }
+                    for (var i = 0; i < events.length; i++) {
+                        if (events[i].alert) {
+                            elt.append(' <i class="fa fa-exclamation" aria-hidden="true"></i>');
+                            break;
+                        }
                     }
                     break;
 
@@ -1088,7 +1115,17 @@
         }
     };
 
-    var colors = $.fn.calendar.colors = ['#2C8FC9', '#9CB703', '#F5BB00', '#FF4A32', '#B56CE2', '#45A597'];
+    var colors = $.fn.calendar.colors = [
+        '#7B4CFE', //POR COTIZAR
+        '#FE9700', //TRANSPORTISTA POR SOLICITAR
+        '#FEEA3A', //TRANSPORTISTA POR CONFIRMAR
+        '#4BAE4F', //ASIGNACI�N DE UNIDADES
+        '#00BBD3', //INICIO DE ENVIO
+        '#2095F2', //EN PROGRESO
+        '#9D9D9D', //ENTREGADO
+        '#202020', //FINALIZADO
+        '#F34235', //CANCELADO
+    ];
 
     $(function () {
         $('[data-provide="calendar"]').each(function () {
@@ -1115,142 +1152,78 @@
 		weekStart: 1
 	};
 }(jQuery));
-function iniciar_calendario(div) {
-    var currentYear = new Date().getFullYear();
+//function iniciar_calendario(div, fletes) {
+//    var currentYear = new Date().getFullYear();
 
-    $(div).calendar({
-        enableContextMenu: true,
-        enableRangeSelection: true,
-        language: 'es',
-        contextMenuItems: [
-            {
-                text: 'Detalle'
-                //click: editEvent
-            }
-        ],
-        selectRange: function (e) {
-            editEvent({ startDate: e.startDate, endDate: e.endDate });
-        },
-        mouseOnDay: function (e) {
-            if (e.events.length > 0) {
-                var content = '';
+//    //DETERMINAR FECHA DE HOY
+//    var hoy = new Date(currentYear, new Date().getMonth(), new Date().getDate()).getTime();
 
-                for (var i in e.events) {
-                    content += '<div class="event-tooltip-content">'
-                            + '<div class="event-name" style="color:' + e.events[i].color + '">Cliente: ' + e.events[i].cliente + '</div>'
-                            + '<div class="event-location">Transportista: ' + e.events[i].transportista + '</div>'
-                            + '</div>';
-                }
+//    $(div).calendar({
+//        enableContextMenu: true,
 
-                $(e.element).popover({
-                    trigger: 'manual',
-                    container: 'body',
-                    html: true,
-                    content: content
-                });
+//        customDayRenderer: function (element, date) {
+//            if (date.getTime() == hoy) {
+//                $(element).css('background-color', '#F34235');
+//                $(element).css('font-weight', 'bold');
+//                $(element).css('color', 'white');
+//                $(element).css('padding', '0px');
+//            }
+//        },
 
-                $(e.element).popover('show');
-            }
-        },
-        mouseOutDay: function (e) {
-            if (e.events.length > 0) {
-                $(e.element).popover('hide');
-            }
-        },
-        dayContextMenu: function (e) {
-            $(e.element).popover('hide');
-        },
-        dataSource: [
-            {
-                id: 0,
-                cliente: 'Fred Gómez Leyva',
-                transportista: 'Alberto Pérez Martínez',
-                name: 'Fred Gómez Leyva',
-                startDate: new Date(currentYear, 0, 28),
-                endDate: new Date(currentYear, 0, 28),
-                idEstatus: 1
-            },
-            {
-                id: 1,
-                cliente: 'Francisco Javier Díaz Saurett',
-                transportista: 'Camila Rodríguez Reyes',
-                name: 'Francisco Javier Díaz Saurett',
-                startDate: new Date(currentYear, 2, 16),
-                endDate: new Date(currentYear, 2, 16),
-                idEstatus: 1
-            },
-            {
-                id: 2,
-                cliente: 'Tadeo Bernat Rodríguez',
-                transportista: 'Carlos Alberto Florez Cazarín',
-                name: 'Tadeo Bernat Rodríguez',
-                startDate: new Date(currentYear, 3, 29),
-                endDate: new Date(currentYear, 3, 29),
-                idEstatus: 1
-            },
-            {
-                id: 3,
-                cliente: 'Víctor Hugo Gómez Martínez',
-                transportista: 'José Luis Torres Salazar',
-                name: 'Víctor Hugo Gómez Martínez',
-                startDate: new Date(currentYear, 8, 1),
-                endDate: new Date(currentYear, 8, 1),
-                idEstatus: 1
-            },
-            {
-                id: 4,
-                cliente: 'Francisco Javier Díaz Saurett',
-                transportista: 'Carlos Alberto Florez Cazarín',
-                name: 'Francisco Javier Díaz Saurett',
-                startDate: new Date(currentYear, 2, 16),
-                endDate: new Date(currentYear, 2, 16),
-                idEstatus: 1
-            },
-            {
-                id: 5,
-                cliente: 'Tadeo Bernat Rodríguez',
-                transportista: 'José Luis Torres Salazar',
-                name: 'Tadeo Bernat Rodríguez',
-                startDate: new Date(currentYear, 3, 29),
-                endDate: new Date(currentYear, 3, 29),
-                idEstatus: 1
-            },
-            {
-                id: 6,
-                cliente: 'Víctor Hugo Gómez Martínez',
-                transportista: 'Camila Rodríguez Reyes',
-                name: 'Víctor Hugo Gómez Martínez',
-                startDate: new Date(currentYear, 3, 29),
-                endDate: new Date(currentYear, 3, 29),
-                idEstatus: 1
-            },
-            {
-                id: 7,
-                cliente: 'Víctor Hugo Gómez Martínez',
-                transportista: 'José Luis Torres Salazar',
-                name: 'Víctor Hugo Gómez Martínez',
-                startDate: new Date(currentYear, 8, 1),
-                endDate: new Date(currentYear, 8, 1),
-                idEstatus: 1
-            },
-            {
-                id: 8,
-                cliente: 'Fred Gómez Leyva',
-                transportista: 'Camila Rodríguez Reyes',
-                name: 'Fred Gómez Leyva',
-                startDate: new Date(currentYear, 8, 1),
-                endDate: new Date(currentYear, 8, 1),
-                idEstatus: 1
-            },
-            {
-                id: 9,
-                cliente: 'Tadeo Bernat Rodríguez',
-                transportista: 'Carlos Alberto Florez Cazarín',
-                name: 'Tadeo Bernat Rodríguez',
-                startDate: new Date(currentYear, 8, 1),
-                endDate: new Date(currentYear, 8, 1),
-                idEstatus: 1
-            }
-        ]
-    });
-}
+//        enableRangeSelection: true,
+//        language: 'es',
+//        contextMenuItems: [
+//            {
+//                text: 'Detalle',
+//                click: detalle
+//            }
+//        ],
+//        selectRange: function (e) {
+//            editEvent({ startDate: e.startDate, endDate: e.endDate });
+//        },
+//        mouseOnDay: function (e) {
+//            if (e.events.length > 0) {
+//                var content = '';
+
+//                for (var i in e.events) {
+//                    if (i < 3) {
+//                        content += '<div class="event-tooltip-content">'
+//                            + '<div class="event-name"><span>Estatus: </span><span style="color:' + e.events[i].color + '"><b>' + e.events[i].estatus + '</b></span></div>'
+//                            + '<div class="event-name">Cliente: <b>' + e.events[i].cliente + '</b></div>'
+//                            + '<div class="event-location">Transportista: <b>' + e.events[i].transportista + '</b></div>'
+//                            + '</div>'
+//                            + '<hr/>';
+//                    }
+//                    else {
+//                        content += '<div class="event-tooltip-content">'
+//                            + '<div class="event-name text-center">' + (e.events.length - 3).toString() + ' fletes más</div>';
+//                        break;
+//                    }
+//                }
+
+//                $(e.element).popover({
+//                    trigger: 'manual',
+//                    container: 'body',
+//                    html: true,
+//                    content: content
+//                });
+
+//                $(e.element).popover('show');
+//            }
+//        },
+//        mouseOutDay: function (e) {
+//            if (e.events.length > 0) {
+//                $(e.element).popover('hide');
+//            }
+//        },
+//        dayContextMenu: function (e) {
+//            $(e.element).popover('hide');
+//        },
+//        dataSource: fletes
+//    });
+
+//    function detalle(event) {
+//        var id = event.firebaseId;
+//        console.log(id)
+//    }
+//}
