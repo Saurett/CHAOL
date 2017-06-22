@@ -32,15 +32,20 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.indev.chaol.R;
 import com.indev.chaol.fragments.interfaces.MainRegisterInterface;
+import com.indev.chaol.models.Agendas;
 import com.indev.chaol.models.Bodegas;
 import com.indev.chaol.models.Clientes;
 import com.indev.chaol.models.DecodeExtraParams;
 import com.indev.chaol.models.Estados;
 import com.indev.chaol.models.Fletes;
+import com.indev.chaol.models.MainFletes;
 import com.indev.chaol.models.TiposRemolques;
 import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
+import com.indev.chaol.utils.DateTimeUtils;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
 
+import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -58,8 +63,8 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
     private static final String TAG = FletesDatosGeneralesFragment.class.getName();
 
     private Button btnTitulo, btnSolicitarCotizacion;
-    private LinearLayout linearLayoutClientes, linearLayout, linearLayoutZone;
-    private EditText txtFechaSalida, txtHoraSalida, txtCarga, txtNumEmbarque, txtDestinatario;
+    private LinearLayout linearLayoutClientes, linearLayout, linearLayoutZone, linearLayoutIDFlete;
+    private EditText txtIDFlete, txtFechaSalida, txtHoraSalida, txtCarga, txtNumEmbarque, txtDestinatario;
     private EditText txtCiudadCarga, txtColoniaCarga, txtCodigoPostalCarga, txtCalleCarga, txtNumIntCarga, txtNumExtCarga;
     private EditText txtCiudadDescarga, txtColoniaDescarga, txtCodigoPostalDescarga, txtCalleDescarga, txtNumIntDescarga, txtNumExtDescarga;
     private Spinner spinnerCliente, spinnerBodegaCarga, spinnerBodegaDescarga, spinnerTipoRemolque, spinnerOrigenEstado, spinnerDestinoEstado;
@@ -95,6 +100,8 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
     /**
      * Declaraciones para Firebase
      **/
+    private static MainFletes _mainFletesActual;
+
     private FirebaseDatabase database;
     private DatabaseReference drClientes;
     private DatabaseReference drBodegaCarga;
@@ -113,6 +120,7 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
         linearLayoutClientes = (LinearLayout) view.findViewById(R.id.item_datos_generales_cliente);
         linearLayout = (LinearLayout) view.findViewById(R.id.datos_generales_container);
         linearLayoutZone = (LinearLayout) view.findViewById(R.id.linear_btn_zone_datos_generales);
+        linearLayoutIDFlete = (LinearLayout) view.findViewById(R.id.linear_id_flete);
 
         spinnerCliente = (Spinner) view.findViewById(R.id.spinner_datos_generales_cliente);
         spinnerBodegaCarga = (Spinner) view.findViewById(R.id.spinner_datos_generales_bodega_carga);
@@ -121,6 +129,7 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
         spinnerOrigenEstado = (Spinner) view.findViewById(R.id.spinner_dg_origen_estado);
         spinnerDestinoEstado = (Spinner) view.findViewById(R.id.spinner_dg_destino_estado);
 
+        txtIDFlete = (EditText) view.findViewById(R.id.txt_dg_id_flete);
         txtFechaSalida = (EditText) view.findViewById(R.id.txt_dg_fecha_salida);
         txtHoraSalida = (EditText) view.findViewById(R.id.txt_dg_hora_salida);
         txtCarga = (EditText) view.findViewById(R.id.txt_dg_carga);
@@ -256,14 +265,79 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
 
         switch (_MAIN_DECODE.getAccionFragmento()) {
             case Constants.ACCION_EDITAR:
-                /**Obtiene el item selecionado en el fragmento de lista**/
-                //Fletes fletes = (Fletes) _MAIN_DECODE.getDecodeItem().getItemModel();
-
-                /**Asigna valores del item seleccionado**/
+                this.onPreRenderEditar();
                 break;
             case Constants.ACCION_REGISTRAR:
                 break;
         }
+    }
+
+    private void onPreRenderEditar() {
+
+        /**Obtiene el item selecionado en el fragmento de lista**/
+        Agendas agenda = (Agendas) _MAIN_DECODE.getDecodeItem().getItemModel();
+
+        DatabaseReference dbFlete =
+                FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
+                        .child(agenda.getFirebaseID());
+
+        final ProgressDialog pDialogRender = new ProgressDialog(getContext());
+        pDialogRender.setMessage(getString(R.string.default_loading_msg));
+        pDialogRender.setIndeterminate(false);
+        pDialogRender.setCancelable(false);
+        pDialogRender.show();
+
+        dbFlete.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                Fletes flete = dataSnapshot.child(Constants.FB_KEY_MAIN_FLETE).getValue(Fletes.class);
+                Bodegas bodegaCarga = dataSnapshot.child(Constants.FB_KEY_MAIN_BODEGA_DE_CARGA).getValue(Bodegas.class);
+
+                _mainFletesActual = new MainFletes();
+
+                _mainFletesActual.setFlete(flete);
+                _mainFletesActual.setBodegaDeCarga(bodegaCarga);
+
+                /**Cargar información del flete**/
+                String date = DateTimeUtils.getParseTimeStamp(flete.getFechaDeSalida());
+                CalendarDay calendarDay = DateTimeUtils.getCalendarDay(date);
+
+                setProgressBar(); /**Actualiza el progreso de la barra**/
+                linearLayoutIDFlete.setVisibility(View.VISIBLE);
+                txtIDFlete.setText(_mainFletesActual.getFlete().getIdFlete());
+                myCalendar.set(calendarDay.getYear(),calendarDay.getMonth(),calendarDay.getDay());
+                updateTxtDate(); /**Actualiza la fecha del calendario**/
+
+                Calendar c = Calendar.getInstance();
+                c.set(calendarDay.getYear(),calendarDay.getMonth(),calendarDay.getDay()
+                        , _mainFletesActual.getFlete().getHoraDeSalida(), 00,00);
+
+                myCalendar.setTime(new Time(c.getTimeInMillis()));
+                updateTxtTime(); /**Actualiza la hora del calendario**/
+                /**Combo se hace en el evento onPreRenderBodegaCarga**/
+
+
+                txtNumEmbarque.setText(flete.getNumeroDeEmbarque());
+
+                txtIDFlete.setTag(txtIDFlete.getKeyListener());
+                txtIDFlete.setKeyListener(null);
+
+
+                pDialogRender.dismiss();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        /**Modifica valores predeterminados de ciertos elementos**/
+        //btnTitulo.setText(getString(Constants.TITLE_FORM_ACTION.get(_MAIN_DECODE.getAccionFragmento())));
+        //fabClientes.setImageDrawable(getResources().getDrawable(R.mipmap.ic_mode_edit_white_18dp));
+
     }
 
     private void onPreRenderTiposRemolques() {
@@ -416,17 +490,22 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
         long tsFechaSalida = 0L;
 
         try {
-            tsFechaSalida = new SimpleDateFormat("dd/MM/yyyy").parse(txtFechaSalida.getText()
-                    .toString()).getTime() / 1000L;
+            tsFechaSalida = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(txtFechaSalida.getText()
+                    .toString() + " 01:00:00").getTime() / 1000L;
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
+
         flete.setFechaDeSalida(tsFechaSalida);
         flete.setHoraDeSalida(Integer.valueOf(txtHoraSalida.getText().toString()));
+        flete.setCliente(spinnerCliente.getSelectedItem().toString());
+        flete.setBodegaDeCarga(spinnerBodegaCarga.getSelectedItem().toString());
         flete.setCarga(txtCarga.getText().toString());
+        flete.setTipoDeRemolque(spinnerTipoRemolque.getSelectedItem().toString());
         flete.setNumeroDeEmbarque(txtNumEmbarque.getText().toString());
         flete.setDestinatario(txtDestinatario.getText().toString());
+        flete.setBodegaDeDescarga(spinnerBodegaDescarga.getSelectedItem().toString());
 
         activityInterface.createSolicitudCotizacion(flete,_bodegaCargaActual,_bodegaDescargaActual);
     }
@@ -644,6 +723,17 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
 
     private int onPreRenderSelectBodegaCarga() {
         int item = 0;
+
+        if (_MAIN_DECODE.getAccionFragmento() == Constants.ACCION_EDITAR) {
+            for (Bodegas bodegaCarga : bodegasCargas) {
+                item++;
+                if (_mainFletesActual.getBodegaDeCarga().getFirebaseIdBodega()
+                        .equals(bodegaCarga.getFirebaseIdBodega())) {
+                    break;
+                }
+            }
+        }
+
         return item;
     }
 
@@ -768,6 +858,46 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
         txtCalleDescarga.setText(_bodegaDescargaActual.getCalle());
         txtNumIntDescarga.setText(_bodegaDescargaActual.getNumeroInterior());
         txtNumExtDescarga.setText(_bodegaDescargaActual.getNumeroExterior());
+    }
+
+    private void setProgressBar() {
+
+        int progress = 0;
+
+        switch (_mainFletesActual.getFlete().getEstatus()) {
+            case Constants.FB_KEY_ITEM_STATUS_FLETE_POR_COTIZAR:
+                progress = 15;
+                break;
+            case Constants.FB_KEY_ITEM_STATUS_ESPERANDO_POR_TRANSPORTISTA:
+                progress = 30;
+                break;
+            case Constants.FB_KEY_ITEM_STATUS_TRANSPORTISTA_POR_CONFIRMAR:
+                progress = 45;
+                break;
+            case Constants.FB_KEY_ITEM_STATUS_UNIDADES_POR_ASIGNAR:
+                progress = 70;
+                break;
+            case Constants.FB_KEY_ITEM_STATUS_ENVIO_POR_INICIAR:
+                progress = 80;
+                break;
+            case Constants.FB_KEY_ITEM_STATUS_EN_PROGRESO:
+                progress = 90;
+                break;
+            case Constants.FB_KEY_ITEM_STATUS_ENTREGADO:
+                progress = 95;
+                break;
+            case Constants.FB_KEY_ITEM_STATUS_FINALIZADO:
+                progress = 100;
+                break;
+            case Constants.FB_KEY_ITEM_STATUS_CANCELADO:
+                progress = 0;
+                break;
+            default:
+                break;
+        }
+
+        RegistroFletesFragment.setFleteProgressBar(progress);
+
     }
 
 }

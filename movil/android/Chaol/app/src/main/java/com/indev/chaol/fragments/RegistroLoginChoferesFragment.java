@@ -87,7 +87,7 @@ public class RegistroLoginChoferesFragment extends Fragment implements View.OnCl
         spinnerEmpresa = (Spinner) view.findViewById(R.id.spinner_choferes_empresa);
 
         database = FirebaseDatabase.getInstance();
-        drTransportistas = database.getReference("listaDeTransportistas");
+        drTransportistas = database.getReference(Constants.FB_KEY_MAIN_TRANSPORTISTAS);
 
         pDialog = new ProgressDialog(getContext());
         pDialog.setMessage(getString(R.string.default_loading_msg));
@@ -108,13 +108,23 @@ public class RegistroLoginChoferesFragment extends Fragment implements View.OnCl
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 
-                    String nombre = postSnapshot.getValue(String.class);
-                    String firebaseID = postSnapshot.getKey();
+                    for (DataSnapshot psTransportista : postSnapshot.getChildren()) {
 
-                    Transportistas transportista = new Transportistas(firebaseID, nombre);
+                        Transportistas transportista = psTransportista.getValue(Transportistas.class);
 
-                    transportistasList.add(nombre);
-                    transportistas.add(transportista);
+                        if (Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA.equals(transportista.getTipoDeUsuario())) {
+
+                            if (Constants.FB_KEY_ITEM_ESTATUS_ACTIVO.equals(transportista.getEstatus())) {
+
+                                String nombre = transportista.getNombre();
+                                String firebaseID = transportista.getFirebaseId();
+
+                                transportistasList.add(nombre);
+                                transportistas.add(new Transportistas(firebaseID, nombre));
+
+                            }
+                        }
+                    }
                 }
 
                 onCargarSpinnerTransportistas();
@@ -270,7 +280,6 @@ public class RegistroLoginChoferesFragment extends Fragment implements View.OnCl
         Choferes chofer = new Choferes();
 
         chofer.setNombre(txtNombre.getText().toString().trim());
-        chofer.setEmpresaTransportista(spinnerEmpresa.getSelectedItem().toString().trim());
         chofer.setNumeroDeLicencia(txtNumeroLicencia.getText().toString().trim());
         chofer.setNumeroDeSeguroSocial(txtNSS.getText().toString().trim());
         chofer.setCURP(txtCURP.getText().toString().trim());

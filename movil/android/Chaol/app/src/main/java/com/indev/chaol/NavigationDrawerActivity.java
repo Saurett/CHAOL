@@ -1,5 +1,7 @@
 package com.indev.chaol;
 
+import android.os.PersistableBundle;
+import android.provider.Settings.Secure;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -27,9 +29,13 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
+import com.google.firebase.database.ValueEventListener;
 import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
 import com.indev.chaol.models.Administradores;
 import com.indev.chaol.models.Bodegas;
@@ -44,7 +50,11 @@ import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
 import com.indev.chaol.utils.DateTimeUtils;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
+
+import static java.security.AccessController.getContext;
 
 public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, NavigationDrawerInterface, DialogInterface.OnClickListener, DrawerLayout.DrawerListener {
@@ -69,6 +79,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
     /*** Declaraciones para Firebase**/
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+
+    private static long deviceSize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,10 +119,46 @@ public class NavigationDrawerActivity extends AppCompatActivity
             }
         };
 
+        final DatabaseReference dbUsuario =
+                FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.FB_KEY_MAIN_USUARIOS)
+                        .child(_SESSION_USER.getFirebaseId())
+                        .child(Constants.FB_KEY_MAIN_DISPOSITIVOS);
+
+        dbUsuario.runTransaction(new Transaction.Handler() {
+            @Override
+            public Transaction.Result doTransaction(MutableData mutableData) {
+
+                String android_id = Secure.getString(getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
+                List<String> dispositivos = (List<String>) mutableData.getValue();
+
+                if (dispositivos == null) {
+                    dispositivos = new ArrayList();
+                    dispositivos.add(android_id);
+                } else if (!dispositivos.contains(android_id)) {
+                    dispositivos.add(android_id);
+                }
+
+                mutableData.setValue(dispositivos);
+
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+
+            }
+        });
+
         /**Siempre antes de  "navigationView.setNavigationItemSelectedListener(this)" **/
         this.onPreRender(navigationView);
 
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
     }
 
     /**
@@ -251,10 +299,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 this.openFragment(Constants.ITEM_FRAGMENT.get(id));
                 break;
             case R.id.menu_item_cerrar_session:
-                /**Si se crean mas elementos al cerrar session, se creara un metodo**/
-                lastMenuItem = null;
-                FirebaseAuth.getInstance().signOut();
-                finish();
+                deleteDevice();
                 break;
         }
 
@@ -949,5 +994,41 @@ public class NavigationDrawerActivity extends AppCompatActivity
     @Override
     public void onDrawerStateChanged(int newState) {
 
+    }
+
+    private void deleteDevice() {
+
+        final DatabaseReference dbUsuario =
+                FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.FB_KEY_MAIN_USUARIOS)
+                        .child(_SESSION_USER.getFirebaseId())
+                        .child(Constants.FB_KEY_MAIN_DISPOSITIVOS);
+
+        dbUsuario.runTransaction(new Transaction.Handler() {
+            @Override
+            public Transaction.Result doTransaction(MutableData mutableData) {
+
+                String android_id = Secure.getString(getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
+                List<String> dispositivos = (List<String>) mutableData.getValue();
+
+                if (dispositivos == null) {
+                    dispositivos = new ArrayList();
+                } else if (dispositivos.contains(android_id)) {
+                    dispositivos.remove(dispositivos.indexOf(android_id));
+                }
+
+                mutableData.setValue(dispositivos);
+
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+                /**Si se crean mas elementos al cerrar session, se creara un metodo**/
+                lastMenuItem = null;
+                FirebaseAuth.getInstance().signOut();
+                finish();
+            }
+        });
     }
 }

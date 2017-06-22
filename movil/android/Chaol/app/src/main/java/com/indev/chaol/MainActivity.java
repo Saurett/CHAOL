@@ -291,7 +291,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         DatabaseReference dbUsuario =
                 FirebaseDatabase.getInstance().getReference()
-                        .child("usuarios").child(user.getUid());
+                        .child(Constants.FB_KEY_MAIN_USUARIOS)
+                        .child(user.getUid())
+                .child(Constants.FB_KEY_ITEM_TIPO_USUARIO);
 
         dbUsuario.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -299,9 +301,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 if (dataSnapshot.exists()) {
                     String tipoUsuario = dataSnapshot.getValue(String.class);
-                    String key = dataSnapshot.getKey();
                     //Ejecuta el intent de navigationDrawer
-                    openNavigation(new Usuarios(tipoUsuario, key, ""));
+                    openNavigation(new Usuarios(tipoUsuario, user.getUid(), ""));
                 } else {
                     FirebaseAuth.getInstance().signOut();
                 }

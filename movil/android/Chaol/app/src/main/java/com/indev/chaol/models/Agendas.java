@@ -1,7 +1,5 @@
 package com.indev.chaol.models;
 
-import android.graphics.drawable.Drawable;
-
 import java.io.Serializable;
 
 /**
@@ -10,71 +8,50 @@ import java.io.Serializable;
 
 public class Agendas implements Serializable {
 
-    private int cve;
-    private int id;
-    private String estado;
-    private String nombreCliente;
-    private String nombreTransportista;
-    private int status;
+    private String estatus;
+    private String nombre;
+    private String nombreDelTransportista;
+    private String firebaseID;
 
     public Agendas() {
-
     }
 
-    public Agendas(int cve, int id, String estado, String nombreCliente, String nombreTransportista, int status) {
-        this.cve = cve;
-        this.id = id;
-        this.estado = estado;
-        this.nombreCliente = nombreCliente;
-        this.nombreTransportista = nombreTransportista;
-        this.status = status;
+    public Agendas(String estatus, String nombre, String nombreDelTransportista, String firebaseID) {
+        this.estatus = estatus;
+        this.nombre = nombre;
+        this.nombreDelTransportista = nombreDelTransportista;
+        this.firebaseID = firebaseID;
     }
 
-    public int getCve() {
-        return cve;
+    public String getEstatus() {
+        return estatus;
     }
 
-    public void setCve(int cve) {
-        this.cve = cve;
+    public void setEstatus(String estatus) {
+        this.estatus = estatus;
     }
 
-    public int getId() {
-        return id;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public String getEstado() {
-        return estado;
+    public String getNombreDelTransportista() {
+        return nombreDelTransportista;
     }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
+    public void setNombreDelTransportista(String nombreDelTransportista) {
+        this.nombreDelTransportista = nombreDelTransportista;
     }
 
-    public String getNombreCliente() {
-        return nombreCliente;
+    public String getFirebaseID() {
+        return firebaseID;
     }
 
-    public void setNombreCliente(String nombreCliente) {
-        this.nombreCliente = nombreCliente;
-    }
-
-    public String getNombreTransportista() {
-        return nombreTransportista;
-    }
-
-    public void setNombreTransportista(String nombreTransportista) {
-        this.nombreTransportista = nombreTransportista;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
+    public void setFirebaseID(String firebaseID) {
+        this.firebaseID = firebaseID;
     }
 }

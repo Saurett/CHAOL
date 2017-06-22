@@ -97,6 +97,11 @@ public class ClientesFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
     /**Carga el listado predeterminado de firebase**/
     private void onPreRenderClientes() {
 

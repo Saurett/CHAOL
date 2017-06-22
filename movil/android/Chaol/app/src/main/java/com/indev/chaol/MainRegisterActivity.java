@@ -290,7 +290,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                     DatabaseReference dbUsuario =
                             FirebaseDatabase.getInstance().getReference()
                                     .child(Constants.FB_KEY_MAIN_USUARIOS);
-                    dbUsuario.child(cliente.getFirebaseId()).setValue(cliente.getTipoDeUsuario(), new DatabaseReference.CompletionListener() {
+                    dbUsuario.child(cliente.getFirebaseId()).child(Constants.FB_KEY_ITEM_TIPO_USUARIO).setValue(cliente.getTipoDeUsuario(), new DatabaseReference.CompletionListener() {
 
                         @Override
                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -365,7 +365,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                             FirebaseDatabase.getInstance().getReference()
                                     .child(Constants.FB_KEY_MAIN_USUARIOS);
 
-                    dbUsuario.child(transportista.getFirebaseId()).setValue(transportista.getTipoDeUsuario(), new DatabaseReference.CompletionListener() {
+                    dbUsuario.child(transportista.getFirebaseId()).child(Constants.FB_KEY_ITEM_TIPO_USUARIO).setValue(transportista.getTipoDeUsuario(), new DatabaseReference.CompletionListener() {
                         @Override
                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
@@ -464,7 +464,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                             FirebaseDatabase.getInstance().getReference()
                                     .child(Constants.FB_KEY_MAIN_USUARIOS);
 
-                    dbUsuario.child(chofer.getFirebaseId()).setValue(chofer.getTipoDeUsuario(), new DatabaseReference.CompletionListener() {
+                    dbUsuario.child(chofer.getFirebaseId()).child(Constants.FB_KEY_ITEM_TIPO_USUARIO).setValue(chofer.getTipoDeUsuario(), new DatabaseReference.CompletionListener() {
                         @Override
                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
@@ -1033,12 +1033,12 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                    String fletesKey = dbFletes.child(Constants.FB_KEY_MAIN_FLETE).push().getKey();
 
                    flete.setIdFlete(String.valueOf(fleteId));
-                   flete.setFirebaseID(fletesKey);
+                   flete.setFirebaseId(fletesKey);
                    flete.setEstatus(Constants.FB_KEY_ITEM_STATUS_FLETE_POR_COTIZAR);
                    flete.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
                    flete.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
 
-                   dbFletes.child(flete.getFirebaseID()).child(Constants.FB_KEY_MAIN_FLETE)
+                   dbFletes.child(flete.getFirebaseId()).child(Constants.FB_KEY_MAIN_FLETE)
                            .setValue(flete, new DatabaseReference.CompletionListener() {
                                @Override
                                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -1046,7 +1046,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                                    pDialog.dismiss();
                                    if (databaseError == null) {
 
-                                       createBodegaCarga(flete.getFirebaseID(), _bodegaCargaActual, _bodegaDescargaActual);
+                                       createBodegaCarga(flete.getFirebaseId(), _bodegaCargaActual, _bodegaDescargaActual);
                                    }
                                }
                            });

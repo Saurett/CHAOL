@@ -34,6 +34,8 @@ import java.util.List;
 public final class Constants {
 
     /**Elementos de firebase**/
+    public static final String FB_KEY_MAIN_DISPOSITIVOS = "dispositivos";
+    public static final String FB_KEY_ITEM_TIPO_USUARIO = "tipoDeUsuario";
     public static final String FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR = "administrador";
     public static final String FB_KEY_ITEM_TIPO_USUARIO_CLIENTE = "cliente";
     public static final String FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA = "transportista";
@@ -63,7 +65,6 @@ public final class Constants {
     public static final String FB_KEY_MAIN_TRANSPORTISTA_SELECCIONADO = "transportistaSeleccionado";
     public static final String FB_KEY_MAIN_CHOFER_SELECCIONADO = "choferSeleccionado";
 
-
     /**Contiene los valores de los status dle flete**/
     public static final String FB_KEY_ITEM_STATUS_FLETE_POR_COTIZAR = "fletePorCotizar";
     public static final String FB_KEY_ITEM_STATUS_ESPERANDO_POR_TRANSPORTISTA = "esperandoPorTransportista";
@@ -74,6 +75,17 @@ public final class Constants {
     public static final String FB_KEY_ITEM_STATUS_ENTREGADO = "entregado";
     public static final String FB_KEY_ITEM_STATUS_FINALIZADO = "finalizado";
     public static final String FB_KEY_ITEM_STATUS_CANCELADO = "cancelado";
+
+    /**Contiene los valores de los status dle flete**/
+    public static final String FLETE_POR_COTIZAR = "Flete por cotizar";
+    public static final String ESPERANDO_POR_TRANSPORTISTA = "Esperando por transportista";
+    public static final String TRANSPORTISTA_POR_CONFIRMAR = "Transportista por confirmar";
+    public static final String UNIDADES_POR_ASIGNAR = "Unidades por asignar";
+    public static final String ENVIO_POR_INICIAR = "Envio por iniciar";
+    public static final String EN_PROGRESO = "En progreso";
+    public static final String ENTREGADO = "Entregado";
+    public static final String FINALIZADO = "Finalizado";
+    public static final String CANCELADO = "Cancelado";
 
 
     /**Key Extraparam**/
@@ -320,7 +332,21 @@ public final class Constants {
         TITLE_FORM_ACTION.put(Constants.ACCION_EDITAR,R.string.default_form_title_edit);
     }
 
+    /**Contiene el titulo correspondiente a cada estado del flete**/
+    public static final HashMap<String,String> TITLE_ESTATUS_FLETES;
+    static {
+        TITLE_ESTATUS_FLETES = new HashMap<>();
 
+        TITLE_ESTATUS_FLETES.put(Constants.FB_KEY_ITEM_STATUS_FLETE_POR_COTIZAR, Constants.FLETE_POR_COTIZAR);
+        TITLE_ESTATUS_FLETES.put(Constants.FB_KEY_ITEM_STATUS_ESPERANDO_POR_TRANSPORTISTA, Constants.ESPERANDO_POR_TRANSPORTISTA);
+        TITLE_ESTATUS_FLETES.put(Constants.FB_KEY_ITEM_STATUS_TRANSPORTISTA_POR_CONFIRMAR, Constants.TRANSPORTISTA_POR_CONFIRMAR);
+        TITLE_ESTATUS_FLETES.put(Constants.FB_KEY_ITEM_STATUS_UNIDADES_POR_ASIGNAR, Constants.UNIDADES_POR_ASIGNAR);
+        TITLE_ESTATUS_FLETES.put(Constants.FB_KEY_ITEM_STATUS_ENVIO_POR_INICIAR, Constants.ENVIO_POR_INICIAR);
+        TITLE_ESTATUS_FLETES.put(Constants.FB_KEY_ITEM_STATUS_EN_PROGRESO, Constants.EN_PROGRESO);
+        TITLE_ESTATUS_FLETES.put(Constants.FB_KEY_ITEM_STATUS_ENTREGADO, Constants.ENTREGADO);
+        TITLE_ESTATUS_FLETES.put(Constants.FB_KEY_ITEM_STATUS_FINALIZADO, Constants.FINALIZADO);
+        TITLE_ESTATUS_FLETES.put(Constants.FB_KEY_ITEM_STATUS_CANCELADO, Constants.CANCELADO);
+    }
 
     //endregion
 }

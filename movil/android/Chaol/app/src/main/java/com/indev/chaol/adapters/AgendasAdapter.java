@@ -4,6 +4,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.indev.chaol.R;
 import com.indev.chaol.fragments.AgendasFragment;
 import com.indev.chaol.models.Agendas;
 import com.indev.chaol.models.DecodeItem;
+import com.indev.chaol.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,28 +80,46 @@ public class AgendasAdapter extends RecyclerView.Adapter<AgendasAdapter.ViewHold
         decodeItem.setItemModel(item);
         decodeItem.setPosition(position);
 
-        int color = Color.GREEN;
+        int color = R.color.colorPanelFletesUno;
 
-        switch (item.getStatus()) {
-            case 1:
-                color = Color.BLUE;
+        switch (item.getEstatus()) {
+            case Constants.FB_KEY_ITEM_STATUS_FLETE_POR_COTIZAR:
+                color = R.color.colorPanelFletesUno;
                 break;
-            case 2:
-                color = Color.CYAN;
+            case Constants.FB_KEY_ITEM_STATUS_ESPERANDO_POR_TRANSPORTISTA:
+                color = R.color.colorPanelFletesDos;
                 break;
-            case 3:
-                color = Color.YELLOW;
+            case Constants.FB_KEY_ITEM_STATUS_TRANSPORTISTA_POR_CONFIRMAR:
+                color = R.color.colorPanelFletesTres;
                 break;
-            case 4:
-                color = Color.GREEN;
+            case Constants.FB_KEY_ITEM_STATUS_UNIDADES_POR_ASIGNAR:
+                color = R.color.colorPanelFletesCuatro;
+                break;
+            case Constants.FB_KEY_ITEM_STATUS_ENVIO_POR_INICIAR:
+                color = R.color.colorPanelFletesCinco;
+                break;
+            case Constants.FB_KEY_ITEM_STATUS_EN_PROGRESO:
+                color = R.color.colorPanelFletesSeis;
+                break;
+            case Constants.FB_KEY_ITEM_STATUS_ENTREGADO:
+                color = R.color.colorPanelFletesSiete;
+                break;
+            case Constants.FB_KEY_ITEM_STATUS_FINALIZADO:
+                color = R.color.colorPanelFletesOcho;
+                break;
+            case Constants.FB_KEY_ITEM_STATUS_CANCELADO:
+                color = R.color.colorPanelFletesNueve;
+                break;
+            default:
                 break;
         }
 
-        holder.fabStatus.setBackgroundTintList(ColorStateList.valueOf(color));
+        holder.fabStatus.setBackgroundTintList(ColorStateList.valueOf(ContextCompat
+                .getColor(holder.fabStatus.getContext(), color)));
 
-        holder.txtEstadoAgenda.setText(item.getEstado());
-        holder.txtNombreCliente.setText(item.getNombreCliente());
-        holder.txtNombreTransportista.setText(item.getNombreTransportista());
+        holder.txtEstadoAgenda.setText(Constants.TITLE_ESTATUS_FLETES.get(item.getEstatus()));
+        holder.txtNombreCliente.setText(item.getNombre());
+        holder.txtNombreTransportista.setText(item.getNombreDelTransportista());
 
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override

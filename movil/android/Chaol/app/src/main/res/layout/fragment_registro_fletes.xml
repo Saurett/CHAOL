@@ -34,6 +34,7 @@
             android:layout_marginTop="10dp">
 
             <com.beardedhen.androidbootstrap.BootstrapProgressBar
+                android:id="@+id/flete_progressBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:animated="true"

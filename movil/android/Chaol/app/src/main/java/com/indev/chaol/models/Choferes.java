@@ -9,7 +9,6 @@ import java.io.Serializable;
 public class Choferes implements Serializable {
 
     private String nombre;
-    private String empresaTransportista;
     private String numeroDeLicencia;
     private String numeroDeSeguroSocial;
     private String CURP;
@@ -45,9 +44,8 @@ public class Choferes implements Serializable {
         this.nombre = _nombre;
     }
 
-    public Choferes(String nombre, String empresaTransportista, String numeroDeLicencia, String numeroDeSeguroSocial, String CURP, String estado, String ciudad, String colonia, String codigoPostal, String calle, String numeroInterior, String numeroExterior, String metodoPago, String telefono, String celular1, String celular2, String correoElectronico, String contraseña, String imagenURL, String tipoUsuario, String firebaseId, String firebaseIdTransportista, String estatus, Long fechaDeCreacion, Long fechaDeEdicion) {
+    public Choferes(String nombre, String numeroDeLicencia, String numeroDeSeguroSocial, String CURP, String estado, String ciudad, String colonia, String codigoPostal, String calle, String numeroInterior, String numeroExterior, String metodoPago, String telefono, String celular1, String celular2, String correoElectronico, String contraseña, String imagenURL, String tipoUsuario, String firebaseId, String firebaseIdTransportista, String estatus, Long fechaDeCreacion, Long fechaDeEdicion) {
         this.nombre = nombre;
-        this.empresaTransportista = empresaTransportista;
         this.numeroDeLicencia = numeroDeLicencia;
         this.numeroDeSeguroSocial = numeroDeSeguroSocial;
         this.CURP = CURP;
@@ -79,14 +77,6 @@ public class Choferes implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public String getEmpresaTransportista() {
-        return empresaTransportista;
-    }
-
-    public void setEmpresaTransportista(String empresaTransportista) {
-        this.empresaTransportista = empresaTransportista;
     }
 
     public String getNumeroDeLicencia() {
