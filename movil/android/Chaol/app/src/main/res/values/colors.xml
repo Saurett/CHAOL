@@ -28,10 +28,13 @@
     <color name="colorPanelTransportistasDos">#0000ff</color>
 
     <color name="colorPanelChoferesUno">#800080</color>
+    <color name="colorPanelChoferesDos">#ffff00</color>
 
     <color name="colorPanelTractoresUno">#800080</color>
+    <color name="colorPanelTractoresDos">#ffff00</color>
 
     <color name="colorPanelRemolquesUno">#800080</color>
+    <color name="colorPanelRemolquesDos">#ffff00</color>
 
     <!--Colores apartado para paneles dinamicos-->
     <color name="colorPanelRegistroFletes">#f7f7f9</color>

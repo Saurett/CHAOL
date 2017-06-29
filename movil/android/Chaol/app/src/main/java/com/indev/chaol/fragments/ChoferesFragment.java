@@ -83,7 +83,7 @@ public class ChoferesFragment extends Fragment implements View.OnClickListener {
                     Choferes chofer = postSnapshot.getValue(Choferes.class);
 
                     if (_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA)) {
-                        if (!_SESSION_USER.getFirebaseId().equals(chofer.getFirebaseIdTransportista())) continue;
+                        if (!_SESSION_USER.getFirebaseId().equals(chofer.getFirebaseIdDelTransportista())) continue;
                     }
 
                     if (!chofer.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO)) {

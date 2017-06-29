@@ -30,7 +30,7 @@ public class Choferes implements Serializable {
     private String tipoDeUsuario;
 
     private String firebaseId;
-    private String firebaseIdTransportista;
+    private String firebaseIdDelTransportista;
 
     private String estatus;
     private Long fechaDeCreacion;
@@ -44,7 +44,7 @@ public class Choferes implements Serializable {
         this.nombre = _nombre;
     }
 
-    public Choferes(String nombre, String numeroDeLicencia, String numeroDeSeguroSocial, String CURP, String estado, String ciudad, String colonia, String codigoPostal, String calle, String numeroInterior, String numeroExterior, String metodoPago, String telefono, String celular1, String celular2, String correoElectronico, String contraseña, String imagenURL, String tipoUsuario, String firebaseId, String firebaseIdTransportista, String estatus, Long fechaDeCreacion, Long fechaDeEdicion) {
+    public Choferes(String nombre, String numeroDeLicencia, String numeroDeSeguroSocial, String CURP, String estado, String ciudad, String colonia, String codigoPostal, String calle, String numeroInterior, String numeroExterior, String metodoPago, String telefono, String celular1, String celular2, String correoElectronico, String contraseña, String imagenURL, String tipoUsuario, String firebaseId, String firebaseIdDelTransportista, String estatus, Long fechaDeCreacion, Long fechaDeEdicion) {
         this.nombre = nombre;
         this.numeroDeLicencia = numeroDeLicencia;
         this.numeroDeSeguroSocial = numeroDeSeguroSocial;
@@ -65,7 +65,7 @@ public class Choferes implements Serializable {
         this.imagenURL = imagenURL;
         this.tipoDeUsuario = tipoUsuario;
         this.firebaseId = firebaseId;
-        this.firebaseIdTransportista = firebaseIdTransportista;
+        this.firebaseIdDelTransportista = firebaseIdDelTransportista;
         this.estatus = estatus;
         this.fechaDeCreacion = fechaDeCreacion;
         this.fechaDeEdicion = fechaDeEdicion;
@@ -255,10 +255,10 @@ public class Choferes implements Serializable {
         this.fechaDeEdicion = fechaDeEdicion;
     }
 
-    public String getFirebaseIdTransportista() {        return firebaseIdTransportista;
+    public String getFirebaseIdDelTransportista() {        return firebaseIdDelTransportista;
     }
 
-    public void setFirebaseIdTransportista(String firebaseIdTransportista) {
-        this.firebaseIdTransportista = firebaseIdTransportista;
+    public void setFirebaseIdDelTransportista(String firebaseIdDelTransportista) {
+        this.firebaseIdDelTransportista = firebaseIdDelTransportista;
     }
 }

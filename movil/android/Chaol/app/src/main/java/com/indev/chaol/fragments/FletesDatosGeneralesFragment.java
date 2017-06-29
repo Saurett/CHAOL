@@ -39,6 +39,7 @@ import com.indev.chaol.models.DecodeExtraParams;
 import com.indev.chaol.models.Estados;
 import com.indev.chaol.models.Fletes;
 import com.indev.chaol.models.MainFletes;
+import com.indev.chaol.models.Remolques;
 import com.indev.chaol.models.TiposRemolques;
 import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
@@ -218,7 +219,10 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
                     }
                 }
 
-                onCargarSpinnerClientes();
+                if (_MAIN_DECODE.getAccionFragmento() == Constants.ACCION_REGISTRAR) {
+                    onCargarSpinnerClientes();
+                }
+
 
                 /**Cuando entra el admin a registrar no existe cliente, debe seleccionarlo**/
                 if (null != firebaseIdCliente) loadBodegaCarga();
@@ -261,7 +265,9 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
 
     public void onPreRender() {
 
-        this.onPreRenderTiposRemolques();
+        if (_MAIN_DECODE.getAccionFragmento() == Constants.ACCION_REGISTRAR) {
+            onCargarSpinnerTiposRemolques();
+        }
 
         switch (_MAIN_DECODE.getAccionFragmento()) {
             case Constants.ACCION_EDITAR:
@@ -295,6 +301,9 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
                 Fletes flete = dataSnapshot.child(Constants.FB_KEY_MAIN_FLETE).getValue(Fletes.class);
                 Bodegas bodegaCarga = dataSnapshot.child(Constants.FB_KEY_MAIN_BODEGA_DE_CARGA).getValue(Bodegas.class);
 
+
+                Log.i(TAG, "onPreRenderEditar: " + dataSnapshot.getKey());
+
                 _mainFletesActual = new MainFletes();
 
                 _mainFletesActual.setFlete(flete);
@@ -307,16 +316,22 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
                 setProgressBar(); /**Actualiza el progreso de la barra**/
                 linearLayoutIDFlete.setVisibility(View.VISIBLE);
                 txtIDFlete.setText(_mainFletesActual.getFlete().getIdFlete());
-                myCalendar.set(calendarDay.getYear(),calendarDay.getMonth(),calendarDay.getDay());
+                onCargarSpinnerClientes();
+                myCalendar.set(calendarDay.getYear(), calendarDay.getMonth(), calendarDay.getDay());
                 updateTxtDate(); /**Actualiza la fecha del calendario**/
 
                 Calendar c = Calendar.getInstance();
-                c.set(calendarDay.getYear(),calendarDay.getMonth(),calendarDay.getDay()
-                        , _mainFletesActual.getFlete().getHoraDeSalida(), 00,00);
+                c.set(calendarDay.getYear(), calendarDay.getMonth(), calendarDay.getDay()
+                        , _mainFletesActual.getFlete().getHoraDeSalida(), 00, 00);
 
                 myCalendar.setTime(new Time(c.getTimeInMillis()));
                 updateTxtTime(); /**Actualiza la hora del calendario**/
-                /**Combo se hace en el evento onPreRenderBodegaCarga**/
+                /**Combo se hace en el evento onCargarSpinnerBodegaDescarga**/
+                onCargarSpinnerTiposRemolques(); /**Carga los valores del combo**/
+                txtCarga.setText(_mainFletesActual.getFlete().getCarga());
+                txtNumEmbarque.setText(_mainFletesActual.getFlete().getNumeroDeEmbarque());
+                txtDestinatario.setText(_mainFletesActual.getFlete().getDestinatario());
+                /**Combo se hace en el evento onCargarSpinnerBodegaDescarga**/
 
 
                 txtNumEmbarque.setText(flete.getNumeroDeEmbarque());
@@ -340,19 +355,17 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
 
     }
 
-    private void onPreRenderTiposRemolques() {
+    private void onCargarSpinnerTiposRemolques() {
         this.onCargarTiposRemolques();
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
                 R.layout.text_spinner, tiposRemolquesList);
 
-                            /*
-                            int selectionState = (null != _PROFILE_MANAGER.getAddressProfile().getIdItemState())
-                                    ? _PROFILE_MANAGER.getAddressProfile().getIdItemState() : 0;
-                                    */
+        int itemSelection = onPreRenderSelectTipoRemolque();
+
 
         spinnerTipoRemolque.setAdapter(adapter);
-        spinnerTipoRemolque.setSelection(0);
+        spinnerTipoRemolque.setSelection(itemSelection);
     }
 
     private void onCargarTiposRemolques() {
@@ -367,6 +380,21 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
         tiposRemolques.add(new TiposRemolques(1, "Caja Refrijerada"));
         tiposRemolques.add(new TiposRemolques(2, "Caja Seca"));
 
+    }
+
+    private int onPreRenderSelectTipoRemolque() {
+        int item = 0;
+
+        if (_MAIN_DECODE.getAccionFragmento() == Constants.ACCION_EDITAR) {
+            for (TiposRemolques tipoRemolque : tiposRemolques) {
+                item++;
+                if (tipoRemolque.getTipoRemolque().equals(_mainFletesActual.getFlete().getTipoDeRemolque())) {
+                    break;
+                }
+            }
+        }
+
+        return item;
     }
 
     private void updateTxtDate() {
@@ -507,7 +535,7 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
         flete.setDestinatario(txtDestinatario.getText().toString());
         flete.setBodegaDeDescarga(spinnerBodegaDescarga.getSelectedItem().toString());
 
-        activityInterface.createSolicitudCotizacion(flete,_bodegaCargaActual,_bodegaDescargaActual);
+        activityInterface.createSolicitudCotizacion(flete, _bodegaCargaActual, _bodegaDescargaActual);
     }
 
     private void showQuestion() {
@@ -672,6 +700,7 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
         spinnerCliente.setSelection(itemSelection);
     }
 
+
     private int onPreRenderSelectCliente() {
         int item = 0;
 
@@ -684,10 +713,10 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
                 }
             }
         } else if (_MAIN_DECODE.getAccionFragmento() == Constants.ACCION_EDITAR) {
-            Bodegas bodega = (Bodegas) _MAIN_DECODE.getDecodeItem().getItemModel();
             for (Clientes miCliente : clientes) {
                 item++;
-                if (miCliente.getFirebaseId().equals(bodega.getFirebaseIdDelCliente())) {
+                if (miCliente.getFirebaseId().equals(
+                        _mainFletesActual.getBodegaDeCarga().getFirebaseIdDelCliente())) {
                     break;
                 }
             }
@@ -718,6 +747,17 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
 
     private int onPreRenderSelectBodegaDescarga() {
         int item = 0;
+
+        if (_MAIN_DECODE.getAccionFragmento() == Constants.ACCION_EDITAR) {
+            for (Bodegas bodegaDescarga : bodegasDescargas) {
+                item++;
+                if (_mainFletesActual.getBodegaDeCarga().getFirebaseIdBodega()
+                        .equals(bodegaDescarga.getFirebaseIdBodega())) {
+                    break;
+                }
+            }
+        }
+
         return item;
     }
 
@@ -794,7 +834,7 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
 
         if (null != estadoBodega) {
 
-            for (Estados estado  : tiposOrigenEstados) {
+            for (Estados estado : tiposOrigenEstados) {
                 item++;
                 if (estado.getEstado().equals(estadoBodega)) break;
             }

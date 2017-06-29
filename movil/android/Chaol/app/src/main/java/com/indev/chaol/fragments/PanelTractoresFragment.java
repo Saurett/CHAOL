@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,8 +34,10 @@ import com.indev.chaol.utils.Constants;
 
 public class PanelTractoresFragment extends Fragment implements View.OnClickListener {
 
+    private static final String TAG = PanelTractoresFragment.class.getName();
+
     private Button btnTitulo;
-    private TextView txtNumNoAsignado, txtNumAsignado;
+    private TextView txtNumLibres, txtNumAsignado;
     private static NavigationDrawerInterface activityInterface;
     private static FloatingActionButton fabTractores;
     private ProgressDialog pDialog;
@@ -48,15 +51,15 @@ public class PanelTractoresFragment extends Fragment implements View.OnClickList
     private DatabaseReference drTractores;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_panel_tractores, container, false);
 
         _SESSION_USER = (Usuarios) getActivity().getIntent().getSerializableExtra(Constants.KEY_SESSION_USER);
 
         btnTitulo = (Button) view.findViewById(R.id.btn_titulo_tractores);
-        txtNumNoAsignado = (TextView) view.findViewById(R.id.item_num_no_asignado_panel_tractores);
-        txtNumAsignado = (TextView) view.findViewById(R.id.item_num_asignado_panel_tractores);
+        txtNumLibres = (TextView) view.findViewById(R.id.item_num_libres_panel_tractores);
+        txtNumAsignado = (TextView) view.findViewById(R.id.item_num_asignados_panel_tractores);
         fabTractores = (FloatingActionButton) view.findViewById(R.id.fab_panel_tractores);
 
         /**Obtiene la instancia compartida del objeto FirebaseAuth**/
@@ -74,10 +77,10 @@ public class PanelTractoresFragment extends Fragment implements View.OnClickList
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                int countActivo = 0, countInactivo = 0;
+                int countLibres = 0, countAsignados = 0;
 
-                txtNumNoAsignado.setText(String.valueOf(countInactivo));
-                txtNumAsignado.setText(String.valueOf(countActivo));
+                txtNumLibres.setText(String.valueOf(countAsignados));
+                txtNumAsignado.setText(String.valueOf(countLibres));
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 
@@ -88,15 +91,27 @@ public class PanelTractoresFragment extends Fragment implements View.OnClickList
                         DataSnapshot psTransportista = postSnapshot.child(Constants.FB_KEY_ITEM_TRANSPORTISTA);
                         Transportistas transportista = psTransportista.getValue(Transportistas.class);
 
-                        if (!Constants.FB_KEY_ITEM_ESTATUS_ACTIVO.equals(transportista.getEstatus())) break;
+                        if (!Constants.FB_KEY_ITEM_ESTATUS_ACTIVO.equals(transportista.getEstatus()))
+                            break;
 
                         if (_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA)) {
-                            if (!_SESSION_USER.getFirebaseId().equals(postSnapshot.getKey())) continue;
+                            if (!_SESSION_USER.getFirebaseId().equals(postSnapshot.getKey()))
+                                continue;
                         }
 
-                        if (!tractor.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO)) {
-                            countActivo++;
-                            txtNumNoAsignado.setText(String.valueOf(countActivo));
+                        switch (tractor.getEstatus()) {
+                            case Constants.FB_KEY_ITEM_ESTATUS_LIBRE:
+                                countLibres++;
+                                txtNumLibres.setText(String.valueOf(countLibres));
+                                break;
+                            case Constants.FB_KEY_ITEM_ESTATUS_ASIGNADO:
+                                countAsignados++;
+                                txtNumAsignado.setText(String.valueOf(countAsignados));
+                                break;
+                            default:
+                                Log.i(TAG, "Tractor perdido " + tractor.getFirebaseId() + " " + tractor.getEstatus()
+                                        + " en transportista " + transportista.getFirebaseId());
+                                break;
                         }
                     }
                 }

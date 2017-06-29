@@ -2,6 +2,7 @@ package com.indev.chaol;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -60,6 +61,9 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
     private static Usuarios _SESSION_USER;
 
     private ProgressDialog pDialog;
+
+    private static DecodeItem _decodeItem;
+
     /**
      * Declaraciones para Firebase
      **/
@@ -218,17 +222,28 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
     @Override
     public void openExternalActivity(int action, Class<?> externalActivity) {
+        DecodeExtraParams extraParams = new DecodeExtraParams();
 
+        extraParams.setTituloActividad(getString(Constants.TITLE_ACTIVITY.get(this.getDecodeItem().getIdView())));
+        extraParams.setTituloFormulario(getString(Constants.TITLE_FORM_ACTION.get(action)));
+        extraParams.setAccionFragmento(action);
+        extraParams.setFragmentTag(Constants.ITEM_FRAGMENT.get(this.getDecodeItem().getIdView()));
+        extraParams.setDecodeItem(this.getDecodeItem());
+
+        Intent intent = new Intent(this, externalActivity);
+        intent.putExtra(Constants.KEY_MAIN_DECODE, extraParams);
+        intent.putExtra(Constants.KEY_SESSION_USER, _SESSION_USER);
+        startActivity(intent);
     }
 
     @Override
     public void setDecodeItem(DecodeItem decodeItem) {
-
+        _decodeItem = decodeItem;
     }
 
     @Override
     public DecodeItem getDecodeItem() {
-        return null;
+        return _decodeItem;
     }
 
     @Override
@@ -351,7 +366,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         transportista.setTipoDeUsuario(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA);
         transportista.setFirebaseId(user.getUid());
         transportista.setContraseña(null);
-        transportista.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_ACTIVO);
+        transportista.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_INACTIVO);
         transportista.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
 
         dbTransportista.child(user.getUid()).child(Constants.FB_KEY_ITEM_TRANSPORTISTA).setValue(transportista, new DatabaseReference.CompletionListener() {
@@ -470,7 +485,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
                             if (databaseError == null) {
 
-                                dbTransportista.child(chofer.getFirebaseIdTransportista())
+                                dbTransportista.child(chofer.getFirebaseIdDelTransportista())
                                         .child(Constants.FB_KEY_MAIN_CHOFERES).child(chofer.getFirebaseId()).setValue(chofer, new DatabaseReference.CompletionListener() {
                                     @Override
                                     public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -703,7 +718,6 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
     }
 
 
-
     @Override
     public void updateBodega(Bodegas bodega) {
         pDialog = new ProgressDialog(MainRegisterActivity.this);
@@ -864,7 +878,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                             FirebaseDatabase.getInstance().getReference()
                                     .child(Constants.FB_KEY_MAIN_TRANSPORTISTAS);
 
-                    dbTransportista.child(chofer.getFirebaseIdTransportista())
+                    dbTransportista.child(chofer.getFirebaseIdDelTransportista())
                             .child(Constants.FB_KEY_ITEM_CHOFER).child(chofer.getFirebaseId()).setValue(chofer, new DatabaseReference.CompletionListener() {
                         @Override
                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -1005,7 +1019,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
         final DatabaseReference dbFlete =
                 FirebaseDatabase.getInstance().getReference()
-                    .child(Constants.FB_KEY_MAIN_FLETE_ID);
+                        .child(Constants.FB_KEY_MAIN_FLETE_ID);
 
         dbFlete.runTransaction(new Transaction.Handler() {
             @Override
@@ -1022,40 +1036,40 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
             @Override
             public void onComplete(DatabaseError databaseError, boolean committed, DataSnapshot dataSnapshot) {
-               if (databaseError == null) {
-                   Integer fleteId = dataSnapshot.getValue(Integer.class);
+                if (databaseError == null) {
+                    Integer fleteId = dataSnapshot.getValue(Integer.class);
 
-                   /**obtiene la instancia como transportista**/
-                   DatabaseReference dbFletes =
-                           FirebaseDatabase.getInstance().getReference()
-                                   .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR);
+                    /**obtiene la instancia como transportista**/
+                    DatabaseReference dbFletes =
+                            FirebaseDatabase.getInstance().getReference()
+                                    .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR);
 
-                   String fletesKey = dbFletes.child(Constants.FB_KEY_MAIN_FLETE).push().getKey();
+                    String fletesKey = dbFletes.child(Constants.FB_KEY_MAIN_FLETE).push().getKey();
 
-                   flete.setIdFlete(String.valueOf(fleteId));
-                   flete.setFirebaseId(fletesKey);
-                   flete.setEstatus(Constants.FB_KEY_ITEM_STATUS_FLETE_POR_COTIZAR);
-                   flete.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
-                   flete.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
+                    flete.setIdFlete(String.valueOf(fleteId));
+                    flete.setFirebaseId(fletesKey);
+                    flete.setEstatus(Constants.FB_KEY_ITEM_STATUS_FLETE_POR_COTIZAR);
+                    flete.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
+                    flete.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
 
-                   dbFletes.child(flete.getFirebaseId()).child(Constants.FB_KEY_MAIN_FLETE)
-                           .setValue(flete, new DatabaseReference.CompletionListener() {
-                               @Override
-                               public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                    dbFletes.child(flete.getFirebaseId()).child(Constants.FB_KEY_MAIN_FLETE)
+                            .setValue(flete, new DatabaseReference.CompletionListener() {
+                                @Override
+                                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
-                                   pDialog.dismiss();
-                                   if (databaseError == null) {
+                                    pDialog.dismiss();
+                                    if (databaseError == null) {
 
-                                       createBodegaCarga(flete.getFirebaseId(), _bodegaCargaActual, _bodegaDescargaActual);
-                                   }
-                               }
-                           });
+                                        createBodegaCarga(flete.getFirebaseId(), _bodegaCargaActual, _bodegaDescargaActual);
+                                    }
+                                }
+                            });
 
-               } else {
-                   pDialog.dismiss();
-                   Toast.makeText(getApplicationContext(),
-                           "Se ha presentado un error...", Toast.LENGTH_LONG).show();
-               }
+                } else {
+                    pDialog.dismiss();
+                    Toast.makeText(getApplicationContext(),
+                            "Se ha presentado un error...", Toast.LENGTH_LONG).show();
+                }
 
             }
         });
@@ -1073,8 +1087,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         DatabaseReference dbFletes =
                 FirebaseDatabase.getInstance().getReference()
                         .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
-                        .child(firebaseID)
-                ;
+                        .child(firebaseID);
 
         _bodegaCargaActual.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
         _bodegaCargaActual.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
@@ -1087,7 +1100,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
                         pDialog.dismiss();
                         if (databaseError == null) {
-                            createBodegaDescarga(firebaseID,_bodegaDescargaActual);
+                            createBodegaDescarga(firebaseID, _bodegaDescargaActual);
                         }
                     }
                 });
@@ -1105,8 +1118,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         DatabaseReference dbFletes =
                 FirebaseDatabase.getInstance().getReference()
                         .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
-                        .child(firebaseID)
-                ;
+                        .child(firebaseID);
 
         _bodegaDescargaActual.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
         _bodegaDescargaActual.setFechaDeEdicion(DateTimeUtils.getTimeStamp());

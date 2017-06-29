@@ -46,6 +46,7 @@
     <!--Form title-->
     <string name="default_form_title_edit">Editar</string>
     <string name="default_form_title_new">Nuevo</string>
+    <string name="default_form_title_view">Ver</string>
 
     <!--Spinner metodo pago-->
 

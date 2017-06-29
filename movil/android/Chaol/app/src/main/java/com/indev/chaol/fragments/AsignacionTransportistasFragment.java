@@ -2,6 +2,7 @@ package com.indev.chaol.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,13 +13,30 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.indev.chaol.MainRegisterActivity;
 import com.indev.chaol.R;
 import com.indev.chaol.adapters.AsignacionesTransportistasAdapter;
+import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
+import com.indev.chaol.models.Agendas;
+import com.indev.chaol.models.Bodegas;
+import com.indev.chaol.models.DecodeExtraParams;
 import com.indev.chaol.models.DecodeItem;
+import com.indev.chaol.models.Fletes;
+import com.indev.chaol.models.MainFletes;
 import com.indev.chaol.models.Transportistas;
+import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
+import com.indev.chaol.utils.DateTimeUtils;
+import com.indev.chaol.utils.EventDecorator;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -32,17 +50,34 @@ public class AsignacionTransportistasFragment extends Fragment implements View.O
     private static RecyclerView recyclerViewAsignaciones;
     private AsignacionesTransportistasAdapter transportistasAdapter;
     private static AsignacionesTransportistasAdapter adapter;
-    private ProgressDialog pDialog;
-    //private static NavigationDrawerInterface navigationDrawerInterface;
+    private static MainRegisterActivity activityInterface;
+
+    private static Usuarios _SESSION_USER;
+    private static DecodeExtraParams _MAIN_DECODE;
+    private static MainFletes _mainFletesActual;
+
+    /**
+     * Declaraciones para Firebase
+     **/
+    private FirebaseDatabase database;
+    private DatabaseReference drFletes;
+
+    private ValueEventListener listener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_asignaciones_transportistas, container, false);
 
+        _MAIN_DECODE = (DecodeExtraParams) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
+        _SESSION_USER = (Usuarios) getActivity().getIntent().getSerializableExtra(Constants.KEY_SESSION_USER);
+
         recyclerViewAsignaciones = (RecyclerView) view.findViewById(R.id.recycler_view_asignaciones_transportistas);
         transportistasAdapter = new AsignacionesTransportistasAdapter();
         transportistasAdapter.setOnClickListener(this);
+
+        database = FirebaseDatabase.getInstance();
+        drFletes = database.getReference(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR);
 
         return view;
     }
@@ -50,21 +85,94 @@ public class AsignacionTransportistasFragment extends Fragment implements View.O
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AsyncCallWS wsTaskList = new AsyncCallWS(Constants.WS_KEY_BUSCAR_TRANSPORTISTAS);
-        wsTaskList.execute();
-
     }
 
     @Override
     public void onStart() {
         super.onStart();
+
+        this.onPreRender();
+    }
+
+    public void onPreRender() {
+        switch (_MAIN_DECODE.getAccionFragmento()) {
+            case Constants.ACCION_EDITAR:
+                /**Obtiene el item selecionado en el fragmento de lista**/
+                this.onPreRenderEditar();
+                break;
+            case Constants.ACCION_REGISTRAR:
+                break;
+        }
+    }
+
+    private void onPreRenderEditar() {
+
+        /**Obtiene el item selecionado en el fragmento de lista**/
+        Agendas agenda = (Agendas) _MAIN_DECODE.getDecodeItem().getItemModel();
+
+        DatabaseReference dbFlete =
+                FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
+                        .child(agenda.getFirebaseID());
+
+        final ProgressDialog pDialogRender = new ProgressDialog(getContext());
+        pDialogRender.setMessage(getString(R.string.default_loading_msg));
+        pDialogRender.setIndeterminate(false);
+        pDialogRender.setCancelable(false);
+        pDialogRender.show();
+
+        dbFlete.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                transportistasAdapter = new AsignacionesTransportistasAdapter();
+                transportistasList = new ArrayList<>();
+                String firebaseIdTransportistaSeleccionado = "";
+
+                Fletes flete = dataSnapshot.child(Constants.FB_KEY_MAIN_FLETE).getValue(Fletes.class);
+                _mainFletesActual = new MainFletes();
+
+                _mainFletesActual.setFlete(flete);
+
+                for (DataSnapshot psSeleccionado : dataSnapshot.child(Constants.FB_KEY_MAIN_TRANSPORTISTA_SELECCIONADO).getChildren()) {
+                    Transportistas transportista = psSeleccionado.getValue(Transportistas.class);
+                    firebaseIdTransportistaSeleccionado = transportista.getFirebaseId();
+                    FletesAsignacionFragment.showMessageAsignacion(View.GONE);
+                    break;
+                }
+
+                for (DataSnapshot psInteresados : dataSnapshot.child(Constants.FB_KEY_MAIN_TRANSPORTISTAS_INTERESADOS).getChildren()) {
+                    Transportistas transportista = psInteresados.getValue(Transportistas.class);
+
+
+                    String estatus = (firebaseIdTransportistaSeleccionado.isEmpty())
+                            ? Constants.FB_KEY_ITEM_ESTATUS_TRANSPORTISTA_INTERESADO
+                            : Constants.FB_KEY_ITEM_ESTATUS_INACTIVO;
+
+                    transportista.setEstatus((firebaseIdTransportistaSeleccionado.equals(transportista.getFirebaseId()))
+                            ? Constants.FB_KEY_ITEM_ESTATUS_TRANSPORTISTA_SELECCIONADO
+                            : estatus);
+
+                    transportistasList.add(transportista);
+                }
+
+                onPreRenderTransportistas();
+
+                pDialogRender.dismiss();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            //navigationDrawerInterface = (NavigationDrawerInterface) getActivity();
+            activityInterface = (MainRegisterActivity) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString() + "debe implementar");
         }
@@ -75,14 +183,16 @@ public class AsignacionTransportistasFragment extends Fragment implements View.O
 
     }
 
-    /**Permite redireccionar a los metodos correspondientes dependiendo la cción deseada**/
+    /**
+     * Permite redireccionar a los metodos correspondientes dependiendo la cción deseada
+     **/
     public static void onListenerAction(DecodeItem decodeItem) {
         /**Inicializa DecodeItem en la activity principal**/
-        //navigationDrawerInterface.setDecodeItem(decodeItem);
+        activityInterface.setDecodeItem(decodeItem);
 
         switch (decodeItem.getIdView()) {
             case R.id.item_btn_perfil_asignacion_transportista:
-                //navigationDrawerInterface.openExternalActivity(Constants.ACCION_EDITAR,MainRegisterActivity.class);
+                activityInterface.openExternalActivity(Constants.ACCION_VER, MainRegisterActivity.class);
                 break;
             case R.id.item_btn_autorizar_asinacion_transportista:
                 //navigationDrawerInterface.showQuestion();
@@ -95,89 +205,18 @@ public class AsignacionTransportistasFragment extends Fragment implements View.O
         adapter.removeItem(decodeItem.getPosition());
     }
 
-    private class AsyncCallWS extends AsyncTask<Void, Void, Boolean> {
+    /**
+     * Carga el listado predeterminado de firebase
+     **/
+    private void onPreRenderTransportistas() {
 
-        private Integer webServiceOperation;
-        private List<Transportistas> tempTransportistasList;
-        private String textError;
+        transportistasAdapter.addAll(transportistasList);
 
-        private AsyncCallWS(Integer wsOperation) {
-            webServiceOperation = wsOperation;
-            textError = "";
-            tempTransportistasList = new ArrayList<>();
-        }
+        recyclerViewAsignaciones.setAdapter(transportistasAdapter);
 
-        @Override
-        protected void onPreExecute() {
-            pDialog = new ProgressDialog(getContext());
-            pDialog.setMessage("Buscando");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(false);
-            pDialog.show();
-        }
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerViewAsignaciones.setLayoutManager(linearLayoutManager);
 
-        @Override
-        protected Boolean doInBackground(Void... params) {
-
-            Boolean validOperation = false;
-
-            try {
-                switch (webServiceOperation) {
-                    case Constants.WS_KEY_BUSCAR_TRANSPORTISTAS:
-
-                        tempTransportistasList = new ArrayList<>();
-                        List<Transportistas> transportes = new ArrayList<>();
-
-                        transportes.add(new Transportistas("Transportes CHAOL"));
-                        transportes.add(new Transportistas("Transportes LOAHC"));
-                        transportes.add(new Transportistas("Transportes Leyva"));
-                        transportes.add(new Transportistas("Transportes Saurett"));
-                        transportes.add(new Transportistas("Transportes Rabelo"));
-
-                        tempTransportistasList.addAll(transportes);
-
-                        validOperation = true;
-
-                        break;
-                }
-            } catch (Exception e) {
-                textError = e.getMessage();
-                validOperation = false;
-            }
-
-            return validOperation;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            try {
-                transportistasList = new ArrayList<>();
-                pDialog.dismiss();
-                if (success) {
-
-                    if (tempTransportistasList.size() > 0) {
-                        transportistasList.addAll(tempTransportistasList);
-                        transportistasAdapter.addAll(transportistasList);
-
-                        recyclerViewAsignaciones.setAdapter(transportistasAdapter);
-
-                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-                        recyclerViewAsignaciones.setLayoutManager(linearLayoutManager);
-
-                    } else {
-                        Toast.makeText(getActivity(), "La lista se encuentra vacía", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    String tempText = (textError.isEmpty() ? "La lista  se encuentra vacía" : textError);
-                    Toast.makeText(getActivity(), tempText, Toast.LENGTH_SHORT).show();
-                }
-
-                adapter = transportistasAdapter;
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        }
+        adapter = transportistasAdapter;
     }
 }

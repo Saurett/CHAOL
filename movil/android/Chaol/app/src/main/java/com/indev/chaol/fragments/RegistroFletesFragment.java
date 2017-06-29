@@ -29,7 +29,6 @@ import com.indev.chaol.utils.Constants;
 public class RegistroFletesFragment extends Fragment implements View.OnClickListener, DialogInterface.OnClickListener {
 
     private Button btnTitulo;
-    private ProgressDialog pDialog;
     private static BootstrapProgressBar fleteProgressBar;
     private MainRegisterInterface activityInterface;
 

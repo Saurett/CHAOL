@@ -1,6 +1,5 @@
 package com.indev.chaol.fragments;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -38,7 +37,6 @@ public class TransportistasFragment extends Fragment implements View.OnClickList
     private static RecyclerView recyclerViewTransportistas;
     private TransportistasAdapter transportistasAdapter;
     private static TransportistasAdapter adapter;
-    private ProgressDialog pDialog;
     private static NavigationDrawerInterface navigationDrawerInterface;
 
     /**
@@ -46,6 +44,7 @@ public class TransportistasFragment extends Fragment implements View.OnClickList
      **/
     private FirebaseDatabase database;
     private DatabaseReference drTransportistas;
+    private ValueEventListener listenerTransportistas;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,43 +59,12 @@ public class TransportistasFragment extends Fragment implements View.OnClickList
         database = FirebaseDatabase.getInstance();
         drTransportistas = database.getReference(Constants.FB_KEY_MAIN_TRANSPORTISTAS);
 
-        pDialog = new ProgressDialog(getContext());
-        pDialog.setMessage(getString(R.string.default_loading_msg));
-        pDialog.setIndeterminate(false);
-        pDialog.setCancelable(false);
-        pDialog.show();
-
-        drTransportistas.addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                transportistasAdapter = new TransportistasAdapter();
-                transportistasList = new ArrayList<>();
-
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-
-                    Transportistas transportista = postSnapshot.child(Constants.FB_KEY_ITEM_TRANSPORTISTA).getValue(Transportistas.class);
-                    if (!transportista.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO)) {
-                        transportistasList.add(transportista);
-                    }
-                }
-
-                onPreRenderTransportistas();
-
-                pDialog.dismiss();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                pDialog.dismiss();
-            }
-        });
-
         return view;
     }
 
-    /**Carga el listado predeterminado de firebase**/
+    /**
+     * Carga el listado predeterminado de firebase
+     **/
     private void onPreRenderTransportistas() {
 
         transportistasAdapter.addAll(transportistasList);
@@ -119,6 +87,43 @@ public class TransportistasFragment extends Fragment implements View.OnClickList
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+
+        listenerTransportistas = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                transportistasAdapter = new TransportistasAdapter();
+                transportistasList = new ArrayList<>();
+
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+
+                    Transportistas transportista = postSnapshot.child(Constants.FB_KEY_ITEM_TRANSPORTISTA).getValue(Transportistas.class);
+                    if (!transportista.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO)) {
+                        transportistasList.add(transportista);
+                    }
+                }
+
+                onPreRenderTransportistas();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+
+        drTransportistas.addValueEventListener(listenerTransportistas);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        drTransportistas.removeEventListener(listenerTransportistas);
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
@@ -133,14 +138,16 @@ public class TransportistasFragment extends Fragment implements View.OnClickList
 
     }
 
-    /**Permite redireccionar a los metodos correspondientes dependiendo la cción deseada**/
+    /**
+     * Permite redireccionar a los metodos correspondientes dependiendo la cción deseada
+     **/
     public static void onListenerAction(DecodeItem decodeItem) {
         /**Inicializa DecodeItem en la activity principal**/
         navigationDrawerInterface.setDecodeItem(decodeItem);
 
         switch (decodeItem.getIdView()) {
             case R.id.item_btn_editar_transportista:
-                navigationDrawerInterface.openExternalActivity(Constants.ACCION_EDITAR,MainRegisterActivity.class);
+                navigationDrawerInterface.openExternalActivity(Constants.ACCION_EDITAR, MainRegisterActivity.class);
                 break;
             case R.id.item_btn_eliminar_transportista:
                 navigationDrawerInterface.showQuestion();

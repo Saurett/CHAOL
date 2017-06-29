@@ -44,9 +44,13 @@ public final class Constants {
     public static final String FB_KEY_ITEM_TRANSPORTISTA = "transportista";
     public static final String FB_KEY_ITEM_CHOFER = "chofer";
     public static final String FB_KEY_ITEM_ADMINISTRADOR = "administrador";
+    public static final String FB_KEY_ITEM_ESTATUS_LIBRE = "libre";
+    public static final String FB_KEY_ITEM_ESTATUS_ASIGNADO = "asignado";
     public static final String FB_KEY_ITEM_ESTATUS_ACTIVO = "activo";
     public static final String FB_KEY_ITEM_ESTATUS_INACTIVO = "inactivo";
     public static final String FB_KEY_ITEM_ESTATUS_ELIMINADO = "eliminado";
+    public static final String FB_KEY_ITEM_ESTATUS_TRANSPORTISTA_SELECCIONADO = "transportistaSeleccionado";
+    public static final String FB_KEY_ITEM_ESTATUS_TRANSPORTISTA_INTERESADO = "transportistaInteresado";
     public static final String FB_KEY_MAIN_USUARIOS = "usuarios";
     public static final String FB_KEY_MAIN_CLIENTES = "clientes";
     public static final String FB_KEY_MAIN_BODEGAS = "bodegas";
@@ -64,6 +68,8 @@ public final class Constants {
     public static final String FB_KEY_MAIN_TRANSPORTISTAS_INTERESADOS = "transportistasInteresados";
     public static final String FB_KEY_MAIN_TRANSPORTISTA_SELECCIONADO = "transportistaSeleccionado";
     public static final String FB_KEY_MAIN_CHOFER_SELECCIONADO = "choferSeleccionado";
+    public static final String FB_KEY_MAIN_TRACTOR_SELECCIONADO = "tractorSeleccionado";
+    public static final String FB_KEY_MAIN_REMOLQUE_SELECCIONADO = "remolqueSeleccionado";
 
     /**Contiene los valores de los status dle flete**/
     public static final String FB_KEY_ITEM_STATUS_FLETE_POR_COTIZAR = "fletePorCotizar";
@@ -105,7 +111,7 @@ public final class Constants {
     public static final int ACCION_SIN_DEFINIR = 0;
     public static final int ACCION_REGISTRAR = 1;
     public static final int ACCION_EDITAR = 2;
-    public static final int ACCION_BUSCAR = 3;
+    public static final int ACCION_VER = 3;
 
     /**Identificadores para buscar**/
     public static final int WS_KEY_PRE_RENDER = 0;
@@ -266,6 +272,7 @@ public final class Constants {
         ITEM_FRAGMENT.put(R.id.fab_panel_fletes, FRAGMENT_FLETES_REGISTER);
         ITEM_FRAGMENT.put(R.id.item_color_agenda, FRAGMENT_ITEM_FLETES_REGISTER);
         ITEM_FRAGMENT.put(R.id.fab_listado_agenda, FRAGMENT_FAB_FLETES_REGISTER);
+        ITEM_FRAGMENT.put(R.id.item_btn_perfil_asignacion_transportista, FRAGMENT_TRANSPORTISTAS_REGISTER);
     }
 
     /**
@@ -322,6 +329,7 @@ public final class Constants {
         TITLE_ACTIVITY.put(R.id.fab_panel_fletes, R.string.default_item_menu_title_fletes);
         TITLE_ACTIVITY.put(R.id.item_color_agenda, R.string.default_item_menu_title_fletes);
         TITLE_ACTIVITY.put(R.id.fab_listado_agenda, R.string.default_item_menu_title_fletes);
+        TITLE_ACTIVITY.put(R.id.item_btn_perfil_asignacion_transportista, R.string.default_item_menu_title_transportistas );
     }
 
     /**Contiene el titulo correspondiente a la acción del formulario**/
@@ -330,6 +338,7 @@ public final class Constants {
         TITLE_FORM_ACTION = new HashMap<>();
         TITLE_FORM_ACTION.put(Constants.ACCION_REGISTRAR,R.string.default_form_title_new);
         TITLE_FORM_ACTION.put(Constants.ACCION_EDITAR,R.string.default_form_title_edit);
+        TITLE_FORM_ACTION.put(Constants.ACCION_VER,R.string.default_form_title_view);
     }
 
     /**Contiene el titulo correspondiente a cada estado del flete**/

@@ -113,6 +113,9 @@ public class RegistroTransportistasFragment extends Fragment implements View.OnC
         }
 
         switch (_MAIN_DECODE.getAccionFragmento()) {
+            case  Constants.ACCION_VER:
+                this.onPreRenderVer();
+                break;
             case Constants.ACCION_EDITAR:
                 this.onPreRenderEditar();
                 break;
@@ -125,6 +128,89 @@ public class RegistroTransportistasFragment extends Fragment implements View.OnC
                 btnTitulo.setText("Perfil");
                 break;
         }
+    }
+
+    private void onPreRenderVer() {
+        /**Obtiene el item selecionado en el fragmento de lista**/
+        Transportistas transportista = (Transportistas) _MAIN_DECODE.getDecodeItem().getItemModel();
+
+        DatabaseReference dbTransportista =
+                FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.FB_KEY_MAIN_TRANSPORTISTAS).child(transportista.getFirebaseId())
+                        .child(Constants.FB_KEY_ITEM_TRANSPORTISTA);
+
+        pDialog = new ProgressDialog(getContext());
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        dbTransportista.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Transportistas transportista = dataSnapshot.getValue(Transportistas.class);
+                /**se asigna el transportista actual a la memoria**/
+                _transportistActual = transportista;
+
+                txtNombre.setText(transportista.getNombre());
+                txtRepresentanteLegal.setText(transportista.getRepresentanteLegal());
+                txtRFC.setText(transportista.getRFC());
+                txtEstado.setText(transportista.getEstado());
+                txtCiudad.setText(transportista.getCiudad());
+                txtColonia.setText(transportista.getColonia());
+                txtCodigoPostal.setText(transportista.getCodigoPostal());
+                txtCalle.setText(transportista.getCalle());
+                txtNumInt.setText(transportista.getNumeroInterior());
+                txtNumExt.setText(transportista.getNumeroExterior());
+                txtTelefono.setText(transportista.getTelefono());
+                txtCelular.setText(transportista.getCelular());
+                txtProveedorGPS.setText(transportista.getProveedorGPS());
+                txtCorreoElectronico.setText(transportista.getCorreoElectronico());
+
+
+                txtNombre.setTag(txtNombre.getKeyListener());
+                txtNombre.setKeyListener(null);
+                txtRepresentanteLegal.setTag(txtRepresentanteLegal.getKeyListener());
+                txtRepresentanteLegal.setKeyListener(null);
+                txtRFC.setTag(txtRFC.getKeyListener());
+                txtRFC.setKeyListener(null);
+                txtEstado.setTag(txtEstado.getKeyListener());
+                txtEstado.setKeyListener(null);
+                txtCiudad.setTag(txtCiudad.getKeyListener());
+                txtCiudad.setKeyListener(null);
+                txtColonia.setTag(txtColonia.getKeyListener());
+                txtColonia.setKeyListener(null);
+                txtCodigoPostal.setTag(txtCodigoPostal.getKeyListener());
+                txtCodigoPostal.setKeyListener(null);
+                txtCalle.setTag(txtCalle.getKeyListener());
+                txtCalle.setKeyListener(null);
+                txtNumInt.setTag(txtNumInt.getKeyListener());
+                txtNumInt.setKeyListener(null);
+                txtNumExt.setTag(txtNumExt.getKeyListener());
+                txtNumExt.setKeyListener(null);
+                txtTelefono.setTag(txtTelefono.getKeyListener());
+                txtTelefono.setKeyListener(null);
+                txtCelular.setTag(txtCelular.getKeyListener());
+                txtCelular.setKeyListener(null);
+                txtProveedorGPS.setTag(txtProveedorGPS.getKeyListener());
+                txtProveedorGPS.setKeyListener(null);
+                txtCorreoElectronico.setTag(txtCorreoElectronico.getKeyListener());
+                txtCorreoElectronico.setKeyListener(null);
+
+                linearLayoutPassword.setVisibility(View.GONE);
+
+                pDialog.dismiss();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        /**Modifica valores predeterminados de ciertos elementos**/
+        btnTitulo.setText(getString(Constants.TITLE_FORM_ACTION.get(_MAIN_DECODE.getAccionFragmento())));
+        fabTransportistas.setVisibility(View.GONE);
     }
 
     private void onPreRenderEditar() {

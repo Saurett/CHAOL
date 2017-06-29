@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -32,7 +31,6 @@ import com.indev.chaol.MainRegisterActivity;
 import com.indev.chaol.R;
 import com.indev.chaol.models.Choferes;
 import com.indev.chaol.models.DecodeExtraParams;
-import com.indev.chaol.models.Tractores;
 import com.indev.chaol.models.Transportistas;
 import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
@@ -327,7 +325,7 @@ public class RegistroChoferesFragment extends Fragment implements View.OnClickLi
         chofer.setCorreoElectronico(txtCorreoElectronico.getText().toString().trim());
         chofer.setContraseña(txtPassword.getText().toString().trim());
 
-        chofer.setFirebaseIdTransportista(getSelectTransportista());
+        chofer.setFirebaseIdDelTransportista(getSelectTransportista());
 
         /**metodo principal para crear usuario**/
         activityInterface.createUserChofer(chofer);
@@ -378,7 +376,7 @@ public class RegistroChoferesFragment extends Fragment implements View.OnClickLi
 
         chofer.setFirebaseId(_choferActual.getFirebaseId());
         chofer.setFechaDeCreacion(_choferActual.getFechaDeCreacion());
-        chofer.setFirebaseIdTransportista(_choferActual.getFirebaseIdTransportista());
+        chofer.setFirebaseIdDelTransportista(_choferActual.getFirebaseIdDelTransportista());
         chofer.setEstatus(_choferActual.getEstatus());
 
         /**metodo principal para actualizar usuario**/
@@ -398,7 +396,6 @@ public class RegistroChoferesFragment extends Fragment implements View.OnClickLi
 
     /**Obtiene el firebaseID del transportista seleccionado**/
     private String getSelectTransportista() {
-        //TODO leer cuando es editado y cuando es registro ... para saber el firebaseID
 
         String firebaseID = "";
 
@@ -427,7 +424,7 @@ public class RegistroChoferesFragment extends Fragment implements View.OnClickLi
             Choferes chofer = (Choferes) _MAIN_DECODE.getDecodeItem().getItemModel();
             for (Transportistas transportista : transportistas) {
                 item++;
-                if (transportista.getFirebaseId().equals(chofer.getFirebaseIdTransportista())) {
+                if (transportista.getFirebaseId().equals(chofer.getFirebaseIdDelTransportista())) {
                     break;
                 }
             }

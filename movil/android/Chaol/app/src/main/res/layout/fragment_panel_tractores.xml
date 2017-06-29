@@ -42,7 +42,7 @@
                 app:elevation="0dp" />
 
             <TextView
-                android:id="@+id/item_num_no_asignado_panel_tractores"
+                android:id="@+id/item_num_asignados_panel_tractores"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
@@ -57,7 +57,7 @@
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
-                android:text="Tractores por asignar"
+                android:text="Tractores asignados"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="15sp" />
 
@@ -76,11 +76,11 @@
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginRight="5dp"
-                app:backgroundTint="@color/colorPrimaryDark"
+                app:backgroundTint="@color/colorPanelRemolquesDos"
                 app:elevation="0dp" />
 
             <TextView
-                android:id="@+id/item_num_asignado_panel_tractores"
+                android:id="@+id/item_num_libres_panel_tractores"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
@@ -95,7 +95,7 @@
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
-                android:text="Tractores asignados"
+                android:text="Tractores libres"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="15sp" />
 

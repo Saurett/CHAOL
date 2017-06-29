@@ -12,6 +12,7 @@ import com.indev.chaol.fragments.AsignacionTransportistasFragment;
 import com.indev.chaol.fragments.TransportistasFragment;
 import com.indev.chaol.models.DecodeItem;
 import com.indev.chaol.models.Transportistas;
+import com.indev.chaol.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.List;
 /**
  * Created by saurett on 14/01/2016.
  */
-public class AsignacionesTransportistasAdapter extends RecyclerView.Adapter<AsignacionesTransportistasAdapter.ViewHolder>{
+public class AsignacionesTransportistasAdapter extends RecyclerView.Adapter<AsignacionesTransportistasAdapter.ViewHolder> {
 
     View.OnClickListener onClickListener;
     List<Transportistas> transportistas = new ArrayList<>();
@@ -45,11 +46,17 @@ public class AsignacionesTransportistasAdapter extends RecyclerView.Adapter<Asig
         this.onClickListener = onClickListener;
     }
 
-    public Transportistas getItemByPosition(int position) { return transportistas.get(position);}
+    public Transportistas getItemByPosition(int position) {
+        return transportistas.get(position);
+    }
 
-    public void addAll(List<Transportistas> _transportistas) { this.transportistas.addAll(_transportistas);}
+    public void addAll(List<Transportistas> _transportistas) {
+        this.transportistas.addAll(_transportistas);
+    }
 
-    public void remove(int position) { this.transportistas.remove(position);}
+    public void remove(int position) {
+        this.transportistas.remove(position);
+    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -67,6 +74,22 @@ public class AsignacionesTransportistasAdapter extends RecyclerView.Adapter<Asig
         decodeItem.setPosition(position);
 
         holder.txtNombre.setText(item.getNombre());
+
+        switch (item.getEstatus()) {
+            case Constants.FB_KEY_ITEM_ESTATUS_TRANSPORTISTA_INTERESADO:
+                holder.btnAutorizar.setVisibility(View.VISIBLE);
+                break;
+            case Constants.FB_KEY_ITEM_ESTATUS_TRANSPORTISTA_SELECCIONADO:
+                holder.btnAutorizar.setVisibility(View.INVISIBLE);
+                break;
+            case Constants.FB_KEY_ITEM_ESTATUS_INACTIVO:
+                holder.btnAutorizar.setVisibility(View.INVISIBLE);
+                break;
+            default:
+                break;
+        }
+
+
         holder.btnPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

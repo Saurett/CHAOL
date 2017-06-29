@@ -193,7 +193,7 @@ public class PerfilChoferesFragment extends Fragment implements View.OnClickList
         for (Transportistas transportista : transportistas) {
             item++;
             if (transportista.getFirebaseId()
-                    .equals(_choferActual.getFirebaseIdTransportista())) {
+                    .equals(_choferActual.getFirebaseIdDelTransportista())) {
                 break;
             }
         }
@@ -361,7 +361,7 @@ public class PerfilChoferesFragment extends Fragment implements View.OnClickList
         chofer.setContraseña(txtPassword.getText().toString().trim());
 
         chofer.setFechaDeCreacion(_choferActual.getFechaDeCreacion());
-        chofer.setFirebaseIdTransportista(_choferActual.getFirebaseIdTransportista());
+        chofer.setFirebaseIdDelTransportista(_choferActual.getFirebaseIdDelTransportista());
         chofer.setEstatus(_choferActual.getEstatus());
 
         /**metodo principal para actualizar usuario**/

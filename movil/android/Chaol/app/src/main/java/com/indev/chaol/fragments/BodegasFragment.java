@@ -1,6 +1,5 @@
 package com.indev.chaol.fragments;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -40,7 +39,6 @@ public class BodegasFragment extends Fragment implements View.OnClickListener {
     private static RecyclerView recyclerViewBodegas;
     private BodegasAdapter bodegasAdapter;
     private static BodegasAdapter adapter;
-    private ProgressDialog pDialog;
     private static NavigationDrawerInterface navigationDrawerInterface;
 
     private static Usuarios _SESSION_USER;
@@ -50,6 +48,7 @@ public class BodegasFragment extends Fragment implements View.OnClickListener {
      **/
     private FirebaseDatabase database;
     private DatabaseReference drClientes;
+    private ValueEventListener listenerBodegas;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,14 +65,36 @@ public class BodegasFragment extends Fragment implements View.OnClickListener {
         database = FirebaseDatabase.getInstance();
         drClientes = database.getReference(Constants.FB_KEY_MAIN_CLIENTES);
 
-        pDialog = new ProgressDialog(getContext());
-        pDialog.setMessage(getString(R.string.default_loading_msg));
-        pDialog.setIndeterminate(false);
-        pDialog.setCancelable(false);
-        pDialog.show();
+        return view;
+    }
 
-        drClientes.addValueEventListener(new ValueEventListener() {
+    /**Carga el listado predeterminado de firebase**/
+    private void onPreRenderBodegas() {
 
+        bodegasAdapter.addAll(bodegasList);
+
+        recyclerViewBodegas.setAdapter(bodegasAdapter);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerViewBodegas.setLayoutManager(linearLayoutManager);
+
+        if (bodegasList.size() == 0) {
+            Toast.makeText(getActivity(), "La lista se encuentra vacía", Toast.LENGTH_SHORT).show();
+        }
+
+        adapter = bodegasAdapter;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        listenerBodegas = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -103,40 +124,21 @@ public class BodegasFragment extends Fragment implements View.OnClickListener {
                 }
 
                 onPreRenderBodegas();
-
-                pDialog.dismiss();
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                pDialog.dismiss();
             }
-        });
+        };
 
+        drClientes.addValueEventListener(listenerBodegas);
 
-        return view;
-    }
-
-    /**Carga el listado predeterminado de firebase**/
-    private void onPreRenderBodegas() {
-
-        bodegasAdapter.addAll(bodegasList);
-
-        recyclerViewBodegas.setAdapter(bodegasAdapter);
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        recyclerViewBodegas.setLayoutManager(linearLayoutManager);
-
-        if (bodegasList.size() == 0) {
-            Toast.makeText(getActivity(), "La lista se encuentra vacía", Toast.LENGTH_SHORT).show();
-        }
-
-        adapter = bodegasAdapter;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onStop() {
+        super.onStop();
+        drClientes.removeEventListener(listenerBodegas);
     }
 
     @Override

@@ -35,7 +35,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
-import com.google.firebase.database.ValueEventListener;
 import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
 import com.indev.chaol.models.Administradores;
 import com.indev.chaol.models.Bodegas;
@@ -50,11 +49,8 @@ import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
 import com.indev.chaol.utils.DateTimeUtils;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.security.AccessController.getContext;
 
 public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, NavigationDrawerInterface, DialogInterface.OnClickListener, DrawerLayout.DrawerListener {
@@ -611,7 +607,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
                             FirebaseDatabase.getInstance().getReference()
                                     .child(Constants.FB_KEY_MAIN_TRANSPORTISTAS);
 
-                    dbTransportista.child(chofer.getFirebaseIdTransportista())
+                    dbTransportista.child(chofer.getFirebaseIdDelTransportista())
                             .child(Constants.FB_KEY_ITEM_CHOFER).child(chofer.getFirebaseId()).setValue(chofer, new DatabaseReference.CompletionListener() {
                         @Override
                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -714,7 +710,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         DatabaseReference dbChofer =
                 FirebaseDatabase.getInstance().getReference()
                         .child(Constants.FB_KEY_MAIN_TRANSPORTISTAS)
-                        .child(chofer.getFirebaseIdTransportista())
+                        .child(chofer.getFirebaseIdDelTransportista())
                         .child(Constants.FB_KEY_MAIN_CHOFERES)
                         .child(chofer.getFirebaseId());
 
@@ -864,7 +860,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         DatabaseReference dbChofer =
                 FirebaseDatabase.getInstance().getReference()
                         .child(Constants.FB_KEY_MAIN_TRANSPORTISTAS)
-                        .child(chofer.getFirebaseIdTransportista())
+                        .child(chofer.getFirebaseIdDelTransportista())
                         .child(Constants.FB_KEY_MAIN_CHOFERES)
                         .child(chofer.getFirebaseId());
 

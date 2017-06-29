@@ -40,7 +40,6 @@ public class TractoresFragment extends Fragment implements View.OnClickListener 
     private static RecyclerView recyclerViewTractores;
     private TractoresAdapter tractoresAdapter;
     private static TractoresAdapter adapter;
-    private ProgressDialog pDialog;
     private static NavigationDrawerInterface navigationDrawerInterface;
 
     private static Usuarios _SESSION_USER;
@@ -50,6 +49,7 @@ public class TractoresFragment extends Fragment implements View.OnClickListener 
      **/
     private FirebaseDatabase database;
     private DatabaseReference drTractores;
+    private ValueEventListener listenerTractores;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,14 +66,36 @@ public class TractoresFragment extends Fragment implements View.OnClickListener 
         database = FirebaseDatabase.getInstance();
         drTractores = database.getReference(Constants.FB_KEY_MAIN_TRANSPORTISTAS);
 
-        pDialog = new ProgressDialog(getContext());
-        pDialog.setMessage(getString(R.string.default_loading_msg));
-        pDialog.setIndeterminate(false);
-        pDialog.setCancelable(false);
-        pDialog.show();
+        return view;
+    }
 
-        drTractores.addValueEventListener(new ValueEventListener() {
+    /**Carga el listado predeterminado de firebase**/
+    private void onPreRenderTractores() {
 
+        tractoresAdapter.addAll(tractoresList);
+
+        recyclerViewTractores.setAdapter(tractoresAdapter);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerViewTractores.setLayoutManager(linearLayoutManager);
+
+        if (tractoresList.size() == 0) {
+            Toast.makeText(getActivity(), "La lista se encuentra vacía", Toast.LENGTH_SHORT).show();
+        }
+
+        adapter = tractoresAdapter;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        listenerTractores = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -103,39 +125,20 @@ public class TractoresFragment extends Fragment implements View.OnClickListener 
                 }
 
                 onPreRenderTractores();
-
-                pDialog.dismiss();
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                pDialog.dismiss();
             }
-        });
+        };
 
-        return view;
-    }
-
-    /**Carga el listado predeterminado de firebase**/
-    private void onPreRenderTractores() {
-
-        tractoresAdapter.addAll(tractoresList);
-
-        recyclerViewTractores.setAdapter(tractoresAdapter);
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        recyclerViewTractores.setLayoutManager(linearLayoutManager);
-
-        if (tractoresList.size() == 0) {
-            Toast.makeText(getActivity(), "La lista se encuentra vacía", Toast.LENGTH_SHORT).show();
-        }
-
-        adapter = tractoresAdapter;
+        drTractores.addValueEventListener(listenerTractores);
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onStop() {
+        super.onStop();
+        drTractores.removeEventListener(listenerTractores);
     }
 
     @Override

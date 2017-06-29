@@ -1,5 +1,6 @@
 package com.indev.chaol.fragments;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -9,11 +10,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.indev.chaol.R;
+import com.indev.chaol.models.Agendas;
+import com.indev.chaol.models.Bodegas;
 import com.indev.chaol.models.DecodeExtraParams;
+import com.indev.chaol.models.Fletes;
+import com.indev.chaol.models.MainFletes;
+import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
+import com.indev.chaol.utils.DateTimeUtils;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+
+import java.sql.Time;
+import java.util.Calendar;
 
 
 /**
@@ -23,15 +40,23 @@ import com.indev.chaol.utils.Constants;
 public class FletesCotizacionFragment extends Fragment implements View.OnClickListener, DialogInterface.OnClickListener {
 
     private Button btnTitulo;
+    private EditText txtPrecio;
     private LinearLayout linearLayout;
 
-    private static DecodeExtraParams _MAIN_DECODE = new DecodeExtraParams();
+    private static Usuarios _SESSION_USER;
+    private static DecodeExtraParams _MAIN_DECODE;
+
+    private static MainFletes _mainFletesActual;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cotizacion_fletes, container, false);
 
+        _MAIN_DECODE = (DecodeExtraParams) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
+        _SESSION_USER = (Usuarios) getActivity().getIntent().getSerializableExtra(Constants.KEY_SESSION_USER);
+
         btnTitulo = (Button) view.findViewById(R.id.btn_cotizacion_fletes);
+        txtPrecio = (EditText) view.findViewById(R.id.txt_cotización_precio);
         linearLayout = (LinearLayout) view.findViewById(R.id.cotizacion_container);
 
         btnTitulo.setOnClickListener(this);
@@ -63,13 +88,48 @@ public class FletesCotizacionFragment extends Fragment implements View.OnClickLi
         switch (_MAIN_DECODE.getAccionFragmento()) {
             case Constants.ACCION_EDITAR:
                 /**Obtiene el item selecionado en el fragmento de lista**/
-                //Fletes fletes = (Fletes) _MAIN_DECODE.getDecodeItem().getItemModel();
-
-                /**Asigna valores del item seleccionado**/
+                this.onPreRenderEditar();
                 break;
             case Constants.ACCION_REGISTRAR:
                 break;
         }
+    }
+
+    private void onPreRenderEditar() {
+
+        /**Obtiene el item selecionado en el fragmento de lista**/
+        Agendas agenda = (Agendas) _MAIN_DECODE.getDecodeItem().getItemModel();
+
+        DatabaseReference dbFlete =
+                FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
+                        .child(agenda.getFirebaseID());
+
+        final ProgressDialog pDialogRender = new ProgressDialog(getContext());
+        pDialogRender.setMessage(getString(R.string.default_loading_msg));
+        pDialogRender.setIndeterminate(false);
+        pDialogRender.setCancelable(false);
+        pDialogRender.show();
+
+        dbFlete.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                Fletes flete = dataSnapshot.child(Constants.FB_KEY_MAIN_FLETE).getValue(Fletes.class);
+                _mainFletesActual = new MainFletes();
+
+                _mainFletesActual.setFlete(flete);
+
+                txtPrecio.setText(_mainFletesActual.getFlete().getPrecio());
+
+                pDialogRender.dismiss();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override

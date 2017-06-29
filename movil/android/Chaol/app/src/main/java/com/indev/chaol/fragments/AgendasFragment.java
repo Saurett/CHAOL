@@ -2,7 +2,6 @@ package com.indev.chaol.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,7 +18,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.indev.chaol.MainRegisterActivity;
 import com.indev.chaol.R;
 import com.indev.chaol.adapters.AgendasAdapter;
-import com.indev.chaol.adapters.ClientesAdapter;
 import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
 import com.indev.chaol.models.Agendas;
 import com.indev.chaol.models.Bodegas;
@@ -28,7 +25,6 @@ import com.indev.chaol.models.DecodeItem;
 import com.indev.chaol.models.Fletes;
 import com.indev.chaol.models.Transportistas;
 import com.indev.chaol.utils.Constants;
-import com.prolificinteractive.materialcalendarview.CalendarDay;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,6 +96,7 @@ public class AgendasFragment extends Fragment implements View.OnClickListener {
                     for (DataSnapshot psTransportista : postSnapshot.child(Constants.FB_KEY_MAIN_TRANSPORTISTA_SELECCIONADO).getChildren()) {
                         Transportistas transportista = psTransportista.getValue(Transportistas.class);
                         nombreDelTransportista =  ((null != transportista) ? transportista.getNombre() : nombreDelTransportista);
+                        break;
                     }
 
                     for (DataSnapshot psChofer : postSnapshot.child(Constants.FB_KEY_MAIN_CHOFER_SELECCIONADO).getChildren()) {
@@ -192,88 +189,5 @@ public class AgendasFragment extends Fragment implements View.OnClickListener {
     public static void deleteItem(DecodeItem decodeItem) {
         agendasList.remove(decodeItem.getPosition());
         adapter.removeItem(decodeItem.getPosition());
-    }
-
-    private class AsyncCallWS extends AsyncTask<Void, Void, Boolean> {
-
-        private Integer webServiceOperation;
-        private List<Agendas> tempRemolquesList;
-        private String textError;
-
-        private AsyncCallWS(Integer wsOperation) {
-            webServiceOperation = wsOperation;
-            textError = "";
-            tempRemolquesList = new ArrayList<>();
-        }
-
-        @Override
-        protected void onPreExecute() {
-            pDialog = new ProgressDialog(getContext());
-            pDialog.setMessage("Buscando");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(false);
-            pDialog.show();
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-
-            Boolean validOperation = false;
-
-            try {
-                switch (webServiceOperation) {
-                    case Constants.WS_KEY_BUSCAR_REMOLQUES:
-                        tempRemolquesList = new ArrayList<>();
-                        List<Agendas> agendas = new ArrayList<>();
-
-                        agendas.add(new Agendas("enProgreso", "Francisco Javier Díaz Saurett", "Rocio del Carmenjavier", ""));
-                        agendas.add(new Agendas("esperandoPorTransportista", "Francisco Javier Díaz Saurett", "", ""));
-
-                        tempRemolquesList.addAll(agendas);
-
-                        validOperation = true;
-                        break;
-                }
-            } catch (Exception e) {
-                textError = e.getMessage();
-                validOperation = false;
-            }
-
-            return validOperation;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            try {
-                agendasList = new ArrayList<>();
-                pDialog.dismiss();
-                if (success) {
-                    switch (webServiceOperation) {
-                        case Constants.WS_KEY_BUSCAR_REMOLQUES:
-                            if (tempRemolquesList.size() > 0) {
-                                agendasList.addAll(tempRemolquesList);
-                                agendasAdapter.addAll(agendasList);
-
-                                recyclerViewAgendas.setAdapter(agendasAdapter);
-
-                                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-                                recyclerViewAgendas.setLayoutManager(linearLayoutManager);
-
-                            } else {
-                                Toast.makeText(getActivity(), "La lista se encuentra vacía", Toast.LENGTH_SHORT).show();
-                            }
-                            break;
-                    }
-                } else {
-                    String tempText = (textError.isEmpty() ? "La lista  se encuentra vacía" : textError);
-                    Toast.makeText(getActivity(), tempText, Toast.LENGTH_SHORT).show();
-                }
-
-                adapter = agendasAdapter;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        }
     }
 }
