@@ -70,14 +70,16 @@ public class ChoferesAdapter extends RecyclerView.Adapter<ChoferesAdapter.ViewHo
         decodeItem.setItemModel(item);
         decodeItem.setPosition(position);
 
-        holder.switchActivar.setChecked((item.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ACTIVO)));
+        boolean checked = (item.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_LIBRE) || item.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ASIGNADO));
+
+        holder.switchActivar.setChecked(checked);
 
         holder.switchActivar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Boolean check = ((Switch) view).isChecked();
 
-                item.setEstatus((check) ? Constants.FB_KEY_ITEM_ESTATUS_ACTIVO : Constants.FB_KEY_ITEM_ESTATUS_INACTIVO);
+                item.setEstatus((check) ? Constants.FB_KEY_ITEM_ESTATUS_LIBRE : Constants.FB_KEY_ITEM_ESTATUS_INACTIVO);
 
                 decodeItem.setIdView(view.getId());
                 decodeItem.setItemModel(item);

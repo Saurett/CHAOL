@@ -22,6 +22,10 @@ import com.indev.chaol.fragments.RegistroLoginTransportistasFragment;
 import com.indev.chaol.fragments.RegistroRemolquesFragment;
 import com.indev.chaol.fragments.RegistroTractoresFragment;
 import com.indev.chaol.fragments.RegistroTransportistasFragment;
+import com.indev.chaol.models.Administradores;
+import com.indev.chaol.models.Choferes;
+import com.indev.chaol.models.Clientes;
+import com.indev.chaol.models.Transportistas;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -355,6 +359,36 @@ public final class Constants {
         TITLE_ESTATUS_FLETES.put(Constants.FB_KEY_ITEM_STATUS_ENTREGADO, Constants.ENTREGADO);
         TITLE_ESTATUS_FLETES.put(Constants.FB_KEY_ITEM_STATUS_FINALIZADO, Constants.FINALIZADO);
         TITLE_ESTATUS_FLETES.put(Constants.FB_KEY_ITEM_STATUS_CANCELADO, Constants.CANCELADO);
+    }
+
+    public static final HashMap<String,String> TIPO_USUARIO_NODO;
+    static {
+        TIPO_USUARIO_NODO = new HashMap<>();
+
+        TIPO_USUARIO_NODO.put(Constants.FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR, FB_KEY_MAIN_ADMINISTRADORES);
+        TIPO_USUARIO_NODO.put(Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE, FB_KEY_MAIN_CLIENTES);
+        TIPO_USUARIO_NODO.put(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA, FB_KEY_MAIN_TRANSPORTISTAS);
+        TIPO_USUARIO_NODO.put(Constants.FB_KEY_ITEM_TIPO_USUARIO_CHOFER, FB_KEY_MAIN_CHOFERES);
+    }
+
+    public static final HashMap<String,String> TIPO_USUARIO_ITEM;
+    static {
+        TIPO_USUARIO_ITEM = new HashMap<>();
+
+        TIPO_USUARIO_ITEM.put(Constants.FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR, FB_KEY_MAIN_ADMINISTRADORES);
+        TIPO_USUARIO_ITEM.put(Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE, FB_KEY_ITEM_CLIENTE);
+        TIPO_USUARIO_ITEM.put(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA, FB_KEY_ITEM_TRANSPORTISTA);
+        TIPO_USUARIO_ITEM.put(Constants.FB_KEY_ITEM_TIPO_USUARIO_CHOFER, FB_KEY_ITEM_CHOFER);
+    }
+
+    public static final HashMap<String,Class> TIPO_USUARIO_CLASS;
+    static {
+        TIPO_USUARIO_CLASS = new HashMap<>();
+
+        TIPO_USUARIO_CLASS.put(Constants.FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR, Administradores.class);
+        TIPO_USUARIO_CLASS.put(Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE, Clientes.class);
+        TIPO_USUARIO_CLASS.put(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA, Transportistas.class);
+        TIPO_USUARIO_CLASS.put(Constants.FB_KEY_ITEM_TIPO_USUARIO_CHOFER, Choferes.class);
     }
 
     //endregion

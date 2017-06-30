@@ -35,6 +35,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
+import com.google.firebase.database.ValueEventListener;
 import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
 import com.indev.chaol.models.Administradores;
 import com.indev.chaol.models.Bodegas;
@@ -75,8 +76,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
     /*** Declaraciones para Firebase**/
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-
-    private static long deviceSize;
+    private DatabaseReference dbUsuarioValido;
+    private ValueEventListener listenerSession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,6 +156,77 @@ public class NavigationDrawerActivity extends AppCompatActivity
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR)) {
+            dbUsuarioValido = FirebaseDatabase.getInstance().getReference()
+                    .child(Constants.TIPO_USUARIO_NODO.get(_SESSION_USER.getTipoDeUsuario()))
+                    .child(_SESSION_USER.getFirebaseId());
+        } else {
+            dbUsuarioValido = FirebaseDatabase.getInstance().getReference()
+                    .child(Constants.TIPO_USUARIO_NODO.get(_SESSION_USER.getTipoDeUsuario()))
+                    .child(_SESSION_USER.getFirebaseId())
+                    .child(Constants.TIPO_USUARIO_ITEM.get(_SESSION_USER.getTipoDeUsuario()));
+        }
+
+        listenerSession = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                Object objectTipoUsuario = dataSnapshot.getValue(Constants.TIPO_USUARIO_CLASS.get(_SESSION_USER.getTipoDeUsuario()));
+
+                switch (_SESSION_USER.getTipoDeUsuario()) {
+                    case Constants.FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR:
+                        Administradores administrador = (Administradores) objectTipoUsuario;
+
+                        if (administrador.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_INACTIVO)) {
+                            showAlert("Es necesario que un administrador autorice la cuenta.");
+                        }
+
+                        break;
+                    case Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE:
+                        Clientes cliente = (Clientes) objectTipoUsuario;
+
+                        if (cliente.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_INACTIVO)){
+                            showAlert("Es necesario que un administrador autorice la cuenta.");
+                        }
+
+                        break;
+                    case  Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA:
+                        Transportistas transportista = (Transportistas) objectTipoUsuario;
+
+                        if (transportista.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_INACTIVO)) {
+                            showAlert("Es necesario que un administrador autorice la cuenta.");
+                        }
+                        break;
+                    case Constants.FB_KEY_ITEM_CHOFER:
+                        Choferes chofer = (Choferes) objectTipoUsuario;
+
+                        if (chofer.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_INACTIVO)) {
+                            showAlert("Es necesario que el transportista o un administrador autorice la cuenta.");
+                        }
+                        break;
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+
+        dbUsuarioValido.addValueEventListener(listenerSession);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        dbUsuarioValido.removeEventListener(listenerSession);
     }
 
     /**
@@ -384,6 +456,16 @@ public class NavigationDrawerActivity extends AppCompatActivity
         }
     }
 
+    public void showAlert(String alert) {
+        AlertDialog.Builder ad = new AlertDialog.Builder(this);
+
+        ad.setTitle("Importante");
+        ad.setMessage(alert);
+        ad.setCancelable(false);
+        ad.setNeutralButton("Ok", this);
+        ad.show();
+    }
+
     @Override
     public void showQuestion() {
         AlertDialog.Builder ad = new AlertDialog.Builder(this);
@@ -425,6 +507,11 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
                 this.firebaseOperations(operation);
 
+                break;
+            case DialogInterface.BUTTON_NEUTRAL:
+                onChangeMainFragment(R.id.menu_item_cerrar_session);
+                break;
+            default:
                 break;
         }
     }

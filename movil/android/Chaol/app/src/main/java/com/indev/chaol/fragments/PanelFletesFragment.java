@@ -117,6 +117,8 @@ public class PanelFletesFragment extends Fragment implements View.OnClickListene
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 
+                    Log.i(TAG,"addValueEventListener Flete " + postSnapshot.getKey());
+
                     Fletes flete = postSnapshot.child(Constants.FB_KEY_MAIN_FLETE).getValue(Fletes.class);
                     Bodegas bodegaCarga = postSnapshot.child(Constants.FB_KEY_MAIN_BODEGA_DE_CARGA).getValue(Bodegas.class);
 

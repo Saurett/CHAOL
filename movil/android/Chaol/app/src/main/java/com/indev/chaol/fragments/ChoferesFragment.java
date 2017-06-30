@@ -1,6 +1,5 @@
 package com.indev.chaol.fragments;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -39,7 +38,6 @@ public class ChoferesFragment extends Fragment implements View.OnClickListener {
     private static RecyclerView recyclerViewChoferes;
     private ChoferesAdapter choferesAdapter;
     private static ChoferesAdapter adapter;
-    private ProgressDialog pDialog;
     private static NavigationDrawerInterface navigationDrawerInterface;
 
     private static Usuarios _SESSION_USER;
@@ -49,6 +47,7 @@ public class ChoferesFragment extends Fragment implements View.OnClickListener {
      **/
     private FirebaseDatabase database;
     private DatabaseReference drChoferes;
+    private ValueEventListener listenerChoferes;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,43 +63,6 @@ public class ChoferesFragment extends Fragment implements View.OnClickListener {
         /**Obtiene la instancia compartida del objeto FirebaseAuth**/
         database = FirebaseDatabase.getInstance();
         drChoferes = database.getReference(Constants.FB_KEY_MAIN_CHOFERES);
-
-        pDialog = new ProgressDialog(getContext());
-        pDialog.setMessage(getString(R.string.default_loading_msg));
-        pDialog.setIndeterminate(false);
-        pDialog.setCancelable(false);
-        pDialog.show();
-
-        drChoferes.addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                choferesAdapter = new ChoferesAdapter();
-                choferesList = new ArrayList<>();
-
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    Choferes chofer = postSnapshot.getValue(Choferes.class);
-
-                    if (_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA)) {
-                        if (!_SESSION_USER.getFirebaseId().equals(chofer.getFirebaseIdDelTransportista())) continue;
-                    }
-
-                    if (!chofer.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO)) {
-                        choferesList.add(chofer);
-                    }
-                }
-
-                onPreRenderChoferes();
-
-                pDialog.dismiss();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                pDialog.dismiss();
-            }
-        });
 
         return view;
     }
@@ -125,6 +87,47 @@ public class ChoferesFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        listenerChoferes = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                choferesAdapter = new ChoferesAdapter();
+                choferesList = new ArrayList<>();
+
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Choferes chofer = postSnapshot.getValue(Choferes.class);
+
+                    if (_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA)) {
+                        if (!_SESSION_USER.getFirebaseId().equals(chofer.getFirebaseIdDelTransportista())) continue;
+                    }
+
+                    if (!chofer.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO)) {
+                        choferesList.add(chofer);
+                    }
+                }
+
+                onPreRenderChoferes();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        };
+
+        drChoferes.addValueEventListener(listenerChoferes);
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        drChoferes.removeEventListener(listenerChoferes);
     }
 
     @Override
