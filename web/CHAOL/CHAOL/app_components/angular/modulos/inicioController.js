@@ -39,7 +39,8 @@
                 enProgreso: "0",
                 entregado: "0",
                 finalizado: "0",
-                cancelado: "0"
+                cancelado: "0",
+                nuevo: true
             },
             bodegas: {
                 registrados: "0"
@@ -401,19 +402,19 @@
                                 case 'transportistaPorConfirmar':
                                     childSnapshot.forEach(function (nodoFleteSnapshot) {
                                         if (nodoFleteSnapshot.key === 'transportistasInteresados') {
+                                            var existe = false;
                                             nodoFleteSnapshot.forEach(function (transportistasInteresadosSnapshot) {
                                                 var transportistasInteresados = transportistasInteresadosSnapshot.val();
-                                                var existe = false;
                                                 if (transportistasInteresados.firebaseId === usuario.uid) {
                                                     existe = true;
                                                 }
-                                                if (existe) {
-                                                    transportistaPorConfirmar++;
-                                                }
-                                                else {
-                                                    esperandoPorTransportista++;
-                                                }
                                             });
+                                            if (existe) {
+                                                transportistaPorConfirmar++;
+                                            }
+                                            else {
+                                                esperandoPorTransportista++;
+                                            }
                                         }
                                     });
                                     break;
@@ -466,6 +467,7 @@
                     });
 
                     //FLETES INHABILITADOS
+                    $scope.paneles.fletes.nuevo = false;
                     $scope.paneles.fletes.porCotizar = false;
                     $scope.paneles.fletes.entregado = false;
                     $scope.paneles.fletes.finalizado = false;
@@ -607,6 +609,7 @@
                     });
 
                     //FLETES INHABILITADOS
+                    $scope.paneles.fletes.nuevo = false;
                     $scope.paneles.fletes.porCotizar = false;
                     $scope.paneles.fletes.esperandoPorTransportista = false;
                     $scope.paneles.fletes.transportistaPorConfirmar = false;

@@ -38,7 +38,7 @@
             var arrayBodegas = [];
             snapshot.forEach(function (childSnapshot) {
                 clientes = childSnapshot.val();
-                if (clientes.cliente.estatus !== 'eliminado') {
+                if (clientes.cliente.estatus !== 'eliminado' && clientes.cliente.estatus !== 'inactivo') {
                     childSnapshot.forEach(function (clienteSnapShot) {
                         if (clienteSnapShot.key === 'cliente') {
                             var cliente = clienteSnapShot.val();

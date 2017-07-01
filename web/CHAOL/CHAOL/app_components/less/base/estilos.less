@@ -222,8 +222,8 @@ and open the template in the editor.
     color: @Text_Icons !important;
 }
 
-:not(md-switch).md-primary {
-    background-color: @Primary_Color !important;
+:not(md-switch).md-primary:not(md-radio-button).md-primary {
+    background-color: @Dark_Primary_Color !important;
 }
 
 .md-primary i {
@@ -327,4 +327,37 @@ ul.fletes-ico li.fletes-ico-finalizado::before {
 ul.fletes-ico li.fletes-ico-cancelado::before {
     border-color: #D22E2E;
     background-color: #F34235;
+}
+
+.md-datepicker-input-container {
+    width: calc(~"100% - 70px") !important;
+}
+
+.md-datepicker-input {
+    max-width: initial !important;
+}
+
+.panel-primary {
+    border-color: @Dark_Primary_Color !important;
+}
+
+.panel-primary > .panel-heading {
+    background-color: @Dark_Primary_Color !important;
+    background-image: none;
+}
+
+.card-ok {
+    box-shadow: 0px 0px 3px 0px @Dark_Primary_Color;
+}
+
+.card-ok i:first-child {
+    color: @Dark_Primary_Color;
+}
+
+.card-waiting {
+    box-shadow: 0px 0px 3px 0px #FE9F00;
+}
+
+.card-waiting h5 button i:first-child {
+    color: #FE9F00;
 }
