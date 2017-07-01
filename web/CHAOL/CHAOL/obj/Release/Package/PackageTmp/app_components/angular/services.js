@@ -10,6 +10,13 @@
         return getTime;
     });
 
+    app.factory('convertToUnixTime', function () {
+        var getTime = function (time) {
+            return (new Date(time)).getTime() / 1000;
+        }
+        return getTime;
+    });
+
     app.factory("Auth", function ($firebaseAuth, $firebaseObject, $location) {
         var firebase = {
             Auth: $firebaseAuth(),

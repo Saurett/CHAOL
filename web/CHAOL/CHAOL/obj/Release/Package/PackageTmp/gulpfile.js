@@ -54,7 +54,8 @@ gulp.task('angular-js', function () {
             'app_components/angular/modulos/administracion/tractores/tractoresController.js',
             'app_components/angular/modulos/administracion/remolques/remolqueController.js',
             'app_components/angular/modulos/administracion/remolques/remolquesController.js',
-            'app_components/angular/modulos/fletes/agendaController.js'
+            'app_components/angular/modulos/fletes/agendaController.js',
+            'app_components/angular/modulos/fletes/fleteController.js'
         ])
         .pipe(concat('app.js'))
         .pipe(gulp.dest('js/'));
@@ -63,6 +64,8 @@ gulp.task('angular-js', function () {
 gulp.task('tools-js', function () {
     return gulp.src(
         [
+            'bower_components/moment/moment.js',
+            'bower_components/moment/locale/es.js',
             'app_components/js/bootstrap-calendar/bootstrap-year-calendar.js',
             'app_components/js/bootstrap-calendar/bootstrap-year-calendar.es.js',
             'app_components/js/bootstrap-calendar/calendario-init.js',

@@ -77,6 +77,7 @@
                 console.log('Chofer found');
                 if (usuario.uid === $routeParams.ID) {
                     $scope.correoElectronicoAnterior = $scope.firebaseChofer.correoElectronico;
+                    $scope.ownUser = true;
                 }
             }).catch(function (error) {
                 console.log(error);
@@ -169,7 +170,7 @@
             var crearChoferTransportista = function (chofer) {
                 refTransportistas.child(chofer.firebaseIdDelTransportista).on("child_added", function (snapshot) {
                     refTransportistas.child(chofer.firebaseIdDelTransportista).child('choferes').child(chofer.firebaseId).set(chofer);
-                    refTransportistas.child(chofer.firebaseIdDelTransportista).child('choferes').child(chofer.firebaseId).child(contrasena).set(null);;
+                    refTransportistas.child(chofer.firebaseIdDelTransportista).child('choferes').child(chofer.firebaseId).child('contrasena').set(null);
                 });
                 console.log('Chofer created in Transportist DB');
             }

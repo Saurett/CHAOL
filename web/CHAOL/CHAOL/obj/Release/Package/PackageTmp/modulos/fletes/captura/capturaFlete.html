@@ -1,550 +1,396 @@
-﻿<!--TIULO RUTA-->
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 titulo-ruta">
-    <h2>
-        <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
-        Fletes.Nuevo
-    </h2>
-</div>
-<!--SECCION-->
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 titulo-seccion">
-</div>
-<!--CONTENIDO-->
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja">
-        <!--TITULO-->
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-titulo">
-            <h1>
-                NUEVO
-            </h1>
+﻿<div name="flete" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+    <!--ENCABEZADO-->
+    <encabezado class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding"></encabezado>
+    <!--MENU-->
+    <md-sidenav class="md-sidenav-left md-whiteframe-4dp" md-component-id="left">
+        <menu></menu>
+    </md-sidenav>
+    <aside class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+        <!--TIULO RUTA-->
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 titulo-ruta">
+            <h2>
+                <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
+                Fletes.
+                <span ng-show="firebaseFlete.flete.fleteId">
+                    {{firebaseFlete.idFlete}}
+                </span>
+                <span ng-hide="firebaseFlete.flete.fleteId">
+                    Nuevo
+                </span>
+            </h2>
         </div>
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-contenido">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="progress progress-bar-vertical">
-                        <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
-                            <span class="sr-only">45% Complete</span>
-                        </div>
-                    </div>
+        <!--SECCION-->
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 titulo-seccion">
+        </div>
+        <!--CONTENIDO-->
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja">
+                <!--TITULO-->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-titulo">
+                    <h1 ng-show="firebaseFlete.idFlete">
+                        FLETE: {{firebaseFlete.idFlete}}
+                    </h1>
+                    <h1 ng-hide="firebaseFlete.idFlete">
+                        NUEVO
+                    </h1>
                 </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <!--ACORDION-->
-                    <div id="accordion" role="tablist" aria-multiselectable="true">
-                        <!--DATOS GENERALES-->
-                        <div class="card">
-                            <div class="card-header" role="tab" id="headingThree">
-                                <h5 class="mb-0">
-                                    <button class="accordion-btn" type="button" data-toggle="collapse" data-target="#div_datos_generales" aria-expanded="false" aria-controls="div_datos_generales">
-                                        Datos Generales
-                                    </button>
-                                </h5>
-                            </div>
-                            <div id="div_datos_generales" class="collapse" role="tabpanel" aria-labelledby="headingThree">
-                                <div class="card-block">
-                                    <!--ID-->
-                                    <div class="form-group">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                            <label for="input_id" class="control-label">ID</label>
-                                        </div>
-                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                                            <input id="input_id" type="text" readonly="readonly" class="form-control" value="001" disabled />
-                                        </div>
-                                    </div>
-                                    <!--Cliente-->
-                                    <div class="form-group">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                            <label for="input_cliente" class="control-label">Cliente</label>
-                                        </div>
-                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                                            <input id="input_cliente" type="text" readonly="readonly" class="form-control" value="Fred Gómez Leyva" disabled />
-                                        </div>
-                                    </div>
-                                    <!--Fecha de Salida-->
-                                    <div class="form-group">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                            <label for="input_fecha_salida" class="control-label">Fecha de Salida</label>
-                                        </div>
-                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                                            <input type="text" id="input_fecha_salida" class="form-control" />
-                                        </div>
-                                    </div>
-                                    <!--Hora de Salida-->
-                                    <div class="form-group">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                            <label for="input_hora_salida" class="control-label">Hora de Salida</label>
-                                        </div>
-                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                                            <input type="text" id="input_hora_salida" class="form-control" />
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 borde-superior">
-                                        <h2>Origen</h2>
-                                        <br />
-                                    </div>
-                                    <!--Bodega de Carga-->
-                                    <div class="form-group">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                            <label for="input_bodega_carga" class="control-label">Bodega de Carga</label>
-                                        </div>
-                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                                            <input type="text" id="input_bodega_carga" class="form-control" value="" />
-                                        </div>
-                                    </div>
-                                    <!--Dirección-->
-                                    <div class="form-group">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                            <label for="input_direccion_carga" class="control-label">Dirección</label>
-                                        </div>
-                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                                            <input type="text" id="input_direccion_carga" class="form-control" value="" />
-                                        </div>
-                                    </div>
-                                    <!--Estado de Origen-->
-                                    <div class="form-group">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                            <label for="dropdown_estado_origen">Estado de Origen</label>
-                                        </div>
-                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdown_estado_origen" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                Chihuahua
-                                                <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu" aria-labelledby="dropdown_estado_destino">
-                                                <li><a href="">Chihuahua</a></li>
-                                                <li><a href="">Estado de México</a></li>
-                                                <li><a href="">Otro</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <!--Ciudad de Origen-->
-                                    <div class="form-group">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                            <label for="input_ciudad_origen">Ciudad de Origen</label>
-                                        </div>
-                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                                            <input id="input_ciudad_origen" class="form-control" type="text" />
-                                        </div>
-                                    </div>
-                                    <!--Tipo de Remolque-->
-                                    <div class="form-group">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                            <label for="input_tipo_remolque" class="control-label">Tipo de Remolque</label>
-                                        </div>
-                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                                            <input type="text" id="input_tipo_remolque" class="form-control" />
-                                        </div>
-                                    </div>
-                                    <!--Carga-->
-                                    <div class="form-group">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                            <label for="input_carga" class="control-label">Carga</label>
-                                        </div>
-                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                                            <input id="input_carga" type="text" class="form-control" />
-                                        </div>
-                                    </div>
-                                    <!--Número de Embarque-->
-                                    <div class="form-group">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                            <label for="input_numero_embarque" class="control-label">Número de Embarque</label>
-                                        </div>
-                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                                            <input id="input_numero_embarque" class="form-control" type="text" />
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 borde-superior">
-                                        <h2>Destino</h2>
-                                        <br />
-                                    </div>
-                                    <!--Destinatario-->
-                                    <div class="form-group">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                            <label for="input_destinatario" class="control-label">Destinatario</label>
-                                        </div>
-                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                                            <input id="input_destinatario" class="form-control" type="text" />
-                                        </div>
-                                    </div>
-                                    <!--Bodega de Descarga-->
-                                    <div class="form-group">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                            <label for="input_bodega_descarga" class="control-label">Bodega de Descarga</label>
-                                        </div>
-                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                                            <input id="input_bodega_descarga" class="form-control" type="text" />
-                                        </div>
-                                    </div>
-                                    <!--Dirección-->
-                                    <div class="form-group">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                            <label for="input_direccion_descarga" class="control-label">Dirección</label>
-                                        </div>
-                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                                            <input id="input_direccion_descarga" class="form-control" type="text" />
-                                        </div>
-                                    </div>
-                                    <!--Estado de Destino-->
-                                    <div class="form-group">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                            <label for="dropdown_estado_destino">Estado de Destino</label>
-                                        </div>
-                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdown_estado_destino" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                Chihuahua
-                                                <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu" aria-labelledby="dropdown_estado_destino">
-                                                <li><a href="">Chihuahua</a></li>
-                                                <li><a href="">Estado de México</a></li>
-                                                <li><a href="">Otro</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <!--Ciudad de Destino-->
-                                    <div class="form-group">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                            <label for="input_ciudad_destino">Ciudad de Destino</label>
-                                        </div>
-                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                                            <input id="input_ciudad_destino" class="form-control" type="text" />
-                                        </div>
-                                    </div>
-                                    <!--Cotizar-->
-                                    <div class="col-lg-offset-10 col-lg-2 col-md-offset-8 col-md-4 col-sm-offset-8 col-sm-4 col-xs-12">
-                                        <button type="button" class="btn btn-success col-lg-12 col-md-12 col-sm-12 col-xs-12">Solicitar Cotización</button>
-                                    </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 caja-contenido">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="progress progress-bar-vertical">
+                                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: {{paneles.progreso}}">
+                                    <span class="sr-only">45% Complete</span>
                                 </div>
                             </div>
                         </div>
-                        <!--COTIZACIÓN -->
-                        <div class="card">
-                            <div class="card-header" role="tab" id="headingTwo">
-                                <h5 class="mb-0">
-                                    <button class="accordion-btn" type="button" data-toggle="collapse" data-target="#div_cotizacion" aria-expanded="false" aria-controls="div_cotizacion">
-                                        Cotización
-                                    </button>
-                                </h5>
-                            </div>
-                            <div id="div_cotizacion" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
-                                <div class="card-block">
-                                    <!--Precio-->
-                                    <div class="form-group">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                            <label for="input_precio" class="control-label">Precio</label>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">RESUMEN</div>
+                                <div class="panel-body">
+                                    <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-2 no-padding" ng-show="paneles.resumen.controles.estatus">
+                                            <h6>Estatus</h6>
+                                            <h3>{{firebaseFlete.flete.estatus | uppercase}} </h3>
                                         </div>
-                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                                            <input id="input_precio" type="text" class="form-control" />
-                                        </div>
-                                    </div>
-                                    <!--Guardar-->
-                                    <div class="col-lg-offset-10 col-lg-2 col-md-offset-8 col-md-4 col-sm-offset-8 col-sm-4 col-xs-12">
-                                        <button type="button" class="btn btn-success col-lg-12 col-md-12 col-sm-12 col-xs-12">Guardar</button>
-                                    </div>
-                                    <!--Solicitar Viaje-->
-                                    <div class="col-lg-offset-10 col-lg-2 col-md-offset-8 col-md-4 col-sm-offset-8 col-sm-4 col-xs-12">
-                                        <button type="button" class="btn btn-success col-lg-12 col-md-12 col-sm-12 col-xs-12">Solicitar Viaje</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--SOLICITUD TRANSPORTISTA-->
-                        <div class="card">
-                            <div class="card-header" role="tab" id="headingOne">
-                                <h5 class="mb-0">
-                                    <button class="accordion-btn" type="button" data-toggle="collapse" data-target="#div_solicitud_transportista" aria-expanded="false" aria-controls="div_solicitud_transportista">
-                                        Solicitud de Transportista
-                                    </button>
-                                </h5>
-                            </div>
-
-                            <div id="div_solicitud_transportista" class="collapse" role="tabpanel" aria-labelledby="headingOne">
-                                <div class="card-block">
-                                    <!--Transportistas interesados-->
-                                    <div class="form-group">
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <label class="control-label">Transportistas interesados</label>
-                                        </div>
-                                        <div class="form-group">
-                                            <table class="col-lg-12 col-md-12 col-sm-12 margin-bottom-20">
-                                                <thead>
-                                                    <tr>
-                                                        <td class="text-center">
-                                                            No.
-                                                        </td>
-                                                        <td>
-                                                            Nombre
-                                                        </td>
-                                                        <td colspan="2" class="text-center">Acciones</td>
-                                                    </tr>
-                                                </thead>
-                                                <tr>
-                                                    <td class="text-center">
-                                                        <span>1</span>
-                                                    </td>
-                                                    <td>
-                                                        <span>Alberto Pérez Martínez</span>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <i class="fa fa-user-o" aria-hidden="true"></i>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <i class="fa fa-check" aria-hidden="true"></i>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text-center">2</td>
-                                                    <td>Camila Rodríguez Reyes</td>
-                                                    <td class="text-center">
-                                                        <i class="fa fa-user-o" aria-hidden="true"></i>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <i class="fa fa-check" aria-hidden="true"></i>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text-center">3</td>
-                                                    <td>Carlos Alberto Flores Cazarín</td>
-                                                    <td class="text-center">
-                                                        <i class="fa fa-user-o" aria-hidden="true"></i>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <i class="fa fa-check" aria-hidden="true"></i>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text-center">4</td>
-                                                    <td>José Luis Torres Salazar</td>
-                                                    <td class="text-center">
-                                                        <i class="fa fa-user-o" aria-hidden="true"></i>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <i class="fa fa-check" aria-hidden="true"></i>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                            <label for="input_transportista_seleccionado">Transportista Seleccionado</label>
-                                        </div>
-                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                                            <input id="input_transportista_seleccionado" class="form-control" type="text" disabled value="Carlos Alberto Flores Cazarín" />
-                                        </div>
-                                    </div>
-                                    <!--Solicitar Viaje-->
-                                    <div class="col-lg-offset-8 col-lg-4 col-md-offset-7 col-md-5 col-sm-offset-5 col-sm-7 col-xs-12">
-                                        <button type="button" class="btn btn-success col-lg-12 col-md-12 col-sm-12 col-xs-12">Autorizar Transportista Seleccionado</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--EQUIPO ASIGNADO-->
-                        <div class="card">
-                            <div class="card-header" role="tab" id="headingThree">
-                                <h5 class="mb-0">
-                                    <button class="accordion-btn" type="button" data-toggle="collapse" data-target="#div_equipo_asignado" aria-expanded="false" aria-controls="div_equipo_asignado">
-                                        Equipo Asignado
-                                    </button>
-                                </h5>
-                            </div>
-                            <div id="div_equipo_asignado" class="collapse" role="tabpanel" aria-labelledby="headingThree">
-                                <div class="card-block">
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 borde-superior">
-                                        <h2>Chofer</h2>
-                                        <br />
-                                    </div>
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <div class="col-lg-3 text-center">
-                                            <a href="" class="col-lg-12">
-                                                <div class="col-lg-12 margin-bottom-20">
-                                                    <i class="fa fa-user-circle fa-5x" aria-hidden="true">
-                                                    </i>
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <!--Chofer-->
-                                        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-                                            <div class="form-group">
-                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                                    <label for="dropdown_chofer" class="control-label">Chofer</label>
-                                                </div>
-                                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                                                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdown_chofer" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                        Juan Zambrano Rodríguez
-                                                        <span class="caret"></span>
-                                                    </button>
-                                                    <ul class="dropdown-menu" aria-labelledby="dropdown_chofer">
-                                                        <li><a href="">Juan Zambrano Rodríguez</a></li>
-                                                        <li><a href="">Sofía Torres Hernández</a></li>
-                                                        <li><a href="">Ernesto Ramírez Márquez</a></li>
-                                                        <li><a href="">Jorge Francisco Fernández Damián</a></li>
-                                                    </ul>
-                                                </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" ng-show="paneles.resumen.controles.cliente">
+                                            <br />
+                                            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                <h6>Cliente</h6>
+                                                <h3>{{firebaseFlete.flete.cliente | uppercase}}</h3>
                                             </div>
-                                            <!--Número de Licencia-->
-                                            <div class="form-group">
-                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                                    <label for="input_numero_licencia" class="control-label">Número de Licencia</label>
-                                                </div>
-                                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                                                    <input id="input_numero_licencia" type="text" readonly="readonly" class="form-control" value="1CH617890" disabled />
-                                                </div>
+                                            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                <h6>Fecha De Salida</h6>
+                                                <h3>{{firebaseFlete.flete.fechaDeSalida | uppercase | date:dd/MM/yyyy}}</h3>
+                                            </div>
+                                            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                <h6>Hora De Salida</h6>
+                                                <h3>{{firebaseFlete.flete.horaDeSalida | uppercase}} HORAS</h3>
+                                            </div>
+                                            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                <h6>Carga</h6>
+                                                <h3>{{firebaseFlete.flete.carga | uppercase}}</h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" ng-show="paneles.resumen.controles.transportista">
+                                            <br />
+                                            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                <h6>Transportista</h6>
+                                                <h3>{{firebaseFlete.transportistaSeleccionado.nombre | uppercase}}</h3>
+                                            </div>
+                                            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                <h6>Chofer</h6>
+                                                <h3>{{firebaseFlete.choferSeleccionado.nombre | uppercase }}</h3>
+                                            </div>
+                                            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 no-padding" >
+                                                <h6>Tractor</h6>
+                                                <h3>{{firebaseFlete.tractorSeleccionado.marca | uppercase}}</h3>
+                                            </div>
+                                            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                <h6>Remolque</h6>
+                                                <h3>{{firebaseFlete.remolqueSeleccionado.marca | uppercase}}</h3>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 borde-superior">
-                                        <h2>Tractor</h2>
-                                        <br />
-                                    </div>
-                                    <!--Tractor-->
-                                    <div class="form-group">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                            <label for="dropdown_tractor" class="control-label">Asignar Tractor</label>
-                                        </div>
-                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdown_tractor" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                John Deere
-                                                <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu" aria-labelledby="dropdown_tractor">
-                                                <li><a href="">John Deere</a></li>
-                                                <li><a href="">Massey Ferguson</a></li>
-                                                <li><a href="">Deutz Fahr</a></li>
-                                                <li><a href="">Case IH</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <!--Marca-->
-                                    <div class="form-group">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                            <label for="input_tractor_marca" class="control-label">Marca</label>
-                                        </div>
-                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                                            <input id="input_tractor_marca" type="text" readonly="readonly" class="form-control" value="John Deere" disabled />
-                                        </div>
-                                    </div>
-                                    <!--Año-->
-                                    <div class="form-group">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                            <label for="input_tractor_anio" class="control-label">Año</label>
-                                        </div>
-                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                                            <input id="input_tractor_anio" type="text" readonly="readonly" class="form-control" value="2017" disabled />
-                                        </div>
-                                    </div>
-                                    <!--Placas-->
-                                    <div class="form-group">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                            <label for="input_tractor_placas" class="control-label">Placas</label>
-                                        </div>
-                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                                            <input id="input_tractor_placas" type="text" readonly="readonly" class="form-control" value="DHG7789" disabled />
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 borde-superior">
-                                        <h2>Remolque</h2>
-                                        <br />
-                                    </div>
-                                    <!--Remolque-->
-                                    <div class="form-group">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                            <label for="dropdown_remolque" class="control-label">Asignar Remolque</label>
-                                        </div>
-                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdown_remolque" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                Remolque CHAOL
-                                                <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu" aria-labelledby="dropdown_remolque">
-                                                <li><a href="">Remolque CHAOL</a></li>
-                                                <li><a href="">Remolque Turbo</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <!--Marca-->
-                                    <div class="form-group">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                            <label for="input_remolque_marca" class="control-label">Marca</label>
-                                        </div>
-                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                                            <input id="input_remolque_marca" type="text" readonly="readonly" class="form-control" value="Remolque CHAOL" disabled />
-                                        </div>
-                                    </div>
-                                    <!--Año-->
-                                    <div class="form-group">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                            <label for="input_remolque_anio" class="control-label">Año</label>
-                                        </div>
-                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                                            <input id="input_remolque_anio" type="text" readonly="readonly" class="form-control" value="2017" disabled />
-                                        </div>
-                                    </div>
-                                    <!--Placas-->
-                                    <div class="form-group">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                            <label for="input_remolque_placas" class="control-label">Placas</label>
-                                        </div>
-                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                                            <input id="input_remolque_placas" type="text" readonly="readonly" class="form-control" value="DHG7790" disabled />
-                                        </div>
-                                    </div>
-                                    <!--Guardar-->
-                                    <div class="col-lg-offset-10 col-lg-2 col-md-offset-8 col-md-4 col-sm-offset-8 col-sm-4 col-xs-12">
-                                        <button type="button" class="btn btn-success col-lg-12 col-md-12 col-sm-12 col-xs-12">Guardar</button>
+                                    <div class="col-lg-2 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                        <!--INICIAR ENVÍO-->
+                                        <md-button class="md-raised md-primary col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-show="paneles.resumen.controles.iniciarEnvio" ng-click="iniciarEnvio()">Iniciar Envío</md-button>
+                                        <!--ENTREGADO-->
+                                        <md-button class="md-raised md-primary col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-show="paneles.resumen.controles.entregado" ng-click="entregarFlete()">Entregado</md-button>
+                                        <!--RECIBIDO-->
+                                        <md-button class="md-raised md-primary col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-show="paneles.resumen.controles.recibido" ng-click="recibirFlete()">Recibido</md-button>
+                                        <!--CANCELAR-->
+                                        <md-button class="md-raised md-warn col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-show="paneles.resumen.controles.cancelar" ng-click="cancelarFlete()">Cancelar</md-button>
+                                        <!--SOLICITAR VIAJE-->
+                                        <md-button class="md-raised md-primary col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-show="paneles.resumen.controles.solicitarViaje" ng-click="solicitarViaje()">Solicitar Viaje</md-button>
+                                        <!--CANCELAR SOLICITUD-->
+                                        <md-button class="md-raised md-warn col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-show="paneles.resumen.controles.cancelarSolicitud" ng-click="cancelarSolicitud()">Cancelar Solicitud</md-button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!--ENVÍO -->
-                        <div class="card">
-                            <div class="card-header" role="tab" id="headingTwo">
-                                <h5 class="mb-0">
-                                    <button class="accordion-btn" type="button" data-toggle="collapse" data-target="#div_envio" aria-expanded="false" aria-controls="div_envio">
-                                        Envío
-                                    </button>
-                                </h5>
-                            </div>
-                            <div id="div_envio" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
-                                <div class="card-block">
-                                    <!--Precio-->
-                                    <div class="form-group">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                            <label>Estatus</label>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <!--ACORDION-->
+                            <div id="accordion" role="tablist" aria-multiselectable="false">
+                                <!--DATOS GENERALES-->
+                                <div ng-class="paneles.datosGenerales.cardClass">
+                                    <div class="card-header" role="tab" id="headingThree">
+                                        <h5 class="mb-0">
+                                            <button class="accordion-btn" type="button" data-toggle="collapse" data-target="#div_datos_generales" aria-expanded="false" aria-controls="div_datos_generales" ng-disabled="!paneles.datosGenerales.enabled">
+                                                <i ng-class="paneles.datosGenerales.iconClass"></i> Datos Generales
+                                            </button>
+                                        </h5>
+                                    </div>
+                                    <div id="div_datos_generales" ng-class="paneles.datosGenerales.tabClass" role="tabpanel" aria-labelledby="headingThree">
+                                        <div class="card-block">
+                                            <form name="fleteDatosGenerales" ng-submit="fleteDatosGenerales.$valid && datosGeneralesSubmit()">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                    <!--ID-->
+                                                    <md-input-container class="col-lg-2 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                        <label>ID</label>
+                                                        <input type="text" name="id" ng-model="firebaseFlete.flete.idFlete" ng-disabled="true" value="Esperando creación del flete" />
+                                                    </md-input-container>
+                                                    <!--CLIENTE-->
+                                                    <md-input-container class="col-lg-2 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                        <label>Cliente</label>
+                                                        <md-select name="cliente" ng-model="firebaseFlete.flete.cliente" ng-disabled="!paneles.datosGenerales.controles.cliente" ng-required="true" ng-change="buscarBodegas()">
+                                                            <md-option ng-repeat="cliente in clientes" ng-value="cliente.nombre">
+                                                                {{cliente.nombre}}
+                                                            </md-option>
+                                                        </md-select>
+                                                        <div ng-messages="fleteDatosGenerales.cliente.$error" role="alert">
+                                                            <div ng-message="required">Por favor, selecciona al cliente solicitante de este flete.</div>
+                                                        </div>
+                                                    </md-input-container>
+                                                    <!--FECHA DE SALIDA-->
+                                                    <md-input-container class="col-lg-2 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                        <md-datepicker class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" ng-model="firebaseFlete.flete.fechaDeSalida" md-placeholder="Ingrese fecha de salida" md-open-on-focus ng-disabled="!paneles.datosGenerales.controles.fechaDeSalida"></md-datepicker>
+                                                    </md-input-container>
+                                                    <!--HORA DE SALIDA-->
+                                                    <md-input-container class="col-lg-2 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                        <label>Hora de Salida</label>
+                                                        <input type="number" step="1" name="horaDeSalida" min="0" max="23" ng-model="firebaseFlete.flete.horaDeSalida" required ng-disabled="!paneles.datosGenerales.controles.horaDeSalida" />
+                                                        <div ng-messages="fleteDatosGenerales.horaDeSalida.$error">
+                                                            <div ng-message="required">Por favor, selecciona la hora en la que desees que inicie el envío de tu flete.</div>
+                                                        </div>
+                                                    </md-input-container>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                    <!--BODEGA DE CARGA-->
+                                                    <md-input-container class="col-lg-2 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                        <label>Bodega de Carga</label>
+                                                        <md-select name="bodegaDeCarga" ng-model="firebaseFlete.flete.bodegaDeCarga" ng-required="true" ng-disabled="!paneles.datosGenerales.controles.bodegaDeCarga">
+                                                            <md-option ng-repeat="bodega in bodegas" ng-value="bodega.nombreDeLaBodega">
+                                                                {{bodega.nombreDeLaBodega}}
+                                                            </md-option>
+                                                        </md-select>
+                                                        <div ng-messages="fleteDatosGenerales.bodegaDeCarga.$error" role="alert">
+                                                            <div ng-message="required">Por favor, selecciona la bodega de carga para este flete.</div>
+                                                        </div>
+                                                    </md-input-container>
+                                                    <!--BODEGA DE DESCARGA-->
+                                                    <md-input-container class="col-lg-2 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                        <label>Bodega de Descarga</label>
+                                                        <md-select name="bodegaDeDescarga" ng-model="firebaseFlete.flete.bodegaDeDescarga" ng-required="true" ng-disabled="!paneles.datosGenerales.controles.bodegaDeDescarga">
+                                                            <md-option ng-repeat="bodega in bodegas" ng-value="bodega.nombreDeLaBodega">
+                                                                {{bodega.nombreDeLaBodega}}
+                                                            </md-option>
+                                                        </md-select>
+                                                        <div ng-messages="fleteDatosGenerales.bodegaDeDescarga.$error" role="alert">
+                                                            <div ng-message="required">Por favor, selecciona la bodega de descarga para este flete.</div>
+                                                        </div>
+                                                    </md-input-container>
+                                                    <!--TIPO DE REMOLQUE-->
+                                                    <md-input-container class="col-lg-2 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                        <label>Tipo de Remolque</label>
+                                                        <md-select name="tipoDeRemolque" ng-model="firebaseFlete.flete.tipoDeRemolque" ng-required="true" ng-disabled="!paneles.datosGenerales.controles.tipoDeRemolque">
+                                                            <md-option ng-repeat="tipoDeRemolque in tiposDeRemolque" ng-value="tipoDeRemolque">
+                                                                {{tipoDeRemolque}}
+                                                            </md-option>
+                                                        </md-select>
+                                                        <div ng-messages="fleteDatosGenerales.tipoDeRemolque.$error" role="alert">
+                                                            <div ng-message="required">Por favor, selecciona el tipo de remolque para este flete.</div>
+                                                        </div>
+                                                    </md-input-container>
+                                                    <!--CARGA-->
+                                                    <md-input-container class="col-lg-2 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                        <label>Carga</label>
+                                                        <input type="text" name="carga" ng-model="firebaseFlete.flete.carga" ng-disabled="!paneles.datosGenerales.controles.carga" />
+                                                    </md-input-container>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                    <!--NÚMERO DE EMBARQUE-->
+                                                    <md-input-container class="col-lg-2 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                        <label>Número de Embarque</label>
+                                                        <input type="text" name="numeroDeEmbarque" ng-model="firebaseFlete.flete.numeroDeEmbarque" ng-disabled="!paneles.datosGenerales.controles.numeroDeEmbarque" />
+                                                    </md-input-container>
+                                                    <!--DESTINATARIO-->
+                                                    <md-input-container class="col-lg-2 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                        <label>Destinatario</label>
+                                                        <input type="text" name="destinatario" ng-model="firebaseFlete.flete.destinatario" ng-disabled="!paneles.datosGenerales.controles.destinatario" />
+                                                    </md-input-container>
+                                                </div>
+                                                <div class="col-lg-2 col-lg-offset-9 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                    <md-button class="md-raised md-primary col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-show="paneles.datosGenerales.controles.solicitarCotizacion" type="submit">Solicitar Cotización</md-button>
+                                                    <md-button class="md-raised md-primary col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-show="paneles.datosGenerales.controles.guardarCambios" type="submit">Guardar Cambios</md-button>
+                                                </div>
+                                            </form>
                                         </div>
-                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                                            <label>Por iniciar envío</label>
+                                    </div>
+                                </div>
+                                <!--COTIZACIÓN -->
+                                <div ng-class="paneles.cotizacion.cardClass">
+                                    <div class="card-header" role="tab" id="headingTwo">
+                                        <h5 class="mb-0">
+                                            <button class="accordion-btn" type="button" data-toggle="collapse" data-target="#div_cotizacion" aria-expanded="true" aria-controls="div_cotizacion" ng-disabled="!paneles.cotizacion.enabled">
+                                                <i ng-class="paneles.cotizacion.iconClass"></i> Cotización
+                                            </button>
+                                        </h5>
+                                    </div>
+                                    <div id="div_cotizacion" ng-class="paneles.cotizacion.tabClass" role="tabpanel" aria-labelledby="headingTwo">
+                                        <div class="card-block">
+                                            <form name="fleteCotizacion" ng-submit="fleteCotizacion.$valid && cotizacionSubmit()">
+                                                <!--PRECIO-->
+                                                <div class="col-lg-11 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                    <md-input-container class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                        <label>Precio</label>
+                                                        <input type="text" name="precio" ng-model="firebaseFlete.flete.precio" required value="firebaseFlete.flete.precio | currency" ng-disabled="!paneles.cotizacion.controles.precio" />
+                                                        <div ng-messages="fleteCotizacion.precio.$error">
+                                                            <div ng-message="required">Por favor, indica el precio a aplicar para este flete.</div>
+                                                        </div>
+                                                    </md-input-container>
+                                                </div>
+                                                <!--SOLICITAR VIAJE-->
+                                                <div class="col-lg-offset-9 col-lg-2 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                    <md-button class="md-raised md-primary col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-show="paneles.cotizacion.controles.guardar" type="submit">Guardar</md-button>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
-                                    <!--Iniciar Envío-->
-                                    <div class="col-lg-offset-10 col-lg-2 col-md-offset-8 col-md-4 col-sm-offset-8 col-sm-4 col-xs-12">
-                                        <button type="button" class="btn btn-success col-lg-12 col-md-12 col-sm-12 col-xs-12">Iniciar Envío</button>
+                                </div>
+                                <!--SOLICITUD TRANSPORTISTA-->
+                                <div ng-class="paneles.solicitudTransportista.cardClass">
+                                    <div class="card-header" role="tab" id="headingOne">
+                                        <h5 class="mb-0">
+                                            <button class="accordion-btn" type="button" data-toggle="collapse" data-target="#div_solicitud_transportista" aria-expanded="true" aria-controls="div_solicitud_transportista" ng-disabled="!paneles.solicitudTransportista.enabled">
+                                                <i ng-class="paneles.solicitudTransportista.iconClass"></i> Solicitud de Transportista
+                                            </button>
+                                        </h5>
                                     </div>
-                                    <!--Entregado-->
-                                    <div class="col-lg-offset-10 col-lg-2 col-md-offset-8 col-md-4 col-sm-offset-8 col-sm-4 col-xs-12">
-                                        <button type="button" class="btn btn-success col-lg-12 col-md-12 col-sm-12 col-xs-12">Entregado</button>
+                                    <div id="div_solicitud_transportista" ng-class="paneles.solicitudTransportista.tabClass" role="tabpanel" aria-labelledby="headingOne">
+                                        <div class="card-block">
+                                            <form name="fleteSolicitudTransportistas" ng-submit="fleteSolicitudTransportistas.$valid && autorizarTransportista()">
+                                                <!--TRANSPORTISTAS INTERESADOS-->
+                                                <div class="form-group">
+                                                    <div class="form-group">
+                                                        <md-radio-group ng-model="idTransportistaSeleccionado" ng-disabled="!paneles.solicitudTransportista.controles.transportistas">
+                                                            <md-radio-button ng-repeat="transportista in transportistasInteresados" ng-value="transportista.firebaseId" class="md-primary">{{transportista.nombre}}</md-radio-button>
+                                                        </md-radio-group>
+                                                    </div>
+                                                </div>
+                                                <!--AUTORIZAR-->
+                                                <div class="col-lg-offset-8 col-lg-3 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                    <md-button class="md-raised md-primary col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-show="paneles.solicitudTransportista.controles.autorizarTransportista" type="submit">Autorizar Transportista Seleccionado</md-button>
+                                                </div>
+                                            </form>
+                                        </div>
                                     </div>
-                                    <!--Recibido-->
-                                    <div class="col-lg-offset-10 col-lg-2 col-md-offset-8 col-md-4 col-sm-offset-8 col-sm-4 col-xs-12">
-                                        <button type="button" class="btn btn-success col-lg-12 col-md-12 col-sm-12 col-xs-12">Recibido</button>
+                                </div>
+                                <!--EQUIPO ASIGNADO-->
+                                <div ng-class="paneles.equipo.cardClass">
+                                    <div class="card-header" role="tab" id="headingThree">
+                                        <h5 class="mb-0">
+                                            <button class="accordion-btn" type="button" data-toggle="collapse" data-target="#div_equipo_asignado" aria-expanded="{{paneles.equipo.expanded}}" aria-controls="div_equipo_asignado" ng-disabled="!paneles.equipo.enabled">
+                                                <i ng-class="paneles.equipo.iconClass"></i> Equipo Asignado
+                                            </button>
+                                        </h5>
+                                    </div>
+                                    <div id="div_equipo_asignado" ng-class="paneles.equipo.tabClass" role="tabpanel" aria-labelledby="headingThree">
+                                        <div class="card-block">
+                                            <form name="fleteEquipoAsignado" ng-submit="fleteEquipoAsignado.$valid && asignarEquipo()">
+                                                <div class="col-lg-11 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                                                        <!--CHOFER-->
+                                                        <md-input-container class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                            <label>Chofer</label>
+                                                            <md-select name="chofer" ng-model="choferSeleccionado" ng-required="true" ng-disabled="!paneles.equipo.controles.chofer" ng-change="buscarChofer()">
+                                                                <md-option ng-repeat="chofer in choferes" ng-value="chofer.firebaseId">
+                                                                    {{chofer.nombre}}
+                                                                </md-option>
+                                                            </md-select>
+                                                            <div ng-messages="fleteEquipoAsignado.chofer.$error" role="alert">
+                                                                <div ng-message="required">Por favor, selecciona al chofer responsable de enviar el flete.</div>
+                                                            </div>
+                                                        </md-input-container>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding text-center">
+                                                            <!--IMAGEN-->
+                                                            <i id="i_perfil_chofer" class="fa fa-user-circle fa-5x" aria-hidden="true" ng-hide="firebaseFlete.choferSeleccionado.imagenURL">
+                                                            </i>
+                                                            <img ng-src="{{firebaseFlete.choferSeleccionado.imagenURL}}" alt="Cliente" id="img_perfil_chofer" height="150" width="150" class="imagen-perfil" ng-show="firebaseFlete.choferSeleccionado.imagenURL" />
+                                                            <!--NÚMERO DE LICENCIA-->
+                                                            <md-input-container class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding text-left">
+                                                                <label>Número de Licencia</label>
+                                                                <input type="text" name="numeroDeLicencia" ng-model="firebaseFlete.choferSeleccionado.numeroDeLicencia" ng-disabled="true" />
+                                                            </md-input-container>
+                                                        </div>
+                                                    </div>
+                                                    <!--TRACTOR-->
+                                                    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                                                        <md-input-container class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                            <label>Tractor</label>
+                                                            <md-select name="tractor" ng-model="tractorSeleccionado" ng-required="true" ng-disabled="!paneles.equipo.controles.tractor" ng-change="buscarTractor()">
+                                                                <md-option ng-repeat="tractor in tractores" ng-value="tractor.firebaseId">
+                                                                    {{tractor.marca}}
+                                                                </md-option>
+                                                            </md-select>
+                                                            <div ng-messages="fleteEquipoAsignado.tractor.$error" role="alert">
+                                                                <div ng-message="required">Por favor, selecciona el tractor a utilizar en este flete.</div>
+                                                            </div>
+                                                        </md-input-container>
+                                                        <!--MARCA-->
+                                                        <md-input-container class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                            <label>Marca</label>
+                                                            <input type="text" name="marcaDelTractor" ng-model="firebaseFlete.tractorSeleccionado.marca" ng-disabled="true" />
+                                                        </md-input-container>
+                                                        <!--AÑO-->
+                                                        <md-input-container class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                            <label>Modelo</label>
+                                                            <input type="text" name="modeloDelTractor" ng-model="firebaseFlete.tractorSeleccionado.modelo" ng-disabled="true" />
+                                                        </md-input-container>
+                                                        <!--PLACAS-->
+                                                        <md-input-container class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                            <label>Placas</label>
+                                                            <input type="text" name="placasDelTractor" ng-model="firebaseFlete.tractorSeleccionado.placa" ng-disabled="true" />
+                                                        </md-input-container>
+                                                    </div>
+                                                    <!--REMOLQUE-->
+                                                    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                                                        <md-input-container class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                            <label>Remolque</label>
+                                                            <md-select name="remolque" ng-model="remolqueSeleccionado" ng-required="true" ng-disabled="!paneles.equipo.controles.remolque" ng-change="buscarRemolque()">
+                                                                <md-option ng-repeat="remolque in remolques" ng-value="remolque.firebaseId">
+                                                                    {{remolque.marca}}
+                                                                </md-option>
+                                                            </md-select>
+                                                            <div ng-messages="fleteEquipoAsignado.remolque.$error" role="alert">
+                                                                <div ng-message="required">Por favor, selecciona el remolque a utilizar en este flete.</div>
+                                                            </div>
+                                                        </md-input-container>
+                                                        <!--MARCA-->
+                                                        <md-input-container class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                            <label>Marca</label>
+                                                            <input type="text" name="marcaDelRemolque" ng-model="firebaseFlete.remolqueSeleccionado.marca" ng-disabled="true" />
+                                                        </md-input-container>
+                                                        <!--AÑO-->
+                                                        <md-input-container class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                            <label>Modelo</label>
+                                                            <input type="text" name="modeloDelRemolque" ng-model="firebaseFlete.remolqueSeleccionado.modelo" ng-disabled="true" />
+                                                        </md-input-container>
+                                                        <!--PLACAS-->
+                                                        <md-input-container class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                            <label>Placas</label>
+                                                            <input type="text" name="placasDelRemolque" ng-model="firebaseFlete.remolqueSeleccionado.placa" ng-disabled="true" />
+                                                        </md-input-container>
+                                                    </div>
+                                                </div>
+                                                <!--ASIGNAR EQUIPO-->
+                                                <div class="col-lg-offset-9 col-lg-2 col-md-12 col-sm-12 col-xs-12 no-padding">
+                                                    <md-button class="md-raised md-primary col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-show="paneles.equipo.controles.asignarEquipo" type="submit">Asignar Equipo</md-button>
+                                                </div>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <!--BOTON-->
+                        <div class="col-lg-offset-10 col-lg-2 col-md-12 col-sm-12 col-xs-12 text-right">
+                            <a href="#/CHAOL/Fletes">
+                                <i class="fa fa-arrow-circle-left fa-3x" aria-hidden="true"></i>
+                            </a>
                         </div>
                     </div>
-                </div>
-                <!--BOTON-->
-                <div class="col-lg-offset-10 col-lg-2 col-md-12 col-sm-12 col-xs-12 text-right">
-                    <a href="#/fletes/agenda">
-                        <i class="fa fa-arrow-circle-left fa-3x" aria-hidden="true"></i>
-                    </a>
                 </div>
             </div>
         </div>
-    </div>
+    </aside>
 </div>
-<!--<script type="text/javascript">
-    $('.input-group.date').datepicker({
-        todayBtn: "linked",
-        language: "es"
-    });
-</script>-->

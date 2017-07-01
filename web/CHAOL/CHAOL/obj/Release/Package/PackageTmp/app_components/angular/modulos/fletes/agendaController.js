@@ -3,7 +3,7 @@
 (function () {
     var app = angular.module('app');
 
-    app.controller('agendaController', function ($scope, $location, $firebaseAuth, $firebaseObject) {
+    app.controller('agendaController', function ($scope, $location, $firebaseAuth, $firebaseObject, $mdDialog, unixTime) {
         var auth = $firebaseAuth();
         var usuario = auth.$getAuth();
         var fletes;
@@ -237,6 +237,7 @@
 
                             switch (estatusFlete) {
                                 case 'Envío Por Iniciar':
+                                case 'En Progreso':
                                 case 'Entregado':
                                 case 'Finalizado':
                                 case 'Cancelado':
@@ -278,23 +279,8 @@
                         document.getElementById('div_progress').className = 'col-lg-12 div-progress hidden';
                     });
                     break;
-                    //FLETES ASIGNADOS
-                    var refFletes = firebase.database().ref().child('fletesPorAsignar');
-                    refFletes.on("value", function (snapshot) {
-                        var arrayFletes = [];
-                        snapshot.forEach(function (childSnapshot) {
-                            fletes = childSnapshot.val();
-                            if (fletes.choferSeleccionado !== undefined) {
-                                if (fletes.choferSeleccionado.key === usuario.uid && (fletes.flete.estatus === "envioPorIniciar" || fletes.flete.estatus === "enProgreso")) {
-                                    arrayFletes.push(fletes.flete);
-                                }
-                            }
-                        });
-                        buscarEnvioPorIniciar(arrayFletes);
-                        buscarEnProgreso(arrayFletes);
-                    });
-                    break;
                 default:
+                    break;
             }
         });
 
@@ -338,6 +324,7 @@
                     break;
                 case "entregado":
                     estatusFlete = "Entregado";
+                    break;
                 case "finalizado":
                     estatusFlete = "Finalizado";
                     break;
@@ -374,6 +361,10 @@
                     {
                         text: 'Consultar',
                         click: detalle
+                    },
+                    {
+                        text: 'Cancelar',
+                        click: cancelar
                     }
                 ],
                 selectRange: function (e) {
@@ -426,6 +417,83 @@
                 $location.path('/CHAOL/Fletes/' + id);
                 $scope.$apply();
                 document.getElementById('div_progress').className = 'col-lg-12 div-progress hidden';
+            }
+
+            function cancelar(event) {
+                document.getElementById('div_progress').className = 'col-lg-12 div-progress';
+                var id = event.firebaseId;
+
+                var refFlete = firebase.database().ref().child('fletesPorAsignar').child(id).child('flete');
+                var firebaseFlete = $firebaseObject(refFlete);
+                firebaseFlete.$loaded().then(function () {
+                    switch (firebaseFlete.estatus) {
+                        case 'fletePorCotizar':
+                        case 'esperandoPorTransportista':
+                        case 'transportistaPorConfirmar':
+                        case 'unidadesPorAsignar':
+                        case 'envioPorIniciar':
+                            var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
+                            var firebaseUsuario = $firebaseObject(refUsuario);
+                            firebaseUsuario.$loaded().then(function () {
+                                switch (firebaseUsuario.tipoDeUsuario) {
+                                    case 'administrador':
+                                    case 'cliente':
+                                        $mdDialog.show($mdDialog.confirm()
+                                            .parent(angular.element(document.querySelector('#tractores')))
+                                            .title('¿Cancelar flete?')
+                                            .htmlContent('<br/> <p>¿Estás seguro que deseas cancelar este flete?</p> <p>Recuerda que esta acción no puede deshacerse.</p>')
+                                            .ariaLabel('Alert Dialog Demo')
+                                            .ok('Sí, deseo cancelarlo')
+                                            .cancel('No, prefiero continuar')
+                                        ).then(function () {
+                                            //CANCELACIÓN DEL FLETE
+                                            firebaseFlete.fechaDeEdicion = unixTime();
+                                            firebaseFlete.estatus = "cancelado";
+                                            firebaseFlete.$save();
+                                            $mdDialog.show(
+                                                $mdDialog.alert()
+                                                    .parent(angular.element(document.querySelector('#flete')))
+                                                    .clickOutsideToClose(false)
+                                                    .title('Registro correcto')
+                                                    .htmlContent('<br /> <p>Flete cancelado correctamente. </p> <p> Hemos cancelado correctamente el flete correspondiente.</p>')
+                                                    .ariaLabel('Alert Dialog Demo')
+                                                    .ok('Aceptar')
+                                            ).then(function () {
+                                                removerListener();
+                                                $location.path('/CHAOL/Fletes');
+                                            });
+                                        });
+                                        break;
+                                    case 'transportista':
+                                    case 'chofer':
+                                        $mdDialog.show(
+                                            $mdDialog.alert()
+                                                .parent(angular.element(document.querySelector('#registro')))
+                                                .clickOutsideToClose(false)
+                                                .title('Oops! Algo ha ocurrido')
+                                                .htmlContent('<br/> <p>Al parecer no cuenta con los permisos necesarios para cancelar el flete.</p><p>Por favor, contacte al administrador del sistema para más información.</p> <br/>')
+                                                .ariaLabel('Alert Dialog Demo')
+                                                .ok('Aceptar')
+                                        );
+                                        break;
+                                }
+                                document.getElementById('div_progress').className = 'col-lg-12 div-progress hidden';
+                            });
+                            break;
+                        default:
+                            $mdDialog.show(
+                                $mdDialog.alert()
+                                    .parent(angular.element(document.querySelector('#registro')))
+                                    .clickOutsideToClose(false)
+                                    .title('Oops! Algo ha ocurrido')
+                                    .htmlContent('<br/> <p>No es posible cancelar el flete en este momento.</p><p>Por favor, verifique que el estatus del flete permita la cancelación o contacte al administrador del sistema para más información.</p> <br/>')
+                                    .ariaLabel('Alert Dialog Demo')
+                                    .ok('Aceptar')
+                            );
+                            document.getElementById('div_progress').className = 'col-lg-12 div-progress hidden';
+                            break;
+                    }
+                });
             }
         }
     });

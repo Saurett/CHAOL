@@ -47,6 +47,17 @@
                             .ok('Aceptar')
                     );
                 }
+                else if (error.code === 'auth/network-request-failed') {
+                    $mdDialog.show(
+                        $mdDialog.alert()
+                            .parent(angular.element(document.querySelector('#login')))
+                            .clickOutsideToClose(false)
+                            .title('Oops! Algo salió mal')
+                            .htmlContent('<br/><p>Al parecer existe un problema con tu conexión de Internet. Por favor, verifica que te encuentras conectado y que tu conexión sea estable.</p>')
+                            .ariaLabel('Alert Dialog Demo')
+                            .ok('Aceptar')
+                    );
+                }
                 else {
                     console.log(error);
                 }

@@ -17,25 +17,25 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>05/30/2017 19:39:07</publishTime>
     </File>
     <File Include="app_components/angular/config.js">
-      <publishTime>06/14/2017 14:57:32</publishTime>
+      <publishTime>06/23/2017 23:22:27</publishTime>
     </File>
     <File Include="app_components/angular/encabezadoController.js">
       <publishTime>06/14/2017 14:57:32</publishTime>
     </File>
     <File Include="app_components/angular/loginController.js">
-      <publishTime>06/14/2017 14:48:05</publishTime>
+      <publishTime>06/23/2017 19:40:25</publishTime>
     </File>
     <File Include="app_components/angular/menuController.js">
       <publishTime>06/14/2017 14:57:32</publishTime>
     </File>
     <File Include="app_components/angular/modulos/administracion/bodegas/bodegaController.js">
-      <publishTime>06/14/2017 14:57:32</publishTime>
+      <publishTime>06/23/2017 19:34:14</publishTime>
     </File>
     <File Include="app_components/angular/modulos/administracion/bodegas/bodegasController.js">
       <publishTime>06/14/2017 14:57:32</publishTime>
     </File>
     <File Include="app_components/angular/modulos/administracion/choferes/choferController.js">
-      <publishTime>06/14/2017 16:34:07</publishTime>
+      <publishTime>06/20/2017 22:17:11</publishTime>
     </File>
     <File Include="app_components/angular/modulos/administracion/choferes/choferesController.js">
       <publishTime>06/15/2017 14:22:39</publishTime>
@@ -65,10 +65,13 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>06/07/2017 03:28:02</publishTime>
     </File>
     <File Include="app_components/angular/modulos/fletes/agendaController.js">
-      <publishTime>06/15/2017 21:45:54</publishTime>
+      <publishTime>07/01/2017 04:57:21</publishTime>
+    </File>
+    <File Include="app_components/angular/modulos/fletes/fleteController.js">
+      <publishTime>07/01/2017 04:58:51</publishTime>
     </File>
     <File Include="app_components/angular/modulos/inicioController.js">
-      <publishTime>06/15/2017 17:27:56</publishTime>
+      <publishTime>07/01/2017 03:45:22</publishTime>
     </File>
     <File Include="app_components/angular/recuperarContrasenaController.js">
       <publishTime>06/02/2017 14:10:25</publishTime>
@@ -77,7 +80,7 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>06/13/2017 20:17:34</publishTime>
     </File>
     <File Include="app_components/angular/services.js">
-      <publishTime>06/14/2017 14:50:18</publishTime>
+      <publishTime>06/30/2017 18:26:08</publishTime>
     </File>
     <File Include="app_components/css/bootstrap-calendar/bootstrap-year-calendar.css">
       <publishTime>06/12/2017 20:39:12</publishTime>
@@ -104,7 +107,7 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>05/30/2017 19:39:08</publishTime>
     </File>
     <File Include="app_components/less/base/estilos.less">
-      <publishTime>06/12/2017 20:02:44</publishTime>
+      <publishTime>07/01/2017 03:00:40</publishTime>
     </File>
     <File Include="app_components/less/base/html.less">
       <publishTime>06/07/2017 23:06:57</publishTime>
@@ -128,10 +131,10 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>05/30/2017 19:39:08</publishTime>
     </File>
     <File Include="bin/CHAOL.dll">
-      <publishTime>06/14/2017 18:44:48</publishTime>
+      <publishTime>07/01/2017 05:00:25</publishTime>
     </File>
     <File Include="bin/CHAOL.pdb">
-      <publishTime>06/14/2017 18:44:48</publishTime>
+      <publishTime>07/01/2017 05:00:25</publishTime>
     </File>
     <File Include="bin/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll">
       <publishTime>05/30/2017 19:41:43</publishTime>
@@ -215,7 +218,7 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>05/30/2017 19:41:44</publishTime>
     </File>
     <File Include="bower.json">
-      <publishTime>05/30/2017 19:39:10</publishTime>
+      <publishTime>06/21/2017 01:26:25</publishTime>
     </File>
     <File Include="bower_components/angular-animate/.bower.json">
       <publishTime>05/30/2017 19:39:10</publishTime>
@@ -2992,6 +2995,1050 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
     <File Include="bower_components/less/index.js">
       <publishTime>05/30/2017 19:39:23</publishTime>
     </File>
+    <File Include="bower_components/moment/.bower.json">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/bower.json">
+      <publishTime>06/21/2017 01:26:21</publishTime>
+    </File>
+    <File Include="bower_components/moment/CHANGELOG.md">
+      <publishTime>06/21/2017 01:26:21</publishTime>
+    </File>
+    <File Include="bower_components/moment/LICENSE">
+      <publishTime>06/21/2017 01:26:21</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/af.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/ar-dz.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/ar-kw.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/ar-ly.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/ar-ma.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/ar-sa.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/ar-tn.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/ar.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/az.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/be.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/bg.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/bn.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/bo.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/br.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/bs.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/ca.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/cs.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/cv.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/cy.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/da.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/de-at.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/de-ch.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/de.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/dv.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/el.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/en-au.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/en-ca.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/en-gb.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/en-ie.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/en-nz.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/eo.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/es-do.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/es.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/et.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/eu.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/fa.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/fi.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/fo.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/fr-ca.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/fr-ch.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/fr.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/fy.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/gd.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/gl.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/gom-latn.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/he.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/hi.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/hr.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/hu.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/hy-am.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/id.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/is.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/it.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/ja.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/jv.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/ka.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/kk.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/km.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/kn.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/ko.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/ky.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/lb.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/lo.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/lt.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/lv.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/me.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/mi.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/mk.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/ml.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/mr.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/ms-my.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/ms.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/my.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/nb.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/ne.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/nl-be.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/nl.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/nn.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/pa-in.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/pl.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/pt-br.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/pt.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/ro.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/ru.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/sd.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/se.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/si.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/sk.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/sl.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/sq.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/sr-cyrl.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/sr.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/ss.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/sv.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/sw.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/ta.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/te.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/tet.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/th.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/tl-ph.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/tlh.js">
+      <publishTime>06/21/2017 01:26:22</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/tr.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/tzl.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/tzm-latn.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/tzm.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/uk.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/ur.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/uz-latn.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/uz.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/vi.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/x-pseudo.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/yo.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/zh-cn.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/zh-hk.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/locale/zh-tw.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/min/locales.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/min/locales.min.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/min/moment-with-locales.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/min/moment-with-locales.min.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/min/moment.min.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/min/tests.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/moment.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/README.md">
+      <publishTime>06/21/2017 01:26:21</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/create/check-overflow.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/create/date-from-array.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/create/from-anything.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/create/from-array.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/create/from-object.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/create/from-string-and-array.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/create/from-string-and-format.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/create/from-string.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/create/local.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/create/parsing-flags.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/create/utc.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/create/valid.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/duration/abs.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/duration/add-subtract.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/duration/as.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/duration/bubble.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/duration/constructor.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/duration/create.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/duration/duration.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/duration/get.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/duration/humanize.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/duration/iso-string.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/duration/prototype.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/duration/valid.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/format/format.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/locale/base-config.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/locale/calendar.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/locale/constructor.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/locale/en.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/locale/formats.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/locale/invalid.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/locale/lists.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/locale/locale.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/locale/locales.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/locale/ordinal.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/locale/pre-post-format.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/locale/prototype.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/locale/relative.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/locale/set.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/moment/add-subtract.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/moment/calendar.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/moment/clone.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/moment/compare.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/moment/constructor.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/moment/creation-data.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/moment/diff.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/moment/format.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/moment/from.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/moment/get-set.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/moment/locale.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/moment/min-max.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/moment/moment.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/moment/now.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/moment/prototype.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/moment/start-end-of.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/moment/to-type.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/moment/to.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/moment/valid.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/parse/regex.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/parse/token.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/units/aliases.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/units/constants.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/units/day-of-month.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/units/day-of-week.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/units/day-of-year.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/units/hour.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/units/millisecond.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/units/minute.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/units/month.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/units/offset.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/units/priorities.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/units/quarter.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/units/second.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/units/timestamp.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/units/timezone.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/units/units.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/units/week-calendar-utils.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/units/week-year.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/units/week.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/units/year.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/utils/abs-ceil.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/utils/abs-floor.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/utils/abs-round.js">
+      <publishTime>06/21/2017 01:26:23</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/utils/compare-arrays.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/utils/defaults.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/utils/deprecate.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/utils/extend.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/utils/has-own-prop.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/utils/hooks.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/utils/index-of.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/utils/is-array.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/utils/is-date.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/utils/is-function.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/utils/is-number.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/utils/is-object-empty.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/utils/is-object.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/utils/is-undefined.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/utils/keys.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/utils/map.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/utils/some.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/utils/to-int.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/lib/utils/zero-fill.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/af.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/ar-dz.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/ar-kw.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/ar-ly.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/ar-ma.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/ar-sa.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/ar-tn.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/ar.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/az.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/be.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/bg.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/bn.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/bo.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/br.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/bs.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/ca.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/cs.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/cv.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/cy.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/da.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/de-at.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/de-ch.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/de.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/dv.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/el.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/en-au.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/en-ca.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/en-gb.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/en-ie.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/en-nz.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/eo.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/es-do.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/es.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/et.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/eu.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/fa.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/fi.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/fo.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/fr-ca.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/fr-ch.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/fr.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/fy.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/gd.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/gl.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/gom-latn.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/he.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/hi.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/hr.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/hu.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/hy-am.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/id.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/is.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/it.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/ja.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/jv.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/ka.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/kk.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/km.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/kn.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/ko.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/ky.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/lb.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/lo.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/lt.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/lv.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/me.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/mi.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/mk.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/ml.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/mr.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/ms-my.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/ms.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/my.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/nb.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/ne.js">
+      <publishTime>06/21/2017 01:26:24</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/nl-be.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/nl.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/nn.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/pa-in.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/pl.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/pt-br.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/pt.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/ro.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/ru.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/sd.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/se.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/si.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/sk.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/sl.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/sq.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/sr-cyrl.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/sr.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/ss.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/sv.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/sw.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/ta.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/te.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/tet.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/th.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/tl-ph.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/tlh.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/tr.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/tzl.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/tzm-latn.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/tzm.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/uk.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/ur.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/uz-latn.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/uz.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/vi.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/x-pseudo.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/yo.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/zh-cn.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/zh-hk.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/locale/zh-tw.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/src/moment.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/templates/default.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/templates/locale-header.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
+    <File Include="bower_components/moment/templates/test-header.js">
+      <publishTime>06/21/2017 01:26:25</publishTime>
+    </File>
     <File Include="chaol-75d99-firebase-adminsdk-xc0he-1de2d1ef7c.json">
       <publishTime>05/30/2017 19:39:23</publishTime>
     </File>
@@ -2999,16 +4046,16 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>05/30/2017 19:39:23</publishTime>
     </File>
     <File Include="estilos/base.css">
-      <publishTime>06/12/2017 21:16:40</publishTime>
+      <publishTime>06/22/2017 21:39:19</publishTime>
     </File>
     <File Include="estilos/login.css">
-      <publishTime>06/12/2017 21:15:28</publishTime>
+      <publishTime>06/30/2017 21:26:32</publishTime>
     </File>
     <File Include="estilos/master.css">
-      <publishTime>06/12/2017 21:15:29</publishTime>
+      <publishTime>06/30/2017 21:26:34</publishTime>
     </File>
     <File Include="estilos/registro.css">
-      <publishTime>06/12/2017 21:15:28</publishTime>
+      <publishTime>06/30/2017 21:26:33</publishTime>
     </File>
     <File Include="favicon.ico">
       <publishTime>05/30/2017 19:39:23</publishTime>
@@ -3083,7 +4130,7 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>05/30/2017 19:39:23</publishTime>
     </File>
     <File Include="gulpfile.js">
-      <publishTime>06/12/2017 18:38:50</publishTime>
+      <publishTime>06/21/2017 01:43:49</publishTime>
     </File>
     <File Include="header.html">
       <publishTime>06/02/2017 14:05:08</publishTime>
@@ -3128,13 +4175,13 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>06/02/2017 16:25:36</publishTime>
     </File>
     <File Include="js/app.js">
-      <publishTime>06/15/2017 21:55:03</publishTime>
+      <publishTime>07/01/2017 05:00:06</publishTime>
     </File>
     <File Include="js/base.js">
-      <publishTime>06/15/2017 11:49:39</publishTime>
+      <publishTime>06/21/2017 01:44:05</publishTime>
     </File>
     <File Include="js/tools.js">
-      <publishTime>06/15/2017 21:37:10</publishTime>
+      <publishTime>06/21/2017 01:44:07</publishTime>
     </File>
     <File Include="login.html">
       <publishTime>05/30/2017 19:39:24</publishTime>
@@ -3143,13 +4190,13 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>06/06/2017 17:38:36</publishTime>
     </File>
     <File Include="modulos/administracion/bodegas/captura/capturaBodega.html">
-      <publishTime>06/07/2017 06:42:58</publishTime>
+      <publishTime>06/20/2017 23:31:05</publishTime>
     </File>
     <File Include="modulos/administracion/bodegas/listado/listadoBodegas.html">
       <publishTime>06/07/2017 05:55:12</publishTime>
     </File>
     <File Include="modulos/administracion/choferes/captura/capturaChofer.html">
-      <publishTime>06/13/2017 22:04:16</publishTime>
+      <publishTime>06/20/2017 22:26:02</publishTime>
     </File>
     <File Include="modulos/administracion/choferes/listado/listadoChoferes.html">
       <publishTime>06/07/2017 05:06:50</publishTime>
@@ -3182,13 +4229,13 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>05/30/2017 19:39:24</publishTime>
     </File>
     <File Include="modulos/fletes/agenda/agenda.html">
-      <publishTime>06/07/2017 23:40:05</publishTime>
+      <publishTime>06/20/2017 23:12:33</publishTime>
     </File>
     <File Include="modulos/fletes/captura/capturaFlete.html">
-      <publishTime>05/30/2017 19:39:24</publishTime>
+      <publishTime>07/01/2017 03:41:47</publishTime>
     </File>
     <File Include="modulos/inicio.html">
-      <publishTime>06/15/2017 21:31:10</publishTime>
+      <publishTime>07/01/2017 03:27:25</publishTime>
     </File>
     <File Include="node_modules/.bin/cleancss">
       <publishTime>05/30/2017 19:39:24</publishTime>
