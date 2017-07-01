@@ -1,12 +1,14 @@
 package com.indev.chaol;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.net.Credentials;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -291,7 +293,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         DatabaseReference dbUsuario =
                 FirebaseDatabase.getInstance().getReference()
-                        .child("usuarios").child(user.getUid());
+                        .child(Constants.FB_KEY_MAIN_USUARIOS)
+                        .child(user.getUid())
+                .child(Constants.FB_KEY_ITEM_TIPO_USUARIO);
 
         dbUsuario.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -299,9 +303,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 if (dataSnapshot.exists()) {
                     String tipoUsuario = dataSnapshot.getValue(String.class);
-                    String key = dataSnapshot.getKey();
                     //Ejecuta el intent de navigationDrawer
-                    openNavigation(new Usuarios(tipoUsuario, key, ""));
+                    openNavigation(new Usuarios(tipoUsuario, user.getUid(), ""));
                 } else {
                     FirebaseAuth.getInstance().signOut();
                 }

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,8 +34,10 @@ import com.indev.chaol.utils.Constants;
 
 public class PanelRemolquesFragment extends Fragment implements View.OnClickListener {
 
+    private static final String TAG = PanelRemolquesFragment.class.getName();
+
     private Button btnTitulo;
-    private TextView txtNumNoAsignado, txtNumAsignado;
+    private TextView txtNumAsignado, txtNumLibre;
     private static NavigationDrawerInterface activityInterface;
     private static FloatingActionButton fabRemolques;
     private ProgressDialog pDialog;
@@ -56,8 +59,8 @@ public class PanelRemolquesFragment extends Fragment implements View.OnClickList
         _SESSION_USER = (Usuarios) getActivity().getIntent().getSerializableExtra(Constants.KEY_SESSION_USER);
 
         btnTitulo = (Button) view.findViewById(R.id.btn_titulo_remolques);
-        txtNumNoAsignado = (TextView) view.findViewById(R.id.item_num_no_asignado_panel_remolques);
-        txtNumAsignado = (TextView) view.findViewById(R.id.item_num_asignado_panel_remolques);
+        txtNumAsignado = (TextView) view.findViewById(R.id.item_num_asignados_panel_remolques);
+        txtNumLibre = (TextView) view.findViewById(R.id.item_num_libres_panel_remolques);
         fabRemolques = (FloatingActionButton) view.findViewById(R.id.fab_panel_remolques);
 
         /**Obtiene la instancia compartida del objeto FirebaseAuth**/
@@ -75,10 +78,10 @@ public class PanelRemolquesFragment extends Fragment implements View.OnClickList
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                int countActivo = 0, countInactivo = 0;
+                int countLibre = 0, countAsignado = 0;
 
-                txtNumNoAsignado.setText(String.valueOf(countInactivo));
-                txtNumAsignado.setText(String.valueOf(countActivo));
+                txtNumAsignado.setText(String.valueOf(countAsignado));
+                txtNumLibre.setText(String.valueOf(countLibre));
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 
@@ -95,10 +98,21 @@ public class PanelRemolquesFragment extends Fragment implements View.OnClickList
                             if (!_SESSION_USER.getFirebaseId().equals(postSnapshot.getKey())) continue;
                         }
 
-                        if (!remolque.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO)) {
-                            countActivo++;
-                            txtNumNoAsignado.setText(String.valueOf(countActivo));
+                        switch (remolque.getEstatus()) {
+                            case Constants.FB_KEY_ITEM_ESTATUS_LIBRE:
+                                countLibre++;
+                                txtNumLibre.setText(String.valueOf(countLibre));
+                                break;
+                            case Constants.FB_KEY_ITEM_ESTATUS_ASIGNADO:
+                                countAsignado++;
+                                txtNumAsignado.setText(String.valueOf(countAsignado));
+                                break;
+                            default:
+                                Log.i(TAG, "Remolque perdido " + remolque.getFirebaseId() + " " + remolque.getEstatus()
+                                        + " en transportista " + transportista.getFirebaseId());
+                                break;
                         }
+
                     }
                 }
 

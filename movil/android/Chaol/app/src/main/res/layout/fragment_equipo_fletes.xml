@@ -59,7 +59,7 @@
                 android:orientation="vertical">
 
                 <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/floatingActionButton2"
+                    android:id="@+id/fab_equipo_asignado_chofer"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center"
@@ -85,18 +85,15 @@
                     android:textColor="@color/colorPrimaryText"
                     android:textSize="14sp" />
 
-                <EditText
+                <Spinner
+                    android:id="@+id/spinner_equipo_asignado_chofer"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="2dp"
                     android:layout_marginRight="20dp"
                     android:layout_weight="1"
-                    android:hint="Chofer (ComboBox)"
-                    android:inputType="text"
                     android:maxLines="1"
-                    android:textSize="14sp"
                     android:theme="@style/AppTheme.Form" />
-
 
             </LinearLayout>
 
@@ -117,6 +114,7 @@
                     android:textSize="14sp" />
 
                 <EditText
+                    android:id="@+id/txt_equipo_asignado_numero_licencia"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="2dp"
@@ -138,23 +136,23 @@
                 android:paddingLeft="20dp">
 
                 <TextView
-                    android:id="@+id/textView8"
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
                     android:layout_marginRight="2dp"
                     android:layout_weight="1"
-                    android:text="Foto"
+                    android:text="Celular"
                     android:textAlignment="textEnd"
                     android:textColor="@color/colorPrimaryText"
                     android:textSize="14sp" />
 
                 <EditText
+                    android:id="@+id/txt_equipo_asignado_celular"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="2dp"
                     android:layout_marginRight="20dp"
                     android:layout_weight="1"
-                    android:hint="Foto del chofer"
+                    android:hint="Celular"
                     android:inputType="text"
                     android:maxLines="1"
                     android:textSize="14sp"
@@ -202,17 +200,14 @@
                     android:textColor="@color/colorPrimaryText"
                     android:textSize="14sp" />
 
-                <EditText
-                    android:id="@+id/editText"
+                <Spinner
+                    android:id="@+id/spinner_equipo_asignado_tractor"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="2dp"
                     android:layout_marginRight="20dp"
                     android:layout_weight="1"
-                    android:hint="Tractor (ComboBox)"
-                    android:inputType="text"
                     android:maxLines="1"
-                    android:textSize="14sp"
                     android:theme="@style/AppTheme.Form" />
 
             </LinearLayout>
@@ -234,7 +229,7 @@
                     android:textSize="14sp" />
 
                 <EditText
-                    android:id="@+id/txt_clientes_telefono"
+                    android:id="@+id/txt_equipo_asignado_tractor_marca"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="2dp"
@@ -260,18 +255,19 @@
                     android:layout_height="20dp"
                     android:layout_marginRight="2dp"
                     android:layout_weight="1"
-                    android:text="Año"
+                    android:text="Modelo"
                     android:textAlignment="textEnd"
                     android:textColor="@color/colorPrimaryText"
                     android:textSize="14sp" />
 
                 <EditText
+                    android:id="@+id/txt_equipo_asignado_tractor_modelo"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="2dp"
                     android:layout_marginRight="20dp"
                     android:layout_weight="1"
-                    android:hint="Año"
+                    android:hint="Modelo"
                     android:inputType="text"
                     android:maxLines="1"
                     android:textSize="14sp"
@@ -297,7 +293,7 @@
                     android:textSize="14sp" />
 
                 <EditText
-                    android:id="@+id/txt_clientes_estado"
+                    android:id="@+id/txt_equipo_asignado_tractor_placa"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="2dp"
@@ -349,18 +345,14 @@
                     android:textColor="@color/colorPrimaryText"
                     android:textSize="14sp" />
 
-                <EditText
-                    android:id="@+id/editText2"
+                <Spinner
+                    android:id="@+id/spinner_equipo_asignado_remolque"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="2dp"
                     android:layout_marginRight="20dp"
                     android:layout_weight="1"
-                    android:hint="Remolque (ComboBox)"
-                    android:inputType="number"
-                    android:maxLength="5"
                     android:maxLines="1"
-                    android:textSize="14sp"
                     android:theme="@style/AppTheme.Form" />
 
 
@@ -383,6 +375,7 @@
                     android:textSize="14sp" />
 
                 <EditText
+                    android:id="@+id/txt_equipo_asignado_remolque_marca"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="2dp"
@@ -408,18 +401,19 @@
                     android:layout_height="20dp"
                     android:layout_marginRight="2dp"
                     android:layout_weight="1"
-                    android:text="Año"
+                    android:text="Modelo"
                     android:textAlignment="textEnd"
                     android:textColor="@color/colorPrimaryText"
                     android:textSize="14sp" />
 
                 <EditText
+                    android:id="@+id/txt_equipo_asignado_remolque_modelo"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="2dp"
                     android:layout_marginRight="20dp"
                     android:layout_weight="1"
-                    android:hint="Año"
+                    android:hint="Modelo"
                     android:inputType="text"
                     android:maxLines="1"
                     android:textSize="14sp"
@@ -445,6 +439,7 @@
                     android:textSize="14sp" />
 
                 <EditText
+                    android:id="@+id/txt_equipo_asignado_remolque_placa"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="2dp"

@@ -57,7 +57,44 @@
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
-                android:text="Choferes por asignar"
+                android:text="Choferes por autorizar"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="15sp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20dp">
+
+            <android.support.design.widget.FloatingActionButton
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="5dp"
+                app:backgroundTint="@color/colorPanelChoferesDos"
+                app:elevation="0dp" />
+
+            <TextView
+                android:id="@+id/item_num_libres_panel_choferes"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:text="0"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:text="Choferes libres"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="15sp" />
 
@@ -80,7 +117,7 @@
                 app:elevation="0dp" />
 
             <TextView
-                android:id="@+id/item_num_autorizado_panel_choferes"
+                android:id="@+id/item_num_asignado_panel_choferes"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"

@@ -1,6 +1,5 @@
 package com.indev.chaol.fragments;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -38,7 +37,6 @@ public class ClientesFragment extends Fragment implements View.OnClickListener {
     private static RecyclerView recyclerViewClientes;
     private ClientesAdapter clientesAdapter;
     private static ClientesAdapter adapter;
-    private ProgressDialog pDialog;
     private static NavigationDrawerInterface navigationDrawerInterface;
 
     /**
@@ -46,6 +44,7 @@ public class ClientesFragment extends Fragment implements View.OnClickListener {
      **/
     private FirebaseDatabase database;
     private DatabaseReference drClientes;
+    private ValueEventListener listenerClientes;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,44 +59,17 @@ public class ClientesFragment extends Fragment implements View.OnClickListener {
         database = FirebaseDatabase.getInstance();
         drClientes = database.getReference(Constants.FB_KEY_MAIN_CLIENTES);
 
-        pDialog = new ProgressDialog(getContext());
-        pDialog.setMessage(getString(R.string.default_loading_msg));
-        pDialog.setIndeterminate(false);
-        pDialog.setCancelable(false);
-        pDialog.show();
-
-        drClientes.addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                clientesAdapter = new ClientesAdapter();
-                clientesList = new ArrayList<>();
-
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-
-                    Clientes cliente = postSnapshot.child(Constants.FB_KEY_ITEM_CLIENTE).getValue(Clientes.class);
-                    if (!cliente.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO)) {
-                        clientesList.add(cliente);
-                    }
-                }
-
-                onPreRenderClientes();
-
-                pDialog.dismiss();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                pDialog.dismiss();
-            }
-        });
-
-
         return view;
     }
 
-    /**Carga el listado predeterminado de firebase**/
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    /**
+     * Carga el listado predeterminado de firebase
+     **/
     private void onPreRenderClientes() {
 
         clientesAdapter.addAll(clientesList);
@@ -117,6 +89,42 @@ public class ClientesFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        listenerClientes = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                clientesAdapter = new ClientesAdapter();
+                clientesList = new ArrayList<>();
+
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+
+                    Clientes cliente = postSnapshot.child(Constants.FB_KEY_ITEM_CLIENTE).getValue(Clientes.class);
+                    if (!cliente.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO)) {
+                        clientesList.add(cliente);
+                    }
+                }
+
+                onPreRenderClientes();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        };
+
+        drClientes.addValueEventListener(listenerClientes);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        drClientes.removeEventListener(listenerClientes);
     }
 
     @Override

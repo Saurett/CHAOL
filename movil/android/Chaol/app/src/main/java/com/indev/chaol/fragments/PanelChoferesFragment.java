@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,8 +33,10 @@ import com.indev.chaol.utils.Constants;
 
 public class PanelChoferesFragment extends Fragment implements View.OnClickListener {
 
+    private static final String TAG = PanelChoferesFragment.class.getName();
+
     private Button btnTitulo;
-    private TextView txtNumAutorizado, txtNumNoAutorizado;
+    private TextView txtNumAsignado, txtNumNoAutorizado, txtNumLibre;
     private static NavigationDrawerInterface activityInterface;
     private static FloatingActionButton fabChoferes;
     private ProgressDialog pDialog;
@@ -55,7 +58,8 @@ public class PanelChoferesFragment extends Fragment implements View.OnClickListe
 
         btnTitulo = (Button) view.findViewById(R.id.btn_titulo_choferes);
         txtNumNoAutorizado = (TextView) view.findViewById(R.id.item_num_no_autorizado_panel_choferes);
-        txtNumAutorizado = (TextView) view.findViewById(R.id.item_num_autorizado_panel_choferes);
+        txtNumLibre = (TextView) view.findViewById(R.id.item_num_libres_panel_choferes);
+        txtNumAsignado = (TextView) view.findViewById(R.id.item_num_asignado_panel_choferes);
         fabChoferes = (FloatingActionButton) view.findViewById(R.id.fab_panel_choferes);
 
         /**Obtiene la instancia compartida del objeto FirebaseAuth**/
@@ -73,27 +77,37 @@ public class PanelChoferesFragment extends Fragment implements View.OnClickListe
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                int countActivo = 0, countInactivo = 0;
+                int countLibre = 0, countInactivo = 0, countAsignado = 0;
 
                 txtNumNoAutorizado.setText(String.valueOf(countInactivo));
-                txtNumAutorizado.setText(String.valueOf(countActivo));
+                txtNumLibre.setText(String.valueOf(countLibre));
+                txtNumAsignado.setText(String.valueOf(countAsignado));
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 
                     Choferes chofer = postSnapshot.getValue(Choferes.class);
 
                     if (_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA)) {
-                        if (!_SESSION_USER.getFirebaseId().equals(chofer.getFirebaseIdTransportista())) continue;
+                        if (!_SESSION_USER.getFirebaseId().equals(chofer.getFirebaseIdDelTransportista())) continue;
                     }
 
                     switch (chofer.getEstatus()) {
-                        case Constants.FB_KEY_ITEM_ESTATUS_ACTIVO:
-                            countActivo++;
-                            txtNumAutorizado.setText(String.valueOf(countActivo));
+                        case Constants.FB_KEY_ITEM_ESTATUS_ASIGNADO:
+                            countAsignado++;
+                            txtNumAsignado.setText(String.valueOf(countAsignado));
+                            break;
+                        case Constants.FB_KEY_ITEM_ESTATUS_LIBRE:
+                            countLibre++;
+                            txtNumLibre.setText(String.valueOf(countLibre));
                             break;
                         case Constants.FB_KEY_ITEM_ESTATUS_INACTIVO:
                             countInactivo++;
                             txtNumNoAutorizado.setText(String.valueOf(countInactivo));
+                            break;
+                        case Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO:
+                            break;
+                        default:
+                            Log.i(TAG,"Chofer perdido " + chofer.getFirebaseId() + " " + chofer.getEstatus());
                             break;
                     }
                 }

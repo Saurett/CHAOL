@@ -87,7 +87,7 @@ public class RegistroLoginChoferesFragment extends Fragment implements View.OnCl
         spinnerEmpresa = (Spinner) view.findViewById(R.id.spinner_choferes_empresa);
 
         database = FirebaseDatabase.getInstance();
-        drTransportistas = database.getReference("listaDeTransportistas");
+        drTransportistas = database.getReference(Constants.FB_KEY_MAIN_TRANSPORTISTAS);
 
         pDialog = new ProgressDialog(getContext());
         pDialog.setMessage(getString(R.string.default_loading_msg));
@@ -108,13 +108,23 @@ public class RegistroLoginChoferesFragment extends Fragment implements View.OnCl
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 
-                    String nombre = postSnapshot.getValue(String.class);
-                    String firebaseID = postSnapshot.getKey();
+                    for (DataSnapshot psTransportista : postSnapshot.getChildren()) {
 
-                    Transportistas transportista = new Transportistas(firebaseID, nombre);
+                        Transportistas transportista = psTransportista.getValue(Transportistas.class);
 
-                    transportistasList.add(nombre);
-                    transportistas.add(transportista);
+                        if (Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA.equals(transportista.getTipoDeUsuario())) {
+
+                            if (Constants.FB_KEY_ITEM_ESTATUS_ACTIVO.equals(transportista.getEstatus())) {
+
+                                String nombre = transportista.getNombre();
+                                String firebaseID = transportista.getFirebaseId();
+
+                                transportistasList.add(nombre);
+                                transportistas.add(new Transportistas(firebaseID, nombre));
+
+                            }
+                        }
+                    }
                 }
 
                 onCargarSpinnerTransportistas();
@@ -270,7 +280,6 @@ public class RegistroLoginChoferesFragment extends Fragment implements View.OnCl
         Choferes chofer = new Choferes();
 
         chofer.setNombre(txtNombre.getText().toString().trim());
-        chofer.setEmpresaTransportista(spinnerEmpresa.getSelectedItem().toString().trim());
         chofer.setNumeroDeLicencia(txtNumeroLicencia.getText().toString().trim());
         chofer.setNumeroDeSeguroSocial(txtNSS.getText().toString().trim());
         chofer.setCURP(txtCURP.getText().toString().trim());
@@ -287,7 +296,7 @@ public class RegistroLoginChoferesFragment extends Fragment implements View.OnCl
         chofer.setCorreoElectronico(txtCorreoElectronico.getText().toString().trim());
         chofer.setContraseña(txtPassword.getText().toString().trim());
 
-        chofer.setFirebaseIdTransportista(getSelectTransportista());
+        chofer.setFirebaseIdDelTransportista(getSelectTransportista());
 
         /**metodo principal para crear usuario**/
         activityInterface.createUserChofer(chofer);
@@ -308,8 +317,6 @@ public class RegistroLoginChoferesFragment extends Fragment implements View.OnCl
     public void onClick(DialogInterface dialog, int which) {
         switch (which) {
             case DialogInterface.BUTTON_POSITIVE:
-                AsyncCallWS asyncCallWS = new AsyncCallWS(Constants.WS_KEY_EDITAR_CHOFERES);
-                asyncCallWS.execute();
                 break;
         }
     }
@@ -326,73 +333,5 @@ public class RegistroLoginChoferesFragment extends Fragment implements View.OnCl
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
-    }
-
-    private class AsyncCallWS extends AsyncTask<Void, Void, Boolean> {
-
-        private Integer webServiceOperation;
-        private String textError;
-
-        public AsyncCallWS(Integer wsOperation) {
-            webServiceOperation = wsOperation;
-            textError = "";
-        }
-
-        @Override
-        protected void onPreExecute() {
-            pDialog = new ProgressDialog(getContext());
-            pDialog.setMessage(getString(R.string.default_loading_msg));
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(false);
-            pDialog.show();
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-
-            Boolean validOperation = false;
-
-            try {
-                switch (webServiceOperation) {
-                    case Constants.WS_KEY_EDITAR_CHOFERES:
-                        //TODO Eliminar desde el servidor
-                        validOperation = true;
-                        break;
-                    case Constants.WS_KEY_AGREGAR_CHOFERES:
-                        //TODO Acción desde el servidor
-                        validOperation = true;
-                        break;
-                }
-            } catch (Exception e) {
-                textError = e.getMessage();
-                validOperation = false;
-            }
-
-            return validOperation;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            try {
-                pDialog.dismiss();
-                if (success) {
-                    switch (webServiceOperation) {
-                        case Constants.WS_KEY_EDITAR_CHOFERES:
-                            getActivity().finish();
-                            Toast.makeText(getContext(), "Editado correctamente...", Toast.LENGTH_SHORT).show();
-                            break;
-                        case Constants.WS_KEY_AGREGAR_CHOFERES:
-                            getActivity().finish();
-                            Toast.makeText(getContext(), "Guardado correctamente...", Toast.LENGTH_SHORT).show();
-                            break;
-                    }
-                } else {
-                    String tempText = (textError.isEmpty() ? "Lo sentimos se ha detectado un error desconocido" : textError);
-                    Toast.makeText(getContext(), tempText, Toast.LENGTH_SHORT).show();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
     }
 }

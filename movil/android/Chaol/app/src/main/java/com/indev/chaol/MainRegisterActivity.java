@@ -2,6 +2,7 @@ package com.indev.chaol;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -32,7 +33,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
+import com.google.firebase.database.ValueEventListener;
 import com.indev.chaol.fragments.interfaces.MainRegisterInterface;
+import com.indev.chaol.models.Administradores;
 import com.indev.chaol.models.Bodegas;
 import com.indev.chaol.models.Choferes;
 import com.indev.chaol.models.Clientes;
@@ -60,13 +63,17 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
     private static Usuarios _SESSION_USER;
 
     private ProgressDialog pDialog;
+
+    private static DecodeItem _decodeItem;
+
     /**
      * Declaraciones para Firebase
      **/
     private FirebaseAuth mAuth;
     private FirebaseAuth secondaryAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private FirebaseAuth.AuthStateListener sAuthListener;
+    private DatabaseReference dbUsuarioValido;
+    private ValueEventListener listenerSession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,12 +136,79 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
     protected void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
+
+        if (!_MAIN_DECODE.getFragmentTag().equals(Constants.FRAGMENT_LOGIN_REGISTER)) {
+
+            if (_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR)) {
+                dbUsuarioValido = FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.TIPO_USUARIO_NODO.get(_SESSION_USER.getTipoDeUsuario()))
+                        .child(_SESSION_USER.getFirebaseId());
+            } else {
+                dbUsuarioValido = FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.TIPO_USUARIO_NODO.get(_SESSION_USER.getTipoDeUsuario()))
+                        .child(_SESSION_USER.getFirebaseId())
+                        .child(Constants.TIPO_USUARIO_ITEM.get(_SESSION_USER.getTipoDeUsuario()));
+            }
+
+            listenerSession = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    Object objectTipoUsuario = dataSnapshot.getValue(Constants.TIPO_USUARIO_CLASS.get(_SESSION_USER.getTipoDeUsuario()));
+
+                    switch (_SESSION_USER.getTipoDeUsuario()) {
+                        case Constants.FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR:
+                            Administradores administrador = (Administradores) objectTipoUsuario;
+
+                            if (administrador.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_INACTIVO)) {
+                                onChangeMainFragment(R.id.menu_item_cerrar_session);
+                            }
+
+                            break;
+                        case Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE:
+                            Clientes cliente = (Clientes) objectTipoUsuario;
+
+                            if (cliente.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_INACTIVO)) {
+                                onChangeMainFragment(R.id.menu_item_cerrar_session);
+                            }
+
+                            break;
+                        case Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA:
+                            Transportistas transportista = (Transportistas) objectTipoUsuario;
+
+                            if (transportista.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_INACTIVO)) {
+                                onChangeMainFragment(R.id.menu_item_cerrar_session);
+                            }
+                            break;
+                        case Constants.FB_KEY_ITEM_CHOFER:
+                            Choferes chofer = (Choferes) objectTipoUsuario;
+
+                            if (chofer.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_INACTIVO)) {
+                                onChangeMainFragment(R.id.menu_item_cerrar_session);
+                            }
+                            break;
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            };
+
+            dbUsuarioValido.addValueEventListener(listenerSession);
+        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         mAuth.removeAuthStateListener(mAuthListener);
+
+        if (null != dbUsuarioValido) {
+            dbUsuarioValido.addValueEventListener(listenerSession);
+        }
     }
 
     private void onPreRender() {
@@ -198,7 +272,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
     @Override
     public void onChangeMainFragment(int idView) {
-
+        finish();
     }
 
     @Override
@@ -218,17 +292,28 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
     @Override
     public void openExternalActivity(int action, Class<?> externalActivity) {
+        DecodeExtraParams extraParams = new DecodeExtraParams();
 
+        extraParams.setTituloActividad(getString(Constants.TITLE_ACTIVITY.get(this.getDecodeItem().getIdView())));
+        extraParams.setTituloFormulario(getString(Constants.TITLE_FORM_ACTION.get(action)));
+        extraParams.setAccionFragmento(action);
+        extraParams.setFragmentTag(Constants.ITEM_FRAGMENT.get(this.getDecodeItem().getIdView()));
+        extraParams.setDecodeItem(this.getDecodeItem());
+
+        Intent intent = new Intent(this, externalActivity);
+        intent.putExtra(Constants.KEY_MAIN_DECODE, extraParams);
+        intent.putExtra(Constants.KEY_SESSION_USER, _SESSION_USER);
+        startActivity(intent);
     }
 
     @Override
     public void setDecodeItem(DecodeItem decodeItem) {
-
+        _decodeItem = decodeItem;
     }
 
     @Override
     public DecodeItem getDecodeItem() {
-        return null;
+        return _decodeItem;
     }
 
     @Override
@@ -278,6 +363,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         cliente.setPassword(null);
         cliente.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
         cliente.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
+        cliente.setImagenURL("");
 
         dbCliente.child(user.getUid()).child(Constants.FB_KEY_ITEM_CLIENTE).setValue(cliente, new DatabaseReference.CompletionListener() {
             @Override
@@ -290,7 +376,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                     DatabaseReference dbUsuario =
                             FirebaseDatabase.getInstance().getReference()
                                     .child(Constants.FB_KEY_MAIN_USUARIOS);
-                    dbUsuario.child(cliente.getFirebaseId()).setValue(cliente.getTipoDeUsuario(), new DatabaseReference.CompletionListener() {
+                    dbUsuario.child(cliente.getFirebaseId()).child(Constants.FB_KEY_ITEM_TIPO_USUARIO).setValue(cliente.getTipoDeUsuario(), new DatabaseReference.CompletionListener() {
 
                         @Override
                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -351,7 +437,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         transportista.setTipoDeUsuario(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA);
         transportista.setFirebaseId(user.getUid());
         transportista.setContraseña(null);
-        transportista.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_ACTIVO);
+        transportista.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_INACTIVO);
         transportista.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
 
         dbTransportista.child(user.getUid()).child(Constants.FB_KEY_ITEM_TRANSPORTISTA).setValue(transportista, new DatabaseReference.CompletionListener() {
@@ -365,7 +451,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                             FirebaseDatabase.getInstance().getReference()
                                     .child(Constants.FB_KEY_MAIN_USUARIOS);
 
-                    dbUsuario.child(transportista.getFirebaseId()).setValue(transportista.getTipoDeUsuario(), new DatabaseReference.CompletionListener() {
+                    dbUsuario.child(transportista.getFirebaseId()).child(Constants.FB_KEY_ITEM_TIPO_USUARIO).setValue(transportista.getTipoDeUsuario(), new DatabaseReference.CompletionListener() {
                         @Override
                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
@@ -452,6 +538,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         chofer.setContraseña(null);
         chofer.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_INACTIVO);
         chofer.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
+        chofer.setImagenURL("");
 
         dbChofer.child(chofer.getFirebaseId()).setValue(chofer, new DatabaseReference.CompletionListener() {
             @Override
@@ -464,13 +551,13 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                             FirebaseDatabase.getInstance().getReference()
                                     .child(Constants.FB_KEY_MAIN_USUARIOS);
 
-                    dbUsuario.child(chofer.getFirebaseId()).setValue(chofer.getTipoDeUsuario(), new DatabaseReference.CompletionListener() {
+                    dbUsuario.child(chofer.getFirebaseId()).child(Constants.FB_KEY_ITEM_TIPO_USUARIO).setValue(chofer.getTipoDeUsuario(), new DatabaseReference.CompletionListener() {
                         @Override
                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
                             if (databaseError == null) {
 
-                                dbTransportista.child(chofer.getFirebaseIdTransportista())
+                                dbTransportista.child(chofer.getFirebaseIdDelTransportista())
                                         .child(Constants.FB_KEY_MAIN_CHOFERES).child(chofer.getFirebaseId()).setValue(chofer, new DatabaseReference.CompletionListener() {
                                     @Override
                                     public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -521,65 +608,6 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         });
     }
 
-    private void reautheticate() {
-        /*
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        AuthCredential credential = EmailAuthProvider
-                .getCredential("chaolapp@gmail.com", "transportes");
-
-        // Prompt the user to re-provide their sign-in credentials
-        user.reauthenticate(credential)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Log.d(TAG, "User re-authenticated.");
-                    }
-                });
-                */
-
-        /*
-        mAuth.signInWithEmailAndPassword("chaolapp@gmail.com", "transportes")
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
-
-                        if (!task.isSuccessful()) {
-                            Log.w(TAG, "signInWithEmail:failed", task.getException());
-                            Toast.makeText(getApplicationContext(),
-                                    ErrorMessages.showErrorMessage(task.getException()),
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });*/
-        //this.inputPassword();
-    }
-
-    private void inputPassword() {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainRegisterActivity.this);
-        alertDialog.setTitle("CONTRASEÑA");
-        alertDialog.setMessage("Escribe tu contraseña");
-
-        final EditText input = new EditText(MainRegisterActivity.this);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-        input.setLayoutParams(lp);
-        alertDialog.setView(input);
-        alertDialog.setIcon(R.drawable.common_google_signin_btn_icon_dark_normal);
-
-        alertDialog.setPositiveButton("YES",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-
-
-        alertDialog.show();
-    }
-
     @Override
     public void createTractores(final Tractores tractor) {
         pDialog = new ProgressDialog(MainRegisterActivity.this);
@@ -601,7 +629,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         String remolqueKey = dbTransportista.child(Constants.FB_KEY_MAIN_TRACTORES).push().getKey();
 
         tractor.setFirebaseId(remolqueKey);
-        tractor.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_ACTIVO);
+        tractor.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_LIBRE);
         tractor.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
         tractor.setFirebaseIdDelTransportista(null);
 
@@ -642,7 +670,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         String remolqueKey = dbTransportista.child(Constants.FB_KEY_MAIN_REMOLQUES).push().getKey();
 
         remolque.setFirebaseId(remolqueKey);
-        remolque.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_ACTIVO);
+        remolque.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_LIBRE);
         remolque.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
         remolque.setFirebaseIdDelTransportista(null);
 
@@ -701,7 +729,6 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                     }
                 });
     }
-
 
 
     @Override
@@ -864,7 +891,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                             FirebaseDatabase.getInstance().getReference()
                                     .child(Constants.FB_KEY_MAIN_TRANSPORTISTAS);
 
-                    dbTransportista.child(chofer.getFirebaseIdTransportista())
+                    dbTransportista.child(chofer.getFirebaseIdDelTransportista())
                             .child(Constants.FB_KEY_ITEM_CHOFER).child(chofer.getFirebaseId()).setValue(chofer, new DatabaseReference.CompletionListener() {
                         @Override
                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -1005,7 +1032,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
         final DatabaseReference dbFlete =
                 FirebaseDatabase.getInstance().getReference()
-                    .child(Constants.FB_KEY_MAIN_FLETE_ID);
+                        .child(Constants.FB_KEY_MAIN_FLETE_ID);
 
         dbFlete.runTransaction(new Transaction.Handler() {
             @Override
@@ -1022,40 +1049,40 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
             @Override
             public void onComplete(DatabaseError databaseError, boolean committed, DataSnapshot dataSnapshot) {
-               if (databaseError == null) {
-                   Integer fleteId = dataSnapshot.getValue(Integer.class);
+                if (databaseError == null) {
+                    Integer fleteId = dataSnapshot.getValue(Integer.class);
 
-                   /**obtiene la instancia como transportista**/
-                   DatabaseReference dbFletes =
-                           FirebaseDatabase.getInstance().getReference()
-                                   .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR);
+                    /**obtiene la instancia como transportista**/
+                    DatabaseReference dbFletes =
+                            FirebaseDatabase.getInstance().getReference()
+                                    .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR);
 
-                   String fletesKey = dbFletes.child(Constants.FB_KEY_MAIN_FLETE).push().getKey();
+                    String fletesKey = dbFletes.child(Constants.FB_KEY_MAIN_FLETE).push().getKey();
 
-                   flete.setIdFlete(String.valueOf(fleteId));
-                   flete.setFirebaseID(fletesKey);
-                   flete.setEstatus(Constants.FB_KEY_ITEM_STATUS_FLETE_POR_COTIZAR);
-                   flete.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
-                   flete.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
+                    flete.setIdFlete(String.valueOf(fleteId));
+                    flete.setFirebaseId(fletesKey);
+                    flete.setEstatus(Constants.FB_KEY_ITEM_STATUS_FLETE_POR_COTIZAR);
+                    flete.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
+                    flete.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
 
-                   dbFletes.child(flete.getFirebaseID()).child(Constants.FB_KEY_MAIN_FLETE)
-                           .setValue(flete, new DatabaseReference.CompletionListener() {
-                               @Override
-                               public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                    dbFletes.child(flete.getFirebaseId()).child(Constants.FB_KEY_MAIN_FLETE)
+                            .setValue(flete, new DatabaseReference.CompletionListener() {
+                                @Override
+                                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
-                                   pDialog.dismiss();
-                                   if (databaseError == null) {
+                                    pDialog.dismiss();
+                                    if (databaseError == null) {
 
-                                       createBodegaCarga(flete.getFirebaseID(), _bodegaCargaActual, _bodegaDescargaActual);
-                                   }
-                               }
-                           });
+                                        createBodegaCarga(flete.getFirebaseId(), _bodegaCargaActual, _bodegaDescargaActual);
+                                    }
+                                }
+                            });
 
-               } else {
-                   pDialog.dismiss();
-                   Toast.makeText(getApplicationContext(),
-                           "Se ha presentado un error...", Toast.LENGTH_LONG).show();
-               }
+                } else {
+                    pDialog.dismiss();
+                    Toast.makeText(getApplicationContext(),
+                            "Se ha presentado un error...", Toast.LENGTH_LONG).show();
+                }
 
             }
         });
@@ -1073,8 +1100,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         DatabaseReference dbFletes =
                 FirebaseDatabase.getInstance().getReference()
                         .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
-                        .child(firebaseID)
-                ;
+                        .child(firebaseID);
 
         _bodegaCargaActual.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
         _bodegaCargaActual.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
@@ -1087,7 +1113,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
                         pDialog.dismiss();
                         if (databaseError == null) {
-                            createBodegaDescarga(firebaseID,_bodegaDescargaActual);
+                            createBodegaDescarga(firebaseID, _bodegaDescargaActual);
                         }
                     }
                 });
@@ -1105,8 +1131,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         DatabaseReference dbFletes =
                 FirebaseDatabase.getInstance().getReference()
                         .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
-                        .child(firebaseID)
-                ;
+                        .child(firebaseID);
 
         _bodegaDescargaActual.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
         _bodegaDescargaActual.setFechaDeEdicion(DateTimeUtils.getTimeStamp());

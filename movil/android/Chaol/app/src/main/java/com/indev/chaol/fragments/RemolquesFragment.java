@@ -1,6 +1,5 @@
 package com.indev.chaol.fragments;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -40,7 +39,6 @@ public class RemolquesFragment extends Fragment implements View.OnClickListener 
     private static RecyclerView recyclerViewRemolques;
     private RemolquesAdapter remolquesAdapter;
     private static RemolquesAdapter adapter;
-    private ProgressDialog pDialog;
     private static NavigationDrawerInterface navigationDrawerInterface;
 
     private static Usuarios _SESSION_USER;
@@ -50,6 +48,7 @@ public class RemolquesFragment extends Fragment implements View.OnClickListener 
      **/
     private FirebaseDatabase database;
     private DatabaseReference drRemolques;
+    private ValueEventListener listenerRemolques;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,14 +65,35 @@ public class RemolquesFragment extends Fragment implements View.OnClickListener 
         database = FirebaseDatabase.getInstance();
         drRemolques = database.getReference(Constants.FB_KEY_MAIN_TRANSPORTISTAS);
 
-        pDialog = new ProgressDialog(getContext());
-        pDialog.setMessage(getString(R.string.default_loading_msg));
-        pDialog.setIndeterminate(false);
-        pDialog.setCancelable(false);
-        pDialog.show();
+        return view;
+    }
 
-        drRemolques.addValueEventListener(new ValueEventListener() {
+    /**Carga el listado predeterminado de firebase**/
+    private void onPreRenderRemolques() {
 
+        remolquesAdapter.addAll(remolquesList);
+        recyclerViewRemolques.setAdapter(remolquesAdapter);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerViewRemolques.setLayoutManager(linearLayoutManager);
+
+        if (remolquesList.size() == 0) {
+            Toast.makeText(getActivity(), "La lista se encuentra vacía", Toast.LENGTH_SHORT).show();
+        }
+
+        adapter = remolquesAdapter;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        listenerRemolques = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -102,38 +122,20 @@ public class RemolquesFragment extends Fragment implements View.OnClickListener 
                 }
 
                 onPreRenderRemolques();
-
-                pDialog.dismiss();
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                pDialog.dismiss();
             }
-        });
+        };
 
-        return view;
-    }
-
-    /**Carga el listado predeterminado de firebase**/
-    private void onPreRenderRemolques() {
-
-        remolquesAdapter.addAll(remolquesList);
-        recyclerViewRemolques.setAdapter(remolquesAdapter);
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        recyclerViewRemolques.setLayoutManager(linearLayoutManager);
-
-        if (remolquesList.size() == 0) {
-            Toast.makeText(getActivity(), "La lista se encuentra vacía", Toast.LENGTH_SHORT).show();
-        }
-
-        adapter = remolquesAdapter;
+        drRemolques.addValueEventListener(listenerRemolques);
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onStop() {
+        super.onStop();
+        drRemolques.removeEventListener(listenerRemolques);
     }
 
     @Override

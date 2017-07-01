@@ -195,77 +195,7 @@ public class RegistroLoginTransportistasFragment extends Fragment implements Vie
     public void onClick(DialogInterface dialog, int which) {
         switch (which) {
             case DialogInterface.BUTTON_POSITIVE:
-                AsyncCallWS asyncCallWS = new AsyncCallWS(Constants.WS_KEY_EDITAR_TRANSPORTISTAS);
-                asyncCallWS.execute();
                 break;
-        }
-    }
-
-    private class AsyncCallWS extends AsyncTask<Void, Void, Boolean> {
-
-        private Integer webServiceOperation;
-        private String textError;
-
-        public AsyncCallWS(Integer wsOperation) {
-            webServiceOperation = wsOperation;
-            textError = "";
-        }
-
-        @Override
-        protected void onPreExecute() {
-            pDialog = new ProgressDialog(getContext());
-            pDialog.setMessage(getString(R.string.default_loading_msg));
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(false);
-            pDialog.show();
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-
-            Boolean validOperation = false;
-
-            try {
-                switch (webServiceOperation) {
-                    case Constants.WS_KEY_EDITAR_TRANSPORTISTAS:
-                        //TODO Eliminar desde el servidor
-                        validOperation = true;
-                        break;
-                    case Constants.WS_KEY_AGREGAR_TRANSPORTISTAS:
-                        //TODO Acción desde el servidor
-                        validOperation = true;
-                        break;
-                }
-            } catch (Exception e) {
-                textError = e.getMessage();
-                validOperation = false;
-            }
-
-            return validOperation;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            try {
-                pDialog.dismiss();
-                if (success) {
-                    switch (webServiceOperation) {
-                        case Constants.WS_KEY_EDITAR_TRANSPORTISTAS:
-                            getActivity().finish();
-                            Toast.makeText(getContext(), "Editado correctamente...", Toast.LENGTH_SHORT).show();
-                            break;
-                        case Constants.WS_KEY_AGREGAR_TRANSPORTISTAS:
-                            getActivity().finish();
-                            Toast.makeText(getContext(), "Guardado correctamente...", Toast.LENGTH_SHORT).show();
-                            break;
-                    }
-                } else {
-                    String tempText = (textError.isEmpty() ? "Lo sentimos se ha detectado un error desconocido" : textError);
-                    Toast.makeText(getContext(), tempText, Toast.LENGTH_SHORT).show();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
     }
 

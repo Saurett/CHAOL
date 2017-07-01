@@ -1,5 +1,8 @@
 package com.indev.chaol.utils;
 
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Random;
@@ -11,6 +14,28 @@ import java.util.Random;
 public class DateTimeUtils {
 
     private static final String ALLOWED_CHARACTERS = "0123456789qwertyuiopasdfghjklzxcvbnm";
+
+    public static CalendarDay getCalendarDay(String myDate) {
+
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        try {
+            cal.setTime(sdf.parse(myDate));// all done
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return CalendarDay.from(
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DATE));
+    }
+
+    public static String getParseTimeStamp(Long date) {
+        return new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
+                .format(new java.util.Date(date * 1000L));
+    }
+
 
     public static long  getTimeStamp() {
         return System.currentTimeMillis() / 1000L;

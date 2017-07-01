@@ -22,6 +22,10 @@ import com.indev.chaol.fragments.RegistroLoginTransportistasFragment;
 import com.indev.chaol.fragments.RegistroRemolquesFragment;
 import com.indev.chaol.fragments.RegistroTractoresFragment;
 import com.indev.chaol.fragments.RegistroTransportistasFragment;
+import com.indev.chaol.models.Administradores;
+import com.indev.chaol.models.Choferes;
+import com.indev.chaol.models.Clientes;
+import com.indev.chaol.models.Transportistas;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,6 +38,8 @@ import java.util.List;
 public final class Constants {
 
     /**Elementos de firebase**/
+    public static final String FB_KEY_MAIN_DISPOSITIVOS = "dispositivos";
+    public static final String FB_KEY_ITEM_TIPO_USUARIO = "tipoDeUsuario";
     public static final String FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR = "administrador";
     public static final String FB_KEY_ITEM_TIPO_USUARIO_CLIENTE = "cliente";
     public static final String FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA = "transportista";
@@ -42,9 +48,13 @@ public final class Constants {
     public static final String FB_KEY_ITEM_TRANSPORTISTA = "transportista";
     public static final String FB_KEY_ITEM_CHOFER = "chofer";
     public static final String FB_KEY_ITEM_ADMINISTRADOR = "administrador";
+    public static final String FB_KEY_ITEM_ESTATUS_LIBRE = "libre";
+    public static final String FB_KEY_ITEM_ESTATUS_ASIGNADO = "asignado";
     public static final String FB_KEY_ITEM_ESTATUS_ACTIVO = "activo";
     public static final String FB_KEY_ITEM_ESTATUS_INACTIVO = "inactivo";
     public static final String FB_KEY_ITEM_ESTATUS_ELIMINADO = "eliminado";
+    public static final String FB_KEY_ITEM_ESTATUS_TRANSPORTISTA_SELECCIONADO = "transportistaSeleccionado";
+    public static final String FB_KEY_ITEM_ESTATUS_TRANSPORTISTA_INTERESADO = "transportistaInteresado";
     public static final String FB_KEY_MAIN_USUARIOS = "usuarios";
     public static final String FB_KEY_MAIN_CLIENTES = "clientes";
     public static final String FB_KEY_MAIN_BODEGAS = "bodegas";
@@ -62,7 +72,8 @@ public final class Constants {
     public static final String FB_KEY_MAIN_TRANSPORTISTAS_INTERESADOS = "transportistasInteresados";
     public static final String FB_KEY_MAIN_TRANSPORTISTA_SELECCIONADO = "transportistaSeleccionado";
     public static final String FB_KEY_MAIN_CHOFER_SELECCIONADO = "choferSeleccionado";
-
+    public static final String FB_KEY_MAIN_TRACTOR_SELECCIONADO = "tractorSeleccionado";
+    public static final String FB_KEY_MAIN_REMOLQUE_SELECCIONADO = "remolqueSeleccionado";
 
     /**Contiene los valores de los status dle flete**/
     public static final String FB_KEY_ITEM_STATUS_FLETE_POR_COTIZAR = "fletePorCotizar";
@@ -74,6 +85,17 @@ public final class Constants {
     public static final String FB_KEY_ITEM_STATUS_ENTREGADO = "entregado";
     public static final String FB_KEY_ITEM_STATUS_FINALIZADO = "finalizado";
     public static final String FB_KEY_ITEM_STATUS_CANCELADO = "cancelado";
+
+    /**Contiene los valores de los status dle flete**/
+    public static final String FLETE_POR_COTIZAR = "Flete por cotizar";
+    public static final String ESPERANDO_POR_TRANSPORTISTA = "Esperando por transportista";
+    public static final String TRANSPORTISTA_POR_CONFIRMAR = "Transportista por confirmar";
+    public static final String UNIDADES_POR_ASIGNAR = "Unidades por asignar";
+    public static final String ENVIO_POR_INICIAR = "Envio por iniciar";
+    public static final String EN_PROGRESO = "En progreso";
+    public static final String ENTREGADO = "Entregado";
+    public static final String FINALIZADO = "Finalizado";
+    public static final String CANCELADO = "Cancelado";
 
 
     /**Key Extraparam**/
@@ -93,7 +115,7 @@ public final class Constants {
     public static final int ACCION_SIN_DEFINIR = 0;
     public static final int ACCION_REGISTRAR = 1;
     public static final int ACCION_EDITAR = 2;
-    public static final int ACCION_BUSCAR = 3;
+    public static final int ACCION_VER = 3;
 
     /**Identificadores para buscar**/
     public static final int WS_KEY_PRE_RENDER = 0;
@@ -254,6 +276,7 @@ public final class Constants {
         ITEM_FRAGMENT.put(R.id.fab_panel_fletes, FRAGMENT_FLETES_REGISTER);
         ITEM_FRAGMENT.put(R.id.item_color_agenda, FRAGMENT_ITEM_FLETES_REGISTER);
         ITEM_FRAGMENT.put(R.id.fab_listado_agenda, FRAGMENT_FAB_FLETES_REGISTER);
+        ITEM_FRAGMENT.put(R.id.item_btn_perfil_asignacion_transportista, FRAGMENT_TRANSPORTISTAS_REGISTER);
     }
 
     /**
@@ -310,6 +333,7 @@ public final class Constants {
         TITLE_ACTIVITY.put(R.id.fab_panel_fletes, R.string.default_item_menu_title_fletes);
         TITLE_ACTIVITY.put(R.id.item_color_agenda, R.string.default_item_menu_title_fletes);
         TITLE_ACTIVITY.put(R.id.fab_listado_agenda, R.string.default_item_menu_title_fletes);
+        TITLE_ACTIVITY.put(R.id.item_btn_perfil_asignacion_transportista, R.string.default_item_menu_title_transportistas );
     }
 
     /**Contiene el titulo correspondiente a la acción del formulario**/
@@ -318,9 +342,54 @@ public final class Constants {
         TITLE_FORM_ACTION = new HashMap<>();
         TITLE_FORM_ACTION.put(Constants.ACCION_REGISTRAR,R.string.default_form_title_new);
         TITLE_FORM_ACTION.put(Constants.ACCION_EDITAR,R.string.default_form_title_edit);
+        TITLE_FORM_ACTION.put(Constants.ACCION_VER,R.string.default_form_title_view);
     }
 
+    /**Contiene el titulo correspondiente a cada estado del flete**/
+    public static final HashMap<String,String> TITLE_ESTATUS_FLETES;
+    static {
+        TITLE_ESTATUS_FLETES = new HashMap<>();
 
+        TITLE_ESTATUS_FLETES.put(Constants.FB_KEY_ITEM_STATUS_FLETE_POR_COTIZAR, Constants.FLETE_POR_COTIZAR);
+        TITLE_ESTATUS_FLETES.put(Constants.FB_KEY_ITEM_STATUS_ESPERANDO_POR_TRANSPORTISTA, Constants.ESPERANDO_POR_TRANSPORTISTA);
+        TITLE_ESTATUS_FLETES.put(Constants.FB_KEY_ITEM_STATUS_TRANSPORTISTA_POR_CONFIRMAR, Constants.TRANSPORTISTA_POR_CONFIRMAR);
+        TITLE_ESTATUS_FLETES.put(Constants.FB_KEY_ITEM_STATUS_UNIDADES_POR_ASIGNAR, Constants.UNIDADES_POR_ASIGNAR);
+        TITLE_ESTATUS_FLETES.put(Constants.FB_KEY_ITEM_STATUS_ENVIO_POR_INICIAR, Constants.ENVIO_POR_INICIAR);
+        TITLE_ESTATUS_FLETES.put(Constants.FB_KEY_ITEM_STATUS_EN_PROGRESO, Constants.EN_PROGRESO);
+        TITLE_ESTATUS_FLETES.put(Constants.FB_KEY_ITEM_STATUS_ENTREGADO, Constants.ENTREGADO);
+        TITLE_ESTATUS_FLETES.put(Constants.FB_KEY_ITEM_STATUS_FINALIZADO, Constants.FINALIZADO);
+        TITLE_ESTATUS_FLETES.put(Constants.FB_KEY_ITEM_STATUS_CANCELADO, Constants.CANCELADO);
+    }
+
+    public static final HashMap<String,String> TIPO_USUARIO_NODO;
+    static {
+        TIPO_USUARIO_NODO = new HashMap<>();
+
+        TIPO_USUARIO_NODO.put(Constants.FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR, FB_KEY_MAIN_ADMINISTRADORES);
+        TIPO_USUARIO_NODO.put(Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE, FB_KEY_MAIN_CLIENTES);
+        TIPO_USUARIO_NODO.put(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA, FB_KEY_MAIN_TRANSPORTISTAS);
+        TIPO_USUARIO_NODO.put(Constants.FB_KEY_ITEM_TIPO_USUARIO_CHOFER, FB_KEY_MAIN_CHOFERES);
+    }
+
+    public static final HashMap<String,String> TIPO_USUARIO_ITEM;
+    static {
+        TIPO_USUARIO_ITEM = new HashMap<>();
+
+        TIPO_USUARIO_ITEM.put(Constants.FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR, FB_KEY_MAIN_ADMINISTRADORES);
+        TIPO_USUARIO_ITEM.put(Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE, FB_KEY_ITEM_CLIENTE);
+        TIPO_USUARIO_ITEM.put(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA, FB_KEY_ITEM_TRANSPORTISTA);
+        TIPO_USUARIO_ITEM.put(Constants.FB_KEY_ITEM_TIPO_USUARIO_CHOFER, FB_KEY_ITEM_CHOFER);
+    }
+
+    public static final HashMap<String,Class> TIPO_USUARIO_CLASS;
+    static {
+        TIPO_USUARIO_CLASS = new HashMap<>();
+
+        TIPO_USUARIO_CLASS.put(Constants.FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR, Administradores.class);
+        TIPO_USUARIO_CLASS.put(Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE, Clientes.class);
+        TIPO_USUARIO_CLASS.put(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA, Transportistas.class);
+        TIPO_USUARIO_CLASS.put(Constants.FB_KEY_ITEM_TIPO_USUARIO_CHOFER, Choferes.class);
+    }
 
     //endregion
 }

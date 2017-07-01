@@ -212,7 +212,6 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
         metodosPagos = new ArrayList<>();
         metodosPagoList.add("Seleccione ...");
 
-        //TODO Metodo para llamar al servidor
         metodosPagoList.add("Efectivo");
         metodosPagoList.add("Cheque");
         metodosPagoList.add("Transferencia Electronica");

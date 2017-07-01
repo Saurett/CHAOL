@@ -18,7 +18,7 @@
             <LinearLayout
                 android:id="@+id/registro_tractores"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/border_form"
@@ -27,12 +27,14 @@
                 <com.prolificinteractive.materialcalendarview.MaterialCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/calendarView_agenda"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
                     app:mcv_calendarMode="month"
                     app:mcv_selectionColor="#00F"
                     app:mcv_showOtherDates="none" />
 
                 <LinearLayout
+                    android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="20dp"

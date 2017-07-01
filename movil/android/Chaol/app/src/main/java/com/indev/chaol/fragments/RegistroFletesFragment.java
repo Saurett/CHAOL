@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.beardedhen.androidbootstrap.BootstrapProgressBar;
 import com.indev.chaol.R;
 import com.indev.chaol.fragments.interfaces.MainRegisterInterface;
 import com.indev.chaol.models.DecodeExtraParams;
@@ -28,7 +29,7 @@ import com.indev.chaol.utils.Constants;
 public class RegistroFletesFragment extends Fragment implements View.OnClickListener, DialogInterface.OnClickListener {
 
     private Button btnTitulo;
-    private ProgressDialog pDialog;
+    private static BootstrapProgressBar fleteProgressBar;
     private MainRegisterInterface activityInterface;
 
     private static DecodeExtraParams _MAIN_DECODE = new DecodeExtraParams();
@@ -37,9 +38,10 @@ public class RegistroFletesFragment extends Fragment implements View.OnClickList
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_registro_fletes, container, false);
 
-        btnTitulo = (Button) view.findViewById(R.id.btn_titulo_fletes);
-
         _MAIN_DECODE = (DecodeExtraParams) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
+
+        fleteProgressBar = (BootstrapProgressBar) view.findViewById(R.id.flete_progressBar);
+        btnTitulo = (Button) view.findViewById(R.id.btn_titulo_fletes);
 
         activityInterface.removeSecondaryFragment();
 
@@ -126,5 +128,9 @@ public class RegistroFletesFragment extends Fragment implements View.OnClickList
             case DialogInterface.BUTTON_POSITIVE:
                 break;
         }
+    }
+
+    public static void setFleteProgressBar(int progress) {
+        fleteProgressBar.setProgress(progress);
     }
 }

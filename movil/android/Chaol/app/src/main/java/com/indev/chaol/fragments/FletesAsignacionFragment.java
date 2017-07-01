@@ -12,9 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.indev.chaol.R;
 import com.indev.chaol.models.DecodeExtraParams;
+import com.indev.chaol.models.MainFletes;
+import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
 
 
@@ -25,15 +28,21 @@ import com.indev.chaol.utils.Constants;
 public class FletesAsignacionFragment extends Fragment implements View.OnClickListener, DialogInterface.OnClickListener {
 
     private Button btnTitulo;
+    private static TextView txtEstatusTransportista;
     private LinearLayout linearLayout;
 
-    private static DecodeExtraParams _MAIN_DECODE = new DecodeExtraParams();
+    private static Usuarios _SESSION_USER;
+    private static DecodeExtraParams _MAIN_DECODE;
+
+    private static MainFletes _mainFletesActual;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_asignacion_fletes, container, false);
 
         btnTitulo = (Button) view.findViewById(R.id.btn_datos_asignacion_fletes);
+        txtEstatusTransportista = (TextView) view.findViewById(R.id.txt_asignacion_estatus_transportista);
+
         linearLayout = (LinearLayout) view.findViewById(R.id.asignacion_container);
 
         btnTitulo.setOnClickListener(this);
@@ -103,6 +112,10 @@ public class FletesAsignacionFragment extends Fragment implements View.OnClickLi
                 }
                 break;
         }
+    }
+
+    public static void showMessageAsignacion(int visible) {
+        txtEstatusTransportista.setVisibility(visible);
     }
 
     private void showQuestion() {

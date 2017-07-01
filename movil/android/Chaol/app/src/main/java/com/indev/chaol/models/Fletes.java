@@ -1,7 +1,5 @@
 package com.indev.chaol.models;
 
-import android.content.Intent;
-
 import java.io.Serializable;
 
 /**
@@ -17,7 +15,7 @@ public class Fletes implements Serializable {
     private String destinatario;
     private Long fechaDeAsignacionDeTransportista;
     private Long fechaDeSalida;
-    private String firebaseID;
+    private String firebaseId;
     private Integer horaDeSalida;
     private String idFlete;
     private String numeroDeEmbarque;
@@ -31,7 +29,7 @@ public class Fletes implements Serializable {
     public Fletes() {
     }
 
-    public Fletes(String bodegaDeCarga, String bodegaDeDescarga, String carga, String cliente, String destinatario, Long fechaDeAsignacionDeTransportista, Long fechaDeSalida, String firebaseID, Integer horaDeSalida, String idFlete, String numeroDeEmbarque, String precio, String tipoDeRemolque, String estatus, Long fechaDeCreacion, Long fechaDeEdicion) {
+    public Fletes(String bodegaDeCarga, String bodegaDeDescarga, String carga, String cliente, String destinatario, Long fechaDeAsignacionDeTransportista, Long fechaDeSalida, String firebaseId, Integer horaDeSalida, String idFlete, String numeroDeEmbarque, String precio, String tipoDeRemolque, String estatus, Long fechaDeCreacion, Long fechaDeEdicion) {
         this.bodegaDeCarga = bodegaDeCarga;
         this.bodegaDeDescarga = bodegaDeDescarga;
         this.carga = carga;
@@ -39,7 +37,7 @@ public class Fletes implements Serializable {
         this.destinatario = destinatario;
         this.fechaDeAsignacionDeTransportista = fechaDeAsignacionDeTransportista;
         this.fechaDeSalida = fechaDeSalida;
-        this.firebaseID = firebaseID;
+        this.firebaseId = firebaseId;
         this.horaDeSalida = horaDeSalida;
         this.idFlete = idFlete;
         this.numeroDeEmbarque = numeroDeEmbarque;
@@ -106,12 +104,12 @@ public class Fletes implements Serializable {
         this.fechaDeSalida = fechaDeSalida;
     }
 
-    public String getFirebaseID() {
-        return firebaseID;
+    public String getFirebaseId() {
+        return firebaseId;
     }
 
-    public void setFirebaseID(String firebaseID) {
-        this.firebaseID = firebaseID;
+    public void setFirebaseId(String firebaseId) {
+        this.firebaseId = firebaseId;
     }
 
     public Integer getHoraDeSalida() {
