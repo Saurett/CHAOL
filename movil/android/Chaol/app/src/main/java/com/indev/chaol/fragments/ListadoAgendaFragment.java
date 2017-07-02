@@ -68,7 +68,7 @@ public class ListadoAgendaFragment extends Fragment implements View.OnClickListe
     private String firebaseIDransportista;
     private String firebaseIDChofer;
     private List<String> firebaseIDTransportistas;
-    private Map<CalendarDay,List<String>> _calendarFirebases;
+    private Map<CalendarDay, List<String>> _calendarFirebases;
 
     private ValueEventListener listener;
 
@@ -102,18 +102,46 @@ public class ListadoAgendaFragment extends Fragment implements View.OnClickListe
         super.onSaveInstanceState(outState);
     }
 
-    private boolean checkInvisibleCount() {
+    private boolean checkInvisibleCount(String estatus) {
         boolean participation = false;
 
         switch (_SESSION_USER.getTipoDeUsuario()) {
             case Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE:
-
                 participation = (!_SESSION_USER.getFirebaseId().equals(firebaseIDCliente));
-
                 break;
             case Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA:
 
-                participation = (!firebaseIDTransportistas.contains(_SESSION_USER.getFirebaseId()));
+                switch (estatus) {
+                    case Constants.FB_KEY_ITEM_STATUS_FLETE_POR_COTIZAR:
+                        participation = true;
+                        break;
+                    case Constants.FB_KEY_ITEM_STATUS_ESPERANDO_POR_TRANSPORTISTA:
+                        if (firebaseIDTransportistas.size() > 0) {
+                            participation = (!firebaseIDTransportistas.contains(_SESSION_USER.getFirebaseId()));
+                        }
+                        break;
+                    case Constants.FB_KEY_ITEM_STATUS_TRANSPORTISTA_POR_CONFIRMAR:
+                        participation = false;
+                        break;
+                    case Constants.FB_KEY_ITEM_STATUS_UNIDADES_POR_ASIGNAR:
+                        participation = (!firebaseIDransportista.equals(_SESSION_USER.getFirebaseId()));
+                        break;
+                    case Constants.FB_KEY_ITEM_STATUS_ENVIO_POR_INICIAR:
+                        participation = (!firebaseIDransportista.equals(_SESSION_USER.getFirebaseId()));
+                        break;
+                    case Constants.FB_KEY_ITEM_STATUS_EN_PROGRESO:
+                        participation = (!firebaseIDransportista.equals(_SESSION_USER.getFirebaseId()));
+                        break;
+                    case Constants.FB_KEY_ITEM_STATUS_ENTREGADO:
+                        participation = (!firebaseIDransportista.equals(_SESSION_USER.getFirebaseId()));
+                        break;
+                    case Constants.FB_KEY_ITEM_STATUS_FINALIZADO:
+                        participation = (!firebaseIDransportista.equals(_SESSION_USER.getFirebaseId()));
+                        break;
+                    case Constants.FB_KEY_ITEM_STATUS_CANCELADO:
+                        participation = true;
+                        break;
+                }
 
                 break;
             case Constants.FB_KEY_ITEM_TIPO_USUARIO_CHOFER:
@@ -127,15 +155,17 @@ public class ListadoAgendaFragment extends Fragment implements View.OnClickListe
         }
 
 
-        return  participation;
+        return participation;
     }
 
-    /**Guarda en una lista de firebase el dia con su respectivo firebaseID**/
+    /**
+     * Guarda en una lista de firebase el dia con su respectivo firebaseID
+     **/
     private void saveCalendarDay(CalendarDay calendarDay, Fletes flete) {
         List<String> firebases = (_calendarFirebases.containsKey(calendarDay)
                 ? _calendarFirebases.get(calendarDay) : new ArrayList<String>());
         firebases.add(flete.getFirebaseId());
-        _calendarFirebases.put(calendarDay,firebases);
+        _calendarFirebases.put(calendarDay, firebases);
     }
 
     @Override
@@ -163,12 +193,12 @@ public class ListadoAgendaFragment extends Fragment implements View.OnClickListe
 
                 _calendarFirebases = new HashMap<>();
 
-                firebaseIDCliente = "";
-                firebaseIDransportista = "";
-                firebaseIDChofer = "";
-                firebaseIDTransportistas = new ArrayList<>();
-
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+
+                    firebaseIDCliente = "";
+                    firebaseIDransportista = "";
+                    firebaseIDChofer = "";
+                    firebaseIDTransportistas = new ArrayList<>();
 
                     Fletes flete = postSnapshot.child(Constants.FB_KEY_MAIN_FLETE).getValue(Fletes.class);
                     Bodegas bodegaCarga = postSnapshot.child(Constants.FB_KEY_MAIN_BODEGA_DE_CARGA).getValue(Bodegas.class);
@@ -200,7 +230,7 @@ public class ListadoAgendaFragment extends Fragment implements View.OnClickListe
                         switch (flete.getEstatus()) {
                             case Constants.FB_KEY_ITEM_STATUS_FLETE_POR_COTIZAR:
 
-                                if (checkInvisibleCount()) continue;
+                                if (checkInvisibleCount(flete.getEstatus())) continue;
 
                                 if (!calendarDaysGray.contains(calendarDay)) {
                                     calendarDaysGray.add(calendarDay);
@@ -210,12 +240,12 @@ public class ListadoAgendaFragment extends Fragment implements View.OnClickListe
                                     dotGBCalendar.add(calendarDay);
                                 }
 
-                                saveCalendarDay(calendarDay,flete);
+                                saveCalendarDay(calendarDay, flete);
 
                                 break;
                             case Constants.FB_KEY_ITEM_STATUS_ESPERANDO_POR_TRANSPORTISTA:
 
-                                if (checkInvisibleCount()) continue;
+                                if (checkInvisibleCount(flete.getEstatus())) continue;
 
                                 if (!calendarDaysGray.contains(calendarDay)) {
                                     calendarDaysGray.add(calendarDay);
@@ -225,12 +255,12 @@ public class ListadoAgendaFragment extends Fragment implements View.OnClickListe
                                     dotGOCalendar.add(calendarDay);
                                 }
 
-                                saveCalendarDay(calendarDay,flete);
+                                saveCalendarDay(calendarDay, flete);
 
                                 break;
                             case Constants.FB_KEY_ITEM_STATUS_TRANSPORTISTA_POR_CONFIRMAR:
 
-                                if (checkInvisibleCount()) continue;
+                                if (checkInvisibleCount(flete.getEstatus())) continue;
 
                                 if (!calendarDaysGray.contains(calendarDay)) {
                                     calendarDaysGray.add(calendarDay);
@@ -240,13 +270,13 @@ public class ListadoAgendaFragment extends Fragment implements View.OnClickListe
                                     dotGBCalendar.add(calendarDay);
                                 }
 
-                                saveCalendarDay(calendarDay,flete);
+                                saveCalendarDay(calendarDay, flete);
 
 
                                 break;
                             case Constants.FB_KEY_ITEM_STATUS_UNIDADES_POR_ASIGNAR:
 
-                                if (checkInvisibleCount()) continue;
+                                if (checkInvisibleCount(flete.getEstatus())) continue;
 
                                 if (!calendarDaysGray.contains(calendarDay)) {
                                     calendarDaysGray.add(calendarDay);
@@ -256,12 +286,12 @@ public class ListadoAgendaFragment extends Fragment implements View.OnClickListe
                                     dotGOCalendar.add(calendarDay);
                                 }
 
-                                saveCalendarDay(calendarDay,flete);
+                                saveCalendarDay(calendarDay, flete);
 
                                 break;
                             case Constants.FB_KEY_ITEM_STATUS_ENVIO_POR_INICIAR:
 
-                                if (checkInvisibleCount()) continue;
+                                if (checkInvisibleCount(flete.getEstatus())) continue;
 
                                 if (!calendarDaysGray.contains(calendarDay)) {
                                     calendarDaysGray.add(calendarDay);
@@ -271,12 +301,12 @@ public class ListadoAgendaFragment extends Fragment implements View.OnClickListe
                                     dotGOCalendar.add(calendarDay);
                                 }
 
-                                saveCalendarDay(calendarDay,flete);
+                                saveCalendarDay(calendarDay, flete);
 
                                 break;
                             case Constants.FB_KEY_ITEM_STATUS_EN_PROGRESO:
 
-                                if (checkInvisibleCount()) continue;
+                                if (checkInvisibleCount(flete.getEstatus())) continue;
 
                                 if (!calendarDaysGray.contains(calendarDay)) {
                                     calendarDaysGray.add(calendarDay);
@@ -286,12 +316,12 @@ public class ListadoAgendaFragment extends Fragment implements View.OnClickListe
                                     dotGOCalendar.add(calendarDay);
                                 }
 
-                                saveCalendarDay(calendarDay,flete);
+                                saveCalendarDay(calendarDay, flete);
 
                                 break;
                             case Constants.FB_KEY_ITEM_STATUS_ENTREGADO:
 
-                                if (checkInvisibleCount()) continue;
+                                if (checkInvisibleCount(flete.getEstatus())) continue;
 
                                 if (!calendarDaysGray.contains(calendarDay)) {
                                     calendarDaysGray.add(calendarDay);
@@ -301,30 +331,30 @@ public class ListadoAgendaFragment extends Fragment implements View.OnClickListe
                                     dotGBCalendar.add(calendarDay);
                                 }
 
-                                saveCalendarDay(calendarDay,flete);
+                                saveCalendarDay(calendarDay, flete);
 
                                 break;
                             case Constants.FB_KEY_ITEM_STATUS_FINALIZADO:
 
-                                if (checkInvisibleCount()) continue;
+                                if (checkInvisibleCount(flete.getEstatus())) continue;
 
                                 if (!calendarDaysGray.contains(calendarDay)) {
                                     calendarDaysGray.add(calendarDay);
                                 }
 
-                                saveCalendarDay(calendarDay,flete);
+                                saveCalendarDay(calendarDay, flete);
 
 
                                 break;
                             case Constants.FB_KEY_ITEM_STATUS_CANCELADO:
 
-                                if (checkInvisibleCount()) continue;
+                                if (checkInvisibleCount(flete.getEstatus())) continue;
 
                                 if (!calendarDaysGray.contains(calendarDay)) {
                                     calendarDaysGray.add(calendarDay);
                                 }
 
-                                saveCalendarDay(calendarDay,flete);
+                                saveCalendarDay(calendarDay, flete);
 
                                 break;
                             default:
@@ -445,7 +475,9 @@ public class ListadoAgendaFragment extends Fragment implements View.OnClickListe
         this.setCurrentSelectionPanel(date);
     }
 
-    /**Accede a la agenda del dia seleccionado**/
+    /**
+     * Accede a la agenda del dia seleccionado
+     **/
     public void setCurrentSelectionPanel(CalendarDay date) {
         int dayOfWeek = date.getCalendar().get(Calendar.DAY_OF_WEEK);
         int selectedDay = date.getDay();

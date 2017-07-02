@@ -61,8 +61,7 @@ public class AsignacionTransportistasFragment extends Fragment implements View.O
      **/
     private FirebaseDatabase database;
     private DatabaseReference drFletes;
-
-    private ValueEventListener listener;
+    private ValueEventListener listenerFletes;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -90,8 +89,13 @@ public class AsignacionTransportistasFragment extends Fragment implements View.O
     @Override
     public void onStart() {
         super.onStart();
-
         this.onPreRender();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (null != listenerFletes) drFletes.removeEventListener(listenerFletes);
     }
 
     public void onPreRender() {
@@ -121,7 +125,7 @@ public class AsignacionTransportistasFragment extends Fragment implements View.O
         pDialogRender.setCancelable(false);
         pDialogRender.show();
 
-        dbFlete.addListenerForSingleValueEvent(new ValueEventListener() {
+        listenerFletes = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -133,6 +137,10 @@ public class AsignacionTransportistasFragment extends Fragment implements View.O
                 _mainFletesActual = new MainFletes();
 
                 _mainFletesActual.setFlete(flete);
+
+                if (_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA)) {
+                    FletesAsignacionFragment.showCancelAsignacion(View.GONE);
+                }
 
                 for (DataSnapshot psSeleccionado : dataSnapshot.child(Constants.FB_KEY_MAIN_TRANSPORTISTA_SELECCIONADO).getChildren()) {
                     Transportistas transportista = psSeleccionado.getValue(Transportistas.class);
@@ -153,6 +161,10 @@ public class AsignacionTransportistasFragment extends Fragment implements View.O
                             ? Constants.FB_KEY_ITEM_ESTATUS_TRANSPORTISTA_SELECCIONADO
                             : estatus);
 
+                    if (_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA)) {
+                        if (transportista.getFirebaseId().equals(_SESSION_USER.getFirebaseId())) FletesAsignacionFragment.showCancelAsignacion(View.VISIBLE);
+                    }
+
                     transportistasList.add(transportista);
                 }
 
@@ -165,7 +177,9 @@ public class AsignacionTransportistasFragment extends Fragment implements View.O
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
+        };
+
+        dbFlete.addValueEventListener(listenerFletes);
     }
 
     @Override
@@ -203,6 +217,10 @@ public class AsignacionTransportistasFragment extends Fragment implements View.O
     public static void deleteItem(DecodeItem decodeItem) {
         transportistasList.remove(decodeItem.getPosition());
         adapter.removeItem(decodeItem.getPosition());
+    }
+
+    public static List<Transportistas> getTransportistasList() {
+        return transportistasList;
     }
 
     /**

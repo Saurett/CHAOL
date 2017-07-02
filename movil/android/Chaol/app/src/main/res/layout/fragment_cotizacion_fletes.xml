@@ -71,22 +71,15 @@
                 android:orientation="vertical">
 
                 <Button
+                    android:id="@+id/btn_guardar_cotizacion"
                     android:layout_width="200dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="5dp"
                     android:background="@color/colorSecondaryAccent"
                     android:text="Guardar"
-                    android:textColor="@color/colorIcons" />
-
-                <Button
-                    android:layout_width="200dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="5dp"
-                    android:background="@color/colorSecondaryAccent"
-                    android:text="Solicitar Viaje"
-                    android:textColor="@color/colorIcons" />
+                    android:textColor="@color/colorIcons"
+                    android:visibility="gone" />
             </LinearLayout>
 
         </LinearLayout>

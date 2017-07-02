@@ -139,15 +139,24 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
         if (!_MAIN_DECODE.getFragmentTag().equals(Constants.FRAGMENT_LOGIN_REGISTER)) {
 
-            if (_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR)) {
-                dbUsuarioValido = FirebaseDatabase.getInstance().getReference()
-                        .child(Constants.TIPO_USUARIO_NODO.get(_SESSION_USER.getTipoDeUsuario()))
-                        .child(_SESSION_USER.getFirebaseId());
-            } else {
-                dbUsuarioValido = FirebaseDatabase.getInstance().getReference()
-                        .child(Constants.TIPO_USUARIO_NODO.get(_SESSION_USER.getTipoDeUsuario()))
-                        .child(_SESSION_USER.getFirebaseId())
-                        .child(Constants.TIPO_USUARIO_ITEM.get(_SESSION_USER.getTipoDeUsuario()));
+            switch (_SESSION_USER.getTipoDeUsuario()) {
+                case Constants.FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR:
+                case Constants.FB_KEY_ITEM_TIPO_USUARIO_CHOFER:
+
+                    dbUsuarioValido = FirebaseDatabase.getInstance().getReference()
+                            .child(Constants.TIPO_USUARIO_NODO.get(_SESSION_USER.getTipoDeUsuario()))
+                            .child(_SESSION_USER.getFirebaseId());
+
+                    break;
+                case Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE:
+                case Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA:
+
+                    dbUsuarioValido = FirebaseDatabase.getInstance().getReference()
+                            .child(Constants.TIPO_USUARIO_NODO.get(_SESSION_USER.getTipoDeUsuario()))
+                            .child(_SESSION_USER.getFirebaseId())
+                            .child(Constants.TIPO_USUARIO_ITEM.get(_SESSION_USER.getTipoDeUsuario()));
+
+                    break;
             }
 
             listenerSession = new ValueEventListener() {
@@ -1020,6 +1029,71 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
     }
 
+    private void createBodegaCarga(final String firebaseID, final Bodegas _bodegaCargaActual, final Bodegas _bodegaDescargaActual) {
+
+        pDialog = new ProgressDialog(MainRegisterActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        /**obtiene la instancia como transportista**/
+        DatabaseReference dbFletes =
+                FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
+                        .child(firebaseID);
+
+        _bodegaCargaActual.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
+        _bodegaCargaActual.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
+        _bodegaCargaActual.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_ACTIVO);
+
+        dbFletes.child(Constants.FB_KEY_MAIN_BODEGA_DE_CARGA)
+                .setValue(_bodegaCargaActual, new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                        pDialog.dismiss();
+                        if (databaseError == null) {
+                            createBodegaDescarga(firebaseID, _bodegaDescargaActual);
+                        }
+                    }
+                });
+    }
+
+    private void createBodegaDescarga(String firebaseID, Bodegas _bodegaDescargaActual) {
+
+        pDialog = new ProgressDialog(MainRegisterActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        /**obtiene la instancia como transportista**/
+        DatabaseReference dbFletes =
+                FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
+                        .child(firebaseID);
+
+        _bodegaDescargaActual.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
+        _bodegaDescargaActual.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
+        _bodegaDescargaActual.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_ACTIVO);
+
+        dbFletes.child(Constants.FB_KEY_MAIN_BODEGA_DE_DESCARGA)
+                .setValue(_bodegaDescargaActual, new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                        pDialog.dismiss();
+                        if (databaseError == null) {
+                            finish();
+                            Toast.makeText(getApplicationContext(),
+                                    "Registrado correctamente...", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
+        Log.i(TAG, "createBodegaDescarga: Creado correctamente" + firebaseID);
+    }
 
     @Override
     public void createSolicitudCotizacion(final Fletes flete, final Bodegas _bodegaCargaActual, final Bodegas _bodegaDescargaActual) {
@@ -1088,7 +1162,8 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         });
     }
 
-    private void createBodegaCarga(final String firebaseID, final Bodegas _bodegaCargaActual, final Bodegas _bodegaDescargaActual) {
+    @Override
+    public void updateSolicitudCotizacion(final Fletes flete) {
 
         pDialog = new ProgressDialog(MainRegisterActivity.this);
         pDialog.setMessage(getString(R.string.default_loading_msg));
@@ -1096,67 +1171,137 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         pDialog.setCancelable(false);
         pDialog.show();
 
-        /**obtiene la instancia como transportista**/
-        DatabaseReference dbFletes =
+        final DatabaseReference dbFlete =
                 FirebaseDatabase.getInstance().getReference()
                         .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
-                        .child(firebaseID);
+                        .child(flete.getFirebaseId())
+                        .child(Constants.FB_KEY_MAIN_FLETE);
 
-        _bodegaCargaActual.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
-        _bodegaCargaActual.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
-        _bodegaCargaActual.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_ACTIVO);
+        flete.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
 
-        dbFletes.child(Constants.FB_KEY_MAIN_BODEGA_DE_CARGA)
-                .setValue(_bodegaCargaActual, new DatabaseReference.CompletionListener() {
-                    @Override
-                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+        dbFlete.setValue(flete, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                pDialog.dismiss();
 
-                        pDialog.dismiss();
-                        if (databaseError == null) {
-                            createBodegaDescarga(firebaseID, _bodegaDescargaActual);
-                        }
-                    }
-                });
-    }
+                if (databaseError == null) {
+                    finish();
+                    Toast.makeText(getApplicationContext(),
+                            "Actualizado correctamente...", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
-    private void createBodegaDescarga(String firebaseID, Bodegas _bodegaDescargaActual) {
-
-        pDialog = new ProgressDialog(MainRegisterActivity.this);
-        pDialog.setMessage(getString(R.string.default_loading_msg));
-        pDialog.setIndeterminate(false);
-        pDialog.setCancelable(false);
-        pDialog.show();
-
-        /**obtiene la instancia como transportista**/
-        DatabaseReference dbFletes =
-                FirebaseDatabase.getInstance().getReference()
-                        .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
-                        .child(firebaseID);
-
-        _bodegaDescargaActual.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
-        _bodegaDescargaActual.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
-        _bodegaDescargaActual.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_ACTIVO);
-
-        dbFletes.child(Constants.FB_KEY_MAIN_BODEGA_DE_DESCARGA)
-                .setValue(_bodegaDescargaActual, new DatabaseReference.CompletionListener() {
-                    @Override
-                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-
-                        pDialog.dismiss();
-                        if (databaseError == null) {
-                            finish();
-                            Toast.makeText(getApplicationContext(),
-                                    "Registrado correctamente...", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
-
-        Log.i(TAG, "createBodegaDescarga: Creado correctamente" + firebaseID);
+        Log.i(TAG, "updateSolicitudCotizacion: Actualizado correctamente" + flete.getFirebaseId());
     }
 
     @Override
-    public void updateSolicitudCotizacion(Fletes flete) {
+    public void updateSolicitudTransportistaInteresado(final Fletes flete, final Transportistas transportistaInteresado) {
 
+        pDialog = new ProgressDialog(MainRegisterActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        final DatabaseReference dbFlete =
+                FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
+                        .child(flete.getFirebaseId())
+                        .child(Constants.FB_KEY_MAIN_FLETE);
+
+        flete.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
+
+        dbFlete.setValue(flete, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                pDialog.dismiss();
+
+                if (databaseError == null) {
+
+                    pDialog = new ProgressDialog(MainRegisterActivity.this);
+                    pDialog.setMessage(getString(R.string.default_loading_msg));
+                    pDialog.setIndeterminate(false);
+                    pDialog.setCancelable(false);
+                    pDialog.show();
+
+                    /**obtiene la instancia como transportista**/
+                    DatabaseReference dbInteresado =
+                            FirebaseDatabase.getInstance().getReference()
+                                    .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
+                                    .child(flete.getFirebaseId())
+                                    .child(Constants.FB_KEY_MAIN_TRANSPORTISTAS_INTERESADOS);
+
+                    dbInteresado.child(transportistaInteresado.getFirebaseId())
+                            .setValue(transportistaInteresado, new DatabaseReference.CompletionListener() {
+                                @Override
+                                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                                    pDialog.dismiss();
+
+                                    if (databaseError == null) {
+                                        finish();
+                                        Toast.makeText(getApplicationContext(),
+                                                "Actualizado correctamente...", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                }
+            }
+        });
+
+        Log.i(TAG, "updateSolicitudTransportistaInteresado: Actualizado correctamente" + flete.getFirebaseId());
+
+    }
+
+    @Override
+    public void removeSolicitudTransportistaInteresado(final Fletes flete, String firebaseIDTransportistaInteresado) {
+        pDialog = new ProgressDialog(MainRegisterActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        final DatabaseReference dbInteresado =
+                FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
+                        .child(flete.getFirebaseId())
+                        .child(Constants.FB_KEY_MAIN_TRANSPORTISTAS_INTERESADOS)
+                        .child(firebaseIDTransportistaInteresado);
+
+        dbInteresado.removeValue(new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                pDialog.dismiss();
+
+                if (databaseError == null) {
+
+                    pDialog = new ProgressDialog(MainRegisterActivity.this);
+                    pDialog.setMessage(getString(R.string.default_loading_msg));
+                    pDialog.setIndeterminate(false);
+                    pDialog.setCancelable(false);
+                    pDialog.show();
+
+                    DatabaseReference dbFlete =
+                            FirebaseDatabase.getInstance().getReference()
+                                    .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
+                                    .child(flete.getFirebaseId())
+                                    .child(Constants.FB_KEY_MAIN_FLETE);
+
+                    dbFlete.setValue(flete, new DatabaseReference.CompletionListener() {
+                        @Override
+                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                            pDialog.dismiss();
+
+                            if (databaseError == null) {
+                                finish();
+                                Toast.makeText(getApplicationContext(),
+                                        "Actualizado correctamente...", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                }
+            }
+        });
     }
 
     @Override

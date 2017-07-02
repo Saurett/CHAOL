@@ -6,18 +6,21 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.indev.chaol.MainRegisterActivity;
 import com.indev.chaol.R;
 import com.indev.chaol.models.Agendas;
 import com.indev.chaol.models.Bodegas;
@@ -39,7 +42,7 @@ import java.util.Calendar;
 
 public class FletesCotizacionFragment extends Fragment implements View.OnClickListener, DialogInterface.OnClickListener {
 
-    private Button btnTitulo;
+    private Button btnTitulo, btnGuardar;
     private EditText txtPrecio;
     private LinearLayout linearLayout;
 
@@ -47,6 +50,8 @@ public class FletesCotizacionFragment extends Fragment implements View.OnClickLi
     private static DecodeExtraParams _MAIN_DECODE;
 
     private static MainFletes _mainFletesActual;
+
+    private static MainRegisterActivity activityInterface;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,10 +61,12 @@ public class FletesCotizacionFragment extends Fragment implements View.OnClickLi
         _SESSION_USER = (Usuarios) getActivity().getIntent().getSerializableExtra(Constants.KEY_SESSION_USER);
 
         btnTitulo = (Button) view.findViewById(R.id.btn_cotizacion_fletes);
+        btnGuardar = (Button) view.findViewById(R.id.btn_guardar_cotizacion);
         txtPrecio = (EditText) view.findViewById(R.id.txt_cotización_precio);
         linearLayout = (LinearLayout) view.findViewById(R.id.cotizacion_container);
 
         btnTitulo.setOnClickListener(this);
+        btnGuardar.setOnClickListener(this);
         linearLayout.setVisibility(View.GONE);
 
         _MAIN_DECODE = (DecodeExtraParams) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
@@ -78,7 +85,7 @@ public class FletesCotizacionFragment extends Fragment implements View.OnClickLi
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-
+            activityInterface = (MainRegisterActivity) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString() + "debe implementar");
         }
@@ -89,8 +96,6 @@ public class FletesCotizacionFragment extends Fragment implements View.OnClickLi
             case Constants.ACCION_EDITAR:
                 /**Obtiene el item selecionado en el fragmento de lista**/
                 this.onPreRenderEditar();
-                break;
-            case Constants.ACCION_REGISTRAR:
                 break;
         }
     }
@@ -111,7 +116,7 @@ public class FletesCotizacionFragment extends Fragment implements View.OnClickLi
         pDialogRender.setCancelable(false);
         pDialogRender.show();
 
-        dbFlete.addListenerForSingleValueEvent(new ValueEventListener() {
+        dbFlete.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -121,6 +126,16 @@ public class FletesCotizacionFragment extends Fragment implements View.OnClickLi
                 _mainFletesActual.setFlete(flete);
 
                 txtPrecio.setText(_mainFletesActual.getFlete().getPrecio());
+
+                if (!txtPrecio.getText().toString().isEmpty()) {
+                    btnGuardar.setText("Actualizar");
+                }
+
+                switch (_SESSION_USER.getTipoDeUsuario()) {
+                    case Constants.FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR:
+                        btnGuardar.setVisibility(View.VISIBLE);
+                        break;
+                }
 
                 pDialogRender.dismiss();
             }
@@ -138,11 +153,9 @@ public class FletesCotizacionFragment extends Fragment implements View.OnClickLi
             case R.id.btn_cotizacion_fletes:
                 linearLayout.setVisibility((linearLayout.getVisibility() == View.VISIBLE) ? View.GONE : View.VISIBLE);
                 break;
-            case R.id.fab_clientes:
+            case R.id.btn_guardar_cotizacion:
                 if (_MAIN_DECODE.getAccionFragmento() == Constants.ACCION_EDITAR) {
                     this.showQuestion();
-                } else {
-
                 }
                 break;
         }
@@ -163,8 +176,43 @@ public class FletesCotizacionFragment extends Fragment implements View.OnClickLi
     public void onClick(DialogInterface dialog, int which) {
         switch (which) {
             case DialogInterface.BUTTON_POSITIVE:
-
+                this.validationEditer();
                 break;
         }
+    }
+
+    private void validationEditer() {
+        Boolean authorized = true;
+
+        String precio = txtPrecio.getText().toString();
+
+        if (TextUtils.isEmpty(precio)) {
+            txtPrecio.setError("El campo es obligatorio", null);
+            txtPrecio.requestFocus();
+            authorized = false;
+        }
+
+        if (authorized) {
+            this.updateCotizacion();
+        } else {
+            Toast.makeText(getContext(), "Es necesario capturar campos obligatorios",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void updateCotizacion() {
+        Fletes flete = _mainFletesActual.getFlete();
+
+        flete.setPrecio(txtPrecio.getText().toString().trim());
+
+        flete.setFechaDeCreacion(_mainFletesActual.getFlete().getFechaDeCreacion());
+        flete.setFirebaseId(_mainFletesActual.getFlete().getFirebaseId());
+
+        String estatus = (Constants.FB_KEY_ITEM_STATUS_FLETE_POR_COTIZAR.equals(flete.getEstatus())
+                ? Constants.FB_KEY_ITEM_STATUS_ESPERANDO_POR_TRANSPORTISTA : flete.getEstatus());
+
+        flete.setEstatus(estatus);
+
+        activityInterface.updateSolicitudCotizacion(flete);
     }
 }
