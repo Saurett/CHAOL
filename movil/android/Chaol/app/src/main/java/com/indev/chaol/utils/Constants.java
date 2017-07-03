@@ -127,6 +127,7 @@ public final class Constants {
     public static final int WS_KEY_ELIMINAR_TRANSPORTISTAS = 20;
     public static final int WS_KEY_EDITAR_TRANSPORTISTAS = 21;
     public static final int WS_KEY_AGREGAR_TRANSPORTISTAS = 22;
+    public static final int WS_KEY_AUTORIZAR_TRANSPORTISTAS = 23;
     public static final int WS_KEY_BUSCAR_CHOFERES = 3;
     public static final int WS_KEY_ELIMINAR_CHOFERES = 30;
     public static final int WS_KEY_EDITAR_CHOFERES = 31;

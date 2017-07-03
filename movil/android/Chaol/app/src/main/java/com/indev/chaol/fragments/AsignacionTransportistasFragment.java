@@ -2,8 +2,6 @@ package com.indev.chaol.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,9 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.indev.chaol.MainRegisterActivity;
 import com.indev.chaol.R;
 import com.indev.chaol.adapters.AsignacionesTransportistasAdapter;
-import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
 import com.indev.chaol.models.Agendas;
-import com.indev.chaol.models.Bodegas;
 import com.indev.chaol.models.DecodeExtraParams;
 import com.indev.chaol.models.DecodeItem;
 import com.indev.chaol.models.Fletes;
@@ -31,12 +26,8 @@ import com.indev.chaol.models.MainFletes;
 import com.indev.chaol.models.Transportistas;
 import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
-import com.indev.chaol.utils.DateTimeUtils;
-import com.indev.chaol.utils.EventDecorator;
-import com.prolificinteractive.materialcalendarview.CalendarDay;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -77,6 +68,10 @@ public class AsignacionTransportistasFragment extends Fragment implements View.O
 
         database = FirebaseDatabase.getInstance();
         drFletes = database.getReference(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR);
+
+        if (_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR)) {
+            recyclerViewAsignaciones.setVisibility(View.VISIBLE);
+        }
 
         return view;
     }
@@ -209,7 +204,7 @@ public class AsignacionTransportistasFragment extends Fragment implements View.O
                 activityInterface.openExternalActivity(Constants.ACCION_VER, MainRegisterActivity.class);
                 break;
             case R.id.item_btn_autorizar_asinacion_transportista:
-                //navigationDrawerInterface.showQuestion();
+                activityInterface.showQuestion();
                 break;
         }
     }
@@ -236,5 +231,9 @@ public class AsignacionTransportistasFragment extends Fragment implements View.O
         recyclerViewAsignaciones.setLayoutManager(linearLayoutManager);
 
         adapter = transportistasAdapter;
+    }
+
+    public static MainFletes getMainFletes() {
+        return _mainFletesActual;
     }
 }

@@ -26,6 +26,15 @@
                 android:text="Nombre del interesado" />
 
             <Button
+                android:id="@+id/item_btn_autorizado_transportista"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@mipmap/ic_star_white_48dp"
+                android:backgroundTint="@color/colorSecondaryAccent" />
+
+            <Button
                 android:id="@+id/item_btn_perfil_asignacion_transportista"
                 android:layout_width="20dp"
                 android:layout_height="20dp"

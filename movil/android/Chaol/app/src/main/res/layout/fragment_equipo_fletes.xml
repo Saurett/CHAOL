@@ -461,12 +461,25 @@
                 android:orientation="vertical">
 
                 <Button
+                    android:id="@+id/btn_guardar_equipo"
                     android:layout_width="200dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="5dp"
                     android:background="@color/colorSecondaryAccent"
+                    android:visibility="gone"
                     android:text="Guardar"
+                    android:textColor="@color/colorIcons" />
+
+                <Button
+                    android:id="@+id/btn_actualizar_equipo"
+                    android:layout_width="200dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="5dp"
+                    android:background="@color/colorSecondaryAccent"
+                    android:visibility="gone"
+                    android:text="Actualizar"
                     android:textColor="@color/colorIcons" />
             </LinearLayout>
 

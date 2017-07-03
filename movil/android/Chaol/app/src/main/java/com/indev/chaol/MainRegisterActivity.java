@@ -34,6 +34,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
+import com.indev.chaol.fragments.AsignacionTransportistasFragment;
 import com.indev.chaol.fragments.interfaces.MainRegisterInterface;
 import com.indev.chaol.models.Administradores;
 import com.indev.chaol.models.Bodegas;
@@ -42,6 +43,7 @@ import com.indev.chaol.models.Clientes;
 import com.indev.chaol.models.DecodeExtraParams;
 import com.indev.chaol.models.DecodeItem;
 import com.indev.chaol.models.Fletes;
+import com.indev.chaol.models.MainFletes;
 import com.indev.chaol.models.Remolques;
 import com.indev.chaol.models.Tractores;
 import com.indev.chaol.models.Transportistas;
@@ -52,7 +54,7 @@ import com.indev.chaol.utils.ErrorMessages;
 
 import java.util.List;
 
-public class MainRegisterActivity extends AppCompatActivity implements MainRegisterInterface, View.OnClickListener {
+public class MainRegisterActivity extends AppCompatActivity implements MainRegisterInterface, View.OnClickListener, DialogInterface.OnClickListener {
 
     private static final String TAG = MainRegisterActivity.class.getName();
 
@@ -296,7 +298,48 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
     @Override
     public void showQuestion() {
+        AlertDialog.Builder ad = new AlertDialog.Builder(this);
 
+        ad.setTitle("Autorizar");
+        ad.setMessage("¿Esta seguro que desea autorizar transportista?");
+        ad.setCancelable(false);
+        ad.setNegativeButton("Cancelar", this);
+        ad.setPositiveButton("Aceptar", this);
+        ad.show();
+    }
+
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        int operation = 0;
+
+        switch (which) {
+            case DialogInterface.BUTTON_POSITIVE:
+                switch (this.getDecodeItem().getIdView()) {
+                    case R.id.item_btn_autorizar_asinacion_transportista:
+                        operation = Constants.WS_KEY_AUTORIZAR_TRANSPORTISTAS;
+                        break;
+                }
+
+                this.firebaseOperations(operation);
+
+                break;
+        }
+
+    }
+
+    private void firebaseOperations(int operation) {
+
+        pDialog = new ProgressDialog(MainRegisterActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        switch (operation) {
+            case Constants.WS_KEY_AUTORIZAR_TRANSPORTISTAS:
+                this.firebaseAutorizarTransportista();
+                break;
+        }
     }
 
     @Override
@@ -1253,6 +1296,60 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
     }
 
+    private void firebaseAutorizarTransportista() {
+
+        final Fletes flete = AsignacionTransportistasFragment.getMainFletes().getFlete();
+
+        final Transportistas transportista = (Transportistas) getDecodeItem().getItemModel();
+
+        /**En correo electronico se guarda de manera temporal el firebaseID del flete (AsignacionTransportistasFragment)**/
+
+        /**obtiene la instancia del elemento**/
+        DatabaseReference dbTransportistaSeleccionado =
+                FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
+                        .child(flete.getFirebaseId())
+                        .child(Constants.FB_KEY_MAIN_TRANSPORTISTA_SELECCIONADO)
+                        .child(transportista.getFirebaseId());
+
+        /**Elimina la bandera temporal**/
+        transportista.setEstatus(null);
+
+        dbTransportistaSeleccionado.setValue(transportista, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                pDialog.dismiss();
+                if (databaseError == null) {
+
+                    DatabaseReference dbFlete =
+                            FirebaseDatabase.getInstance().getReference()
+                                    .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
+                                    .child(flete.getFirebaseId())
+                                    .child(Constants.FB_KEY_MAIN_FLETE);
+
+                    flete.setEstatus(Constants.FB_KEY_ITEM_STATUS_UNIDADES_POR_ASIGNAR);
+                    flete.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
+
+                    dbFlete.setValue(flete, new DatabaseReference.CompletionListener() {
+                        @Override
+                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                            pDialog.dismiss();
+                            if (databaseError == null) {
+                                Toast.makeText(getApplicationContext(),
+                                        "Autorizado correctamente...", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    });
+                }
+            }
+        });
+
+        Log.i(TAG, "firebaseAutorizarTransportista: Actualizado correctamente" + flete.getFirebaseId());
+    }
+
     @Override
     public void removeSolicitudTransportistaInteresado(final Fletes flete, String firebaseIDTransportistaInteresado) {
         pDialog = new ProgressDialog(MainRegisterActivity.this);
@@ -1302,6 +1399,307 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 }
             }
         });
+    }
+
+    @Override
+    public void createSolicitudEquipo(MainFletes mainFletes) {
+
+        pDialog = new ProgressDialog(MainRegisterActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        final Fletes flete = mainFletes.getFlete();
+        final Choferes chofer = mainFletes.getChoferSeleccionado();
+        final Tractores tractor = mainFletes.getTractorSeleccionado();
+        final Remolques remolque = mainFletes.getRemolqueSeleccionado();
+
+        final DatabaseReference dbChoferSeleccionadoRemove =
+                FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
+                        .child(flete.getFirebaseId())
+                        .child(Constants.FB_KEY_MAIN_CHOFER_SELECCIONADO);
+
+        dbChoferSeleccionadoRemove.removeValue(new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                if (databaseError == null) {
+
+                    final DatabaseReference dbChoferSeleccionado =
+                            FirebaseDatabase.getInstance().getReference()
+                                    .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
+                                    .child(flete.getFirebaseId())
+                                    .child(Constants.FB_KEY_MAIN_CHOFER_SELECCIONADO);
+
+                    dbChoferSeleccionado.child(chofer.getFirebaseId()).setValue(chofer, new DatabaseReference.CompletionListener() {
+                        @Override
+                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                            if (databaseError == null) {
+                                final DatabaseReference dbTractorSeleccionadoRemove =
+                                        FirebaseDatabase.getInstance().getReference()
+                                                .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
+                                                .child(flete.getFirebaseId())
+                                                .child(Constants.FB_KEY_MAIN_TRACTOR_SELECCIONADO);
+
+                                dbTractorSeleccionadoRemove.removeValue(new DatabaseReference.CompletionListener() {
+
+                                    @Override
+                                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                                        if (databaseError == null) {
+                                            final DatabaseReference dbTractorSeleccionado =
+                                                    FirebaseDatabase.getInstance().getReference()
+                                                            .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
+                                                            .child(flete.getFirebaseId())
+                                                            .child(Constants.FB_KEY_MAIN_TRACTOR_SELECCIONADO);
+
+                                            dbTractorSeleccionado.child(tractor.getFirebaseId()).setValue(tractor, new DatabaseReference.CompletionListener() {
+                                                @Override
+                                                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                                                    if (databaseError == null) {
+
+                                                        DatabaseReference dbRemolqueSeleccionadoRemove =
+                                                                FirebaseDatabase.getInstance().getReference()
+                                                                        .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
+                                                                        .child(flete.getFirebaseId())
+                                                                        .child(Constants.FB_KEY_MAIN_REMOLQUE_SELECCIONADO);
+
+                                                        dbRemolqueSeleccionadoRemove.removeValue(new DatabaseReference.CompletionListener() {
+                                                            @Override
+                                                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                                                                if (databaseError == null) {
+
+                                                                    DatabaseReference dbRemolqueSeleccionado =
+                                                                            FirebaseDatabase.getInstance().getReference()
+                                                                                    .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
+                                                                                    .child(flete.getFirebaseId())
+                                                                                    .child(Constants.FB_KEY_MAIN_REMOLQUE_SELECCIONADO);
+
+                                                                    dbRemolqueSeleccionado.child(remolque.getFirebaseId()).setValue(remolque, new DatabaseReference.CompletionListener() {
+                                                                        @Override
+                                                                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                                                                            if (databaseError == null) {
+
+                                                                                DatabaseReference dbFlete =
+                                                                                        FirebaseDatabase.getInstance().getReference()
+                                                                                                .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
+                                                                                                .child(flete.getFirebaseId())
+                                                                                                .child(Constants.FB_KEY_MAIN_FLETE);
+
+                                                                                flete.setFechaDeAsignacionDeTransportista(DateTimeUtils.getTimeStamp());
+                                                                                flete.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
+
+                                                                                dbFlete.setValue(flete, new DatabaseReference.CompletionListener() {
+                                                                                    @Override
+                                                                                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                                                                                        pDialog.dismiss();
+
+                                                                                        if (databaseError == null) {
+                                                                                            finish();
+                                                                                            Toast.makeText(getApplicationContext(),
+                                                                                                    "Actualizado correctamente...", Toast.LENGTH_SHORT).show();
+
+                                                                                        }
+                                                                                    }
+                                                                                });
+
+                                                                            } else {
+                                                                                pDialog.dismiss();
+                                                                            }
+
+                                                                        }
+                                                                    });
+
+                                                                } else {
+                                                                    pDialog.dismiss();
+                                                                }
+
+                                                            }
+                                                        });
+
+                                                    } else {
+                                                        pDialog.dismiss();
+                                                    }
+
+                                                }
+                                            });
+
+
+                                        } else {
+                                            pDialog.dismiss();
+                                        }
+                                    }
+                                });
+                            } else {
+                                pDialog.dismiss();
+                            }
+
+                        }
+                    });
+
+                } else {
+                    pDialog.dismiss();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void updateSolicitudEquipo(MainFletes mainFletes) {
+
+        pDialog = new ProgressDialog(MainRegisterActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        final Fletes flete = mainFletes.getFlete();
+        final Choferes chofer = mainFletes.getChoferSeleccionado();
+        final Tractores tractor = mainFletes.getTractorSeleccionado();
+        final Remolques remolque = mainFletes.getRemolqueSeleccionado();
+
+        final DatabaseReference dbChoferSeleccionadoRemove =
+                FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
+                        .child(flete.getFirebaseId())
+                        .child(Constants.FB_KEY_MAIN_CHOFER_SELECCIONADO);
+
+        dbChoferSeleccionadoRemove.removeValue(new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                if (databaseError == null) {
+
+                    final DatabaseReference dbChoferSeleccionado =
+                            FirebaseDatabase.getInstance().getReference()
+                                    .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
+                                    .child(flete.getFirebaseId())
+                                    .child(Constants.FB_KEY_MAIN_CHOFER_SELECCIONADO);
+
+                    dbChoferSeleccionado.child(chofer.getFirebaseId()).setValue(chofer, new DatabaseReference.CompletionListener() {
+                        @Override
+                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                            if (databaseError == null) {
+                                final DatabaseReference dbTractorSeleccionadoRemove =
+                                        FirebaseDatabase.getInstance().getReference()
+                                                .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
+                                                .child(flete.getFirebaseId())
+                                                .child(Constants.FB_KEY_MAIN_TRACTOR_SELECCIONADO);
+
+                                dbTractorSeleccionadoRemove.removeValue(new DatabaseReference.CompletionListener() {
+
+                                    @Override
+                                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                                        if (databaseError == null) {
+                                            final DatabaseReference dbTractorSeleccionado =
+                                                    FirebaseDatabase.getInstance().getReference()
+                                                            .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
+                                                            .child(flete.getFirebaseId())
+                                                            .child(Constants.FB_KEY_MAIN_TRACTOR_SELECCIONADO);
+
+                                            dbTractorSeleccionado.child(tractor.getFirebaseId()).setValue(tractor, new DatabaseReference.CompletionListener() {
+                                                @Override
+                                                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                                                    if (databaseError == null) {
+
+                                                        DatabaseReference dbRemolqueSeleccionadoRemove =
+                                                                FirebaseDatabase.getInstance().getReference()
+                                                                        .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
+                                                                        .child(flete.getFirebaseId())
+                                                                        .child(Constants.FB_KEY_MAIN_REMOLQUE_SELECCIONADO);
+
+                                                        dbRemolqueSeleccionadoRemove.removeValue(new DatabaseReference.CompletionListener() {
+                                                            @Override
+                                                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                                                                if (databaseError == null) {
+
+                                                                    DatabaseReference dbRemolqueSeleccionado =
+                                                                            FirebaseDatabase.getInstance().getReference()
+                                                                                    .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
+                                                                                    .child(flete.getFirebaseId())
+                                                                                    .child(Constants.FB_KEY_MAIN_REMOLQUE_SELECCIONADO);
+
+                                                                    dbRemolqueSeleccionado.child(remolque.getFirebaseId()).setValue(remolque, new DatabaseReference.CompletionListener() {
+                                                                        @Override
+                                                                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                                                                            if (databaseError == null) {
+
+                                                                                DatabaseReference dbFlete =
+                                                                                        FirebaseDatabase.getInstance().getReference()
+                                                                                                .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
+                                                                                                .child(flete.getFirebaseId())
+                                                                                                .child(Constants.FB_KEY_MAIN_FLETE);
+
+                                                                                flete.setFechaDeAsignacionDeTransportista(DateTimeUtils.getTimeStamp());
+                                                                                flete.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
+
+                                                                                dbFlete.setValue(flete, new DatabaseReference.CompletionListener() {
+                                                                                    @Override
+                                                                                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                                                                                        pDialog.dismiss();
+
+                                                                                        if (databaseError == null) {
+                                                                                            finish();
+                                                                                            Toast.makeText(getApplicationContext(),
+                                                                                                    "Actualizado correctamente...", Toast.LENGTH_SHORT).show();
+
+                                                                                        }
+                                                                                    }
+                                                                                });
+
+                                                                            } else {
+                                                                                pDialog.dismiss();
+                                                                            }
+
+                                                                        }
+                                                                    });
+
+                                                                } else {
+                                                                    pDialog.dismiss();
+                                                                }
+
+                                                            }
+                                                        });
+
+                                                    } else {
+                                                        pDialog.dismiss();
+                                                    }
+
+                                                }
+                                            });
+
+
+                                        } else {
+                                            pDialog.dismiss();
+                                        }
+                                    }
+                                });
+                            } else {
+                                pDialog.dismiss();
+                            }
+
+                        }
+                    });
+
+                } else {
+                    pDialog.dismiss();
+                }
+            }
+        });
+
     }
 
     @Override

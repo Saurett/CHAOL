@@ -5,6 +5,7 @@ import com.indev.chaol.models.Choferes;
 import com.indev.chaol.models.Clientes;
 import com.indev.chaol.models.DecodeItem;
 import com.indev.chaol.models.Fletes;
+import com.indev.chaol.models.MainFletes;
 import com.indev.chaol.models.Remolques;
 import com.indev.chaol.models.Tractores;
 import com.indev.chaol.models.Transportistas;
@@ -59,4 +60,8 @@ public interface MainRegisterInterface {
     void updateSolicitudTransportistaInteresado(Fletes flete, Transportistas transportistaInteresado);
     /**Permite actualizar la solicitud de transportista**/
     void removeSolicitudTransportistaInteresado(Fletes flete, String firebaseIDTransportistaInteresado);
+    /**Permite crear la solicitud de Equipo**/
+    void createSolicitudEquipo(MainFletes mainFletes);
+    /**Permite actualizar la solicitud de equipo**/
+    void updateSolicitudEquipo(MainFletes mainFletes);
 }
