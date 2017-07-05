@@ -32,6 +32,7 @@ public class AsignacionesTransportistasAdapter extends RecyclerView.Adapter<Asig
         TextView txtNombre;
         Button btnPerfil;
         Button btnAutorizar;
+        Button btnAutorizado;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -39,6 +40,7 @@ public class AsignacionesTransportistasAdapter extends RecyclerView.Adapter<Asig
             txtNombre = (TextView) itemView.findViewById(R.id.item_nombre_asignacion_transportista);
             btnPerfil = (Button) itemView.findViewById(R.id.item_btn_perfil_asignacion_transportista);
             btnAutorizar = (Button) itemView.findViewById(R.id.item_btn_autorizar_asinacion_transportista);
+            btnAutorizado = (Button) itemView.findViewById(R.id.item_btn_autorizado_transportista);
         }
     }
 
@@ -75,20 +77,22 @@ public class AsignacionesTransportistasAdapter extends RecyclerView.Adapter<Asig
 
         holder.txtNombre.setText(item.getNombre());
 
+        holder.btnAutorizado.setVisibility(View.GONE);
+
         switch (item.getEstatus()) {
             case Constants.FB_KEY_ITEM_ESTATUS_TRANSPORTISTA_INTERESADO:
                 holder.btnAutorizar.setVisibility(View.VISIBLE);
                 break;
             case Constants.FB_KEY_ITEM_ESTATUS_TRANSPORTISTA_SELECCIONADO:
-                holder.btnAutorizar.setVisibility(View.INVISIBLE);
+                holder.btnAutorizar.setVisibility(View.GONE);
+                holder.btnAutorizado.setVisibility(View.VISIBLE);
                 break;
             case Constants.FB_KEY_ITEM_ESTATUS_INACTIVO:
-                holder.btnAutorizar.setVisibility(View.INVISIBLE);
+                holder.btnAutorizar.setVisibility(View.GONE);
                 break;
             default:
                 break;
         }
-
 
         holder.btnPerfil.setOnClickListener(new View.OnClickListener() {
             @Override

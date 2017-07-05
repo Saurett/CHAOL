@@ -110,12 +110,12 @@ public class PanelFletesFragment extends Fragment implements View.OnClickListene
                 int countUnidadesPorAsignar = 0, countEnvioPorIniciar = 0, countEnProgreso = 0;
                 int countEntregado = 0, countFinalizado = 0, countCancelado = 0;
 
-                firebaseIDCliente = "";
-                firebaseIDransportista = "";
-                firebaseIDChofer = "";
-                firebaseIDTransportistas = new ArrayList<>();
-
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+
+                    firebaseIDCliente = "";
+                    firebaseIDransportista = "";
+                    firebaseIDChofer = "";
+                    firebaseIDTransportistas = new ArrayList<>();
 
                     Log.i(TAG,"addValueEventListener Flete " + postSnapshot.getKey());
 
@@ -140,68 +140,66 @@ public class PanelFletesFragment extends Fragment implements View.OnClickListene
 
                     firebaseIDCliente = bodegaCarga.getFirebaseIdDelCliente();
 
-                    //TODO transportistaSeleccionado/firebaseID
-
                     switch (flete.getEstatus()) {
                         case Constants.FB_KEY_ITEM_STATUS_FLETE_POR_COTIZAR:
 
-                            if (checkInvisibleCount()) continue;
+                            if (checkInvisibleCount(flete.getEstatus())) continue;
 
                             count++;
                             txtNumPorCotizar.setText(String.valueOf(count));
                             break;
                         case Constants.FB_KEY_ITEM_STATUS_ESPERANDO_POR_TRANSPORTISTA:
 
-                            if (checkInvisibleCount()) continue;
+                            if (checkInvisibleCount(flete.getEstatus())) continue;
 
                             countEsperandoTransportista++;
                             txtNumEsperandoTransportista.setText(String.valueOf(countEsperandoTransportista));
                             break;
                         case Constants.FB_KEY_ITEM_STATUS_TRANSPORTISTA_POR_CONFIRMAR:
 
-                            if (checkInvisibleCount()) continue;
+                            if (checkInvisibleCount(flete.getEstatus())) continue;
 
                             countTransportistaPorConfirmar++;
                             txtNumTransportistaPorConfirmar.setText(String.valueOf(countTransportistaPorConfirmar));
                             break;
                         case Constants.FB_KEY_ITEM_STATUS_UNIDADES_POR_ASIGNAR:
 
-                            if (checkInvisibleCount()) continue;
+                            if (checkInvisibleCount(flete.getEstatus())) continue;
 
                             countUnidadesPorAsignar++;
                             txtNumUnidadesPorAsignar.setText(String.valueOf(countUnidadesPorAsignar));
                             break;
                         case Constants.FB_KEY_ITEM_STATUS_ENVIO_POR_INICIAR:
 
-                            if (checkInvisibleCount()) continue;
+                            if (checkInvisibleCount(flete.getEstatus())) continue;
 
                             countEnvioPorIniciar++;
                             txtNumEnvioPorIniciar.setText(String.valueOf(countEnvioPorIniciar));
                             break;
                         case Constants.FB_KEY_ITEM_STATUS_EN_PROGRESO:
 
-                            if (checkInvisibleCount()) continue;
+                            if (checkInvisibleCount(flete.getEstatus())) continue;
 
                             countEnProgreso++;
                             txtNumEnProgreso.setText(String.valueOf(countEnProgreso));
                             break;
                         case Constants.FB_KEY_ITEM_STATUS_ENTREGADO:
 
-                            if (checkInvisibleCount()) continue;
+                            if (checkInvisibleCount(flete.getEstatus())) continue;
 
                             countEntregado++;
                             txtNumEntregado.setText(String.valueOf(countEntregado));
                             break;
                         case Constants.FB_KEY_ITEM_STATUS_FINALIZADO:
 
-                            if (checkInvisibleCount()) continue;
+                            if (checkInvisibleCount(flete.getEstatus())) continue;
 
                             countFinalizado++;
                             txtNumFinalizado.setText(String.valueOf(countFinalizado));
                             break;
                         case Constants.FB_KEY_ITEM_STATUS_CANCELADO:
 
-                            if (checkInvisibleCount()) continue;
+                            if (checkInvisibleCount(flete.getEstatus())) continue;
 
                             countCancelado++;
                             txtNumCancelado.setText(String.valueOf(countCancelado));
@@ -229,7 +227,7 @@ public class PanelFletesFragment extends Fragment implements View.OnClickListene
         return view;
     }
 
-    private boolean checkInvisibleCount() {
+    private boolean checkInvisibleCount(String estatus) {
         boolean participation = false;
 
         switch (_SESSION_USER.getTipoDeUsuario()) {
@@ -240,7 +238,37 @@ public class PanelFletesFragment extends Fragment implements View.OnClickListene
                 break;
             case Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA:
 
-                participation = (!firebaseIDTransportistas.contains(_SESSION_USER.getFirebaseId()));
+                switch (estatus) {
+                    case Constants.FB_KEY_ITEM_STATUS_FLETE_POR_COTIZAR:
+                        participation = true;
+                        break;
+                    case Constants.FB_KEY_ITEM_STATUS_ESPERANDO_POR_TRANSPORTISTA:
+                        if (firebaseIDTransportistas.size() > 0) {
+                            participation = (!firebaseIDTransportistas.contains(_SESSION_USER.getFirebaseId()));
+                        }
+                        break;
+                    case Constants.FB_KEY_ITEM_STATUS_TRANSPORTISTA_POR_CONFIRMAR:
+                        participation = false;
+                        break;
+                    case Constants.FB_KEY_ITEM_STATUS_UNIDADES_POR_ASIGNAR:
+                        participation = (!firebaseIDransportista.equals(_SESSION_USER.getFirebaseId()));
+                        break;
+                    case Constants.FB_KEY_ITEM_STATUS_ENVIO_POR_INICIAR:
+                        participation = (!firebaseIDransportista.equals(_SESSION_USER.getFirebaseId()));
+                        break;
+                    case Constants.FB_KEY_ITEM_STATUS_EN_PROGRESO:
+                        participation = (!firebaseIDransportista.equals(_SESSION_USER.getFirebaseId()));
+                        break;
+                    case Constants.FB_KEY_ITEM_STATUS_ENTREGADO:
+                        participation = (!firebaseIDransportista.equals(_SESSION_USER.getFirebaseId()));
+                        break;
+                    case Constants.FB_KEY_ITEM_STATUS_FINALIZADO:
+                        participation = (!firebaseIDransportista.equals(_SESSION_USER.getFirebaseId()));
+                        break;
+                    case Constants.FB_KEY_ITEM_STATUS_CANCELADO:
+                        participation = true;
+                        break;
+                }
 
                 break;
             case Constants.FB_KEY_ITEM_TIPO_USUARIO_CHOFER:
@@ -254,7 +282,7 @@ public class PanelFletesFragment extends Fragment implements View.OnClickListene
         }
 
 
-        return  participation;
+        return participation;
     }
 
     @Override

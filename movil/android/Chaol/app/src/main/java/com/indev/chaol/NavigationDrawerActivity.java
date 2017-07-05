@@ -162,15 +162,25 @@ public class NavigationDrawerActivity extends AppCompatActivity
     protected void onStart() {
         super.onStart();
 
-        if (_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR)) {
-            dbUsuarioValido = FirebaseDatabase.getInstance().getReference()
-                    .child(Constants.TIPO_USUARIO_NODO.get(_SESSION_USER.getTipoDeUsuario()))
-                    .child(_SESSION_USER.getFirebaseId());
-        } else {
-            dbUsuarioValido = FirebaseDatabase.getInstance().getReference()
-                    .child(Constants.TIPO_USUARIO_NODO.get(_SESSION_USER.getTipoDeUsuario()))
-                    .child(_SESSION_USER.getFirebaseId())
-                    .child(Constants.TIPO_USUARIO_ITEM.get(_SESSION_USER.getTipoDeUsuario()));
+
+        switch (_SESSION_USER.getTipoDeUsuario()) {
+            case Constants.FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR:
+            case Constants.FB_KEY_ITEM_TIPO_USUARIO_CHOFER:
+
+                dbUsuarioValido = FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.TIPO_USUARIO_NODO.get(_SESSION_USER.getTipoDeUsuario()))
+                        .child(_SESSION_USER.getFirebaseId());
+
+                break;
+            case Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE:
+            case Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA:
+
+                dbUsuarioValido = FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.TIPO_USUARIO_NODO.get(_SESSION_USER.getTipoDeUsuario()))
+                        .child(_SESSION_USER.getFirebaseId())
+                        .child(Constants.TIPO_USUARIO_ITEM.get(_SESSION_USER.getTipoDeUsuario()));
+
+                break;
         }
 
         listenerSession = new ValueEventListener() {
@@ -191,12 +201,12 @@ public class NavigationDrawerActivity extends AppCompatActivity
                     case Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE:
                         Clientes cliente = (Clientes) objectTipoUsuario;
 
-                        if (cliente.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_INACTIVO)){
+                        if (cliente.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_INACTIVO)) {
                             showAlert("Es necesario que un administrador autorice la cuenta.");
                         }
 
                         break;
-                    case  Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA:
+                    case Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA:
                         Transportistas transportista = (Transportistas) objectTipoUsuario;
 
                         if (transportista.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_INACTIVO)) {

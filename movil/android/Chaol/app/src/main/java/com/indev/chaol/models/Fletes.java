@@ -175,4 +175,5 @@ public class Fletes implements Serializable {
     public void setFechaDeEdicion(Long fechaDeEdicion) {
         this.fechaDeEdicion = fechaDeEdicion;
     }
+
 }

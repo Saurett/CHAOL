@@ -63,7 +63,7 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
 
     private static final String TAG = FletesDatosGeneralesFragment.class.getName();
 
-    private Button btnTitulo, btnSolicitarCotizacion;
+    private Button btnTitulo, btnSolicitarCotizacion, btnActualizar;
     private LinearLayout linearLayoutClientes, linearLayout, linearLayoutZone, linearLayoutIDFlete;
     private EditText txtIDFlete, txtFechaSalida, txtHoraSalida, txtCarga, txtNumEmbarque, txtDestinatario;
     private EditText txtCiudadCarga, txtColoniaCarga, txtCodigoPostalCarga, txtCalleCarga, txtNumIntCarga, txtNumExtCarga;
@@ -117,6 +117,7 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
 
         btnTitulo = (Button) view.findViewById(R.id.btn_datos_generales_fletes);
         btnSolicitarCotizacion = (Button) view.findViewById(R.id.btn_solicitar_cotizacion_datos_generales);
+        btnActualizar = (Button) view.findViewById(R.id.btn_actualizar_datos_generales);
 
         linearLayoutClientes = (LinearLayout) view.findViewById(R.id.item_datos_generales_cliente);
         linearLayout = (LinearLayout) view.findViewById(R.id.datos_generales_container);
@@ -153,6 +154,7 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
 
         btnTitulo.setOnClickListener(this);
         btnSolicitarCotizacion.setOnClickListener(this);
+        btnActualizar.setOnClickListener(this);
         txtFechaSalida.setOnClickListener(this);
         txtHoraSalida.setOnClickListener(this);
 
@@ -162,8 +164,6 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
         spinnerTipoRemolque.setOnItemSelectedListener(this);
 
         linearLayout.setVisibility(View.GONE);
-
-        _MAIN_DECODE = (DecodeExtraParams) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
 
         date = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -243,14 +243,19 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
             }
         });
 
-        this.onPreRender();
-
         return view;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        this.onPreRender();
     }
 
     @Override
@@ -316,7 +321,25 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
                 setProgressBar(); /**Actualiza el progreso de la barra**/
                 linearLayoutIDFlete.setVisibility(View.VISIBLE);
                 txtIDFlete.setText(_mainFletesActual.getFlete().getIdFlete());
-                onCargarSpinnerClientes();
+
+                if (null != clientesList && null != clientes) {
+                    onCargarSpinnerClientes();
+                } else {
+                    clientesList = new ArrayList<>();
+                    clientes = new ArrayList<>();
+
+                    clientesList.add("Seleccione ...");
+
+                    Clientes cliente = new Clientes();
+                    cliente.setFirebaseId(bodegaCarga.getFirebaseIdDelCliente());
+                    cliente.setNombre(flete.getCliente());
+
+                    clientes.add(cliente);
+                    clientesList.add(cliente.getNombre());
+
+                    onCargarSpinnerClientes();
+                }
+
                 myCalendar.set(calendarDay.getYear(), calendarDay.getMonth(), calendarDay.getDay());
                 updateTxtDate(); /**Actualiza la fecha del calendario**/
 
@@ -339,6 +362,31 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
                 txtIDFlete.setTag(txtIDFlete.getKeyListener());
                 txtIDFlete.setKeyListener(null);
 
+                btnSolicitarCotizacion.setVisibility(View.GONE);
+
+                switch (_mainFletesActual.getFlete().getEstatus()) {
+                    case Constants.FB_KEY_ITEM_STATUS_FLETE_POR_COTIZAR:
+                        btnActualizar.setVisibility(View.VISIBLE);
+                        break;
+                    case Constants.FB_KEY_ITEM_STATUS_ESPERANDO_POR_TRANSPORTISTA:
+                        break;
+                    case Constants.FB_KEY_ITEM_STATUS_TRANSPORTISTA_POR_CONFIRMAR:
+                        break;
+                    case Constants.FB_KEY_ITEM_STATUS_UNIDADES_POR_ASIGNAR:
+                        break;
+                    case Constants.FB_KEY_ITEM_STATUS_ENVIO_POR_INICIAR:
+                        break;
+                    case Constants.FB_KEY_ITEM_STATUS_EN_PROGRESO:
+                        break;
+                    case Constants.FB_KEY_ITEM_STATUS_ENTREGADO:
+                        break;
+                    case Constants.FB_KEY_ITEM_STATUS_FINALIZADO:
+                        break;
+                    case Constants.FB_KEY_ITEM_STATUS_CANCELADO:
+                        break;
+                    default:
+                        break;
+                }
 
                 pDialogRender.dismiss();
             }
