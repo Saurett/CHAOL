@@ -12,6 +12,7 @@
         var firebaseUsuario = $firebaseObject(refUsuario);
         firebaseUsuario.$loaded().then(function () {
             switch (firebaseUsuario.tipoDeUsuario) {
+                case 'colaborador':
                 case 'administrador':
                     //FLETES
                     var refFletes = firebase.database().ref().child('fletesPorAsignar').orderByChild('flete/fechaDeSalida');
@@ -437,6 +438,7 @@
                             firebaseUsuario.$loaded().then(function () {
                                 switch (firebaseUsuario.tipoDeUsuario) {
                                     case 'administrador':
+                                    case 'colaborador':
                                     case 'cliente':
                                         $mdDialog.show($mdDialog.confirm()
                                             .parent(angular.element(document.querySelector('#tractores')))

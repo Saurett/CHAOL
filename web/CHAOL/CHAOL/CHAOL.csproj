@@ -72,6 +72,8 @@
     <Content Include="app_components\angular\config.js" />
     <Content Include="app_components\angular\encabezadoController.js" />
     <Content Include="app_components\angular\menuController.js" />
+    <Content Include="app_components\angular\modulos\administracion\colaboradores\colaboradorController.js" />
+    <Content Include="app_components\angular\modulos\administracion\colaboradores\colaboradoresController.js" />
     <Content Include="app_components\angular\modulos\administracion\remolques\remolqueController.js" />
     <Content Include="app_components\angular\modulos\administracion\remolques\remolquesController.js" />
     <Content Include="app_components\angular\modulos\administracion\tractores\tractorController.js" />
@@ -1140,6 +1142,8 @@
     <Content Include="js\base.js" />
     <Content Include="js\tools.js" />
     <Content Include="menu.html" />
+    <Content Include="modulos\administracion\colaboradores\captura\capturaColaborador.html" />
+    <Content Include="modulos\administracion\colaboradores\listado\listadoColaboradores.html" />
     <Content Include="modulos\administracion\remolques\captura\capturaRemolque.html" />
     <Content Include="modulos\administracion\remolques\listado\listadoRemolques.html" />
     <Content Include="modulos\administracion\tractores\captura\capturaTractor.html" />

@@ -16,6 +16,7 @@
             var refChoferes;
             switch (firebaseUsuario.tipoDeUsuario) {
                 case 'administrador':
+                case 'colaborador':
                     var refChoferes = firebase.database().ref().child('choferes').orderByChild('nombre');
                     break;
                 case "transportista":

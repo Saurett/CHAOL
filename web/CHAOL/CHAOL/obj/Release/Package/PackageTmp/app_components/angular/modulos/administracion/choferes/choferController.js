@@ -54,6 +54,7 @@
             var refChoferes;
             switch (firebaseUsuario.tipoDeUsuario) {
                 case 'administrador':
+                case 'colaborador':
                     $scope.administrador = true;
                     break;
                 case "transportista":

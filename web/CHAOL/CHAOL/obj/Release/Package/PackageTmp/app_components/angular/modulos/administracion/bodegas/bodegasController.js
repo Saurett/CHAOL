@@ -16,6 +16,7 @@
             var refBodegas;
             switch (firebaseUsuario.tipoDeUsuario) {
                 case 'administrador':
+                case 'colaborador':
                     refBodegas = firebase.database().ref().child('clientes');
                     refBodegas.on("value", function (snapshot) {
                         var arrayBodegas = [];

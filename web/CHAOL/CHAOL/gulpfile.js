@@ -42,6 +42,8 @@ gulp.task('angular-js', function () {
             'app_components/angular/menuController.js',
             'app_components/angular/encabezadoController.js',
             'app_components/angular/modulos/inicioController.js',
+            'app_components/angular/modulos/administracion/colaboradores/colaboradoresController.js',
+            'app_components/angular/modulos/administracion/colaboradores/colaboradorController.js',
             'app_components/angular/modulos/administracion/clientes/clientesController.js',
             'app_components/angular/modulos/administracion/clientes/clienteController.js',
             'app_components/angular/modulos/administracion/transportistas/transportistasController.js',

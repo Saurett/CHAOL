@@ -44,6 +44,7 @@
         var firebaseUsuario = $firebaseObject(refUsuario);
         firebaseUsuario.$loaded().then(function () {
             switch (firebaseUsuario.tipoDeUsuario) {
+                case 'colaborador':
                 case 'administrador':
                     $scope.administrador = true;
                     break;

@@ -26,6 +26,7 @@
             inicio: false,
             administracion: {
                 clientes: false,
+                colaboradores: false,
                 transportistas: false,
                 choferes: false,
                 tractores: false,
@@ -48,6 +49,19 @@
         firebaseUsuario.$loaded().then(function () {
             switch (firebaseUsuario.tipoDeUsuario) {
                 case 'administrador':
+                    $scope.menu.inicio = true;
+                    $scope.menu.administracion.clientes = true;
+                    $scope.menu.administracion.colaboradores = true;
+                    $scope.menu.administracion.transportistas = true;
+                    $scope.menu.administracion.choferes = true;
+                    $scope.menu.administracion.tractores = true;
+                    $scope.menu.administracion.remolques = true;
+                    $scope.menu.administracion.bodegas = true;
+                    $scope.menu.fletes.agenda = true;
+                    $scope.menu.cuenta.miPerfil = false;
+                    $scope.menu.cuenta.cerrarSesion = true;
+                    break;
+                case 'colaborador':
                     $scope.menu.inicio = true;
                     $scope.menu.administracion.clientes = true;
                     $scope.menu.administracion.transportistas = true;

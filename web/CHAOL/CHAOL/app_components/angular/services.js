@@ -60,6 +60,10 @@
                         case 'administrador':
                             $location.path('/CHAOL');
                             break;
+                        case 'colaborador':
+                            refObjeto = firebase.database().ref('administradores').child(usuario.$id);
+                            objeto = $firebaseObject(refObjeto);
+                            break;
                         case 'cliente':
                             refObjeto = firebase.database().ref('clientes').child(usuario.$id).child('cliente');
                             objeto = $firebaseObject(refObjeto);

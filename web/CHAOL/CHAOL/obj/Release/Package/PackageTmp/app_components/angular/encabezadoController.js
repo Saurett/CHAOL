@@ -16,6 +16,7 @@
             var objeto;
             switch (firebaseUsuario.tipoDeUsuario) {
                 case 'administrador':
+                case 'colaborador':
                     break;
                 case 'cliente':
                     refObjeto = firebase.database().ref('clientes').child(firebaseUsuario.$id).child('cliente');

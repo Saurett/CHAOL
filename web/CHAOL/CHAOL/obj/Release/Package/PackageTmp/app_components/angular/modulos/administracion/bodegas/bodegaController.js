@@ -61,6 +61,7 @@
         firebaseUsuario.$loaded().then(function () {
             switch (firebaseUsuario.tipoDeUsuario) {
                 case 'administrador':
+                case 'colaborador':
                     $scope.administrador = true;
                     break;
                 case "cliente":

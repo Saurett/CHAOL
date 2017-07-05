@@ -236,6 +236,7 @@
                 firebaseUsuario.$loaded().then(function () {
                     switch (firebaseUsuario.tipoDeUsuario) {
                         case 'administrador':
+                    case 'colaborador':
                             //ACTIVAR LOS PANELES
                             $scope.paneles.datosGenerales.disabled = false;
                             $scope.paneles.cotizacion.disabled = false;
@@ -1937,7 +1938,7 @@
                                                 if (transportistas.firebaseId === usuario.uid) {
                                                     $scope.paneles.resumen.controles.cancelarSolicitud = true;
                                                     $scope.paneles.resumen.controles.solicitarViaje = false;
-                                                    $scope.firebaseFlete.transportistaSeleccionado = transportistas.val();
+                                                    $scope.firebaseFlete.transportistaSeleccionado = transportistas;
                                                 }
                                                 else {
                                                     $location.path('/CHAOL/Fletes');
@@ -2173,8 +2174,6 @@
                                             snapshot.forEach(function (childSnapshot) {
                                                 transportistas = childSnapshot.val();
                                                 if (transportistas.firebaseId === usuario.uid) {
-                                                    $scope.paneles.resumen.controles.cancelarSolicitud = true;
-                                                    $scope.paneles.resumen.controles.solicitarViaje = false;
                                                     $scope.firebaseFlete.transportistaSeleccionado = transportistas;
                                                 }
                                                 else {
@@ -2887,6 +2886,7 @@
             firebaseUsuario.$loaded().then(function () {
                 switch (firebaseUsuario.tipoDeUsuario) {
                     case 'administrador':
+                    case 'colaborador':
                         //ACTIVAR LOS PANELES
                         $scope.paneles.datosGenerales.cardClass = "card card-waiting";
                         $scope.paneles.datosGenerales.iconClass = "fa fa-clock-o";
@@ -2981,7 +2981,7 @@
                 var refIdFlete = firebase.database().ref().child('fleteId');
                 var firebaseFleteId = $firebaseObject(refIdFlete);
                 firebaseFleteId.$loaded().then(function () {
-                    $scope.firebaseFlete.flete.idFlete = firebaseFleteId.$value;
+                    $scope.firebaseFlete.flete.idFlete = firebaseFleteId.$value.toString();
                     var firebaseFlete = refFlete.push()
 
                     //BUSQUEDA DE CLIENTE Y BODEGAS
@@ -3019,7 +3019,7 @@
                                         $scope.firebaseFlete.flete.firebaseId = firebaseFlete.key;
 
                                         firebaseFlete.set($scope.firebaseFlete);
-                                        firebaseFleteId.$value = firebaseFleteId.$value + 1;
+                                        firebaseFleteId.$value = parseInt(firebaseFleteId.$value) + 1;
                                         firebaseFleteId.$save();
                                         refFlete.off();
                                         alerta('<br/> <p>Flete registrado correctamente. </p> <p> A partir de ahora esperaremos la cotización del administrador.</p>', '/CHAOL/Fletes');

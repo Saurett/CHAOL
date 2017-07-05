@@ -17,28 +17,28 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>05/30/2017 19:39:07</publishTime>
     </File>
     <File Include="app_components/angular/config.js">
-      <publishTime>06/23/2017 23:22:27</publishTime>
+      <publishTime>07/04/2017 22:04:41</publishTime>
     </File>
     <File Include="app_components/angular/encabezadoController.js">
-      <publishTime>06/14/2017 14:57:32</publishTime>
+      <publishTime>07/03/2017 12:36:26</publishTime>
     </File>
     <File Include="app_components/angular/loginController.js">
       <publishTime>06/23/2017 19:40:25</publishTime>
     </File>
     <File Include="app_components/angular/menuController.js">
-      <publishTime>06/14/2017 14:57:32</publishTime>
+      <publishTime>07/04/2017 23:00:13</publishTime>
     </File>
     <File Include="app_components/angular/modulos/administracion/bodegas/bodegaController.js">
-      <publishTime>06/23/2017 19:34:14</publishTime>
+      <publishTime>07/03/2017 12:29:22</publishTime>
     </File>
     <File Include="app_components/angular/modulos/administracion/bodegas/bodegasController.js">
-      <publishTime>06/14/2017 14:57:32</publishTime>
+      <publishTime>07/03/2017 12:29:54</publishTime>
     </File>
     <File Include="app_components/angular/modulos/administracion/choferes/choferController.js">
-      <publishTime>06/20/2017 22:17:11</publishTime>
+      <publishTime>07/03/2017 12:32:21</publishTime>
     </File>
     <File Include="app_components/angular/modulos/administracion/choferes/choferesController.js">
-      <publishTime>06/15/2017 14:22:39</publishTime>
+      <publishTime>07/03/2017 12:32:21</publishTime>
     </File>
     <File Include="app_components/angular/modulos/administracion/clientes/clienteController.js">
       <publishTime>06/13/2017 20:01:42</publishTime>
@@ -46,17 +46,23 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
     <File Include="app_components/angular/modulos/administracion/clientes/clientesController.js">
       <publishTime>06/07/2017 03:25:53</publishTime>
     </File>
+    <File Include="app_components/angular/modulos/administracion/colaboradores/colaboradorController.js">
+      <publishTime>07/04/2017 22:34:59</publishTime>
+    </File>
+    <File Include="app_components/angular/modulos/administracion/colaboradores/colaboradoresController.js">
+      <publishTime>07/04/2017 22:08:06</publishTime>
+    </File>
     <File Include="app_components/angular/modulos/administracion/remolques/remolqueController.js">
-      <publishTime>06/14/2017 17:22:25</publishTime>
+      <publishTime>07/03/2017 12:33:14</publishTime>
     </File>
     <File Include="app_components/angular/modulos/administracion/remolques/remolquesController.js">
-      <publishTime>06/14/2017 14:57:32</publishTime>
+      <publishTime>07/03/2017 12:33:17</publishTime>
     </File>
     <File Include="app_components/angular/modulos/administracion/tractores/tractorController.js">
-      <publishTime>06/14/2017 17:04:55</publishTime>
+      <publishTime>07/03/2017 12:33:47</publishTime>
     </File>
     <File Include="app_components/angular/modulos/administracion/tractores/tractoresController.js">
-      <publishTime>06/14/2017 14:57:32</publishTime>
+      <publishTime>07/03/2017 12:34:00</publishTime>
     </File>
     <File Include="app_components/angular/modulos/administracion/transportistas/transportistaController.js">
       <publishTime>06/13/2017 20:02:11</publishTime>
@@ -65,13 +71,13 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>06/07/2017 03:28:02</publishTime>
     </File>
     <File Include="app_components/angular/modulos/fletes/agendaController.js">
-      <publishTime>07/01/2017 04:57:21</publishTime>
+      <publishTime>07/03/2017 12:35:30</publishTime>
     </File>
     <File Include="app_components/angular/modulos/fletes/fleteController.js">
-      <publishTime>07/01/2017 04:58:51</publishTime>
+      <publishTime>07/04/2017 23:17:03</publishTime>
     </File>
     <File Include="app_components/angular/modulos/inicioController.js">
-      <publishTime>07/01/2017 03:45:22</publishTime>
+      <publishTime>07/03/2017 12:36:26</publishTime>
     </File>
     <File Include="app_components/angular/recuperarContrasenaController.js">
       <publishTime>06/02/2017 14:10:25</publishTime>
@@ -80,7 +86,7 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>06/13/2017 20:17:34</publishTime>
     </File>
     <File Include="app_components/angular/services.js">
-      <publishTime>06/30/2017 18:26:08</publishTime>
+      <publishTime>07/04/2017 22:36:44</publishTime>
     </File>
     <File Include="app_components/css/bootstrap-calendar/bootstrap-year-calendar.css">
       <publishTime>06/12/2017 20:39:12</publishTime>
@@ -131,10 +137,10 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>05/30/2017 19:39:08</publishTime>
     </File>
     <File Include="bin/CHAOL.dll">
-      <publishTime>07/01/2017 05:00:25</publishTime>
+      <publishTime>07/04/2017 23:22:46</publishTime>
     </File>
     <File Include="bin/CHAOL.pdb">
-      <publishTime>07/01/2017 05:00:25</publishTime>
+      <publishTime>07/04/2017 23:22:46</publishTime>
     </File>
     <File Include="bin/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll">
       <publishTime>05/30/2017 19:41:43</publishTime>
@@ -4130,7 +4136,7 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>05/30/2017 19:39:23</publishTime>
     </File>
     <File Include="gulpfile.js">
-      <publishTime>06/21/2017 01:43:49</publishTime>
+      <publishTime>07/04/2017 22:05:20</publishTime>
     </File>
     <File Include="header.html">
       <publishTime>06/02/2017 14:05:08</publishTime>
@@ -4175,19 +4181,19 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>06/02/2017 16:25:36</publishTime>
     </File>
     <File Include="js/app.js">
-      <publishTime>07/01/2017 05:00:06</publishTime>
+      <publishTime>07/04/2017 23:22:37</publishTime>
     </File>
     <File Include="js/base.js">
-      <publishTime>06/21/2017 01:44:05</publishTime>
+      <publishTime>07/04/2017 22:52:35</publishTime>
     </File>
     <File Include="js/tools.js">
-      <publishTime>06/21/2017 01:44:07</publishTime>
+      <publishTime>07/04/2017 22:52:31</publishTime>
     </File>
     <File Include="login.html">
       <publishTime>05/30/2017 19:39:24</publishTime>
     </File>
     <File Include="menu.html">
-      <publishTime>06/06/2017 17:38:36</publishTime>
+      <publishTime>07/04/2017 22:17:42</publishTime>
     </File>
     <File Include="modulos/administracion/bodegas/captura/capturaBodega.html">
       <publishTime>06/20/2017 23:31:05</publishTime>
@@ -4206,6 +4212,12 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
     </File>
     <File Include="modulos/administracion/clientes/listado/listadoClientes.html">
       <publishTime>06/07/2017 03:21:29</publishTime>
+    </File>
+    <File Include="modulos/administracion/colaboradores/captura/capturaColaborador.html">
+      <publishTime>07/04/2017 22:57:06</publishTime>
+    </File>
+    <File Include="modulos/administracion/colaboradores/listado/listadoColaboradores.html">
+      <publishTime>07/04/2017 22:39:39</publishTime>
     </File>
     <File Include="modulos/administracion/remolques/captura/capturaRemolque.html">
       <publishTime>06/14/2017 17:22:58</publishTime>
@@ -4232,7 +4244,7 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>06/20/2017 23:12:33</publishTime>
     </File>
     <File Include="modulos/fletes/captura/capturaFlete.html">
-      <publishTime>07/01/2017 03:41:47</publishTime>
+      <publishTime>07/04/2017 23:13:47</publishTime>
     </File>
     <File Include="modulos/inicio.html">
       <publishTime>07/01/2017 03:27:25</publishTime>

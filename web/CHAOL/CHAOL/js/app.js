@@ -59,6 +59,93 @@
                 }]
             }
         })
+        //COLABORADORES
+        $routeProvider.when("/CHAOL/Colaboradores", {
+            templateUrl: "modulos/administracion/colaboradores/listado/listadoColaboradores.html",
+            controller: "colaboradoresController",
+            resolve: {
+                "currentAuth": ["Auth", function (Firebase) {
+                    var auth = Firebase.Auth;
+                    var usuario = auth.$getAuth();
+                    var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
+                    var firebaseUsuario = Firebase.Object(refUsuario);
+                    firebaseUsuario.$loaded().then(function () {
+                        switch (firebaseUsuario.tipoDeUsuario) {
+                            case 'administrador':
+                                break;
+                            case 'cliente':
+                                Firebase.Location.path('/Inicio');
+                                break;
+                            case 'transportista':
+                                Firebase.Location.path('/Inicio');
+                                break;
+                            case 'chofer':
+                                Firebase.Location.path('/Inicio');
+                                break;
+                            default:
+                        }
+                        return Firebase.Auth.$requireSignIn();
+                    });
+                }]
+            }
+        })
+        $routeProvider.when("/CHAOL/Colaboradores/Nuevo", {
+            templateUrl: "modulos/administracion/colaboradores/captura/capturaColaborador.html",
+            controller: "colaboradorController",
+            resolve: {
+                "currentAuth": ["Auth", function (Firebase) {
+                    var auth = Firebase.Auth;
+                    var usuario = auth.$getAuth();
+                    var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
+                    var firebaseUsuario = Firebase.Object(refUsuario);
+                    firebaseUsuario.$loaded().then(function () {
+                        switch (firebaseUsuario.tipoDeUsuario) {
+                            case 'administrador':
+                                break;
+                            case 'cliente':
+                                Firebase.Location.path('/Inicio');
+                                break;
+                            case 'transportista':
+                                Firebase.Location.path('/Inicio');
+                                break;
+                            case 'chofer':
+                                Firebase.Location.path('/Inicio');
+                                break;
+                            default:
+                        }
+                        return Firebase.Auth.$requireSignIn();
+                    });
+                }]
+            }
+        })
+        $routeProvider.when("/CHAOL/Colaborador/:ID", {
+            templateUrl: "modulos/administracion/colaboradores/captura/capturaColaborador.html",
+            controller: "colaboradorController",
+            resolve: {
+                "currentAuth": ["Auth", function (Firebase) {
+                    var auth = Firebase.Auth;
+                    var usuario = auth.$getAuth();
+                    var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
+                    var firebaseUsuario = Firebase.Object(refUsuario);
+                    firebaseUsuario.$loaded().then(function () {
+                        switch (firebaseUsuario.tipoDeUsuario) {
+                            case 'administrador':
+                                break;
+                            case 'cliente':
+                                break;
+                            case 'transportista':
+                                Firebase.Location.path('/Inicio');
+                                break;
+                            case 'chofer':
+                                Firebase.Location.path('/Inicio');
+                                break;
+                            default:
+                        }
+                        return Firebase.Auth.$requireSignIn();
+                    });
+                }]
+            }
+        })
         //CLIENTES
         $routeProvider.when("/CHAOL/Clientes", {
             templateUrl: "modulos/administracion/clientes/listado/listadoClientes.html",
@@ -72,6 +159,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 Firebase.Location.path('/Inicio');
@@ -101,6 +189,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 Firebase.Location.path('/Inicio');
@@ -130,6 +219,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 break;
@@ -159,6 +249,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 Firebase.Location.path('/Inicio');
@@ -188,6 +279,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 Firebase.Location.path('/Inicio');
@@ -217,6 +309,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 Firebase.Location.path('/Inicio');
@@ -246,6 +339,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 Firebase.Location.path('/Inicio');
@@ -274,6 +368,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 Firebase.Location.path('/Inicio');
@@ -302,6 +397,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 Firebase.Location.path('/Inicio');
@@ -330,6 +426,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 Firebase.Location.path('/Inicio');
@@ -358,6 +455,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 Firebase.Location.path('/Inicio');
@@ -386,6 +484,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 Firebase.Location.path('/Inicio');
@@ -415,6 +514,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 Firebase.Location.path('/Inicio');
@@ -443,6 +543,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 Firebase.Location.path('/Inicio');
@@ -471,6 +572,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 Firebase.Location.path('/Inicio');
@@ -500,6 +602,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 break;
@@ -528,6 +631,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 break;
@@ -556,6 +660,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 break;
@@ -589,6 +694,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 break;
@@ -615,6 +721,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 break;
@@ -641,6 +748,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 break;
@@ -795,6 +903,10 @@
                     switch (usuario.tipoDeUsuario) {
                         case 'administrador':
                             $location.path('/CHAOL');
+                            break;
+                        case 'colaborador':
+                            refObjeto = firebase.database().ref('administradores').child(usuario.$id);
+                            objeto = $firebaseObject(refObjeto);
                             break;
                         case 'cliente':
                             refObjeto = firebase.database().ref('clientes').child(usuario.$id).child('cliente');
@@ -1482,6 +1594,7 @@
             inicio: false,
             administracion: {
                 clientes: false,
+                colaboradores: false,
                 transportistas: false,
                 choferes: false,
                 tractores: false,
@@ -1504,6 +1617,19 @@
         firebaseUsuario.$loaded().then(function () {
             switch (firebaseUsuario.tipoDeUsuario) {
                 case 'administrador':
+                    $scope.menu.inicio = true;
+                    $scope.menu.administracion.clientes = true;
+                    $scope.menu.administracion.colaboradores = true;
+                    $scope.menu.administracion.transportistas = true;
+                    $scope.menu.administracion.choferes = true;
+                    $scope.menu.administracion.tractores = true;
+                    $scope.menu.administracion.remolques = true;
+                    $scope.menu.administracion.bodegas = true;
+                    $scope.menu.fletes.agenda = true;
+                    $scope.menu.cuenta.miPerfil = false;
+                    $scope.menu.cuenta.cerrarSesion = true;
+                    break;
+                case 'colaborador':
                     $scope.menu.inicio = true;
                     $scope.menu.administracion.clientes = true;
                     $scope.menu.administracion.transportistas = true;
@@ -1566,6 +1692,7 @@
             var objeto;
             switch (firebaseUsuario.tipoDeUsuario) {
                 case 'administrador':
+                case 'colaborador':
                     break;
                 case 'cliente':
                     refObjeto = firebase.database().ref('clientes').child(firebaseUsuario.$id).child('cliente');
@@ -1653,6 +1780,7 @@
         firebaseUsuario.$loaded().then(function () {
             switch (firebaseUsuario.tipoDeUsuario) {
                 case 'administrador':
+                case 'colaborador':
                     //FLETES
                     var refFletes = firebase.database().ref().child('fletesPorAsignar');
                     refFletes.on("value", function (snapshot) {
@@ -2239,6 +2367,352 @@
                 default:
             }
         });
+    });
+})();
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//LISTADO COLABORADORES CONTROLLER
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+(function () {
+    var app = angular.module('app');
+
+    app.controller('colaboradoresController', function ($scope, $firebaseArray, $firebaseObject, $firebaseAuth, $mdDialog) {
+        //USUARIO
+        //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        var auth = $firebaseAuth();
+        var usuario = auth.$getAuth();
+
+        //ACTIVACIÓN DINÁMICA DE CONTROLES EN EL OBJETO
+        var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
+        var firebaseUsuario = $firebaseObject(refUsuario);
+        firebaseUsuario.$loaded().then(function () {
+            var refChoferes;
+            switch (firebaseUsuario.tipoDeUsuario) {
+                case 'administrador':
+                    var refColaboradores = firebase.database().ref().child('administradores').orderByChild('nombre');
+                    break;
+            }
+
+            refColaboradores.on("value", function (snapshot) {
+                var arrayColaboradores = [];
+                snapshot.forEach(function (childSnapshot) {
+                    colaboradores = childSnapshot.val();
+                    if (colaboradores.estatus !== 'eliminado' && colaboradores.tipoDeUsuario === 'colaborador') {
+                        arrayColaboradores.push(colaboradores);
+                    }
+                });
+                $scope.colaboradores = arrayColaboradores;
+            });
+        });
+        //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+        $scope.cambiarEstatus = function (colaborador) {
+            //NODO COLABORADORES
+            var refColaborador = firebase.database().ref('administradores').child(colaborador.firebaseId);
+            var firebaseColaborador = $firebaseObject(refColaborador);
+            //CARGA DEL COLABORADOR
+            firebaseColaborador.$loaded().then(function () {
+                firebaseColaborador.estatus = colaborador.estatus;
+                firebaseColaborador.$save().then(function () {
+                    console.log('Estatus changed to ' + colaborador.estatus);
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            });
+        };
+
+        $scope.eliminar = function (colaborador) {
+            //NODO COLABORADORES
+            var refColaborador = firebase.database().ref('administradores').child(colaborador.firebaseId);
+            var firebaseColaborador = $firebaseObject(refColaborador);
+            //CARGA DEL CHOFER
+            firebaseColaborador.$loaded().then(function () {
+                //MENSAJE DE CONFIRMACIÓN
+                $mdDialog.show($mdDialog.confirm()
+                    .parent(angular.element(document.querySelector('#colaboradores')))
+                    .title('¿Eliminar colaborador?')
+                    .htmlContent('<br/> <p>¿Estás seguro que deseas eliminar a <b>' + firebaseColaborador.nombre + '</b>?</p> <p>Recuerda que esta acción no puede deshacerse.</p>')
+                    .ariaLabel('Alert Dialog Demo')
+                    .ok('Sí, deseo eliminarlo')
+                    .cancel('No, prefiero conservarlo')
+                ).then(function () {
+                    //ELIMINACIÓN DEL COLABORADOR
+                    firebaseColaborador.estatus = "eliminado";
+                    firebaseColaborador.$save().then(function () {
+                        console.log('Estatus changed to deleted');
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                });
+            });
+        };
+    });
+})();
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//REGISTRO CHOFER CONTROLLER
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+(function () {
+    var app = angular.module('app');
+
+    app.controller('colaboradorController', function ($scope, $location, $firebaseObject, $firebaseArray, unixTime, $firebaseAuth, $mdDialog, $firebaseStorage, createUserService, $routeParams) {
+        //INICIALIZAR CHOFER
+        $scope.firebaseColaborador = {
+            nombre: '',
+            correoElectronico: '',
+            estatus: 'inactivo',
+            fechaDeCreacion: unixTime(),
+            fechaDeEdicion: unixTime(),
+            firebaseId: '',
+            tipoDeUsuario: 'colaborador'
+        }
+
+        var refUsuarios = firebase.database().ref().child('usuarios');
+        var refColaborador = firebase.database().ref().child('administradores');
+
+        //USUARIO
+        //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        var auth = $firebaseAuth();
+        var usuario = auth.$getAuth();
+
+        //ACTIVACIÓN DINÁMICA DE PANELES EN EL OBJETO
+        var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
+        var firebaseUsuario = $firebaseObject(refUsuario);
+        firebaseUsuario.$loaded().then(function () {
+            switch (firebaseUsuario.tipoDeUsuario) {
+                case 'administrador':
+                    $scope.administrador = true;
+                    break;
+            }
+        });
+        //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+        //COLABORADOR
+        //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //CONSULTAR COLABORADOR
+        if ($routeParams.ID) {
+            var colaborador = $firebaseObject(refChofer.child($routeParams.ID));
+            colaborador.$loaded().then(function () {
+                $scope.firebaseColaborador = chofer;
+                console.log('Colaborador found');
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }
+        else {
+            $scope.ownUser = true;
+        }
+
+        //GUARDAR COLABORADOR
+        $scope.registrarColaborador = function () {
+            document.getElementById('div_progress').className = 'col-lg-12 div-progress';
+            var usuarioColaborador;
+
+            //CREAR USUARIO EN BASE DE DATOS
+            var crearUsuarioBD = function (chofer) {
+                return refUsuarios.child(chofer.firebaseId).child('tipoDeUsuario').set('colaborador');
+            }
+
+            //ACTUALIZACIÓN DE CHOFER EN BD
+            var actualizarColaboradorBD = function (colaborador) {
+                var objetoColaborador = $firebaseObject(refColaborador.child(colaborador.firebaseId));
+                objetoColaborador.nombre = colaborador.nombre;
+                objetoColaborador.correoElectronico = colaborador.correoElectronico;
+                objetoColaborador.fechaDeCreacion = colaborador.fechaDeCreacion;
+                objetoColaborador.fechaDeEdicion = unixTime();
+                objetoColaborador.estatus = colaborador.estatus;
+                objetoColaborador.firebaseId = colaborador.firebaseId;
+
+                objetoColaborador.$save().then(function () {
+                    console.log('Colaborador updated');
+                });
+            }
+
+            //CREACIÓN DE COLABORADOR EN BD
+            var crearColaboradorBD = function (colaborador) {
+                refColaborador.child(colaborador.firebaseId).set(colaborador);
+                refColaborador.child(colaborador.firebaseId).child('contrasena').set(null);
+                console.log('Colaborador created in DB');
+            }
+
+            //ENVIAR CORREO
+            var enviarCorreoConfirmacion = function (usuarioColaborador) {
+                return usuarioColaborador.sendEmailVerification();
+            }
+
+            //ALERTA
+            var alerta = function (mensaje, url) {
+                $mdDialog.show(
+                    $mdDialog.alert()
+                        .parent(angular.element(document.querySelector('#registro')))
+                        .clickOutsideToClose(false)
+                        .title('Registro correcto')
+                        .htmlContent(mensaje)
+                        .ariaLabel('Alert Dialog Demo')
+                        .ok('Aceptar')
+                ).then(function () {
+                    $location.path(url);
+                });
+            }
+
+            //CARGA IMAGEN DE PERFIL
+            var cargarImagen = function (chofer) {
+                var archivo = document.getElementById("input_foto_colaborador").files[0];
+                if (archivo) {
+                    var nombreArchivo = chofer.firebaseId + '.jpg';
+                    var refAlmacenamiento = firebase.storage();
+                    var refPath = refAlmacenamiento.ref('FotosDePerfil/' + nombreArchivo);
+                    var cargar = refPath.put(archivo).then(function () {
+                        console.log('Image loaded');
+                        refPath.getDownloadURL().then(function (url) {
+                            //CREACIÓN DE COLABORADOR EN BD
+                            console.log('Colaborador image loaded to ' + url)
+                            colaborador.imagenURL = url;
+                            actualizarColaboradorBD(colaborador);
+                            actualizarPerfil(usuarioChofer, colaborador);
+                        }).catch(function (error) {
+                            console.log(error);
+                        });
+                    });
+                }
+                else {
+                    console.log('Image not selected');
+                }
+            }
+
+            //ACTUALIZACIÓN DE PERFIL
+            var actualizarPerfil = function (usuarioColaborador, colaborador) {
+                usuarioColaborador.updateProfile({
+                    displayName: colaborador.nombre,
+                    photoURL: colaborador.imagenURL
+                })
+                console.log('Profile updated');
+            }
+
+            //CREACIÓN DEL COLABORADOR
+            if (!$scope.firebaseColaborador.firebaseId) {
+                //SE CREA EL USUARIO
+                createUserService.auth().createUserWithEmailAndPassword($scope.firebaseColaborador.correoElectronico, $scope.firebaseColaborador.contrasena).then(function (user) {
+                    console.log('User created.');
+                    usuarioColaborador = user;
+                    $scope.firebaseColaborador.firebaseId = user.uid;
+
+                    crearUsuarioBD($scope.firebaseColaborador).then(function () {
+                        console.log('User created in DB');
+                        crearColaboradorBD($scope.firebaseColaborador);
+                        enviarCorreoConfirmacion(usuarioColaborador).then(function () {
+                            console.log('Email sent');
+                        }).catch(function (error) {
+                            console.log(error);
+                        });
+                        cargarImagen($scope.firebaseColaborador);
+                        actualizarPerfil(usuarioColaborador, $scope.firebaseColaborador);
+                        alerta('<br/> <p>Colaborador registrado. </p> <p> Hemos enviado un mensaje a su cuenta de correo electrónico. Es necesario que la cuenta sea validada desde el enlace que compartimos.</p>', '/CHAOL/Colaboradores');
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                    //CERRAR LA SESIÓN CREADA Y OCULTAR PROGRESS
+                    document.getElementById('div_progress').className = 'col-lg-12 div-progress hidden';
+                }).catch(function (error) {
+                    //ERROR
+                    if (error.code === 'auth/email-already-in-use') {
+                        $mdDialog.show(
+                            $mdDialog.alert()
+                                .parent(angular.element(document.querySelector('#registro')))
+                                .clickOutsideToClose(false)
+                                .title('Oops! Algo salió mal')
+                                .htmlContent('<br/> <p>Al parecer ' + $scope.firebaseColaborador.correoElectronico + ' ya se encuentra registrado. </p> <p>Por favor, intenta con un correo electrónico diferente.</p> <br/>')
+                                .ariaLabel('Alert Dialog Demo')
+                                .ok('Aceptar')
+                        );
+                    }
+                    document.getElementById('div_progress').className = 'col-lg-12 div-progress hidden';
+                });
+            }
+            //ACTUALIZACIÓN DEL COLABORADOR
+            else {
+                //VALIDAR SI SE TRATA DEL USUARIO CORRECTO
+                if (usuario.uid === $scope.firebaseColaborador.firebaseId) {
+                    $mdDialog.show(
+                        $mdDialog.prompt()
+                            .parent(angular.element(document.querySelector('#registro')))
+                            .clickOutsideToClose(false)
+                            .title('Confirmación de credenciales')
+                            .htmlContent('<br/><p>Para confirmar tu identidad, ingresa la contraseña que utilizaste para <b>' + usuario.email + '</b>')
+                            .ariaLabel('Alert Dialog Demo')
+                            .ok('Aceptar')
+                            .cancel('Cancelar')
+                    ).then(function (result) {
+                        document.getElementById('div_progress').className = 'col-lg-12 div-progress';
+                        //OBTENER CREDENCIALES
+                        const credential = firebase.auth.EmailAuthProvider.credential(usuario.email, result);
+                        const user = firebase.auth().currentUser;
+                        user.reauthenticateWithCredential(credential).then(function () {
+                            //ACTUALIZAR EMAIL
+                            auth.$updateEmail($scope.firebaseColaborador.correoElectronico).then(function () {
+                                console.log('Email updated');
+                                //ACTUALIZAR CONTRASEÑA
+                                auth.$updatePassword($scope.firebaseColaborador.contrasena).then(function () {
+                                    actualizarChoferBD($scope.firebaseColaborador);
+                                    cargarImagen($scope.firebaseColaborador);
+                                    auth.$signInWithEmailAndPassword($scope.firebaseColaborador.correoElectronico, result).then(function () {
+                                        console.log('Login succesful');
+                                        alerta('<br/> <p>Cuenta actualizada. </p> <p> Hemos actualizado los datos de tu cuenta exitosamente.</p>', '/CHAOL');
+                                        document.getElementById('div_progress').className = 'col-lg-12 div-progress hidden';
+                                    }).catch(function (error) {
+                                        console.log(error)
+                                        document.getElementById('div_progress').className = 'col-lg-12 div-progress hidden';
+                                    })
+                                }).catch(function (error) {
+                                    console.log(error);
+                                    document.getElementById('div_progress').className = 'col-lg-12 div-progress hidden';
+                                });
+                            }).catch(function (error) {
+                                console.log(error);
+                                document.getElementById('div_progress').className = 'col-lg-12 div-progress hidden';
+                            })
+                        }).catch(function (error) {
+                            console.log(error);
+                            if (error.code === 'auth/wrong-password') {
+                                $mdDialog.show(
+                                    $mdDialog.alert()
+                                        .parent(angular.element(document.querySelector('#registro')))
+                                        .clickOutsideToClose(false)
+                                        .title('Oops! Algo salió mal')
+                                        .htmlContent('<br/> <p>Al parecer esta no es tu contraseña. Por favor, intenta de nuevo. </p>')
+                                        .ariaLabel('Alert Dialog Demo')
+                                        .ok('Aceptar')
+                                );
+                            }
+                            document.getElementById('div_progress').className = 'col-lg-12 div-progress hidden';
+                        });
+                    });
+                }
+                else {
+                    actualizarColaboradorBD($scope.firebaseColaborador);
+                    cargarImagen($scope.firebaseColaborador);
+                    alerta('<br/> <p>Chofer actualizado. </p> <p> Hemos actualizado la información de <b>' + $scope.firebaseColaborador.nombre + '</b> exitosamente.</p>', '/CHAOL/Colaboradores');
+                }
+                document.getElementById('div_progress').className = 'col-lg-12 div-progress hidden';
+            }
+        };
+
+        //CARGA DE FOTO DE CHOFER
+        $scope.guardarFotoColaborador = function () {
+            document.getElementById('div_progress').className = 'col-lg-12 div-progress';
+            var imagen = document.getElementById('input_foto_colaborador').files; // FileList object
+            if (imagen[0].type.match('image.*')) {
+                var reader = new FileReader();
+                reader.onload = (function (archivo) {
+                    return function (e) {
+                        document.getElementById('img_perfil_colaborador').src = e.target.result;
+                        document.getElementById('img_perfil_colaborador').className = 'imagen-perfil';
+                        document.getElementById('i_perfil_colaborador').style.display = 'none';
+                    };
+                })(imagen[0]);
+                reader.readAsDataURL(imagen[0]);
+            }
+            document.getElementById('div_progress').className = 'col-lg-12 div-progress hidden';
+        };
     });
 })();
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -3014,6 +3488,7 @@
             var refChoferes;
             switch (firebaseUsuario.tipoDeUsuario) {
                 case 'administrador':
+                case 'colaborador':
                     var refChoferes = firebase.database().ref().child('choferes').orderByChild('nombre');
                     break;
                 case "transportista":
@@ -3153,6 +3628,7 @@
             var refChoferes;
             switch (firebaseUsuario.tipoDeUsuario) {
                 case 'administrador':
+                case 'colaborador':
                     $scope.administrador = true;
                     break;
                 case "transportista":
@@ -3520,6 +3996,7 @@
         firebaseUsuario.$loaded().then(function () {
             switch (firebaseUsuario.tipoDeUsuario) {
                 case 'administrador':
+                case 'colaborador':
                     $scope.administrador = true;
                     break;
                 case "cliente":
@@ -3653,6 +4130,7 @@
             var refBodegas;
             switch (firebaseUsuario.tipoDeUsuario) {
                 case 'administrador':
+                case 'colaborador':
                     refBodegas = firebase.database().ref().child('clientes');
                     refBodegas.on("value", function (snapshot) {
                         var arrayBodegas = [];
@@ -3764,6 +4242,7 @@
         var firebaseUsuario = $firebaseObject(refUsuario);
         firebaseUsuario.$loaded().then(function () {
             switch (firebaseUsuario.tipoDeUsuario) {
+                case 'colaborador':
                 case 'administrador':
                     $scope.administrador = true;
                     break;
@@ -3889,6 +4368,7 @@
         firebaseUsuario.$loaded().then(function () {
             var refTractores;
             switch (firebaseUsuario.tipoDeUsuario) {
+                case 'colaborador':
                 case 'administrador':
                     refTractores = firebase.database().ref().child('transportistas');
                     refTractores.on("value", function (snapshot) {
@@ -4007,6 +4487,7 @@
         var firebaseUsuario = $firebaseObject(refUsuario);
         firebaseUsuario.$loaded().then(function () {
             switch (firebaseUsuario.tipoDeUsuario) {
+                case 'colaborador':
                 case 'administrador':
                     $scope.administrador = true;
                     break;
@@ -4134,6 +4615,7 @@
         firebaseUsuario.$loaded().then(function () {
             var refRemolques;
             switch (firebaseUsuario.tipoDeUsuario) {
+                case 'colaborador':
                 case 'administrador':
                     refRemolques = firebase.database().ref().child('transportistas');
                     refRemolques.on("value", function (snapshot) {
@@ -4220,6 +4702,7 @@
         var firebaseUsuario = $firebaseObject(refUsuario);
         firebaseUsuario.$loaded().then(function () {
             switch (firebaseUsuario.tipoDeUsuario) {
+                case 'colaborador':
                 case 'administrador':
                     //FLETES
                     var refFletes = firebase.database().ref().child('fletesPorAsignar').orderByChild('flete/fechaDeSalida');
@@ -4645,6 +5128,7 @@
                             firebaseUsuario.$loaded().then(function () {
                                 switch (firebaseUsuario.tipoDeUsuario) {
                                     case 'administrador':
+                                    case 'colaborador':
                                     case 'cliente':
                                         $mdDialog.show($mdDialog.confirm()
                                             .parent(angular.element(document.querySelector('#tractores')))
@@ -4946,6 +5430,7 @@
                 firebaseUsuario.$loaded().then(function () {
                     switch (firebaseUsuario.tipoDeUsuario) {
                         case 'administrador':
+                    case 'colaborador':
                             //ACTIVAR LOS PANELES
                             $scope.paneles.datosGenerales.disabled = false;
                             $scope.paneles.cotizacion.disabled = false;
@@ -6647,7 +7132,7 @@
                                                 if (transportistas.firebaseId === usuario.uid) {
                                                     $scope.paneles.resumen.controles.cancelarSolicitud = true;
                                                     $scope.paneles.resumen.controles.solicitarViaje = false;
-                                                    $scope.firebaseFlete.transportistaSeleccionado = transportistas.val();
+                                                    $scope.firebaseFlete.transportistaSeleccionado = transportistas;
                                                 }
                                                 else {
                                                     $location.path('/CHAOL/Fletes');
@@ -6883,8 +7368,6 @@
                                             snapshot.forEach(function (childSnapshot) {
                                                 transportistas = childSnapshot.val();
                                                 if (transportistas.firebaseId === usuario.uid) {
-                                                    $scope.paneles.resumen.controles.cancelarSolicitud = true;
-                                                    $scope.paneles.resumen.controles.solicitarViaje = false;
                                                     $scope.firebaseFlete.transportistaSeleccionado = transportistas;
                                                 }
                                                 else {
@@ -7597,6 +8080,7 @@
             firebaseUsuario.$loaded().then(function () {
                 switch (firebaseUsuario.tipoDeUsuario) {
                     case 'administrador':
+                    case 'colaborador':
                         //ACTIVAR LOS PANELES
                         $scope.paneles.datosGenerales.cardClass = "card card-waiting";
                         $scope.paneles.datosGenerales.iconClass = "fa fa-clock-o";
@@ -7691,7 +8175,7 @@
                 var refIdFlete = firebase.database().ref().child('fleteId');
                 var firebaseFleteId = $firebaseObject(refIdFlete);
                 firebaseFleteId.$loaded().then(function () {
-                    $scope.firebaseFlete.flete.idFlete = firebaseFleteId.$value;
+                    $scope.firebaseFlete.flete.idFlete = firebaseFleteId.$value.toString();
                     var firebaseFlete = refFlete.push()
 
                     //BUSQUEDA DE CLIENTE Y BODEGAS
@@ -7729,7 +8213,7 @@
                                         $scope.firebaseFlete.flete.firebaseId = firebaseFlete.key;
 
                                         firebaseFlete.set($scope.firebaseFlete);
-                                        firebaseFleteId.$value = firebaseFleteId.$value + 1;
+                                        firebaseFleteId.$value = parseInt(firebaseFleteId.$value) + 1;
                                         firebaseFleteId.$save();
                                         refFlete.off();
                                         alerta('<br/> <p>Flete registrado correctamente. </p> <p> A partir de ahora esperaremos la cotización del administrador.</p>', '/CHAOL/Fletes');

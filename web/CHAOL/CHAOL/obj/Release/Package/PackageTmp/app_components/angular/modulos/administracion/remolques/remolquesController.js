@@ -15,6 +15,7 @@
         firebaseUsuario.$loaded().then(function () {
             var refRemolques;
             switch (firebaseUsuario.tipoDeUsuario) {
+                case 'colaborador':
                 case 'administrador':
                     refRemolques = firebase.database().ref().child('transportistas');
                     refRemolques.on("value", function (snapshot) {

@@ -32,6 +32,93 @@
                 }]
             }
         })
+        //COLABORADORES
+        $routeProvider.when("/CHAOL/Colaboradores", {
+            templateUrl: "modulos/administracion/colaboradores/listado/listadoColaboradores.html",
+            controller: "colaboradoresController",
+            resolve: {
+                "currentAuth": ["Auth", function (Firebase) {
+                    var auth = Firebase.Auth;
+                    var usuario = auth.$getAuth();
+                    var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
+                    var firebaseUsuario = Firebase.Object(refUsuario);
+                    firebaseUsuario.$loaded().then(function () {
+                        switch (firebaseUsuario.tipoDeUsuario) {
+                            case 'administrador':
+                                break;
+                            case 'cliente':
+                                Firebase.Location.path('/Inicio');
+                                break;
+                            case 'transportista':
+                                Firebase.Location.path('/Inicio');
+                                break;
+                            case 'chofer':
+                                Firebase.Location.path('/Inicio');
+                                break;
+                            default:
+                        }
+                        return Firebase.Auth.$requireSignIn();
+                    });
+                }]
+            }
+        })
+        $routeProvider.when("/CHAOL/Colaboradores/Nuevo", {
+            templateUrl: "modulos/administracion/colaboradores/captura/capturaColaborador.html",
+            controller: "colaboradorController",
+            resolve: {
+                "currentAuth": ["Auth", function (Firebase) {
+                    var auth = Firebase.Auth;
+                    var usuario = auth.$getAuth();
+                    var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
+                    var firebaseUsuario = Firebase.Object(refUsuario);
+                    firebaseUsuario.$loaded().then(function () {
+                        switch (firebaseUsuario.tipoDeUsuario) {
+                            case 'administrador':
+                                break;
+                            case 'cliente':
+                                Firebase.Location.path('/Inicio');
+                                break;
+                            case 'transportista':
+                                Firebase.Location.path('/Inicio');
+                                break;
+                            case 'chofer':
+                                Firebase.Location.path('/Inicio');
+                                break;
+                            default:
+                        }
+                        return Firebase.Auth.$requireSignIn();
+                    });
+                }]
+            }
+        })
+        $routeProvider.when("/CHAOL/Colaborador/:ID", {
+            templateUrl: "modulos/administracion/colaboradores/captura/capturaColaborador.html",
+            controller: "colaboradorController",
+            resolve: {
+                "currentAuth": ["Auth", function (Firebase) {
+                    var auth = Firebase.Auth;
+                    var usuario = auth.$getAuth();
+                    var refUsuario = firebase.database().ref('usuarios').child(usuario.uid);
+                    var firebaseUsuario = Firebase.Object(refUsuario);
+                    firebaseUsuario.$loaded().then(function () {
+                        switch (firebaseUsuario.tipoDeUsuario) {
+                            case 'administrador':
+                                break;
+                            case 'cliente':
+                                break;
+                            case 'transportista':
+                                Firebase.Location.path('/Inicio');
+                                break;
+                            case 'chofer':
+                                Firebase.Location.path('/Inicio');
+                                break;
+                            default:
+                        }
+                        return Firebase.Auth.$requireSignIn();
+                    });
+                }]
+            }
+        })
         //CLIENTES
         $routeProvider.when("/CHAOL/Clientes", {
             templateUrl: "modulos/administracion/clientes/listado/listadoClientes.html",
@@ -45,6 +132,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 Firebase.Location.path('/Inicio');
@@ -74,6 +162,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 Firebase.Location.path('/Inicio');
@@ -103,6 +192,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 break;
@@ -132,6 +222,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 Firebase.Location.path('/Inicio');
@@ -161,6 +252,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 Firebase.Location.path('/Inicio');
@@ -190,6 +282,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 Firebase.Location.path('/Inicio');
@@ -219,6 +312,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 Firebase.Location.path('/Inicio');
@@ -247,6 +341,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 Firebase.Location.path('/Inicio');
@@ -275,6 +370,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 Firebase.Location.path('/Inicio');
@@ -303,6 +399,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 Firebase.Location.path('/Inicio');
@@ -331,6 +428,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 Firebase.Location.path('/Inicio');
@@ -359,6 +457,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 Firebase.Location.path('/Inicio');
@@ -388,6 +487,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 Firebase.Location.path('/Inicio');
@@ -416,6 +516,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 Firebase.Location.path('/Inicio');
@@ -444,6 +545,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 Firebase.Location.path('/Inicio');
@@ -473,6 +575,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 break;
@@ -501,6 +604,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 break;
@@ -529,6 +633,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 break;
@@ -562,6 +667,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 break;
@@ -588,6 +694,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 break;
@@ -614,6 +721,7 @@
                     firebaseUsuario.$loaded().then(function () {
                         switch (firebaseUsuario.tipoDeUsuario) {
                             case 'administrador':
+                            case 'colaborador':
                                 break;
                             case 'cliente':
                                 break;

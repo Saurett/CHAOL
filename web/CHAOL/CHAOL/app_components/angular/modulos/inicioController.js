@@ -53,6 +53,7 @@
         firebaseUsuario.$loaded().then(function () {
             switch (firebaseUsuario.tipoDeUsuario) {
                 case 'administrador':
+                case 'colaborador':
                     //FLETES
                     var refFletes = firebase.database().ref().child('fletesPorAsignar');
                     refFletes.on("value", function (snapshot) {
