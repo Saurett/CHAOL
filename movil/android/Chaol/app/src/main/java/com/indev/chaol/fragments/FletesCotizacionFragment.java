@@ -110,12 +110,6 @@ public class FletesCotizacionFragment extends Fragment implements View.OnClickLi
                         .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
                         .child(agenda.getFirebaseID());
 
-        final ProgressDialog pDialogRender = new ProgressDialog(getContext());
-        pDialogRender.setMessage(getString(R.string.default_loading_msg));
-        pDialogRender.setIndeterminate(false);
-        pDialogRender.setCancelable(false);
-        pDialogRender.show();
-
         dbFlete.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -136,8 +130,6 @@ public class FletesCotizacionFragment extends Fragment implements View.OnClickLi
                         btnGuardar.setVisibility(View.VISIBLE);
                         break;
                 }
-
-                pDialogRender.dismiss();
             }
 
             @Override

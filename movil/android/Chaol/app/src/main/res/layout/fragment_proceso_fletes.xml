@@ -71,31 +71,37 @@
                 android:orientation="vertical">
 
                 <Button
+                    android:id="@+id/btn_iniciar_proceso"
                     android:layout_width="200dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="5dp"
                     android:background="@color/colorSecondaryAccent"
                     android:text="Iniciar envio"
-                    android:textColor="@color/colorIcons" />
+                    android:textColor="@color/colorIcons"
+                    android:visibility="gone" />
 
                 <Button
+                    android:id="@+id/btn_entregado_proceso"
                     android:layout_width="200dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="5dp"
                     android:background="@color/colorSecondaryAccent"
                     android:text="entregado"
-                    android:textColor="@color/colorIcons" />
+                    android:textColor="@color/colorIcons"
+                    android:visibility="gone" />
 
                 <Button
+                    android:id="@+id/btn_recibido_proceso"
                     android:layout_width="200dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="5dp"
                     android:background="@color/colorSecondaryAccent"
                     android:text="recibido"
-                    android:textColor="@color/colorIcons" />
+                    android:textColor="@color/colorIcons"
+                    android:visibility="gone" />
             </LinearLayout>
 
         </LinearLayout>

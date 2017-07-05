@@ -54,7 +54,6 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
     private EditText txtLicencia, txtCelular, txtTractorMarca, txtTractorModelo, txtTractorPlaca, txtRemolqueMarca, txtRemolqueModelo, txtRemolquePlaca;
     private Spinner spinnerChofer, spinnerTractor, spinnerRemolque;
     private LinearLayout linearLayout;
-    private ProgressDialog pDialog;
 
     private static List<String> choferesList;
     private List<Choferes> choferes;
@@ -70,9 +69,12 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
 
     private static MainRegisterActivity activityInterface;
 
+    private DatabaseReference dbFlete;
     private String firebaseIdChofer;
     private String firebaseIdTractor;
     private String firebaseIdRemolque;
+
+    private ValueEventListener listenerFletes;
 
     private Choferes _choferActual;
     private Tractores _tractorActual;
@@ -127,9 +129,19 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
 
         linearLayout.setVisibility(View.GONE);
 
-        this.onPreRender();
-
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        this.onPreRender();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (null != dbFlete) dbFlete.removeEventListener(listenerFletes);
     }
 
     private void onCargarSpinnerChoferes() {
@@ -248,18 +260,11 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
         /**Obtiene el item selecionado en el fragmento de lista**/
         Agendas agenda = (Agendas) _MAIN_DECODE.getDecodeItem().getItemModel();
 
-        DatabaseReference dbFlete =
-                FirebaseDatabase.getInstance().getReference()
-                        .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
-                        .child(agenda.getFirebaseID());
+        dbFlete = FirebaseDatabase.getInstance().getReference()
+                .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
+                .child(agenda.getFirebaseID());
 
-        final ProgressDialog pDialogRender = new ProgressDialog(getContext());
-        pDialogRender.setMessage(getString(R.string.default_loading_msg));
-        pDialogRender.setIndeterminate(false);
-        pDialogRender.setCancelable(false);
-        pDialogRender.show();
-
-        dbFlete.addListenerForSingleValueEvent(new ValueEventListener() {
+        listenerFletes = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -355,24 +360,19 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
                 }
 
                 _mainFletesActual.setFlete(flete);
-
-                pDialogRender.dismiss();
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
+        };
+
+        dbFlete.addValueEventListener(listenerFletes);
     }
 
 
     private void onPreRenderSpinnerChoferes() {
-        pDialog = new ProgressDialog(getContext());
-        pDialog.setMessage(getString(R.string.default_loading_msg));
-        pDialog.setIndeterminate(false);
-        pDialog.setCancelable(false);
-        pDialog.show();
 
         drChofer.addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -411,7 +411,6 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Failed to read value
-                pDialog.dismiss();
                 Log.w(TAG, "Failed to read value.", databaseError.toException());
             }
         });
@@ -460,8 +459,6 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Failed to read value
-                pDialog.dismiss();
                 Log.w(TAG, "Failed to read value.", databaseError.toException());
             }
         });
@@ -506,14 +503,11 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
                 }
 
                 onCargarSpinnerRemolques();
-
-                pDialog.dismiss();
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Failed to read value
-                pDialog.dismiss();
                 Log.w(TAG, "Failed to read value.", databaseError.toException());
             }
         });
@@ -727,7 +721,7 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
         mainFlete.setTractorSeleccionado(tractor);
         mainFlete.setRemolqueSeleccionado(remolque);
 
-        activityInterface.updateSolicitudEquipo(mainFlete);
+        activityInterface.updateSolicitudEquipo(mainFlete,_mainFletesActual);
     }
 
     @Override
@@ -778,11 +772,11 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
     }
 
     private void loadDatosChofer() {
-        drChofer = database.getReference(Constants.FB_KEY_MAIN_CHOFERES)
+        DatabaseReference drChoferSpinner = database.getReference(Constants.FB_KEY_MAIN_CHOFERES)
                 .child(firebaseIdChofer);
 
         /**Metodo que llama la lista**/
-        drChofer.addListenerForSingleValueEvent(new ValueEventListener() {
+        drChoferSpinner.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

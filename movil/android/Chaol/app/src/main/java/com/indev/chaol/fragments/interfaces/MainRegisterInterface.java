@@ -63,5 +63,7 @@ public interface MainRegisterInterface {
     /**Permite crear la solicitud de Equipo**/
     void createSolicitudEquipo(MainFletes mainFletes);
     /**Permite actualizar la solicitud de equipo**/
-    void updateSolicitudEquipo(MainFletes mainFletes);
+    void updateSolicitudEquipo(MainFletes mainFlete, MainFletes _oldMainFlete);
+    /**Permite actualizar la solicitud de envio**/
+    void updateSolicitudEnvio(Fletes flete);
 }

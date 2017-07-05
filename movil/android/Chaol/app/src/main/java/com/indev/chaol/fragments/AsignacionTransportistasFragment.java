@@ -114,12 +114,6 @@ public class AsignacionTransportistasFragment extends Fragment implements View.O
                         .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
                         .child(agenda.getFirebaseID());
 
-        final ProgressDialog pDialogRender = new ProgressDialog(getContext());
-        pDialogRender.setMessage(getString(R.string.default_loading_msg));
-        pDialogRender.setIndeterminate(false);
-        pDialogRender.setCancelable(false);
-        pDialogRender.show();
-
         listenerFletes = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -140,7 +134,13 @@ public class AsignacionTransportistasFragment extends Fragment implements View.O
                 for (DataSnapshot psSeleccionado : dataSnapshot.child(Constants.FB_KEY_MAIN_TRANSPORTISTA_SELECCIONADO).getChildren()) {
                     Transportistas transportista = psSeleccionado.getValue(Transportistas.class);
                     firebaseIdTransportistaSeleccionado = transportista.getFirebaseId();
-                    FletesAsignacionFragment.showMessageAsignacion(View.GONE);
+
+                    if (_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE)) {
+                        FletesAsignacionFragment.showMessageAsignacion(View.VISIBLE,"Transportista seleccionado : " + transportista.getNombre());
+                    } else  if (_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA)) {
+                        if (transportista.getFirebaseId().equals(_SESSION_USER.getFirebaseId())) FletesAsignacionFragment.showMessageAsignacion(View.VISIBLE,"Transportista seleccionado : " +  transportista.getNombre());
+                    }
+
                     break;
                 }
 
@@ -164,8 +164,6 @@ public class AsignacionTransportistasFragment extends Fragment implements View.O
                 }
 
                 onPreRenderTransportistas();
-
-                pDialogRender.dismiss();
             }
 
             @Override

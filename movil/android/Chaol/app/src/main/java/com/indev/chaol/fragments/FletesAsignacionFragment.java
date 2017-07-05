@@ -116,12 +116,6 @@ public class FletesAsignacionFragment extends Fragment implements View.OnClickLi
                         .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
                         .child(agenda.getFirebaseID());
 
-        final ProgressDialog pDialogRender = new ProgressDialog(getContext());
-        pDialogRender.setMessage(getString(R.string.default_loading_msg));
-        pDialogRender.setIndeterminate(false);
-        pDialogRender.setCancelable(false);
-        pDialogRender.show();
-
         dbFlete.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -142,8 +136,6 @@ public class FletesAsignacionFragment extends Fragment implements View.OnClickLi
                     case Constants.FB_KEY_ITEM_TIPO_USUARIO_CHOFER:
                         break;
                 }
-
-                pDialogRender.dismiss();
             }
 
             @Override
@@ -184,8 +176,9 @@ public class FletesAsignacionFragment extends Fragment implements View.OnClickLi
         }
     }
 
-    public static void showMessageAsignacion(int visible) {
+    public static void showMessageAsignacion(int visible, String message) {
         txtEstatusTransportista.setVisibility(visible);
+        txtEstatusTransportista.setText(message);
     }
 
     public static void showCancelAsignacion(int visible) {

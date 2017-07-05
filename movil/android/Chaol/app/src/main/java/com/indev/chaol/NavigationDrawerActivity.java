@@ -477,6 +477,18 @@ public class NavigationDrawerActivity extends AppCompatActivity
     }
 
     @Override
+    public void showQuestionAgenda(Boolean cancelar) {
+        AlertDialog.Builder ad = new AlertDialog.Builder(this);
+
+        ad.setTitle("Agenda");
+        ad.setMessage("¿Que desea hacer?");
+        ad.setCancelable(false);
+        if (cancelar) ad.setNegativeButton("Cancelar", this);
+        ad.setPositiveButton("Consultar", this);
+        ad.show();
+    }
+
+    @Override
     public void showQuestion() {
         AlertDialog.Builder ad = new AlertDialog.Builder(this);
 

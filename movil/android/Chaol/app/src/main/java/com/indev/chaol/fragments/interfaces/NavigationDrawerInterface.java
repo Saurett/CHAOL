@@ -18,6 +18,8 @@ public interface NavigationDrawerInterface {
     void removeSecondaryFragment();
     /**Permite mostrar el dialogo de preguntas**/
     void showQuestion();
+    /**Permite mostrar el dialogo de preguntas**/
+    void showQuestionAgenda(Boolean cancelar);
     /**Permte abrir una actividad externa enviando parametros en el DecodeItem**/
     void openExternalActivity(int action, Class<?> externalActivity);
     /**Permite transferir los valores seleccionados en DecodeItem*/

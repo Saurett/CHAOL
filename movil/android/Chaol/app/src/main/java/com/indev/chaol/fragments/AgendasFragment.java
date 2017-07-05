@@ -2,8 +2,10 @@ package com.indev.chaol.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -45,6 +47,8 @@ public class AgendasFragment extends Fragment implements View.OnClickListener {
 
     private static List<String> _FIREBASE_LIST;
 
+    private int _idOrigenView;
+
     /**
      * Declaraciones para Firebase
      **/
@@ -52,7 +56,7 @@ public class AgendasFragment extends Fragment implements View.OnClickListener {
     private DatabaseReference drFletes;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_agendas, container, false);
 
@@ -181,7 +185,32 @@ public class AgendasFragment extends Fragment implements View.OnClickListener {
                 navigationDrawerInterface.showQuestion();
                 break;
             case R.id.item_color_agenda:
+
                 navigationDrawerInterface.openExternalActivity(Constants.ACCION_EDITAR, MainRegisterActivity.class);
+
+                Agendas agenda = (Agendas) decodeItem.getItemModel();
+                switch (agenda.getEstatus()) {
+                    case Constants.FB_KEY_ITEM_STATUS_FLETE_POR_COTIZAR:
+                        break;
+                    case Constants.FB_KEY_ITEM_STATUS_ESPERANDO_POR_TRANSPORTISTA:
+                        break;
+                    case Constants.FB_KEY_ITEM_STATUS_TRANSPORTISTA_POR_CONFIRMAR:
+                        break;
+                    case Constants.FB_KEY_ITEM_STATUS_UNIDADES_POR_ASIGNAR:
+                        break;
+                    case Constants.FB_KEY_ITEM_STATUS_ENVIO_POR_INICIAR:
+                        break;
+                    case Constants.FB_KEY_ITEM_STATUS_EN_PROGRESO:
+                        break;
+                    case Constants.FB_KEY_ITEM_STATUS_ENTREGADO:
+                        break;
+                    case Constants.FB_KEY_ITEM_STATUS_FINALIZADO:
+                        break;
+                    case Constants.FB_KEY_ITEM_STATUS_CANCELADO:
+                        break;
+                    default:
+                        break;
+                }
                 break;
         }
     }

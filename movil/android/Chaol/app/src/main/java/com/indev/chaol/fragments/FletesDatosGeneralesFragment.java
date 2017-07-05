@@ -107,6 +107,9 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
     private DatabaseReference drClientes;
     private DatabaseReference drBodegaCarga;
     private DatabaseReference drBodegaDescarga;
+    private DatabaseReference dbFlete;
+    private ValueEventListener listenerFletes;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -259,6 +262,13 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        if (null != dbFlete) dbFlete.removeEventListener(listenerFletes);
+
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
@@ -288,10 +298,9 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
         /**Obtiene el item selecionado en el fragmento de lista**/
         Agendas agenda = (Agendas) _MAIN_DECODE.getDecodeItem().getItemModel();
 
-        DatabaseReference dbFlete =
-                FirebaseDatabase.getInstance().getReference()
-                        .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
-                        .child(agenda.getFirebaseID());
+        dbFlete = FirebaseDatabase.getInstance().getReference()
+                .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
+                .child(agenda.getFirebaseID());
 
         final ProgressDialog pDialogRender = new ProgressDialog(getContext());
         pDialogRender.setMessage(getString(R.string.default_loading_msg));
@@ -299,7 +308,7 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
         pDialogRender.setCancelable(false);
         pDialogRender.show();
 
-        dbFlete.addListenerForSingleValueEvent(new ValueEventListener() {
+        listenerFletes = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -395,7 +404,9 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
+        };
+
+        dbFlete.addValueEventListener(listenerFletes);
 
         /**Modifica valores predeterminados de ciertos elementos**/
         //btnTitulo.setText(getString(Constants.TITLE_FORM_ACTION.get(_MAIN_DECODE.getAccionFragmento())));
