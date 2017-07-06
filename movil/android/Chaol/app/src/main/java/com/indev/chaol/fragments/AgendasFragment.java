@@ -2,10 +2,8 @@ package com.indev.chaol.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -99,7 +97,7 @@ public class AgendasFragment extends Fragment implements View.OnClickListener {
 
                     for (DataSnapshot psTransportista : postSnapshot.child(Constants.FB_KEY_MAIN_TRANSPORTISTA_SELECCIONADO).getChildren()) {
                         Transportistas transportista = psTransportista.getValue(Transportistas.class);
-                        nombreDelTransportista =  ((null != transportista) ? transportista.getNombre() : nombreDelTransportista);
+                        nombreDelTransportista = ((null != transportista) ? transportista.getNombre() : nombreDelTransportista);
                         break;
                     }
 
@@ -186,31 +184,29 @@ public class AgendasFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.item_color_agenda:
 
-                navigationDrawerInterface.openExternalActivity(Constants.ACCION_EDITAR, MainRegisterActivity.class);
+                //navigationDrawerInterface.openExternalActivity(Constants.ACCION_EDITAR, MainRegisterActivity.class);
+                Boolean cancelable = false;
 
                 Agendas agenda = (Agendas) decodeItem.getItemModel();
                 switch (agenda.getEstatus()) {
                     case Constants.FB_KEY_ITEM_STATUS_FLETE_POR_COTIZAR:
-                        break;
                     case Constants.FB_KEY_ITEM_STATUS_ESPERANDO_POR_TRANSPORTISTA:
-                        break;
                     case Constants.FB_KEY_ITEM_STATUS_TRANSPORTISTA_POR_CONFIRMAR:
-                        break;
                     case Constants.FB_KEY_ITEM_STATUS_UNIDADES_POR_ASIGNAR:
-                        break;
                     case Constants.FB_KEY_ITEM_STATUS_ENVIO_POR_INICIAR:
+                        cancelable = true;
                         break;
                     case Constants.FB_KEY_ITEM_STATUS_EN_PROGRESO:
-                        break;
                     case Constants.FB_KEY_ITEM_STATUS_ENTREGADO:
-                        break;
                     case Constants.FB_KEY_ITEM_STATUS_FINALIZADO:
-                        break;
                     case Constants.FB_KEY_ITEM_STATUS_CANCELADO:
+                        cancelable = false;
                         break;
                     default:
                         break;
                 }
+
+                navigationDrawerInterface.showQuestionAgenda(cancelable);
                 break;
         }
     }

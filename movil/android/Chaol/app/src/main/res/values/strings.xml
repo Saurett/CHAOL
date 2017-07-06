@@ -42,6 +42,8 @@
     <string name="default_send_email_confirmatio_msg">Enviando email de registro</string>
     <string name="default_alert_dialog_aceptar">Aceptar</string>
     <string name="default_alert_dialog_cancelar">Cancelar</string>
+    <string name="default_alert_dialog_si">Si</string>
+    <string name="default_alert_dialog_no">No</string>
 
     <!--Form title-->
     <string name="default_form_title_edit">Editar</string>

@@ -309,8 +309,8 @@ public class FletesProcesoFragment extends Fragment implements View.OnClickListe
         ad.setTitle(btnTitulo.getText());
         ad.setMessage(message);
         ad.setCancelable(false);
-        ad.setNegativeButton(getString(R.string.default_alert_dialog_cancelar), this);
-        ad.setPositiveButton(getString(R.string.default_alert_dialog_aceptar), this);
+        ad.setNegativeButton(getString(R.string.default_alert_dialog_no), this);
+        ad.setPositiveButton(getString(R.string.default_alert_dialog_si), this);
         ad.show();
     }
 

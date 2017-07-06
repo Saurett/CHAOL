@@ -48,26 +48,26 @@ public class MainPanelFragment extends Fragment {
     public void onPreRenderSessionPanel() {
         switch (_SESSION_USER.getTipoDeUsuario()) {
             case  Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE:
-                mainFragment.add(R.id.panel_fletes_container, new PanelFletesFragment(), Constants.PANEL_FLETES_CONTAINER);
-                mainFragment.add(R.id.panel_bodegas_container, new PanelBodegasFragment(), Constants.PANEL_BODEGAS_CONTAINER);
+                mainFragment.replace(R.id.panel_fletes_container, new PanelFletesFragment(), Constants.PANEL_FLETES_CONTAINER);
+                mainFragment.replace(R.id.panel_bodegas_container, new PanelBodegasFragment(), Constants.PANEL_BODEGAS_CONTAINER);
                 break;
             case Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA:
-                mainFragment.add(R.id.panel_fletes_container, new PanelFletesFragment(), Constants.PANEL_FLETES_CONTAINER);
-                mainFragment.add(R.id.panel_choferes_container, new PanelChoferesFragment(), Constants.PANEL_CHOFERES_CONTAINER);
-                mainFragment.add(R.id.panel_tractores_container, new PanelTractoresFragment(), Constants.PANEL_TRACTORES_CONTAINER);
-                mainFragment.add(R.id.panel_remolques_container, new PanelRemolquesFragment(), Constants.PANEL_REMOLQUES_CONTAINER);
+                mainFragment.replace(R.id.panel_fletes_container, new PanelFletesFragment(), Constants.PANEL_FLETES_CONTAINER);
+                mainFragment.replace(R.id.panel_choferes_container, new PanelChoferesFragment(), Constants.PANEL_CHOFERES_CONTAINER);
+                mainFragment.replace(R.id.panel_tractores_container, new PanelTractoresFragment(), Constants.PANEL_TRACTORES_CONTAINER);
+                mainFragment.replace(R.id.panel_remolques_container, new PanelRemolquesFragment(), Constants.PANEL_REMOLQUES_CONTAINER);
                 break;
             case Constants.FB_KEY_ITEM_TIPO_USUARIO_CHOFER:
-                mainFragment.add(R.id.panel_fletes_container, new PanelFletesFragment(), Constants.PANEL_FLETES_CONTAINER);
+                mainFragment.replace(R.id.panel_fletes_container, new PanelFletesFragment(), Constants.PANEL_FLETES_CONTAINER);
                 break;
             default:
-                mainFragment.add(R.id.panel_fletes_container, new PanelFletesFragment(), Constants.PANEL_FLETES_CONTAINER);
-                mainFragment.add(R.id.panel_clientes_container, new PanelClientesFragment(), Constants.PANEL_CLIENTES_CONTAINER);
-                mainFragment.add(R.id.panel_bodegas_container, new PanelBodegasFragment(), Constants.PANEL_BODEGAS_CONTAINER);
-                mainFragment.add(R.id.panel_transportistas_container, new PanelTransportistasFragment(), Constants.PANEL_TRANSPORTISTAS_CONTAINER);
-                mainFragment.add(R.id.panel_choferes_container, new PanelChoferesFragment(), Constants.PANEL_CHOFERES_CONTAINER);
-                mainFragment.add(R.id.panel_tractores_container, new PanelTractoresFragment(), Constants.PANEL_TRACTORES_CONTAINER);
-                mainFragment.add(R.id.panel_remolques_container, new PanelRemolquesFragment(), Constants.PANEL_REMOLQUES_CONTAINER);
+                mainFragment.replace(R.id.panel_fletes_container, new PanelFletesFragment(), Constants.PANEL_FLETES_CONTAINER);
+                mainFragment.replace(R.id.panel_clientes_container, new PanelClientesFragment(), Constants.PANEL_CLIENTES_CONTAINER);
+                mainFragment.replace(R.id.panel_bodegas_container, new PanelBodegasFragment(), Constants.PANEL_BODEGAS_CONTAINER);
+                mainFragment.replace(R.id.panel_transportistas_container, new PanelTransportistasFragment(), Constants.PANEL_TRANSPORTISTAS_CONTAINER);
+                mainFragment.replace(R.id.panel_choferes_container, new PanelChoferesFragment(), Constants.PANEL_CHOFERES_CONTAINER);
+                mainFragment.replace(R.id.panel_tractores_container, new PanelTractoresFragment(), Constants.PANEL_TRACTORES_CONTAINER);
+                mainFragment.replace(R.id.panel_remolques_container, new PanelRemolquesFragment(), Constants.PANEL_REMOLQUES_CONTAINER);
                 break;
         }
     }
