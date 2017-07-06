@@ -5,6 +5,7 @@ import com.indev.chaol.models.Choferes;
 import com.indev.chaol.models.Clientes;
 import com.indev.chaol.models.DecodeItem;
 import com.indev.chaol.models.Transportistas;
+import com.indev.chaol.models.Usuarios;
 
 /**
  * Created by texiumuser on 02/03/2017.
@@ -12,6 +13,7 @@ import com.indev.chaol.models.Transportistas;
 
 public interface NavigationDrawerInterface {
 
+    Usuarios getSessionUser();
     /**Permite cambiar de fragmento declarado en el menu**/
     void onChangeMainFragment(int idView);
     /**Permite eliminar todos los fragmentos secundarios que existan**/

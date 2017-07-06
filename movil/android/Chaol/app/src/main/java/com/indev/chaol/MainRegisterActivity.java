@@ -1577,7 +1577,6 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         dbChoferSeleccionado.updateChildren(updateChofer);
 
         if (null != _oldMainFlete.getChoferSeleccionado()) {
-
             if (!_oldMainFlete.getChoferSeleccionado().getFirebaseId().equals(chofer.getFirebaseId())) {
                 dbChoferSeleccionado.child(_oldMainFlete.getChoferSeleccionado().getFirebaseId()).removeValue();
             }

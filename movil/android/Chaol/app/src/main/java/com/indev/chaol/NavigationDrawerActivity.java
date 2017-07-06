@@ -36,6 +36,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
 import com.indev.chaol.models.Administradores;
 import com.indev.chaol.models.Bodegas;
@@ -78,6 +80,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference dbUsuarioValido;
     private ValueEventListener listenerSession;
+    private static String topics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,13 +97,28 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
         drawer.setDrawerListener(this);
 
-
         _SESSION_USER = (Usuarios) getIntent().getExtras().getSerializable(Constants.KEY_SESSION_USER);
+
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        Log.d(TAG, "Token actualizado: " + refreshedToken);
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
 
         /**Obtiene la instancia compartida del objeto FirebaseAuth**/
         mAuth = FirebaseAuth.getInstance();
+
+        switch (_SESSION_USER.getTipoDeUsuario()) {
+            case Constants.FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR:
+                //MyFirebaseMessagingService.sessionActual(_SESSION_USER);
+                FirebaseMessaging.getInstance().subscribeToTopic("administradores");
+                break;
+            case Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA:
+                //MyFirebaseMessagingService.sessionActual(_SESSION_USER);
+                FirebaseMessaging.getInstance().subscribeToTopic("transportistas");
+                break;
+        }
+
+
         /**Responde a los cambios de estato en la session**/
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -436,6 +454,11 @@ public class NavigationDrawerActivity extends AppCompatActivity
         }
 
         return name;
+    }
+
+    @Override
+    public Usuarios getSessionUser() {
+        return _SESSION_USER;
     }
 
     /**
@@ -1131,6 +1154,14 @@ public class NavigationDrawerActivity extends AppCompatActivity
             public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
                 /**Si se crean mas elementos al cerrar session, se creara un metodo**/
                 lastMenuItem = null;
+                switch (_SESSION_USER.getTipoDeUsuario()) {
+                    case Constants.FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR:
+                        FirebaseMessaging.getInstance().unsubscribeFromTopic("administradores");
+                        break;
+                    case Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA:
+                        FirebaseMessaging.getInstance().unsubscribeFromTopic("transportistas");
+                        break;
+                }
                 FirebaseAuth.getInstance().signOut();
                 finish();
             }
