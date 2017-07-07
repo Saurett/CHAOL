@@ -3,12 +3,16 @@ package com.indev.chaol.fragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,12 +25,17 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.beardedhen.androidbootstrap.BootstrapCircleThumbnail;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.indev.chaol.MainRegisterActivity;
 import com.indev.chaol.R;
 import com.indev.chaol.models.Clientes;
@@ -44,11 +53,14 @@ import java.util.List;
 
 public class RegistroClientesFragment extends Fragment implements View.OnClickListener, DialogInterface.OnClickListener, Spinner.OnItemSelectedListener {
 
+    private static final String TAG = RegistroClientesFragment.class.getName();
+
+    private BootstrapCircleThumbnail bctPerfilChofer;
     private Button btnTitulo;
     private EditText txtNombre, txtRFC, txtEstado, txtCiudad, txtColonia, txtCodigoPostal, txtCalle, txtNumInt, txtNumExt, txtTelefono, txtCelular, txtCorreoElectronico, txtPassword;
     private LinearLayout linearLayoutPassword;
     private Spinner spinnerMetodoPago;
-    private FloatingActionButton fabClientes;
+    private FloatingActionButton fabClientes, fabPerfil;
     private ProgressDialog pDialog;
 
     private static List<String> metodosPagoList;
@@ -72,8 +84,8 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
         /**Obtiene la instancia compartida del objeto FirebaseAuth**/
         mAuth = FirebaseAuth.getInstance();
 
+        bctPerfilChofer = (BootstrapCircleThumbnail) view.findViewById(R.id.bct_cliente_perfil);
         btnTitulo = (Button) view.findViewById(R.id.btn_titulo_clientes);
-
         txtNombre = (EditText) view.findViewById(R.id.txt_clientes_nombre);
         txtRFC = (EditText) view.findViewById(R.id.txt_clientes_rfc);
         txtEstado = (EditText) view.findViewById(R.id.txt_clientes_estado);
@@ -93,6 +105,7 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
         spinnerMetodoPago = (Spinner) view.findViewById(R.id.spinner_clientes_metodo_pago);
 
         fabClientes = (FloatingActionButton) view.findViewById(R.id.fab_clientes);
+        fabPerfil = (FloatingActionButton) view.findViewById(R.id.fab_img_cliente_perfil);
 
         fabClientes.setOnClickListener(this);
 
@@ -169,6 +182,46 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
                 Clientes cliente = dataSnapshot.getValue(Clientes.class);
                 /**Se asigna el chofer actual a la memoria**/
                 _clienteActual = cliente;
+
+                fabPerfil.setVisibility(View.GONE);
+                bctPerfilChofer.setVisibility(View.GONE);
+
+                if (null == cliente.getImagenURL()) cliente.setImagenURL("");
+
+                if (!cliente.getImagenURL().isEmpty()) {
+
+                    final ProgressDialog pdThumbnail = new ProgressDialog(getContext());
+                    pdThumbnail.setMessage(getString(R.string.default_loading_msg));
+                    pdThumbnail.setIndeterminate(false);
+                    pdThumbnail.setCancelable(false);
+                    pdThumbnail.show();
+
+                    StorageReference storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(cliente.getImagenURL());
+
+                    bctPerfilChofer.setVisibility(View.VISIBLE);
+
+                    final long ONE_MEGABYTE = 1024 * 1024;
+                    storageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                        @Override
+                        public void onSuccess(byte[] bytes) {
+                            Bitmap decodedByte = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                            bctPerfilChofer.setImageBitmap(decodedByte);
+
+                            pdThumbnail.dismiss();
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            fabPerfil.setVisibility(View.VISIBLE);
+                            bctPerfilChofer.setVisibility(View.GONE);
+                            pdThumbnail.dismiss();
+                            Log.i(TAG, "addOnSuccessListener : " + exception.getMessage());
+                        }
+                    });
+                } else {
+                    fabPerfil.setVisibility(View.VISIBLE);
+                }
 
                 txtNombre.setText(cliente.getNombre());
                 /**Asigna valores del item seleccionado**/

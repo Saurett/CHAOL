@@ -3,8 +3,11 @@ package com.indev.chaol.fragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -21,12 +24,17 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.beardedhen.androidbootstrap.BootstrapCircleThumbnail;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.indev.chaol.MainRegisterActivity;
 import com.indev.chaol.R;
 import com.indev.chaol.models.Choferes;
@@ -35,6 +43,10 @@ import com.indev.chaol.models.Transportistas;
 import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,11 +59,12 @@ public class RegistroChoferesFragment extends Fragment implements View.OnClickLi
 
     private static final String TAG = RegistroChoferesFragment.class.getName();
 
+    private BootstrapCircleThumbnail bctPerfil;
     private Button btnTitulo;
     private EditText txtNombre, txtNumeroLicencia, txtNSS, txtCURP, txtEstado, txtCiudad, txtColonia, txtCodigoPostal, txtCalle, txtNumInt, txtNumExt, txtTelefono, txtCelular1, txtCelular2, txtCorreoElectronico, txtPassword;
     private LinearLayout linearLayoutPassword;
     private Spinner spinnerEmpresa;
-    private FloatingActionButton fabChoferes;
+    private FloatingActionButton fabChoferes, fabPerfil;
     private ProgressDialog pDialog;
 
     private static List<String> transportistasList;
@@ -79,6 +92,7 @@ public class RegistroChoferesFragment extends Fragment implements View.OnClickLi
         _MAIN_DECODE = (DecodeExtraParams) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
         _SESSION_USER = (Usuarios) getActivity().getIntent().getSerializableExtra(Constants.KEY_SESSION_USER);
 
+        bctPerfil = (BootstrapCircleThumbnail) view.findViewById(R.id.bct_chofer_perfil);
         btnTitulo = (Button) view.findViewById(R.id.btn_titulo_choferes);
         txtNombre = (EditText) view.findViewById(R.id.txt_choferes_nombre);
         txtNumeroLicencia = (EditText) view.findViewById(R.id.txt_choferes_licencia);
@@ -101,6 +115,7 @@ public class RegistroChoferesFragment extends Fragment implements View.OnClickLi
         linearLayoutPassword = (LinearLayout) view.findViewById(R.id.item_choferes_password);
 
         fabChoferes = (FloatingActionButton) view.findViewById(R.id.fab_choferes);
+        fabPerfil = (FloatingActionButton) view.findViewById(R.id.fab_img_chofer_perfil);
         fabChoferes.setOnClickListener(this);
 
         database = FirebaseDatabase.getInstance();
@@ -215,6 +230,46 @@ public class RegistroChoferesFragment extends Fragment implements View.OnClickLi
                 Choferes chofer = dataSnapshot.getValue(Choferes.class);
                 /**Se asigna el chofer actual a la memoria**/
                 _choferActual = chofer;
+
+                fabPerfil.setVisibility(View.GONE);
+                bctPerfil.setVisibility(View.GONE);
+
+                if (null == chofer.getImagenURL()) chofer.setImagenURL("");
+
+                if (!chofer.getImagenURL().isEmpty()) {
+
+                    final ProgressDialog pdThumbnail = new ProgressDialog(getContext());
+                    pdThumbnail.setMessage(getString(R.string.default_loading_msg));
+                    pdThumbnail.setIndeterminate(false);
+                    pdThumbnail.setCancelable(false);
+                    pdThumbnail.show();
+
+                    StorageReference storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(chofer.getImagenURL());
+
+                    bctPerfil.setVisibility(View.VISIBLE);
+
+                    final long ONE_MEGABYTE = 1024 * 1024;
+                    storageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                        @Override
+                        public void onSuccess(byte[] bytes) {
+                            Bitmap decodedByte = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                            bctPerfil.setImageBitmap(decodedByte);
+
+                            pdThumbnail.dismiss();
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            fabPerfil.setVisibility(View.VISIBLE);
+                            bctPerfil.setVisibility(View.GONE);
+                            pdThumbnail.dismiss();
+                            Log.i(TAG, "addOnSuccessListener : " + exception.getMessage());
+                        }
+                    });
+                } else {
+                    fabPerfil.setVisibility(View.VISIBLE);
+                }
 
                 txtNombre.setText(chofer.getNombre());
                 /**Asigna valores del item seleccionado**/
@@ -331,7 +386,9 @@ public class RegistroChoferesFragment extends Fragment implements View.OnClickLi
         activityInterface.createUserChofer(chofer);
     }
 
-    /**Verifica los campos obligatorios para editar**/
+    /**
+     * Verifica los campos obligatorios para editar
+     **/
     private void validationEditer() {
 
         Boolean authorized = true;
@@ -394,12 +451,14 @@ public class RegistroChoferesFragment extends Fragment implements View.OnClickLi
         spinnerEmpresa.setSelection(itemSelection);
     }
 
-    /**Obtiene el firebaseID del transportista seleccionado**/
+    /**
+     * Obtiene el firebaseID del transportista seleccionado
+     **/
     private String getSelectTransportista() {
 
         String firebaseID = "";
 
-        for (Transportistas transportista:
+        for (Transportistas transportista :
                 transportistas) {
             if (transportista.getNombre().equals(spinnerEmpresa.getSelectedItem().toString())) {
                 firebaseID = transportista.getFirebaseId();
@@ -407,7 +466,7 @@ public class RegistroChoferesFragment extends Fragment implements View.OnClickLi
             }
         }
 
-        return  firebaseID;
+        return firebaseID;
     }
 
     private int onPreRenderSelectTransportista() {
@@ -450,6 +509,21 @@ public class RegistroChoferesFragment extends Fragment implements View.OnClickLi
             case DialogInterface.BUTTON_POSITIVE:
                 this.validationEditer();
                 break;
+        }
+    }
+
+    public static Bitmap getBitmapFromURL(String src) {
+        try {
+            URL url = new URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            return myBitmap;
+        } catch (IOException e) {
+            Log.i(TAG, "getBitmapFromURL " + e.getMessage());
+            return null;
         }
     }
 }

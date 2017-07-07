@@ -3,8 +3,12 @@ package com.indev.chaol.fragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -20,11 +24,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.beardedhen.androidbootstrap.BootstrapCircleThumbnail;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.indev.chaol.MainRegisterActivity;
 import com.indev.chaol.R;
 import com.indev.chaol.models.Agendas;
@@ -50,10 +59,12 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
 
     private static final String TAG = FletesEquipoFragment.class.getName();
 
+    private BootstrapCircleThumbnail bctPerfil;
     private Button btnTitulo, btnGuardar, btnActualizar;
     private EditText txtLicencia, txtCelular, txtTractorMarca, txtTractorModelo, txtTractorPlaca, txtRemolqueMarca, txtRemolqueModelo, txtRemolquePlaca;
     private Spinner spinnerChofer, spinnerTractor, spinnerRemolque;
     private LinearLayout linearLayout;
+    private FloatingActionButton fabPerfil;
 
     private static List<String> choferesList;
     private List<Choferes> choferes;
@@ -97,6 +108,8 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
         _MAIN_DECODE = (DecodeExtraParams) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
         _SESSION_USER = (Usuarios) getActivity().getIntent().getSerializableExtra(Constants.KEY_SESSION_USER);
 
+        bctPerfil = (BootstrapCircleThumbnail) view.findViewById(R.id.bct_chofer_equipo);
+
         txtLicencia = (EditText) view.findViewById(R.id.txt_equipo_asignado_numero_licencia);
         txtCelular = (EditText) view.findViewById(R.id.txt_equipo_asignado_celular);
         txtTractorMarca = (EditText) view.findViewById(R.id.txt_equipo_asignado_tractor_marca);
@@ -105,6 +118,8 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
         txtRemolqueMarca = (EditText) view.findViewById(R.id.txt_equipo_asignado_remolque_marca);
         txtRemolqueModelo = (EditText) view.findViewById(R.id.txt_equipo_asignado_remolque_modelo);
         txtRemolquePlaca = (EditText) view.findViewById(R.id.txt_equipo_asignado_remolque_placa);
+
+        fabPerfil = (FloatingActionButton) view.findViewById(R.id.fab_img_chofer_equipo);
 
         spinnerChofer = (Spinner) view.findViewById(R.id.spinner_equipo_asignado_chofer);
         spinnerTractor = (Spinner) view.findViewById(R.id.spinner_equipo_asignado_tractor);
@@ -280,8 +295,47 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
                     _mainFletesActual.setChoferSeleccionado(choferSeleccionado);
 
                     txtLicencia.setText(choferSeleccionado.getNumeroDeLicencia());
-                    //TODO FOTO IMAGENURL
                     txtCelular.setText(choferSeleccionado.getCelular1());
+
+                    fabPerfil.setVisibility(View.GONE);
+                    bctPerfil.setVisibility(View.GONE);
+
+                    if (null == choferSeleccionado.getImagenURL()) choferSeleccionado.setImagenURL("");
+
+                    if (!choferSeleccionado.getImagenURL().isEmpty()) {
+
+                        final ProgressDialog pdThumbnail = new ProgressDialog(getContext());
+                        pdThumbnail.setMessage(getString(R.string.default_loading_msg));
+                        pdThumbnail.setIndeterminate(false);
+                        pdThumbnail.setCancelable(false);
+                        pdThumbnail.show();
+
+                        StorageReference storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(choferSeleccionado.getImagenURL());
+
+                        bctPerfil.setVisibility(View.VISIBLE);
+
+                        final long ONE_MEGABYTE = 1024 * 1024;
+                        storageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                            @Override
+                            public void onSuccess(byte[] bytes) {
+                                Bitmap decodedByte = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                bctPerfil.setImageBitmap(decodedByte);
+
+                                pdThumbnail.dismiss();
+
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                fabPerfil.setVisibility(View.VISIBLE);
+                                bctPerfil.setVisibility(View.GONE);
+                                pdThumbnail.dismiss();
+                                Log.i(TAG, "addOnSuccessListener : " + exception.getMessage());
+                            }
+                        });
+                    } else {
+                        fabPerfil.setVisibility(View.VISIBLE);
+                    }
 
                     break;
                 }
@@ -781,12 +835,52 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                Choferes chofer = dataSnapshot.getValue(Choferes.class);
+                Choferes choferSeleccionado = dataSnapshot.getValue(Choferes.class);
 
-                txtLicencia.setText(chofer.getNumeroDeLicencia());
-                txtCelular.setText(chofer.getCelular1());
+                txtLicencia.setText(choferSeleccionado.getNumeroDeLicencia());
+                txtCelular.setText(choferSeleccionado.getCelular1());
 
-                _choferActual = chofer;
+                fabPerfil.setVisibility(View.GONE);
+                bctPerfil.setVisibility(View.GONE);
+
+                if (null == choferSeleccionado.getImagenURL()) choferSeleccionado.setImagenURL("");
+
+                if (!choferSeleccionado.getImagenURL().isEmpty()) {
+
+                    final ProgressDialog pdThumbnail = new ProgressDialog(getContext());
+                    pdThumbnail.setMessage(getString(R.string.default_loading_msg));
+                    pdThumbnail.setIndeterminate(false);
+                    pdThumbnail.setCancelable(false);
+                    pdThumbnail.show();
+
+                    StorageReference storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(choferSeleccionado.getImagenURL());
+
+                    bctPerfil.setVisibility(View.VISIBLE);
+
+                    final long ONE_MEGABYTE = 1024 * 1024;
+                    storageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                        @Override
+                        public void onSuccess(byte[] bytes) {
+                            Bitmap decodedByte = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                            bctPerfil.setImageBitmap(decodedByte);
+
+                            pdThumbnail.dismiss();
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            fabPerfil.setVisibility(View.VISIBLE);
+                            bctPerfil.setVisibility(View.GONE);
+                            pdThumbnail.dismiss();
+                            Log.i(TAG, "addOnSuccessListener : " + exception.getMessage());
+                        }
+                    });
+                } else {
+                    fabPerfil.setVisibility(View.VISIBLE);
+                }
+
+                _choferActual = choferSeleccionado;
             }
 
             @Override

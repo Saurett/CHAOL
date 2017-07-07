@@ -58,13 +58,22 @@
                 android:layout_marginTop="20dp"
                 android:orientation="vertical">
 
+                <com.beardedhen.androidbootstrap.BootstrapCircleThumbnail
+                    android:id="@+id/bct_chofer_equipo"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    app:bootstrapBrand="info"
+                    app:hasBorder="true" />
+
                 <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/fab_equipo_asignado_chofer"
+                    android:id="@+id/fab_img_chofer_equipo"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center"
                     android:scaleType="fitCenter"
                     android:src="@mipmap/ic_person_white_48dp"
+                    android:visibility="gone"
                     app:backgroundTint="@color/colorPrimary"
                     app:elevation="0dp" />
             </LinearLayout>
