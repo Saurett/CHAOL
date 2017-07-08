@@ -142,7 +142,33 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
         spinnerTractor.setOnItemSelectedListener(this);
         spinnerRemolque.setOnItemSelectedListener(this);
 
+        txtLicencia.setTag(txtLicencia.getKeyListener());
+        txtLicencia.setKeyListener(null);
+
+        txtCelular.setTag(txtCelular.getKeyListener());
+        txtCelular.setKeyListener(null);
+
+        txtTractorMarca.setTag(txtTractorMarca.getKeyListener());
+        txtTractorMarca.setKeyListener(null);
+
+        txtTractorModelo.setTag(txtTractorModelo.getKeyListener());
+        txtTractorModelo.setKeyListener(null);
+
+        txtTractorPlaca.setTag(txtTractorPlaca.getKeyListener());
+        txtTractorPlaca.setKeyListener(null);
+
+        txtRemolqueMarca.setTag(txtRemolqueMarca.getKeyListener());
+        txtRemolqueMarca.setKeyListener(null);
+
+        txtRemolqueModelo.setTag(txtRemolqueModelo.getKeyListener());
+        txtRemolqueModelo.setKeyListener(null);
+
+        txtRemolquePlaca.setTag(txtRemolquePlaca.getKeyListener());
+        txtRemolquePlaca.setKeyListener(null);
+
         linearLayout.setVisibility(View.GONE);
+
+        RegistroFletesFragment.setFrameEquipo(View.GONE);
 
         return view;
     }
@@ -300,7 +326,8 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
                     fabPerfil.setVisibility(View.GONE);
                     bctPerfil.setVisibility(View.GONE);
 
-                    if (null == choferSeleccionado.getImagenURL()) choferSeleccionado.setImagenURL("");
+                    if (null == choferSeleccionado.getImagenURL())
+                        choferSeleccionado.setImagenURL("");
 
                     if (!choferSeleccionado.getImagenURL().isEmpty()) {
 
@@ -374,40 +401,121 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
 
                 switch (flete.getEstatus()) {
                     case Constants.FB_KEY_ITEM_STATUS_FLETE_POR_COTIZAR:
+                        RegistroFletesFragment.setFrameEquipo(View.GONE);
+
                         btnGuardar.setVisibility(View.GONE);
                         btnActualizar.setVisibility(View.GONE);
+
+                        spinnerChofer.setEnabled(false);
+                        spinnerRemolque.setEnabled(false);
+                        spinnerTractor.setEnabled(false);
+
                         break;
                     case Constants.FB_KEY_ITEM_STATUS_ESPERANDO_POR_TRANSPORTISTA:
+                        RegistroFletesFragment.setFrameEquipo(View.GONE);
+
                         btnGuardar.setVisibility(View.GONE);
                         btnActualizar.setVisibility(View.GONE);
+
+                        spinnerChofer.setEnabled(false);
+                        spinnerRemolque.setEnabled(false);
+                        spinnerTractor.setEnabled(false);
+
                         break;
                     case Constants.FB_KEY_ITEM_STATUS_TRANSPORTISTA_POR_CONFIRMAR:
+                        RegistroFletesFragment.setFrameEquipo(View.GONE);
+
                         btnGuardar.setVisibility(View.GONE);
                         btnActualizar.setVisibility(View.GONE);
+
+                        spinnerChofer.setEnabled(false);
+                        spinnerRemolque.setEnabled(false);
+                        spinnerTractor.setEnabled(false);
+
                         break;
                     case Constants.FB_KEY_ITEM_STATUS_UNIDADES_POR_ASIGNAR:
+                        RegistroFletesFragment.setFrameEquipo(View.VISIBLE);
+
+                        switch (_SESSION_USER.getTipoDeUsuario()) {
+                            case Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE:
+                            case Constants.FB_KEY_ITEM_TIPO_USUARIO_CHOFER:
+                                spinnerChofer.setEnabled(false);
+                                spinnerRemolque.setEnabled(false);
+                                spinnerTractor.setEnabled(false);
+                                break;
+                            default:
+                                spinnerChofer.setEnabled(true);
+                                spinnerRemolque.setEnabled(true);
+                                spinnerTractor.setEnabled(true);
+                                break;
+                        }
+
                         btnGuardar.setVisibility(View.VISIBLE);
                         btnActualizar.setVisibility(View.GONE);
                         break;
                     case Constants.FB_KEY_ITEM_STATUS_ENVIO_POR_INICIAR:
+                        RegistroFletesFragment.setFrameEquipo(View.VISIBLE);
+
+                        switch (_SESSION_USER.getTipoDeUsuario()) {
+                            case Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE:
+                            case Constants.FB_KEY_ITEM_TIPO_USUARIO_CHOFER:
+                                spinnerChofer.setEnabled(false);
+                                spinnerRemolque.setEnabled(false);
+                                spinnerTractor.setEnabled(false);
+                                break;
+                            default:
+                                spinnerChofer.setEnabled(true);
+                                spinnerRemolque.setEnabled(true);
+                                spinnerTractor.setEnabled(true);
+                                btnActualizar.setVisibility(View.VISIBLE);
+                                break;
+                        }
+
                         btnGuardar.setVisibility(View.GONE);
-                        btnActualizar.setVisibility(View.VISIBLE);
                         break;
                     case Constants.FB_KEY_ITEM_STATUS_EN_PROGRESO:
+                        RegistroFletesFragment.setFrameEquipo(View.VISIBLE);
+
                         btnGuardar.setVisibility(View.GONE);
                         btnActualizar.setVisibility(View.GONE);
+
+                        spinnerChofer.setEnabled(false);
+                        spinnerRemolque.setEnabled(false);
+                        spinnerTractor.setEnabled(false);
+
                         break;
                     case Constants.FB_KEY_ITEM_STATUS_ENTREGADO:
+                        RegistroFletesFragment.setFrameEquipo(View.VISIBLE);
+
                         btnGuardar.setVisibility(View.GONE);
                         btnActualizar.setVisibility(View.GONE);
+
+                        spinnerChofer.setEnabled(false);
+                        spinnerRemolque.setEnabled(false);
+                        spinnerTractor.setEnabled(false);
+
                         break;
                     case Constants.FB_KEY_ITEM_STATUS_FINALIZADO:
+                        RegistroFletesFragment.setFrameEquipo(View.VISIBLE);
+
                         btnGuardar.setVisibility(View.GONE);
                         btnActualizar.setVisibility(View.GONE);
+
+                        spinnerChofer.setEnabled(false);
+                        spinnerRemolque.setEnabled(false);
+                        spinnerTractor.setEnabled(false);
+
                         break;
                     case Constants.FB_KEY_ITEM_STATUS_CANCELADO:
+                        RegistroFletesFragment.setFrameEquipo(View.VISIBLE);
+
                         btnGuardar.setVisibility(View.GONE);
                         btnActualizar.setVisibility(View.GONE);
+
+                        spinnerChofer.setEnabled(false);
+                        spinnerRemolque.setEnabled(false);
+                        spinnerTractor.setEnabled(false);
+
                         break;
                     default:
                         break;
@@ -775,7 +883,7 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
         mainFlete.setTractorSeleccionado(tractor);
         mainFlete.setRemolqueSeleccionado(remolque);
 
-        activityInterface.updateSolicitudEquipo(mainFlete,_mainFletesActual);
+        activityInterface.updateSolicitudEquipo(mainFlete, _mainFletesActual);
     }
 
     @Override

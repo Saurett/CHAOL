@@ -41,6 +41,7 @@ public final class Constants {
     public static final String FB_KEY_MAIN_DISPOSITIVOS = "dispositivos";
     public static final String FB_KEY_ITEM_TIPO_USUARIO = "tipoDeUsuario";
     public static final String FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR = "administrador";
+    public static final String FB_KEY_ITEM_TIPO_USUARIO_COLABORADOR = "colaborador";
     public static final String FB_KEY_ITEM_TIPO_USUARIO_CLIENTE = "cliente";
     public static final String FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA = "transportista";
     public static final String FB_KEY_ITEM_TIPO_USUARIO_CHOFER = "chofer";
@@ -367,6 +368,7 @@ public final class Constants {
         TIPO_USUARIO_NODO = new HashMap<>();
 
         TIPO_USUARIO_NODO.put(Constants.FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR, FB_KEY_MAIN_ADMINISTRADORES);
+        TIPO_USUARIO_NODO.put(Constants.FB_KEY_ITEM_TIPO_USUARIO_COLABORADOR, FB_KEY_MAIN_ADMINISTRADORES);
         TIPO_USUARIO_NODO.put(Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE, FB_KEY_MAIN_CLIENTES);
         TIPO_USUARIO_NODO.put(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA, FB_KEY_MAIN_TRANSPORTISTAS);
         TIPO_USUARIO_NODO.put(Constants.FB_KEY_ITEM_TIPO_USUARIO_CHOFER, FB_KEY_MAIN_CHOFERES);
@@ -377,6 +379,7 @@ public final class Constants {
         TIPO_USUARIO_ITEM = new HashMap<>();
 
         TIPO_USUARIO_ITEM.put(Constants.FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR, FB_KEY_MAIN_ADMINISTRADORES);
+        TIPO_USUARIO_ITEM.put(Constants.FB_KEY_ITEM_TIPO_USUARIO_COLABORADOR, FB_KEY_MAIN_ADMINISTRADORES);
         TIPO_USUARIO_ITEM.put(Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE, FB_KEY_ITEM_CLIENTE);
         TIPO_USUARIO_ITEM.put(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA, FB_KEY_ITEM_TRANSPORTISTA);
         TIPO_USUARIO_ITEM.put(Constants.FB_KEY_ITEM_TIPO_USUARIO_CHOFER, FB_KEY_ITEM_CHOFER);
@@ -387,6 +390,7 @@ public final class Constants {
         TIPO_USUARIO_CLASS = new HashMap<>();
 
         TIPO_USUARIO_CLASS.put(Constants.FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR, Administradores.class);
+        TIPO_USUARIO_CLASS.put(Constants.FB_KEY_ITEM_TIPO_USUARIO_COLABORADOR, Administradores.class);
         TIPO_USUARIO_CLASS.put(Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE, Clientes.class);
         TIPO_USUARIO_CLASS.put(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA, Transportistas.class);
         TIPO_USUARIO_CLASS.put(Constants.FB_KEY_ITEM_TIPO_USUARIO_CHOFER, Choferes.class);

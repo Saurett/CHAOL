@@ -60,10 +60,12 @@ public interface MainRegisterInterface {
     void updateSolicitudTransportistaInteresado(Fletes flete, Transportistas transportistaInteresado);
     /**Permite actualizar la solicitud de transportista**/
     void removeSolicitudTransportistaInteresado(Fletes flete, String firebaseIDTransportistaInteresado);
+    /**Permite actualizar la solicitud de transportistas**/
+    void removeSolicitudTransportistaSeleccionado(Fletes flete, String firebaseIDTransportistaInteresado);
     /**Permite crear la solicitud de Equipo**/
     void createSolicitudEquipo(MainFletes mainFletes);
     /**Permite actualizar la solicitud de equipo**/
     void updateSolicitudEquipo(MainFletes mainFlete, MainFletes _oldMainFlete);
     /**Permite actualizar la solicitud de envio**/
-    void updateSolicitudEnvio(Fletes flete);
+    void updateSolicitudEnvio(MainFletes mainFletes);
 }

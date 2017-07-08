@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapProgressBar;
@@ -31,6 +32,7 @@ public class RegistroFletesFragment extends Fragment implements View.OnClickList
     private Button btnTitulo;
     private static BootstrapProgressBar fleteProgressBar;
     private MainRegisterInterface activityInterface;
+    private static FrameLayout frameCotizacion, frameAsignacion, frameEquipo, frameProceso;
 
     private static DecodeExtraParams _MAIN_DECODE = new DecodeExtraParams();
 
@@ -39,6 +41,11 @@ public class RegistroFletesFragment extends Fragment implements View.OnClickList
         View view = inflater.inflate(R.layout.fragment_registro_fletes, container, false);
 
         _MAIN_DECODE = (DecodeExtraParams) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
+
+        frameCotizacion = (FrameLayout) view.findViewById(R.id.fragment_cotizacion_container);
+        frameAsignacion = (FrameLayout) view.findViewById(R.id.fragment_asignacion_container);
+        frameEquipo = (FrameLayout) view.findViewById(R.id.fragment_equipo_container);
+        frameProceso = (FrameLayout) view.findViewById(R.id.fragment_proceso_container);
 
         fleteProgressBar = (BootstrapProgressBar) view.findViewById(R.id.flete_progressBar);
         btnTitulo = (Button) view.findViewById(R.id.btn_titulo_fletes);
@@ -133,4 +140,12 @@ public class RegistroFletesFragment extends Fragment implements View.OnClickList
     public static void setFleteProgressBar(int progress) {
         fleteProgressBar.setProgress(progress);
     }
+
+    public static void setFrameCotizacion(int visible) { frameCotizacion.setVisibility(visible);}
+
+    public static void setFrameAsignacion(int visible) { frameAsignacion.setVisibility(visible);}
+
+    public static void setFrameEquipo(int visible) { frameEquipo.setVisibility(visible);}
+
+    public static void setFrameProgreso(int visible) { frameProceso.setVisibility(visible);}
 }

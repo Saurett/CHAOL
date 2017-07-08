@@ -33,6 +33,8 @@ import com.indev.chaol.models.Transportistas;
 import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
 
+import static android.view.View.GONE;
+
 
 /**
  * Created by saurett on 24/02/2017.
@@ -69,8 +71,9 @@ public class FletesAsignacionFragment extends Fragment implements View.OnClickLi
         btnTitulo.setOnClickListener(this);
         btnSolicitarViaje.setOnClickListener(this);
         btnCancelarViaje.setOnClickListener(this);
-        linearLayout.setVisibility(View.GONE);
+        linearLayout.setVisibility(GONE);
 
+        RegistroFletesFragment.setFrameAsignacion(View.GONE);
 
         this.onPreRender();
 
@@ -136,6 +139,39 @@ public class FletesAsignacionFragment extends Fragment implements View.OnClickLi
                     case Constants.FB_KEY_ITEM_TIPO_USUARIO_CHOFER:
                         break;
                 }
+
+                switch (_mainFletesActual.getFlete().getEstatus()) {
+                    case Constants.FB_KEY_ITEM_STATUS_FLETE_POR_COTIZAR:
+                        RegistroFletesFragment.setFrameAsignacion(View.GONE);
+                        break;
+                    case Constants.FB_KEY_ITEM_STATUS_ESPERANDO_POR_TRANSPORTISTA:
+                        RegistroFletesFragment.setFrameAsignacion(View.VISIBLE);
+                        break;
+                    case Constants.FB_KEY_ITEM_STATUS_TRANSPORTISTA_POR_CONFIRMAR:
+                        RegistroFletesFragment.setFrameAsignacion(View.VISIBLE);
+                        break;
+                    case Constants.FB_KEY_ITEM_STATUS_UNIDADES_POR_ASIGNAR:
+                        RegistroFletesFragment.setFrameAsignacion(View.VISIBLE);
+                        break;
+                    case Constants.FB_KEY_ITEM_STATUS_ENVIO_POR_INICIAR:
+                        RegistroFletesFragment.setFrameAsignacion(View.VISIBLE);
+                        break;
+                    case Constants.FB_KEY_ITEM_STATUS_EN_PROGRESO:
+                        RegistroFletesFragment.setFrameAsignacion(View.VISIBLE);
+                        break;
+                    case Constants.FB_KEY_ITEM_STATUS_ENTREGADO:
+                        RegistroFletesFragment.setFrameAsignacion(View.VISIBLE);
+                        break;
+                    case Constants.FB_KEY_ITEM_STATUS_FINALIZADO:
+                        RegistroFletesFragment.setFrameAsignacion(View.VISIBLE);
+                        break;
+                    case Constants.FB_KEY_ITEM_STATUS_CANCELADO:
+                        RegistroFletesFragment.setFrameAsignacion(View.VISIBLE);
+                        break;
+                    default:
+                        break;
+                }
+
             }
 
             @Override
@@ -150,7 +186,7 @@ public class FletesAsignacionFragment extends Fragment implements View.OnClickLi
         switch (v.getId()) {
             case R.id.btn_datos_asignacion_fletes:
 
-                linearLayout.setVisibility((linearLayout.getVisibility() == View.VISIBLE) ? View.GONE : View.VISIBLE);
+                linearLayout.setVisibility((linearLayout.getVisibility() == View.VISIBLE) ? GONE : View.VISIBLE);
 
                 if (linearLayout.getVisibility() == View.VISIBLE) {
 
@@ -183,7 +219,11 @@ public class FletesAsignacionFragment extends Fragment implements View.OnClickLi
 
     public static void showCancelAsignacion(int visible) {
         btnCancelarViaje.setVisibility(visible);
-        btnSolicitarViaje.setVisibility((visible == View.VISIBLE) ? View.GONE : View.VISIBLE);
+        btnSolicitarViaje.setVisibility((visible == View.VISIBLE) ? GONE : View.VISIBLE);
+    }
+
+    public static void showCancelAsignacionSolo(int visible) {
+        btnCancelarViaje.setVisibility(visible);
     }
 
     private void showQuestion(String message) {
@@ -289,7 +329,22 @@ public class FletesAsignacionFragment extends Fragment implements View.OnClickLi
 
         flete.setEstatus((total == 0) ? Constants.FB_KEY_ITEM_STATUS_ESPERANDO_POR_TRANSPORTISTA : flete.getEstatus());
 
-        activityInterface.removeSolicitudTransportistaInteresado(flete, _SESSION_USER.getFirebaseId());
+        Transportistas transportistaSeleccionado = AsignacionTransportistasFragment.getTransportistaSeleccionado();
+
+        if (null != transportistaSeleccionado) {
+            /**Elimina todos los transportistas, por que el transportista seleecionado limpia las condiciones atte carlos de la mora**/
+
+            if (transportistaSeleccionado.getFirebaseId().equals(_SESSION_USER.getFirebaseId())) {
+                flete.setEstatus(Constants.FB_KEY_ITEM_STATUS_ESPERANDO_POR_TRANSPORTISTA);
+                activityInterface.removeSolicitudTransportistaSeleccionado(flete, _SESSION_USER.getFirebaseId());
+            } else {
+                /**Elimina solo al transportista seleccionado*/
+                activityInterface.removeSolicitudTransportistaInteresado(flete, _SESSION_USER.getFirebaseId());
+            }
+        } else {
+            /**Elimina solo al transportista seleccionado*/
+            activityInterface.removeSolicitudTransportistaInteresado(flete, _SESSION_USER.getFirebaseId());
+        }
     }
 
 

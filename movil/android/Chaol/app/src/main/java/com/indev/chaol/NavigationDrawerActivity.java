@@ -1196,13 +1196,13 @@ public class NavigationDrawerActivity extends AppCompatActivity
             @Override
             public Transaction.Result doTransaction(MutableData mutableData) {
 
-                String android_id = Secure.getString(getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
+                String refreshedToken = FirebaseInstanceId.getInstance().getToken();
                 List<String> dispositivos = (List<String>) mutableData.getValue();
 
                 if (dispositivos == null) {
                     dispositivos = new ArrayList();
-                } else if (dispositivos.contains(android_id)) {
-                    dispositivos.remove(dispositivos.indexOf(android_id));
+                } else if (dispositivos.contains(refreshedToken)) {
+                    dispositivos.remove(dispositivos.indexOf(refreshedToken));
                 }
 
                 mutableData.setValue(dispositivos);

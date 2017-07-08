@@ -27,6 +27,8 @@ import com.indev.chaol.models.Choferes;
 import com.indev.chaol.models.DecodeExtraParams;
 import com.indev.chaol.models.Fletes;
 import com.indev.chaol.models.MainFletes;
+import com.indev.chaol.models.Remolques;
+import com.indev.chaol.models.Tractores;
 import com.indev.chaol.models.Transportistas;
 import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
@@ -80,6 +82,8 @@ public class FletesProcesoFragment extends Fragment implements View.OnClickListe
         btnRecibido.setOnClickListener(this);
 
         linearLayout.setVisibility(View.GONE);
+
+        RegistroFletesFragment.setFrameProgreso(View.GONE);
 
         this.onPreRender();
 
@@ -154,6 +158,22 @@ public class FletesProcesoFragment extends Fragment implements View.OnClickListe
                     Choferes choferSeleccionado = dsChoferSeleccionado.getValue(Choferes.class);
 
                     _mainFletesActual.setChoferSeleccionado(choferSeleccionado);
+
+                    break;
+                }
+
+                for (DataSnapshot dbTractorSeleccionado : dataSnapshot.child(Constants.FB_KEY_MAIN_TRACTOR_SELECCIONADO).getChildren()) {
+                    Tractores tractorSeleccionado = dbTractorSeleccionado.getValue(Tractores.class);
+
+                    _mainFletesActual.setTractorSeleccionado(tractorSeleccionado);
+
+                    break;
+                }
+
+                for (DataSnapshot dbRemolqueSeleccionado : dataSnapshot.child(Constants.FB_KEY_MAIN_REMOLQUE_SELECCIONADO).getChildren()) {
+                    Remolques remolqueSeleccionado = dbRemolqueSeleccionado.getValue(Remolques.class);
+
+                    _mainFletesActual.setRemolqueSeleccionado(remolqueSeleccionado);
 
                     break;
                 }
@@ -264,6 +284,8 @@ public class FletesProcesoFragment extends Fragment implements View.OnClickListe
                         break;
                 }
 
+                RegistroFletesFragment.setFrameProgreso(View.VISIBLE);
+
                 _mainFletesActual.setFlete(flete);
             }
 
@@ -335,6 +357,132 @@ public class FletesProcesoFragment extends Fragment implements View.OnClickListe
     }
 
     private void validationIniciar() {
+        this.checkChofer();
+    }
+
+    private void checkChofer() {
+        DatabaseReference dbChofer = FirebaseDatabase.getInstance().getReference()
+                .child(Constants.FB_KEY_MAIN_CHOFERES)
+                .child(_mainFletesActual.getChoferSeleccionado().getFirebaseId());
+
+        dbChofer.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Choferes chofer = dataSnapshot.getValue(Choferes.class);
+
+                switch (chofer.getEstatus()) {
+                    case Constants.FB_KEY_ITEM_ESTATUS_ACTIVO:
+                    case Constants.FB_KEY_ITEM_ESTATUS_LIBRE:
+                        chofer.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_ASIGNADO);
+                        _mainFletesActual.setChoferSeleccionado(chofer);
+                        checkTractor();
+                        break;
+                    case Constants.FB_KEY_ITEM_ESTATUS_INACTIVO:
+                        Toast.makeText(getContext(), "No es posible iniciar envio, el chofer esta inactivo...",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    case Constants.FB_KEY_ITEM_ESTATUS_ASIGNADO:
+                        Toast.makeText(getContext(), "No es posible iniciar envio, el chofer esta asignado a un flete... ",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    case Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO:
+                        Toast.makeText(getContext(), "No es posible iniciar envio, el chofer esta eliminado...",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void checkTractor() {
+        DatabaseReference dbTractor = FirebaseDatabase.getInstance().getReference()
+                .child(Constants.FB_KEY_MAIN_TRANSPORTISTAS)
+                .child(_mainFletesActual.getTransportistaSeleccionado().getFirebaseId())
+                .child(Constants.FB_KEY_MAIN_TRACTORES)
+                .child(_mainFletesActual.getTractorSeleccionado().getFirebaseId());
+
+        dbTractor.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Tractores tractor = dataSnapshot.getValue(Tractores.class);
+
+                switch (tractor.getEstatus()) {
+                    case Constants.FB_KEY_ITEM_ESTATUS_ACTIVO:
+                    case Constants.FB_KEY_ITEM_ESTATUS_LIBRE:
+                        tractor.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_ASIGNADO);
+                        _mainFletesActual.setTractorSeleccionado(tractor);
+                        checkRemolque();
+                        break;
+                    case Constants.FB_KEY_ITEM_ESTATUS_INACTIVO:
+                        Toast.makeText(getContext(), "No es posible iniciar envio, el tractor esta inactivo...",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    case Constants.FB_KEY_ITEM_ESTATUS_ASIGNADO:
+                        Toast.makeText(getContext(), "No es posible iniciar envio, el tractor esta asignado a un flete... ",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    case Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO:
+                        Toast.makeText(getContext(), "No es posible iniciar envio, el tractor esta eliminado...",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void checkRemolque() {
+        DatabaseReference dbTractor = FirebaseDatabase.getInstance().getReference()
+                .child(Constants.FB_KEY_MAIN_TRANSPORTISTAS)
+                .child(_mainFletesActual.getTransportistaSeleccionado().getFirebaseId())
+                .child(Constants.FB_KEY_MAIN_REMOLQUES)
+                .child(_mainFletesActual.getRemolqueSeleccionado().getFirebaseId());
+
+        dbTractor.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Remolques remolque = dataSnapshot.getValue(Remolques.class);
+
+                switch (remolque.getEstatus()) {
+                    case Constants.FB_KEY_ITEM_ESTATUS_ACTIVO:
+                    case Constants.FB_KEY_ITEM_ESTATUS_LIBRE:
+                        remolque.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_LIBRE);
+                        _mainFletesActual.setRemolqueSeleccionado(remolque);
+                        completeUpdate();
+                        break;
+                    case Constants.FB_KEY_ITEM_ESTATUS_INACTIVO:
+                        Toast.makeText(getContext(), "No es posible iniciar envio, el remolque esta inactivo...",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    case Constants.FB_KEY_ITEM_ESTATUS_ASIGNADO:
+                        Toast.makeText(getContext(), "No es posible iniciar envio, el remolque esta asignado a un flete... ",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    case Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO:
+                        Toast.makeText(getContext(), "No es posible iniciar envio, el remolque esta eliminado...",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    private void completeUpdate() {
         Boolean authorized = true;
 
         String estatus = _mainFletesActual.getFlete().getEstatus();
@@ -349,6 +497,7 @@ public class FletesProcesoFragment extends Fragment implements View.OnClickListe
             Toast.makeText(getContext(), "El estatus del flete a cambiado a " + estatus,
                     Toast.LENGTH_SHORT).show();
         }
+
     }
 
     private void validationEntregado() {
@@ -388,27 +537,33 @@ public class FletesProcesoFragment extends Fragment implements View.OnClickListe
     }
 
     private void updateIniciar() {
+        MainFletes mainFlete = _mainFletesActual;
         Fletes flete = _mainFletesActual.getFlete();
-
         flete.setEstatus(Constants.FB_KEY_ITEM_STATUS_EN_PROGRESO);
+        mainFlete.setFlete(flete);
 
-        activityInterface.updateSolicitudEnvio(flete);
+        activityInterface.updateSolicitudEnvio(mainFlete);
     }
 
     private void updateEntregado() {
+        MainFletes mainFlete = _mainFletesActual;
         Fletes flete = _mainFletesActual.getFlete();
-
         flete.setEstatus(Constants.FB_KEY_ITEM_STATUS_ENTREGADO);
+        mainFlete.setFlete(flete);
 
-        activityInterface.updateSolicitudEnvio(flete);
+        activityInterface.updateSolicitudEnvio(mainFlete);
     }
 
     private void updateRecibido() {
+        MainFletes mainFlete = _mainFletesActual;
         Fletes flete = _mainFletesActual.getFlete();
-
         flete.setEstatus(Constants.FB_KEY_ITEM_STATUS_FINALIZADO);
+        mainFlete.getChoferSeleccionado().setEstatus(Constants.FB_KEY_ITEM_ESTATUS_LIBRE);
+        mainFlete.getTractorSeleccionado().setEstatus(Constants.FB_KEY_ITEM_ESTATUS_LIBRE);
+        mainFlete.getRemolqueSeleccionado().setEstatus(Constants.FB_KEY_ITEM_ESTATUS_LIBRE);
+        mainFlete.setFlete(flete);
 
-        activityInterface.updateSolicitudEnvio(flete);
+        activityInterface.updateSolicitudEnvio(mainFlete);
     }
 
 

@@ -71,6 +71,8 @@ public class FletesCotizacionFragment extends Fragment implements View.OnClickLi
 
         _MAIN_DECODE = (DecodeExtraParams) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
 
+        RegistroFletesFragment.setFrameCotizacion(View.GONE);
+
         this.onPreRender();
 
         return view;
@@ -127,9 +129,21 @@ public class FletesCotizacionFragment extends Fragment implements View.OnClickLi
 
                 switch (_SESSION_USER.getTipoDeUsuario()) {
                     case Constants.FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR:
-                        btnGuardar.setVisibility(View.VISIBLE);
+                        switch (flete.getEstatus()) {
+                            case Constants.FB_KEY_ITEM_STATUS_FLETE_POR_COTIZAR:
+                            case Constants.FB_KEY_ITEM_STATUS_ESPERANDO_POR_TRANSPORTISTA:
+                            case Constants.FB_KEY_ITEM_STATUS_TRANSPORTISTA_POR_CONFIRMAR:
+                                btnGuardar.setVisibility(View.VISIBLE);
+                                break;
+                        }
+                        break;
+                    default:
+                        txtPrecio.setTag(txtPrecio.getKeyListener());
+                        txtPrecio.setKeyListener(null);
                         break;
                 }
+
+                RegistroFletesFragment.setFrameCotizacion(View.VISIBLE);
             }
 
             @Override

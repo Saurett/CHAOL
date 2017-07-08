@@ -187,6 +187,51 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
             }
         };
 
+
+        txtIDFlete.setTag(txtIDFlete.getKeyListener());
+        txtIDFlete.setKeyListener(null);
+
+        spinnerOrigenEstado.setEnabled(false);
+
+        txtCiudadCarga.setTag(txtCiudadCarga.getKeyListener());
+        txtCiudadCarga.setKeyListener(null);
+
+        txtColoniaCarga.setTag(txtColoniaCarga.getKeyListener());
+        txtColoniaCarga.setKeyListener(null);
+
+        txtCodigoPostalCarga.setTag(txtCodigoPostalCarga.getKeyListener());
+        txtCodigoPostalCarga.setKeyListener(null);
+
+        txtCalleCarga.setTag(txtCalleCarga.getKeyListener());
+        txtCalleCarga.setKeyListener(null);
+
+        txtNumIntCarga.setTag(txtNumIntCarga.getKeyListener());
+        txtNumIntCarga.setKeyListener(null);
+
+        txtNumExtCarga.setTag(txtNumExtCarga.getKeyListener());
+        txtNumExtCarga.setKeyListener(null);
+
+        spinnerBodegaDescarga.setEnabled(false);
+        spinnerDestinoEstado.setEnabled(false);
+
+        txtCiudadDescarga.setTag(txtCiudadDescarga.getKeyListener());
+        txtCiudadDescarga.setKeyListener(null);
+
+        txtColoniaDescarga.setTag(txtColoniaDescarga.getKeyListener());
+        txtColoniaDescarga.setKeyListener(null);
+
+        txtCodigoPostalDescarga.setTag(txtCodigoPostalDescarga.getKeyListener());
+        txtCodigoPostalDescarga.setKeyListener(null);
+
+        txtCalleDescarga.setTag(txtCalleDescarga.getKeyListener());
+        txtCalleDescarga.setKeyListener(null);
+
+        txtNumIntDescarga.setTag(txtNumIntDescarga.getKeyListener());
+        txtNumIntDescarga.setKeyListener(null);
+
+        txtNumExtDescarga.setTag(txtNumExtDescarga.getKeyListener());
+        txtNumExtDescarga.setKeyListener(null);
+
         database = FirebaseDatabase.getInstance();
         drClientes = database.getReference(Constants.FB_KEY_MAIN_CLIENTES);
 
@@ -315,7 +360,6 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
                 Fletes flete = dataSnapshot.child(Constants.FB_KEY_MAIN_FLETE).getValue(Fletes.class);
                 Bodegas bodegaCarga = dataSnapshot.child(Constants.FB_KEY_MAIN_BODEGA_DE_CARGA).getValue(Bodegas.class);
 
-
                 Log.i(TAG, "onPreRenderEditar: " + dataSnapshot.getKey());
 
                 _mainFletesActual = new MainFletes();
@@ -371,27 +415,177 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
                 txtIDFlete.setTag(txtIDFlete.getKeyListener());
                 txtIDFlete.setKeyListener(null);
 
+                spinnerCliente.setEnabled(false);
+
+                txtFechaSalida.setTag(txtFechaSalida.getKeyListener());
+                txtFechaSalida.setKeyListener(null);
+                txtFechaSalida.setOnClickListener(null);
+
+                spinnerBodegaCarga.setEnabled(false);
+                spinnerOrigenEstado.setEnabled(false);
+
+                txtCiudadCarga.setTag(txtCiudadCarga.getKeyListener());
+                txtCiudadCarga.setKeyListener(null);
+
+                txtColoniaCarga.setTag(txtColoniaCarga.getKeyListener());
+                txtColoniaCarga.setKeyListener(null);
+
+                txtCodigoPostalCarga.setTag(txtCodigoPostalCarga.getKeyListener());
+                txtCodigoPostalCarga.setKeyListener(null);
+
+                txtCalleCarga.setTag(txtCalleCarga.getKeyListener());
+                txtCalleCarga.setKeyListener(null);
+
+                txtNumIntCarga.setTag(txtNumIntCarga.getKeyListener());
+                txtNumIntCarga.setKeyListener(null);
+
+                txtNumExtCarga.setTag(txtNumExtCarga.getKeyListener());
+                txtNumExtCarga.setKeyListener(null);
+
+                spinnerBodegaDescarga.setEnabled(false);
+                spinnerDestinoEstado.setEnabled(false);
+
+                txtCiudadDescarga.setTag(txtCiudadDescarga.getKeyListener());
+                txtCiudadDescarga.setKeyListener(null);
+
+                txtColoniaDescarga.setTag(txtColoniaDescarga.getKeyListener());
+                txtColoniaDescarga.setKeyListener(null);
+
+                txtCodigoPostalDescarga.setTag(txtCodigoPostalDescarga.getKeyListener());
+                txtCodigoPostalDescarga.setKeyListener(null);
+
+                txtCalleDescarga.setTag(txtCalleDescarga.getKeyListener());
+                txtCalleDescarga.setKeyListener(null);
+
+                txtNumIntDescarga.setTag(txtNumIntDescarga.getKeyListener());
+                txtNumIntDescarga.setKeyListener(null);
+
+                txtNumExtDescarga.setTag(txtNumExtDescarga.getKeyListener());
+                txtNumExtDescarga.setKeyListener(null);
+
+                spinnerTipoRemolque.setEnabled(false);
+
+                switch (_SESSION_USER.getTipoDeUsuario()) {
+                    case Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA:
+                    case Constants.FB_KEY_ITEM_TIPO_USUARIO_CHOFER:
+                        txtHoraSalida.setTag(txtHoraSalida.getKeyListener());
+                        txtHoraSalida.setKeyListener(null);
+                        txtHoraSalida.setOnClickListener(null);
+
+                        txtCarga.setTag(txtCarga.getKeyListener());
+                        txtCarga.setKeyListener(null);
+
+                        txtNumEmbarque.setTag(txtNumEmbarque.getKeyListener());
+                        txtNumEmbarque.setKeyListener(null);
+
+                        txtDestinatario.setTag(txtDestinatario.getKeyListener());
+                        txtDestinatario.setKeyListener(null);
+                        break;
+                }
+
                 btnSolicitarCotizacion.setVisibility(View.GONE);
 
                 switch (_mainFletesActual.getFlete().getEstatus()) {
                     case Constants.FB_KEY_ITEM_STATUS_FLETE_POR_COTIZAR:
-                        btnActualizar.setVisibility(View.VISIBLE);
+                        switch (_SESSION_USER.getTipoDeUsuario()) {
+                            case Constants.FB_KEY_ITEM_ADMINISTRADOR:
+                            case Constants.FB_KEY_ITEM_TIPO_USUARIO_COLABORADOR:
+                            case Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE:
+                                btnActualizar.setVisibility(View.VISIBLE);
+                                break;
+                        }
                         break;
                     case Constants.FB_KEY_ITEM_STATUS_ESPERANDO_POR_TRANSPORTISTA:
+                        switch (_SESSION_USER.getTipoDeUsuario()) {
+                            case Constants.FB_KEY_ITEM_ADMINISTRADOR:
+                            case Constants.FB_KEY_ITEM_TIPO_USUARIO_COLABORADOR:
+                            case Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE:
+                                btnActualizar.setVisibility(View.VISIBLE);
+                                break;
+                        }
                         break;
                     case Constants.FB_KEY_ITEM_STATUS_TRANSPORTISTA_POR_CONFIRMAR:
+                        switch (_SESSION_USER.getTipoDeUsuario()) {
+                            case Constants.FB_KEY_ITEM_ADMINISTRADOR:
+                            case Constants.FB_KEY_ITEM_TIPO_USUARIO_COLABORADOR:
+                            case Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE:
+                                btnActualizar.setVisibility(View.VISIBLE);
+                                break;
+                        }
                         break;
                     case Constants.FB_KEY_ITEM_STATUS_UNIDADES_POR_ASIGNAR:
+                        switch (_SESSION_USER.getTipoDeUsuario()) {
+                            case Constants.FB_KEY_ITEM_ADMINISTRADOR:
+                            case Constants.FB_KEY_ITEM_TIPO_USUARIO_COLABORADOR:
+                            case Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE:
+                                btnActualizar.setVisibility(View.VISIBLE);
+                                break;
+                        }
                         break;
                     case Constants.FB_KEY_ITEM_STATUS_ENVIO_POR_INICIAR:
+                        switch (_SESSION_USER.getTipoDeUsuario()) {
+                            case Constants.FB_KEY_ITEM_ADMINISTRADOR:
+                            case Constants.FB_KEY_ITEM_TIPO_USUARIO_COLABORADOR:
+                            case Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE:
+                                btnActualizar.setVisibility(View.VISIBLE);
+                                break;
+                        }
                         break;
                     case Constants.FB_KEY_ITEM_STATUS_EN_PROGRESO:
+                        txtHoraSalida.setTag(txtHoraSalida.getKeyListener());
+                        txtHoraSalida.setKeyListener(null);
+                        txtHoraSalida.setOnClickListener(null);
+
+                        txtCarga.setTag(txtCarga.getKeyListener());
+                        txtCarga.setKeyListener(null);
+
+                        txtNumEmbarque.setTag(txtNumEmbarque.getKeyListener());
+                        txtNumEmbarque.setKeyListener(null);
+
+                        txtDestinatario.setTag(txtDestinatario.getKeyListener());
+                        txtDestinatario.setKeyListener(null);
                         break;
                     case Constants.FB_KEY_ITEM_STATUS_ENTREGADO:
+                        txtHoraSalida.setTag(txtHoraSalida.getKeyListener());
+                        txtHoraSalida.setKeyListener(null);
+                        txtHoraSalida.setOnClickListener(null);
+
+                        txtCarga.setTag(txtCarga.getKeyListener());
+                        txtCarga.setKeyListener(null);
+
+                        txtNumEmbarque.setTag(txtNumEmbarque.getKeyListener());
+                        txtNumEmbarque.setKeyListener(null);
+
+                        txtDestinatario.setTag(txtDestinatario.getKeyListener());
+                        txtDestinatario.setKeyListener(null);
                         break;
                     case Constants.FB_KEY_ITEM_STATUS_FINALIZADO:
+                        txtHoraSalida.setTag(txtHoraSalida.getKeyListener());
+                        txtHoraSalida.setKeyListener(null);
+                        txtHoraSalida.setOnClickListener(null);
+
+                        txtCarga.setTag(txtCarga.getKeyListener());
+                        txtCarga.setKeyListener(null);
+
+                        txtNumEmbarque.setTag(txtNumEmbarque.getKeyListener());
+                        txtNumEmbarque.setKeyListener(null);
+
+                        txtDestinatario.setTag(txtDestinatario.getKeyListener());
+                        txtDestinatario.setKeyListener(null);
                         break;
                     case Constants.FB_KEY_ITEM_STATUS_CANCELADO:
+                        txtHoraSalida.setTag(txtHoraSalida.getKeyListener());
+                        txtHoraSalida.setKeyListener(null);
+                        txtHoraSalida.setOnClickListener(null);
+
+                        txtCarga.setTag(txtCarga.getKeyListener());
+                        txtCarga.setKeyListener(null);
+
+                        txtNumEmbarque.setTag(txtNumEmbarque.getKeyListener());
+                        txtNumEmbarque.setKeyListener(null);
+
+                        txtDestinatario.setTag(txtDestinatario.getKeyListener());
+                        txtDestinatario.setKeyListener(null);
                         break;
                     default:
                         break;
@@ -768,6 +962,8 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
                 item++;
                 if (cliente.getFirebaseId().equals(_SESSION_USER.getFirebaseId())) {
                     firebaseIdCliente = cliente.getFirebaseId();
+                    loadBodegaCarga();
+                    loadBodegaDescarga();
                     break;
                 }
             }

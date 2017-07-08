@@ -36,8 +36,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"
-                android:visibility="gone"
-                android:paddingLeft="20dp">
+                android:paddingLeft="20dp"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -70,8 +70,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"
-                android:visibility="gone"
-                android:paddingLeft="20dp">
+                android:paddingLeft="20dp"
+                android:visibility="gone">
 
 
                 <TextView
@@ -848,8 +848,6 @@
                 android:id="@+id/linear_btn_zone_datos_generales"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:layout_marginTop="20dp"
                 android:orientation="vertical">
 
                 <Button
@@ -857,6 +855,7 @@
                     android:layout_width="200dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
                     android:background="@color/colorSecondaryAccent"
                     android:text="Solicitar cotización"
                     android:textColor="@color/colorIcons" />
@@ -866,10 +865,11 @@
                     android:layout_width="200dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
                     android:background="@color/colorSecondaryAccent"
-                    android:visibility="gone"
                     android:text="Actualizar"
-                    android:textColor="@color/colorIcons" />
+                    android:textColor="@color/colorIcons"
+                    android:visibility="gone" />
 
             </LinearLayout>
 

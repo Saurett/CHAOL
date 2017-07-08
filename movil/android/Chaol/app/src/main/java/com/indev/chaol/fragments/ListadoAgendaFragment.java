@@ -378,6 +378,16 @@ public class ListadoAgendaFragment extends Fragment implements View.OnClickListe
                 mvcAgenda.addDecorator(new EventDecorator(dotGBCalendar, Color.GRAY, Color.BLACK));
                 mvcAgenda.addDecorator(new EventDecorator(dotGOBCalendar, Color.GRAY, Color.YELLOW, Color.BLACK));
 
+                fabAgendas.setVisibility(View.GONE);
+
+                switch (_SESSION_USER.getTipoDeUsuario()) {
+                    case Constants.FB_KEY_ITEM_ADMINISTRADOR:
+                    case Constants.FB_KEY_ITEM_TIPO_USUARIO_COLABORADOR:
+                    case Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE:
+                        fabAgendas.setVisibility(View.VISIBLE);
+                        break;
+                }
+
                 setCurrentDate();
                 openFragment(mvcAgenda.getSelectedDate());
             }

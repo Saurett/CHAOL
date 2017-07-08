@@ -1405,6 +1405,71 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
     }
 
     @Override
+    public void removeSolicitudTransportistaSeleccionado(final Fletes flete, String firebaseIDTransportistaInteresado) {
+
+        pDialog = new ProgressDialog(MainRegisterActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+        final DatabaseReference dbSeleccionado =
+                FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
+                        .child(flete.getFirebaseId());
+
+        dbSeleccionado.child(Constants.FB_KEY_MAIN_TRANSPORTISTA_SELECCIONADO).removeValue(new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                if (databaseError == null) {
+                    dbSeleccionado.child(Constants.FB_KEY_MAIN_TRANSPORTISTAS_INTERESADOS).removeValue(new DatabaseReference.CompletionListener() {
+                        @Override
+                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                            pDialog.dismiss();
+
+                            if (databaseError == null) {
+
+                                pDialog = new ProgressDialog(MainRegisterActivity.this);
+                                pDialog.setMessage(getString(R.string.default_loading_msg));
+                                pDialog.setIndeterminate(false);
+                                pDialog.setCancelable(false);
+                                pDialog.show();
+
+                                DatabaseReference dbFlete =
+                                        FirebaseDatabase.getInstance().getReference()
+                                                .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
+                                                .child(flete.getFirebaseId())
+                                                .child(Constants.FB_KEY_MAIN_FLETE);
+
+                                dbFlete.setValue(flete, new DatabaseReference.CompletionListener() {
+                                    @Override
+                                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                                        pDialog.dismiss();
+
+                                        if (databaseError == null) {
+
+                                            dbSeleccionado.child(Constants.FB_KEY_MAIN_CHOFER_SELECCIONADO).removeValue();
+                                            dbSeleccionado.child(Constants.FB_KEY_MAIN_TRACTOR_SELECCIONADO).removeValue();
+                                            dbSeleccionado.child(Constants.FB_KEY_MAIN_REMOLQUE_SELECCIONADO).removeValue();
+
+                                            finish();
+                                            Toast.makeText(getApplicationContext(),
+                                                    "Actualizado correctamente...", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+                } else {
+                    pDialog.dismiss();
+                }
+
+            }
+        });
+    }
+
+    @Override
     public void createSolicitudEquipo(MainFletes mainFletes) {
 
         pDialog = new ProgressDialog(MainRegisterActivity.this);
@@ -1593,9 +1658,9 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         dbTractorSeleccionado.updateChildren(updateTractor);
 
         if (null != _oldMainFlete.getTractorSeleccionado()) {
-           if (!_oldMainFlete.getTractorSeleccionado().getFirebaseId().equals(tractor.getFirebaseId())) {
-               dbTractorSeleccionado.child(_oldMainFlete.getTractorSeleccionado().getFirebaseId()).removeValue();
-           }
+            if (!_oldMainFlete.getTractorSeleccionado().getFirebaseId().equals(tractor.getFirebaseId())) {
+                dbTractorSeleccionado.child(_oldMainFlete.getTractorSeleccionado().getFirebaseId()).removeValue();
+            }
         }
 
         final DatabaseReference dbRemolqueSeleccionado =
@@ -1617,7 +1682,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
     }
 
     @Override
-    public void updateSolicitudEnvio(Fletes flete) {
+    public void updateSolicitudEnvio(MainFletes mainFletes) {
 
         pDialog = new ProgressDialog(MainRegisterActivity.this);
         pDialog.setMessage(getString(R.string.default_loading_msg));
@@ -1625,15 +1690,83 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         pDialog.setCancelable(false);
         pDialog.show();
 
+        switch (mainFletes.getFlete().getEstatus()) {
+            case Constants.FB_KEY_ITEM_STATUS_EN_PROGRESO:
+            case Constants.FB_KEY_ITEM_STATUS_FINALIZADO:
+                updateMainChofer(mainFletes);
+                updateMainTractores(mainFletes);
+                updateMainRemolques(mainFletes);
+                break;
+        }
+
+        this.updateMain(mainFletes);
+
+        Log.i(TAG, "updateSolicitudEnvio: Actualizado correctamente" + mainFletes.getFlete().getFirebaseId());
+
+    }
+
+    private void updateMainChofer(MainFletes mainFletes) {
+        final DatabaseReference dbChofer =
+                FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.FB_KEY_MAIN_CHOFERES)
+                        .child(mainFletes.getChoferSeleccionado().getFirebaseId());
+
+        mainFletes.getChoferSeleccionado().setFechaDeEdicion(DateTimeUtils.getTimeStamp());
+
+        Map<String, Object> actualizacion = new HashMap<>();
+
+        mainFletes.getChoferSeleccionado().setFechaDeEdicion(DateTimeUtils.getTimeStamp());
+
+        actualizacion.put("/estatus", mainFletes.getChoferSeleccionado().getEstatus());
+        actualizacion.put("/fechaDeEdicion", DateTimeUtils.getTimeStamp());
+
+        dbChofer.updateChildren(actualizacion);
+    }
+
+    private void updateMainTractores(MainFletes mainFletes) {
+        final DatabaseReference dbTractor =
+                FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.FB_KEY_MAIN_TRANSPORTISTAS)
+                        .child(mainFletes.getTransportistaSeleccionado().getFirebaseId())
+                        .child(Constants.FB_KEY_MAIN_TRACTORES)
+                        .child(mainFletes.getTractorSeleccionado().getFirebaseId());
+
+        Map<String, Object> actualizacion = new HashMap<>();
+
+        mainFletes.getTractorSeleccionado().setFechaDeEdicion(DateTimeUtils.getTimeStamp());
+
+        actualizacion.put("/estatus", mainFletes.getTractorSeleccionado().getEstatus());
+        actualizacion.put("/fechaDeEdicion", DateTimeUtils.getTimeStamp());
+
+        dbTractor.updateChildren(actualizacion);
+    }
+
+    private void updateMainRemolques(MainFletes mainFletes) {
+        final DatabaseReference dbRemolque =
+                FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.FB_KEY_MAIN_TRANSPORTISTAS)
+                        .child(mainFletes.getTransportistaSeleccionado().getFirebaseId())
+                        .child(Constants.FB_KEY_MAIN_REMOLQUES)
+                        .child(mainFletes.getRemolqueSeleccionado().getFirebaseId());
+
+        Map<String, Object> actualizacion = new HashMap<>();
+
+        actualizacion.put("/estatus", mainFletes.getRemolqueSeleccionado().getEstatus());
+        actualizacion.put("/fechaDeEdicion", DateTimeUtils.getTimeStamp());
+
+        dbRemolque.updateChildren(actualizacion);
+    }
+
+    private void updateMain(MainFletes mainFletes) {
         final DatabaseReference dbFlete =
                 FirebaseDatabase.getInstance().getReference()
                         .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
-                        .child(flete.getFirebaseId())
+                        .child(mainFletes.getFlete().getFirebaseId())
                         .child(Constants.FB_KEY_MAIN_FLETE);
 
-        flete.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
+        mainFletes.getFlete().setFechaDeEdicion(DateTimeUtils.getTimeStamp());
 
-        dbFlete.setValue(flete, new DatabaseReference.CompletionListener() {
+        dbFlete.setValue(mainFletes.getFlete(), new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 pDialog.dismiss();
@@ -1644,9 +1777,6 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 }
             }
         });
-
-        Log.i(TAG, "updateSolicitudEnvio: Actualizado correctamente" + flete.getFirebaseId());
-
     }
 
     @Override

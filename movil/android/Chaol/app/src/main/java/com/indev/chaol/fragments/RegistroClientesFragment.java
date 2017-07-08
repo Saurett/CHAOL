@@ -55,7 +55,7 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
 
     private static final String TAG = RegistroClientesFragment.class.getName();
 
-    private BootstrapCircleThumbnail bctPerfilChofer;
+    private BootstrapCircleThumbnail bctPerfil;
     private Button btnTitulo;
     private EditText txtNombre, txtRFC, txtEstado, txtCiudad, txtColonia, txtCodigoPostal, txtCalle, txtNumInt, txtNumExt, txtTelefono, txtCelular, txtCorreoElectronico, txtPassword;
     private LinearLayout linearLayoutPassword;
@@ -84,7 +84,7 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
         /**Obtiene la instancia compartida del objeto FirebaseAuth**/
         mAuth = FirebaseAuth.getInstance();
 
-        bctPerfilChofer = (BootstrapCircleThumbnail) view.findViewById(R.id.bct_cliente_perfil);
+        bctPerfil = (BootstrapCircleThumbnail) view.findViewById(R.id.bct_cliente_perfil);
         btnTitulo = (Button) view.findViewById(R.id.btn_titulo_clientes);
         txtNombre = (EditText) view.findViewById(R.id.txt_clientes_nombre);
         txtRFC = (EditText) view.findViewById(R.id.txt_clientes_rfc);
@@ -184,7 +184,7 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
                 _clienteActual = cliente;
 
                 fabPerfil.setVisibility(View.GONE);
-                bctPerfilChofer.setVisibility(View.GONE);
+                bctPerfil.setVisibility(View.GONE);
 
                 if (null == cliente.getImagenURL()) cliente.setImagenURL("");
 
@@ -198,14 +198,14 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
 
                     StorageReference storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(cliente.getImagenURL());
 
-                    bctPerfilChofer.setVisibility(View.VISIBLE);
+                    bctPerfil.setVisibility(View.VISIBLE);
 
                     final long ONE_MEGABYTE = 1024 * 1024;
                     storageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
                         @Override
                         public void onSuccess(byte[] bytes) {
                             Bitmap decodedByte = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                            bctPerfilChofer.setImageBitmap(decodedByte);
+                            bctPerfil.setImageBitmap(decodedByte);
 
                             pdThumbnail.dismiss();
 
@@ -214,7 +214,7 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
                         @Override
                         public void onFailure(@NonNull Exception exception) {
                             fabPerfil.setVisibility(View.VISIBLE);
-                            bctPerfilChofer.setVisibility(View.GONE);
+                            bctPerfil.setVisibility(View.GONE);
                             pdThumbnail.dismiss();
                             Log.i(TAG, "addOnSuccessListener : " + exception.getMessage());
                         }
