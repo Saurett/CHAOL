@@ -266,7 +266,8 @@ public class FletesProcesoFragment extends Fragment implements View.OnClickListe
                         btnRecibido.setVisibility(View.GONE);
 
                         if (_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR)
-                                || _SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE)) {
+                                || _SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE)
+                                || _SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_COLABORADOR)) {
                             btnRecibido.setVisibility(View.VISIBLE);
                         }
                         break;

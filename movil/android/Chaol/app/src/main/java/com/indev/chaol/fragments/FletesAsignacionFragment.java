@@ -130,6 +130,7 @@ public class FletesAsignacionFragment extends Fragment implements View.OnClickLi
 
                 switch (_SESSION_USER.getTipoDeUsuario()) {
                     case Constants.FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR:
+                    case Constants.FB_KEY_ITEM_TIPO_USUARIO_COLABORADOR:
                         break;
                     case Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE:
                         break;

@@ -70,7 +70,8 @@ public class AsignacionTransportistasFragment extends Fragment implements View.O
         database = FirebaseDatabase.getInstance();
         drFletes = database.getReference(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR);
 
-        if (_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR)) {
+        if (_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR)
+                || _SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_COLABORADOR)) {
             recyclerViewAsignaciones.setVisibility(View.VISIBLE);
         }
 

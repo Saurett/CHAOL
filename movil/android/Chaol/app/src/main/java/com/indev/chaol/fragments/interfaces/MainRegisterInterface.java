@@ -1,5 +1,6 @@
 package com.indev.chaol.fragments.interfaces;
 
+import com.indev.chaol.models.Administradores;
 import com.indev.chaol.models.Bodegas;
 import com.indev.chaol.models.Choferes;
 import com.indev.chaol.models.Clientes;
@@ -28,6 +29,8 @@ public interface MainRegisterInterface {
     void setDecodeItem(DecodeItem decodeItem);
     /**Permite obtener los ultimos valores seleccionados en DecodeItem**/
     DecodeItem getDecodeItem();
+    /**Permite crear usuarios tipo colaboradores**/
+    void createUserColaborador(Administradores colaborador);
     /**Permite crear usuarios tipo cliente**/
     void createUserCliente(Clientes cliente);
     /**Permite crear usuarios tipo transportista**/
@@ -46,6 +49,8 @@ public interface MainRegisterInterface {
     void createBodegas(Bodegas bodega);
     /**Permite editar bodegas**/
     void updateBodega(Bodegas bodega);
+    /**Permite editar administrador**/
+    void updateAdministrador(Administradores colaborador);
     /**Permite editar clientes**/
     void updateCliente(Clientes cliente);
     /**Permite editar bodegas**/

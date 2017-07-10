@@ -145,6 +145,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
             switch (_SESSION_USER.getTipoDeUsuario()) {
                 case Constants.FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR:
+                case Constants.FB_KEY_ITEM_TIPO_USUARIO_COLABORADOR:
                 case Constants.FB_KEY_ITEM_TIPO_USUARIO_CHOFER:
 
                     dbUsuarioValido = FirebaseDatabase.getInstance().getReference()
@@ -171,12 +172,12 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
                     switch (_SESSION_USER.getTipoDeUsuario()) {
                         case Constants.FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR:
+                        case Constants.FB_KEY_ITEM_TIPO_USUARIO_COLABORADOR:
                             Administradores administrador = (Administradores) objectTipoUsuario;
 
                             if (administrador.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_INACTIVO)) {
                                 onChangeMainFragment(R.id.menu_item_cerrar_session);
                             }
-
                             break;
                         case Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE:
                             Clientes cliente = (Clientes) objectTipoUsuario;
@@ -398,6 +399,83 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                         }
                     }
                 });
+    }
+
+    @Override
+    public void createUserColaborador(final Administradores colaborador) {
+
+        pDialog = new ProgressDialog(MainRegisterActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        secondaryAuth.createUserWithEmailAndPassword(colaborador.getCorreoElectronico(), colaborador.getContraseña())
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
+
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful()) {
+                            pDialog.dismiss();
+                            Toast.makeText(getApplicationContext(),
+                                    ErrorMessages.showErrorMessage(task.getException()),
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            firebaseRegistroColaborador(colaborador);
+                        }
+                    }
+                });
+    }
+
+    /**
+     * Registra en firebase al cliente y lo agrega como usuario
+     **/
+    public void firebaseRegistroColaborador(final Administradores colaborador) {
+        FirebaseUser user = secondaryAuth.getCurrentUser();
+
+        /**obtiene la instancia como cliente**/
+        final DatabaseReference dbColaborador =
+                FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.FB_KEY_MAIN_ADMINISTRADORES);
+
+        colaborador.setTipoDeUsuario(Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE);
+        colaborador.setFirebaseId(user.getUid());
+        colaborador.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_INACTIVO);
+        colaborador.setContraseña(null);
+        colaborador.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
+        colaborador.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
+
+        dbColaborador.child(user.getUid()).setValue(colaborador, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                pDialog.dismiss();
+
+                if (databaseError == null) {
+                    /**obtiene la instancia como usuario**/
+                    DatabaseReference dbColaborador =
+                            FirebaseDatabase.getInstance().getReference()
+                                    .child(Constants.FB_KEY_MAIN_USUARIOS);
+                    dbColaborador.child(colaborador.getFirebaseId()).child(Constants.FB_KEY_ITEM_TIPO_USUARIO).setValue(colaborador.getTipoDeUsuario(), new DatabaseReference.CompletionListener() {
+
+                        @Override
+                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                            if (databaseError == null) {
+                                sendEmailVerification();
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+
+        Log.i(TAG, "firebaseRegistroCliente: Registrado correctamente" + user.getUid());
     }
 
     /**
@@ -794,6 +872,46 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         pDialog.show();
 
         this.firebaseUpdateBodega(bodega);
+    }
+
+    @Override
+    public void updateAdministrador(Administradores colaborador) {
+        pDialog = new ProgressDialog(MainRegisterActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        this.firebaseUpdateAdministrador(colaborador);
+    }
+
+    private void firebaseUpdateAdministrador(Administradores colaborador) {
+        String firebaseID = colaborador.getFirebaseId();
+
+        /**obtiene la instancia como cliente**/
+        DatabaseReference dbColaborador =
+                FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.FB_KEY_MAIN_ADMINISTRADORES);
+
+        colaborador.setTipoDeUsuario(colaborador.getTipoDeUsuario());
+        colaborador.setFirebaseId(firebaseID);
+        colaborador.setEstatus(colaborador.getEstatus());
+        colaborador.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
+
+        dbColaborador.child(colaborador.getFirebaseId()).setValue(colaborador, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                pDialog.dismiss();
+
+                if (databaseError == null) {
+                    finish();
+                    Toast.makeText(getApplicationContext(),
+                            "Actualizado correctamente...", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        Log.i(TAG, "firebaseUpdateCliente: Actualizado correctamente" + firebaseID);
     }
 
     @Override

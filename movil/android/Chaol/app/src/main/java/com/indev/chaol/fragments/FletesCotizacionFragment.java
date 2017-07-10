@@ -129,6 +129,7 @@ public class FletesCotizacionFragment extends Fragment implements View.OnClickLi
 
                 switch (_SESSION_USER.getTipoDeUsuario()) {
                     case Constants.FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR:
+                    case Constants.FB_KEY_ITEM_TIPO_USUARIO_COLABORADOR:
                         switch (flete.getEstatus()) {
                             case Constants.FB_KEY_ITEM_STATUS_FLETE_POR_COTIZAR:
                             case Constants.FB_KEY_ITEM_STATUS_ESPERANDO_POR_TRANSPORTISTA:

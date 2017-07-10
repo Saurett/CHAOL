@@ -19,56 +19,64 @@
                 android:id="@+id/panel_fletes_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@null"
-                android:layout_centerInParent="true"></FrameLayout>
+                android:layout_centerInParent="true"
+                android:background="@null" />
+
+            <!--Fragmento para traer el panel de colaboradores-->
+            <FrameLayout
+                android:id="@+id/panel_colaboradores_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:background="@null" />
 
             <!--Fragmento para traer el panel de clientes-->
             <FrameLayout
                 android:id="@+id/panel_clientes_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@null"
-                android:layout_centerInParent="true"></FrameLayout>
+                android:layout_centerInParent="true"
+                android:background="@null" />
 
             <!--Fragmento para traer el panel de bodegas-->
             <FrameLayout
                 android:id="@+id/panel_bodegas_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@null"
-                android:layout_centerInParent="true"></FrameLayout>
+                android:layout_centerInParent="true"
+                android:background="@null" />
 
             <!--Fragmento para traer el panel de transportistas-->
             <FrameLayout
                 android:id="@+id/panel_transportistas_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@null"
-                android:layout_centerInParent="true"></FrameLayout>
+                android:layout_centerInParent="true"
+                android:background="@null" />
 
             <!--Fragmento para traer el panel de transportistas-->
             <FrameLayout
                 android:id="@+id/panel_choferes_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@null"
-                android:layout_centerInParent="true"></FrameLayout>
+                android:layout_centerInParent="true"
+                android:background="@null" />
 
             <!--Fragmento para traer el panel de transportistas-->
             <FrameLayout
                 android:id="@+id/panel_tractores_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@null"
-                android:layout_centerInParent="true"></FrameLayout>
+                android:layout_centerInParent="true"
+                android:background="@null" />
 
             <!--Fragmento para traer el panel de transportistas-->
             <FrameLayout
                 android:id="@+id/panel_remolques_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@null"
-                android:layout_centerInParent="true"></FrameLayout>
+                android:layout_centerInParent="true"
+                android:background="@null" />
 
         </LinearLayout>
     </ScrollView>

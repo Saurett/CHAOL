@@ -23,39 +23,37 @@ import com.indev.chaol.utils.Constants;
  * Created by saurett on 24/02/2017.
  */
 
-public class ListadoTransportistasFragment extends Fragment implements View.OnClickListener {
+public class ListadoColaboradoresFragment extends Fragment implements View.OnClickListener {
 
-    private NavigationDrawerInterface activityInterface;
-    private FloatingActionButton fabTransportistas;
+    private static NavigationDrawerInterface navigationDrawerInterface;
+    private static FloatingActionButton fabColaboradores;
     private static Usuarios _SESSION_USER;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_listado_transportistas, container, false);
+        View view = inflater.inflate(R.layout.fragment_listado_colaboradores, container, false);
 
         _SESSION_USER = (Usuarios) getActivity().getIntent().getSerializableExtra(Constants.KEY_SESSION_USER);
-        fabTransportistas = (FloatingActionButton) view.findViewById(R.id.fab_listado_transportistas);
 
-        fabTransportistas.setOnClickListener(this);
+        fabColaboradores = (FloatingActionButton) view.findViewById(R.id.fab_listado_colaboradores);
 
-
+        fabColaboradores.setOnClickListener(this);
 
         return view;
     }
 
     @Override
     public void onStart() {
-        super.onStart();
-
-        /**Remueve los fragmentos secundarios**/
-        activityInterface.removeSecondaryFragment();
+        /**Remueve fragmentos secundarios**/
+        navigationDrawerInterface.removeSecondaryFragment();
 
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction mainFragment = fragmentManager.beginTransaction();
-        mainFragment.replace(R.id.listado_transportistas_container, new TransportistasFragment(), Constants.FRAGMENT_TRANSPORTISTAS);
+        mainFragment.replace(R.id.listado_colaboradores_container, new ColaboradoresFragment(), Constants.FRAGMENT_COLABORADORES);
         mainFragment.commit();
+
+        super.onStart();
     }
 
     @Override
@@ -67,7 +65,7 @@ public class ListadoTransportistasFragment extends Fragment implements View.OnCl
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            activityInterface = (NavigationDrawerInterface) getActivity();
+            navigationDrawerInterface = (NavigationDrawerInterface) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString() + "debe implementar");
         }
@@ -76,7 +74,7 @@ public class ListadoTransportistasFragment extends Fragment implements View.OnCl
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.fab_listado_transportistas:
+            case R.id.fab_listado_colaboradores:
                 DecodeExtraParams extraParams = new DecodeExtraParams();
 
                 extraParams.setTituloActividad(getString(Constants.TITLE_ACTIVITY.get(v.getId())));
@@ -89,6 +87,7 @@ public class ListadoTransportistasFragment extends Fragment implements View.OnCl
                 intent.putExtra(Constants.KEY_SESSION_USER, _SESSION_USER);
                 startActivity(intent);
                 break;
-        }
+    }
+
     }
 }

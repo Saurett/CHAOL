@@ -29,6 +29,8 @@ public interface NavigationDrawerInterface {
     /**Permite obtener los ultimos valores seleccionados en DecodeItem**/
     DecodeItem getDecodeItem();
     /**Permite actualizar usuarios tipo cliente**/
+    void updateUserColaborador(Administradores colaborador);
+    /**Permite actualizar usuarios tipo cliente**/
     void updateUserCliente(Clientes cliente);
     /**Permite actualizar usuarios tipo transportista**/
     void updateUserTransportista(Transportistas transportista);
