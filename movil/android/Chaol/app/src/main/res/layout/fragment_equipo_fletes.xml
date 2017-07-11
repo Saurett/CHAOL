@@ -58,13 +58,22 @@
                 android:layout_marginTop="20dp"
                 android:orientation="vertical">
 
+                <com.beardedhen.androidbootstrap.BootstrapCircleThumbnail
+                    android:id="@+id/bct_chofer_equipo"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    app:bootstrapBrand="info"
+                    app:hasBorder="true" />
+
                 <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/fab_equipo_asignado_chofer"
+                    android:id="@+id/fab_img_chofer_equipo"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center"
                     android:scaleType="fitCenter"
                     android:src="@mipmap/ic_person_white_48dp"
+                    android:visibility="gone"
                     app:backgroundTint="@color/colorPrimary"
                     app:elevation="0dp" />
             </LinearLayout>
@@ -456,8 +465,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:layout_marginTop="20dp"
                 android:orientation="vertical">
 
                 <Button
@@ -466,10 +473,11 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="5dp"
+                    android:layout_marginTop="20dp"
                     android:background="@color/colorSecondaryAccent"
-                    android:visibility="gone"
                     android:text="Guardar"
-                    android:textColor="@color/colorIcons" />
+                    android:textColor="@color/colorIcons"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/btn_actualizar_equipo"
@@ -477,10 +485,11 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="5dp"
+                    android:layout_marginTop="20dp"
                     android:background="@color/colorSecondaryAccent"
-                    android:visibility="gone"
                     android:text="Actualizar"
-                    android:textColor="@color/colorIcons" />
+                    android:textColor="@color/colorIcons"
+                    android:visibility="gone" />
             </LinearLayout>
 
         </LinearLayout>

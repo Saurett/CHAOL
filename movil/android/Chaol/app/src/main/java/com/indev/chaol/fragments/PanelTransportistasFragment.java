@@ -22,6 +22,7 @@ import com.indev.chaol.R;
 import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
 import com.indev.chaol.models.DecodeExtraParams;
 import com.indev.chaol.models.Transportistas;
+import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
 
 
@@ -37,6 +38,8 @@ public class PanelTransportistasFragment extends Fragment implements View.OnClic
     private static FloatingActionButton fabTransportistas;
     private ProgressDialog pDialog;
 
+    private static Usuarios _SESSION_USER;
+
     /**
      * Declaraciones para Firebase
      **/
@@ -47,6 +50,8 @@ public class PanelTransportistasFragment extends Fragment implements View.OnClic
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_panel_transportistas, container, false);
+
+        _SESSION_USER = (Usuarios) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_SESSION_USER);
 
         btnTitulo = (Button) view.findViewById(R.id.btn_titulo_transportistas);
         txtNumNoAutorizado = (TextView) view.findViewById(R.id.item_num_no_autorizado_panel_transportistas);
@@ -135,6 +140,7 @@ public class PanelTransportistasFragment extends Fragment implements View.OnClic
 
                 Intent intent = new Intent(getActivity(), MainRegisterActivity.class);
                 intent.putExtra(Constants.KEY_MAIN_DECODE, extraParams);
+                intent.putExtra(Constants.KEY_SESSION_USER, _SESSION_USER);
                 startActivity(intent);
                 break;
         }

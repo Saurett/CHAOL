@@ -45,6 +45,8 @@ public class AgendasFragment extends Fragment implements View.OnClickListener {
 
     private static List<String> _FIREBASE_LIST;
 
+    private int _idOrigenView;
+
     /**
      * Declaraciones para Firebase
      **/
@@ -52,7 +54,7 @@ public class AgendasFragment extends Fragment implements View.OnClickListener {
     private DatabaseReference drFletes;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_agendas, container, false);
 
@@ -95,7 +97,7 @@ public class AgendasFragment extends Fragment implements View.OnClickListener {
 
                     for (DataSnapshot psTransportista : postSnapshot.child(Constants.FB_KEY_MAIN_TRANSPORTISTA_SELECCIONADO).getChildren()) {
                         Transportistas transportista = psTransportista.getValue(Transportistas.class);
-                        nombreDelTransportista =  ((null != transportista) ? transportista.getNombre() : nombreDelTransportista);
+                        nombreDelTransportista = ((null != transportista) ? transportista.getNombre() : nombreDelTransportista);
                         break;
                     }
 
@@ -181,7 +183,30 @@ public class AgendasFragment extends Fragment implements View.OnClickListener {
                 navigationDrawerInterface.showQuestion();
                 break;
             case R.id.item_color_agenda:
-                navigationDrawerInterface.openExternalActivity(Constants.ACCION_EDITAR, MainRegisterActivity.class);
+
+                //navigationDrawerInterface.openExternalActivity(Constants.ACCION_EDITAR, MainRegisterActivity.class);
+                Boolean cancelable = false;
+
+                Agendas agenda = (Agendas) decodeItem.getItemModel();
+                switch (agenda.getEstatus()) {
+                    case Constants.FB_KEY_ITEM_STATUS_FLETE_POR_COTIZAR:
+                    case Constants.FB_KEY_ITEM_STATUS_ESPERANDO_POR_TRANSPORTISTA:
+                    case Constants.FB_KEY_ITEM_STATUS_TRANSPORTISTA_POR_CONFIRMAR:
+                    case Constants.FB_KEY_ITEM_STATUS_UNIDADES_POR_ASIGNAR:
+                    case Constants.FB_KEY_ITEM_STATUS_ENVIO_POR_INICIAR:
+                        cancelable = true;
+                        break;
+                    case Constants.FB_KEY_ITEM_STATUS_EN_PROGRESO:
+                    case Constants.FB_KEY_ITEM_STATUS_ENTREGADO:
+                    case Constants.FB_KEY_ITEM_STATUS_FINALIZADO:
+                    case Constants.FB_KEY_ITEM_STATUS_CANCELADO:
+                        cancelable = false;
+                        break;
+                    default:
+                        break;
+                }
+
+                navigationDrawerInterface.showQuestionAgenda(cancelable);
                 break;
         }
     }

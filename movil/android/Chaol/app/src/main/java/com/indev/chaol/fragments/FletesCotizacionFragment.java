@@ -71,6 +71,8 @@ public class FletesCotizacionFragment extends Fragment implements View.OnClickLi
 
         _MAIN_DECODE = (DecodeExtraParams) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
 
+        RegistroFletesFragment.setFrameCotizacion(View.GONE);
+
         this.onPreRender();
 
         return view;
@@ -110,12 +112,6 @@ public class FletesCotizacionFragment extends Fragment implements View.OnClickLi
                         .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
                         .child(agenda.getFirebaseID());
 
-        final ProgressDialog pDialogRender = new ProgressDialog(getContext());
-        pDialogRender.setMessage(getString(R.string.default_loading_msg));
-        pDialogRender.setIndeterminate(false);
-        pDialogRender.setCancelable(false);
-        pDialogRender.show();
-
         dbFlete.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -133,11 +129,22 @@ public class FletesCotizacionFragment extends Fragment implements View.OnClickLi
 
                 switch (_SESSION_USER.getTipoDeUsuario()) {
                     case Constants.FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR:
-                        btnGuardar.setVisibility(View.VISIBLE);
+                    case Constants.FB_KEY_ITEM_TIPO_USUARIO_COLABORADOR:
+                        switch (flete.getEstatus()) {
+                            case Constants.FB_KEY_ITEM_STATUS_FLETE_POR_COTIZAR:
+                            case Constants.FB_KEY_ITEM_STATUS_ESPERANDO_POR_TRANSPORTISTA:
+                            case Constants.FB_KEY_ITEM_STATUS_TRANSPORTISTA_POR_CONFIRMAR:
+                                btnGuardar.setVisibility(View.VISIBLE);
+                                break;
+                        }
+                        break;
+                    default:
+                        txtPrecio.setTag(txtPrecio.getKeyListener());
+                        txtPrecio.setKeyListener(null);
                         break;
                 }
 
-                pDialogRender.dismiss();
+                RegistroFletesFragment.setFrameCotizacion(View.VISIBLE);
             }
 
             @Override

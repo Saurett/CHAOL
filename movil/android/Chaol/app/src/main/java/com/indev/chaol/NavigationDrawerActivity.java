@@ -36,8 +36,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
 import com.indev.chaol.models.Administradores;
+import com.indev.chaol.models.Agendas;
 import com.indev.chaol.models.Bodegas;
 import com.indev.chaol.models.Choferes;
 import com.indev.chaol.models.Clientes;
@@ -51,7 +54,9 @@ import com.indev.chaol.utils.Constants;
 import com.indev.chaol.utils.DateTimeUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, NavigationDrawerInterface, DialogInterface.OnClickListener, DrawerLayout.DrawerListener {
@@ -78,6 +83,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference dbUsuarioValido;
     private ValueEventListener listenerSession;
+    private static String topics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,13 +100,30 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
         drawer.setDrawerListener(this);
 
+        try {
+            _SESSION_USER = (Usuarios) getIntent().getExtras().getSerializable(Constants.KEY_SESSION_USER);
+        } catch (NullPointerException e) {
 
-        _SESSION_USER = (Usuarios) getIntent().getExtras().getSerializable(Constants.KEY_SESSION_USER);
+        }
+
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        Log.d(TAG, "Token actualizado: " + refreshedToken);
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
 
         /**Obtiene la instancia compartida del objeto FirebaseAuth**/
         mAuth = FirebaseAuth.getInstance();
+
+        switch (_SESSION_USER.getTipoDeUsuario()) {
+            case Constants.FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR:
+            case Constants.FB_KEY_ITEM_TIPO_USUARIO_COLABORADOR:
+                FirebaseMessaging.getInstance().subscribeToTopic("administradores");
+                break;
+            case Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA:
+                FirebaseMessaging.getInstance().subscribeToTopic("transportistas");
+                break;
+        }
+
         /**Responde a los cambios de estato en la session**/
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -126,14 +149,14 @@ public class NavigationDrawerActivity extends AppCompatActivity
             @Override
             public Transaction.Result doTransaction(MutableData mutableData) {
 
-                String android_id = Secure.getString(getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
+                String refreshedToken = FirebaseInstanceId.getInstance().getToken();
                 List<String> dispositivos = (List<String>) mutableData.getValue();
 
                 if (dispositivos == null) {
                     dispositivos = new ArrayList();
-                    dispositivos.add(android_id);
-                } else if (!dispositivos.contains(android_id)) {
-                    dispositivos.add(android_id);
+                    dispositivos.add(refreshedToken);
+                } else if (!dispositivos.contains(refreshedToken)) {
+                    dispositivos.add(refreshedToken);
                 }
 
                 mutableData.setValue(dispositivos);
@@ -165,12 +188,12 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
         switch (_SESSION_USER.getTipoDeUsuario()) {
             case Constants.FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR:
+            case Constants.FB_KEY_ITEM_TIPO_USUARIO_COLABORADOR:
             case Constants.FB_KEY_ITEM_TIPO_USUARIO_CHOFER:
 
                 dbUsuarioValido = FirebaseDatabase.getInstance().getReference()
                         .child(Constants.TIPO_USUARIO_NODO.get(_SESSION_USER.getTipoDeUsuario()))
                         .child(_SESSION_USER.getFirebaseId());
-
                 break;
             case Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE:
             case Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA:
@@ -179,7 +202,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
                         .child(Constants.TIPO_USUARIO_NODO.get(_SESSION_USER.getTipoDeUsuario()))
                         .child(_SESSION_USER.getFirebaseId())
                         .child(Constants.TIPO_USUARIO_ITEM.get(_SESSION_USER.getTipoDeUsuario()));
-
                 break;
         }
 
@@ -191,6 +213,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
                 switch (_SESSION_USER.getTipoDeUsuario()) {
                     case Constants.FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR:
+                    case Constants.FB_KEY_ITEM_TIPO_USUARIO_COLABORADOR:
                         Administradores administrador = (Administradores) objectTipoUsuario;
 
                         if (administrador.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_INACTIVO)) {
@@ -265,6 +288,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         switch (_SESSION_USER.getTipoDeUsuario()) {
             case Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE:
                 /**El cliente visualizara menu de fletes y de cuentas**/
+                menu.findItem(R.id.menu_item_colaboradores).setVisible(false);
                 menu.findItem(R.id.menu_item_clientes).setVisible(false);
                 menu.findItem(R.id.menu_item_transportistas).setVisible(false);
                 menu.findItem(R.id.menu_item_choferes).setVisible(false);
@@ -274,6 +298,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
             case Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA:
                 /**El cliente visualizara menu de administracion,fletes y de cuentas**/
                 //Nota: Solo mostrar en admnistracion / choferes, tractores, remolques
+                menu.findItem(R.id.menu_item_colaboradores).setVisible(false);
                 menu.findItem(R.id.menu_item_clientes).setVisible(false);
                 menu.findItem(R.id.menu_item_bodegas).setVisible(false);
                 menu.findItem(R.id.menu_item_transportistas).setVisible(false);
@@ -281,6 +306,9 @@ public class NavigationDrawerActivity extends AppCompatActivity
             case Constants.FB_KEY_ITEM_TIPO_USUARIO_CHOFER:
                 /**El cliente visualizara menu de fletes y de cuentas**/
                 menu.findItem(R.id.menu_title_administracion).setVisible(false);
+                break;
+            case Constants.FB_KEY_ITEM_TIPO_USUARIO_COLABORADOR:
+                menu.findItem(R.id.menu_item_colaboradores).setVisible(false);
                 break;
             default:
                 /**Sin restricciones para el admin**/
@@ -332,6 +360,11 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
         switch (id) {
             case R.id.menu_item_inicio:
+                setTitle(item.getTitle());
+                this.closeFragment(this.getLastFragment());
+                this.openFragment(Constants.ITEM_FRAGMENT.get(id));
+                break;
+            case R.id.menu_item_colaboradores:
                 setTitle(item.getTitle());
                 this.closeFragment(this.getLastFragment());
                 this.openFragment(Constants.ITEM_FRAGMENT.get(id));
@@ -438,6 +471,11 @@ public class NavigationDrawerActivity extends AppCompatActivity
         return name;
     }
 
+    @Override
+    public Usuarios getSessionUser() {
+        return _SESSION_USER;
+    }
+
     /**
      * Interface la cual permite abrir un fragmento en una vista principal del menu
      **/
@@ -477,6 +515,26 @@ public class NavigationDrawerActivity extends AppCompatActivity
     }
 
     @Override
+    public void showQuestionAgenda(Boolean cancelar) {
+        AlertDialog.Builder ad = new AlertDialog.Builder(this);
+
+        ad.setTitle("Agenda");
+        ad.setMessage("¿Que desea hacer?");
+        ad.setCancelable(true);
+
+        switch (_SESSION_USER.getTipoDeUsuario()) {
+            case Constants.FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR:
+            case Constants.FB_KEY_ITEM_TIPO_USUARIO_COLABORADOR:
+            case Constants.FB_KEY_ITEM_CLIENTE:
+                if (cancelar) ad.setNegativeButton("Cancelar", this);
+                break;
+        }
+
+        ad.setPositiveButton("Consultar", this);
+        ad.show();
+    }
+
+    @Override
     public void showQuestion() {
         AlertDialog.Builder ad = new AlertDialog.Builder(this);
 
@@ -495,6 +553,9 @@ public class NavigationDrawerActivity extends AppCompatActivity
         switch (which) {
             case DialogInterface.BUTTON_POSITIVE:
                 switch (this.getDecodeItem().getIdView()) {
+                    case R.id.item_btn_eliminar_colaborador:
+                        operation = Constants.WS_KEY_ELIMINAR_COLABORADORES;
+                        break;
                     case R.id.item_btn_eliminar_cliente:
                         operation = Constants.WS_KEY_ELIMINAR_CLIENTES;
                         break;
@@ -513,10 +574,23 @@ public class NavigationDrawerActivity extends AppCompatActivity
                     case R.id.item_btn_eliminar_remolque:
                         operation = Constants.WS_KEY_ELIMINAR_REMOLQUES;
                         break;
+                    case R.id.item_color_agenda:
+                        operation = Constants.WS_KEY_BUSCAR_FLETES;
+                        break;
                 }
 
                 this.firebaseOperations(operation);
 
+                break;
+
+            case DialogInterface.BUTTON_NEGATIVE:
+                switch (this.getDecodeItem().getIdView()) {
+                    case R.id.item_color_agenda:
+                        operation = Constants.WS_KEY_ELIMINAR_FLETES;
+                        break;
+                }
+
+                this.firebaseOperations(operation);
                 break;
             case DialogInterface.BUTTON_NEUTRAL:
                 onChangeMainFragment(R.id.menu_item_cerrar_session);
@@ -550,6 +624,47 @@ public class NavigationDrawerActivity extends AppCompatActivity
     @Override
     public DecodeItem getDecodeItem() {
         return _decodeItem;
+    }
+
+    @Override
+    public void updateUserColaborador(Administradores colaborador) {
+        pDialog = new ProgressDialog(NavigationDrawerActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        this.firebaseUpdateColaborador(colaborador);
+    }
+
+    private void firebaseUpdateColaborador(Administradores colaborador) {
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        String firebaseID = (colaborador.getFirebaseId() == null) ? user.getUid() : colaborador.getFirebaseId();
+
+        /**obtiene la instancia como cliente**/
+        DatabaseReference dbColaborador =
+                FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.FB_KEY_MAIN_ADMINISTRADORES);
+
+        colaborador.setTipoDeUsuario(Constants.FB_KEY_ITEM_TIPO_USUARIO_COLABORADOR);
+        colaborador.setFirebaseId(firebaseID);
+        colaborador.setEstatus(colaborador.getEstatus());
+        colaborador.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
+
+        dbColaborador.child(colaborador.getFirebaseId()).setValue(colaborador, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                pDialog.dismiss();
+
+                if (databaseError == null) {
+                    Toast.makeText(getApplicationContext(),
+                            "Actualizado correctamente...", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        Log.i(TAG, "firebaseUpdateColaborador: Actualizado correctamente" + user.getUid());
     }
 
     @Override
@@ -776,6 +891,9 @@ public class NavigationDrawerActivity extends AppCompatActivity
         pDialog.show();
 
         switch (operation) {
+            case Constants.WS_KEY_ELIMINAR_COLABORADORES:
+                this.firebaseDeleteColaborador();
+                break;
             case Constants.WS_KEY_ELIMINAR_CLIENTES:
                 this.firebaseDeleteCliente();
                 break;
@@ -794,6 +912,13 @@ public class NavigationDrawerActivity extends AppCompatActivity
             case Constants.WS_KEY_ELIMINAR_REMOLQUES:
                 this.firebaseDeleteRemolque();
                 break;
+            case Constants.WS_KEY_ELIMINAR_FLETES:
+                this.firebaseDeleteFlete();
+                break;
+            case Constants.WS_KEY_BUSCAR_FLETES:
+                openExternalActivity(Constants.ACCION_EDITAR, MainRegisterActivity.class);
+                pDialog.dismiss();
+                break;
         }
     }
 
@@ -801,55 +926,30 @@ public class NavigationDrawerActivity extends AppCompatActivity
      * Elimina especificamente el objeto seleccionado
      **/
     private void firebaseDeleteColaborador() {
-        final Choferes chofer = (Choferes) getDecodeItem().getItemModel();
+        final Administradores colaborador = (Administradores) getDecodeItem().getItemModel();
 
         /**obtiene la instancia del elemento**/
-        DatabaseReference dbChofer =
+        DatabaseReference dbCliente =
                 FirebaseDatabase.getInstance().getReference()
-                        .child(Constants.FB_KEY_MAIN_TRANSPORTISTAS)
-                        .child(chofer.getFirebaseIdDelTransportista())
-                        .child(Constants.FB_KEY_MAIN_CHOFERES)
-                        .child(chofer.getFirebaseId());
+                        .child(Constants.FB_KEY_MAIN_ADMINISTRADORES)
+                        .child(colaborador.getFirebaseId());
 
-        chofer.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO);
-        chofer.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
+        colaborador.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO);
+        colaborador.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
 
-        dbChofer.setValue(chofer, new DatabaseReference.CompletionListener() {
+        dbCliente.setValue(colaborador, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
                 pDialog.dismiss();
-
                 if (databaseError == null) {
-
-                    pDialog = new ProgressDialog(NavigationDrawerActivity.this);
-                    pDialog.setMessage(getString(R.string.default_loading_msg));
-                    pDialog.setIndeterminate(false);
-                    pDialog.setCancelable(false);
-                    pDialog.show();
-
-                    /**obtiene la instancia del elemento**/
-                    DatabaseReference dbChofer =
-                            FirebaseDatabase.getInstance().getReference()
-                                    .child(Constants.FB_KEY_MAIN_CHOFERES)
-                                    .child(chofer.getFirebaseId());
-
-                    dbChofer.setValue(chofer, new DatabaseReference.CompletionListener() {
-                        @Override
-                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                            pDialog.dismiss();
-                            if (databaseError == null) {
-                                Toast.makeText(getApplicationContext(),
-                                        "Eliminado correctamente...", Toast.LENGTH_SHORT).show();
-                            }
-
-                        }
-                    });
+                    Toast.makeText(getApplicationContext(),
+                            "Eliminado correctamente...", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-        Log.i(TAG, "firebaseDeleteChofer: Eliminado correctamente" + chofer.getFirebaseId());
+        Log.i(TAG, "firebaseDeleteColaborador: Eliminado correctamente" + colaborador.getFirebaseId());
     }
 
     /**
@@ -1068,6 +1168,37 @@ public class NavigationDrawerActivity extends AppCompatActivity
         Log.i(TAG, "firebaseDeleteRemolque: Eliminado correctamente" + remolque.getFirebaseId());
     }
 
+    private void firebaseDeleteFlete() {
+        Agendas agenda = (Agendas) getDecodeItem().getItemModel();
+
+        /**obtiene la instancia como cliente**/
+        DatabaseReference dbRemolque =
+                FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
+                        .child(agenda.getFirebaseID())
+                        .child(Constants.FB_KEY_MAIN_FLETE);
+
+        Map<String, Object> actualizacion = new HashMap<>();
+
+        actualizacion.put("/estatus", Constants.FB_KEY_ITEM_STATUS_CANCELADO);
+        actualizacion.put("/fechaDeEdicion", DateTimeUtils.getTimeStamp());
+
+        dbRemolque.updateChildren(actualizacion, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                pDialog.dismiss();
+
+                if (databaseError == null) {
+                    Toast.makeText(getApplicationContext(),
+                            "Cancelado correctamente...", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        Log.i(TAG, "firebaseDeleteFlete: Eliminado correctamente" + agenda.getFirebaseID());
+
+    }
+
     @Override
     public void onDrawerSlide(View drawerView, float slideOffset) {
 
@@ -1101,13 +1232,13 @@ public class NavigationDrawerActivity extends AppCompatActivity
             @Override
             public Transaction.Result doTransaction(MutableData mutableData) {
 
-                String android_id = Secure.getString(getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
+                String refreshedToken = FirebaseInstanceId.getInstance().getToken();
                 List<String> dispositivos = (List<String>) mutableData.getValue();
 
                 if (dispositivos == null) {
                     dispositivos = new ArrayList();
-                } else if (dispositivos.contains(android_id)) {
-                    dispositivos.remove(dispositivos.indexOf(android_id));
+                } else if (dispositivos.contains(refreshedToken)) {
+                    dispositivos.remove(dispositivos.indexOf(refreshedToken));
                 }
 
                 mutableData.setValue(dispositivos);
@@ -1119,6 +1250,15 @@ public class NavigationDrawerActivity extends AppCompatActivity
             public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
                 /**Si se crean mas elementos al cerrar session, se creara un metodo**/
                 lastMenuItem = null;
+                switch (_SESSION_USER.getTipoDeUsuario()) {
+                    case Constants.FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR:
+                    case Constants.FB_KEY_ITEM_TIPO_USUARIO_COLABORADOR:
+                        FirebaseMessaging.getInstance().unsubscribeFromTopic("administradores");
+                        break;
+                    case Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA:
+                        FirebaseMessaging.getInstance().unsubscribeFromTopic("transportistas");
+                        break;
+                }
                 FirebaseAuth.getInstance().signOut();
                 finish();
             }

@@ -3,8 +3,12 @@ package com.indev.chaol.fragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -20,11 +24,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.beardedhen.androidbootstrap.BootstrapCircleThumbnail;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.indev.chaol.MainRegisterActivity;
 import com.indev.chaol.R;
 import com.indev.chaol.models.Agendas;
@@ -50,11 +59,12 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
 
     private static final String TAG = FletesEquipoFragment.class.getName();
 
+    private BootstrapCircleThumbnail bctPerfil;
     private Button btnTitulo, btnGuardar, btnActualizar;
     private EditText txtLicencia, txtCelular, txtTractorMarca, txtTractorModelo, txtTractorPlaca, txtRemolqueMarca, txtRemolqueModelo, txtRemolquePlaca;
     private Spinner spinnerChofer, spinnerTractor, spinnerRemolque;
     private LinearLayout linearLayout;
-    private ProgressDialog pDialog;
+    private FloatingActionButton fabPerfil;
 
     private static List<String> choferesList;
     private List<Choferes> choferes;
@@ -70,9 +80,12 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
 
     private static MainRegisterActivity activityInterface;
 
+    private DatabaseReference dbFlete;
     private String firebaseIdChofer;
     private String firebaseIdTractor;
     private String firebaseIdRemolque;
+
+    private ValueEventListener listenerFletes;
 
     private Choferes _choferActual;
     private Tractores _tractorActual;
@@ -95,6 +108,8 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
         _MAIN_DECODE = (DecodeExtraParams) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
         _SESSION_USER = (Usuarios) getActivity().getIntent().getSerializableExtra(Constants.KEY_SESSION_USER);
 
+        bctPerfil = (BootstrapCircleThumbnail) view.findViewById(R.id.bct_chofer_equipo);
+
         txtLicencia = (EditText) view.findViewById(R.id.txt_equipo_asignado_numero_licencia);
         txtCelular = (EditText) view.findViewById(R.id.txt_equipo_asignado_celular);
         txtTractorMarca = (EditText) view.findViewById(R.id.txt_equipo_asignado_tractor_marca);
@@ -103,6 +118,8 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
         txtRemolqueMarca = (EditText) view.findViewById(R.id.txt_equipo_asignado_remolque_marca);
         txtRemolqueModelo = (EditText) view.findViewById(R.id.txt_equipo_asignado_remolque_modelo);
         txtRemolquePlaca = (EditText) view.findViewById(R.id.txt_equipo_asignado_remolque_placa);
+
+        fabPerfil = (FloatingActionButton) view.findViewById(R.id.fab_img_chofer_equipo);
 
         spinnerChofer = (Spinner) view.findViewById(R.id.spinner_equipo_asignado_chofer);
         spinnerTractor = (Spinner) view.findViewById(R.id.spinner_equipo_asignado_tractor);
@@ -125,11 +142,47 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
         spinnerTractor.setOnItemSelectedListener(this);
         spinnerRemolque.setOnItemSelectedListener(this);
 
+        txtLicencia.setTag(txtLicencia.getKeyListener());
+        txtLicencia.setKeyListener(null);
+
+        txtCelular.setTag(txtCelular.getKeyListener());
+        txtCelular.setKeyListener(null);
+
+        txtTractorMarca.setTag(txtTractorMarca.getKeyListener());
+        txtTractorMarca.setKeyListener(null);
+
+        txtTractorModelo.setTag(txtTractorModelo.getKeyListener());
+        txtTractorModelo.setKeyListener(null);
+
+        txtTractorPlaca.setTag(txtTractorPlaca.getKeyListener());
+        txtTractorPlaca.setKeyListener(null);
+
+        txtRemolqueMarca.setTag(txtRemolqueMarca.getKeyListener());
+        txtRemolqueMarca.setKeyListener(null);
+
+        txtRemolqueModelo.setTag(txtRemolqueModelo.getKeyListener());
+        txtRemolqueModelo.setKeyListener(null);
+
+        txtRemolquePlaca.setTag(txtRemolquePlaca.getKeyListener());
+        txtRemolquePlaca.setKeyListener(null);
+
         linearLayout.setVisibility(View.GONE);
 
-        this.onPreRender();
+        RegistroFletesFragment.setFrameEquipo(View.GONE);
 
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        this.onPreRender();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (null != dbFlete) dbFlete.removeEventListener(listenerFletes);
     }
 
     private void onCargarSpinnerChoferes() {
@@ -248,18 +301,11 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
         /**Obtiene el item selecionado en el fragmento de lista**/
         Agendas agenda = (Agendas) _MAIN_DECODE.getDecodeItem().getItemModel();
 
-        DatabaseReference dbFlete =
-                FirebaseDatabase.getInstance().getReference()
-                        .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
-                        .child(agenda.getFirebaseID());
+        dbFlete = FirebaseDatabase.getInstance().getReference()
+                .child(Constants.FB_KEY_MAIN_FLETES_POR_ASIGNAR)
+                .child(agenda.getFirebaseID());
 
-        final ProgressDialog pDialogRender = new ProgressDialog(getContext());
-        pDialogRender.setMessage(getString(R.string.default_loading_msg));
-        pDialogRender.setIndeterminate(false);
-        pDialogRender.setCancelable(false);
-        pDialogRender.show();
-
-        dbFlete.addListenerForSingleValueEvent(new ValueEventListener() {
+        listenerFletes = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -275,8 +321,48 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
                     _mainFletesActual.setChoferSeleccionado(choferSeleccionado);
 
                     txtLicencia.setText(choferSeleccionado.getNumeroDeLicencia());
-                    //TODO FOTO IMAGENURL
                     txtCelular.setText(choferSeleccionado.getCelular1());
+
+                    fabPerfil.setVisibility(View.GONE);
+                    bctPerfil.setVisibility(View.GONE);
+
+                    if (null == choferSeleccionado.getImagenURL())
+                        choferSeleccionado.setImagenURL("");
+
+                    if (!choferSeleccionado.getImagenURL().isEmpty()) {
+
+                        final ProgressDialog pdThumbnail = new ProgressDialog(getContext());
+                        pdThumbnail.setMessage(getString(R.string.default_loading_msg));
+                        pdThumbnail.setIndeterminate(false);
+                        pdThumbnail.setCancelable(false);
+                        pdThumbnail.show();
+
+                        StorageReference storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(choferSeleccionado.getImagenURL());
+
+                        bctPerfil.setVisibility(View.VISIBLE);
+
+                        final long ONE_MEGABYTE = 1024 * 1024;
+                        storageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                            @Override
+                            public void onSuccess(byte[] bytes) {
+                                Bitmap decodedByte = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                bctPerfil.setImageBitmap(decodedByte);
+
+                                pdThumbnail.dismiss();
+
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                fabPerfil.setVisibility(View.VISIBLE);
+                                bctPerfil.setVisibility(View.GONE);
+                                pdThumbnail.dismiss();
+                                Log.i(TAG, "addOnSuccessListener : " + exception.getMessage());
+                            }
+                        });
+                    } else {
+                        fabPerfil.setVisibility(View.VISIBLE);
+                    }
 
                     break;
                 }
@@ -315,64 +401,140 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
 
                 switch (flete.getEstatus()) {
                     case Constants.FB_KEY_ITEM_STATUS_FLETE_POR_COTIZAR:
+                        RegistroFletesFragment.setFrameEquipo(View.GONE);
+
                         btnGuardar.setVisibility(View.GONE);
                         btnActualizar.setVisibility(View.GONE);
+
+                        spinnerChofer.setEnabled(false);
+                        spinnerRemolque.setEnabled(false);
+                        spinnerTractor.setEnabled(false);
+
                         break;
                     case Constants.FB_KEY_ITEM_STATUS_ESPERANDO_POR_TRANSPORTISTA:
+                        RegistroFletesFragment.setFrameEquipo(View.GONE);
+
                         btnGuardar.setVisibility(View.GONE);
                         btnActualizar.setVisibility(View.GONE);
+
+                        spinnerChofer.setEnabled(false);
+                        spinnerRemolque.setEnabled(false);
+                        spinnerTractor.setEnabled(false);
+
                         break;
                     case Constants.FB_KEY_ITEM_STATUS_TRANSPORTISTA_POR_CONFIRMAR:
+                        RegistroFletesFragment.setFrameEquipo(View.GONE);
+
                         btnGuardar.setVisibility(View.GONE);
                         btnActualizar.setVisibility(View.GONE);
+
+                        spinnerChofer.setEnabled(false);
+                        spinnerRemolque.setEnabled(false);
+                        spinnerTractor.setEnabled(false);
+
                         break;
                     case Constants.FB_KEY_ITEM_STATUS_UNIDADES_POR_ASIGNAR:
+                        RegistroFletesFragment.setFrameEquipo(View.VISIBLE);
+
+                        switch (_SESSION_USER.getTipoDeUsuario()) {
+                            case Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE:
+                            case Constants.FB_KEY_ITEM_TIPO_USUARIO_CHOFER:
+                                spinnerChofer.setEnabled(false);
+                                spinnerRemolque.setEnabled(false);
+                                spinnerTractor.setEnabled(false);
+                                break;
+                            default:
+                                spinnerChofer.setEnabled(true);
+                                spinnerRemolque.setEnabled(true);
+                                spinnerTractor.setEnabled(true);
+                                break;
+                        }
+
                         btnGuardar.setVisibility(View.VISIBLE);
                         btnActualizar.setVisibility(View.GONE);
                         break;
                     case Constants.FB_KEY_ITEM_STATUS_ENVIO_POR_INICIAR:
+                        RegistroFletesFragment.setFrameEquipo(View.VISIBLE);
+
+                        switch (_SESSION_USER.getTipoDeUsuario()) {
+                            case Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE:
+                            case Constants.FB_KEY_ITEM_TIPO_USUARIO_CHOFER:
+                                spinnerChofer.setEnabled(false);
+                                spinnerRemolque.setEnabled(false);
+                                spinnerTractor.setEnabled(false);
+                                break;
+                            default:
+                                spinnerChofer.setEnabled(true);
+                                spinnerRemolque.setEnabled(true);
+                                spinnerTractor.setEnabled(true);
+                                btnActualizar.setVisibility(View.VISIBLE);
+                                break;
+                        }
+
                         btnGuardar.setVisibility(View.GONE);
-                        btnActualizar.setVisibility(View.VISIBLE);
                         break;
                     case Constants.FB_KEY_ITEM_STATUS_EN_PROGRESO:
+                        RegistroFletesFragment.setFrameEquipo(View.VISIBLE);
+
                         btnGuardar.setVisibility(View.GONE);
                         btnActualizar.setVisibility(View.GONE);
+
+                        spinnerChofer.setEnabled(false);
+                        spinnerRemolque.setEnabled(false);
+                        spinnerTractor.setEnabled(false);
+
                         break;
                     case Constants.FB_KEY_ITEM_STATUS_ENTREGADO:
+                        RegistroFletesFragment.setFrameEquipo(View.VISIBLE);
+
                         btnGuardar.setVisibility(View.GONE);
                         btnActualizar.setVisibility(View.GONE);
+
+                        spinnerChofer.setEnabled(false);
+                        spinnerRemolque.setEnabled(false);
+                        spinnerTractor.setEnabled(false);
+
                         break;
                     case Constants.FB_KEY_ITEM_STATUS_FINALIZADO:
+                        RegistroFletesFragment.setFrameEquipo(View.VISIBLE);
+
                         btnGuardar.setVisibility(View.GONE);
                         btnActualizar.setVisibility(View.GONE);
+
+                        spinnerChofer.setEnabled(false);
+                        spinnerRemolque.setEnabled(false);
+                        spinnerTractor.setEnabled(false);
+
                         break;
                     case Constants.FB_KEY_ITEM_STATUS_CANCELADO:
+                        RegistroFletesFragment.setFrameEquipo(View.VISIBLE);
+
                         btnGuardar.setVisibility(View.GONE);
                         btnActualizar.setVisibility(View.GONE);
+
+                        spinnerChofer.setEnabled(false);
+                        spinnerRemolque.setEnabled(false);
+                        spinnerTractor.setEnabled(false);
+
                         break;
                     default:
                         break;
                 }
 
                 _mainFletesActual.setFlete(flete);
-
-                pDialogRender.dismiss();
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
+        };
+
+        dbFlete.addValueEventListener(listenerFletes);
     }
 
 
     private void onPreRenderSpinnerChoferes() {
-        pDialog = new ProgressDialog(getContext());
-        pDialog.setMessage(getString(R.string.default_loading_msg));
-        pDialog.setIndeterminate(false);
-        pDialog.setCancelable(false);
-        pDialog.show();
 
         drChofer.addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -411,7 +573,6 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Failed to read value
-                pDialog.dismiss();
                 Log.w(TAG, "Failed to read value.", databaseError.toException());
             }
         });
@@ -460,8 +621,6 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Failed to read value
-                pDialog.dismiss();
                 Log.w(TAG, "Failed to read value.", databaseError.toException());
             }
         });
@@ -506,14 +665,11 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
                 }
 
                 onCargarSpinnerRemolques();
-
-                pDialog.dismiss();
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Failed to read value
-                pDialog.dismiss();
                 Log.w(TAG, "Failed to read value.", databaseError.toException());
             }
         });
@@ -727,7 +883,7 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
         mainFlete.setTractorSeleccionado(tractor);
         mainFlete.setRemolqueSeleccionado(remolque);
 
-        activityInterface.updateSolicitudEquipo(mainFlete);
+        activityInterface.updateSolicitudEquipo(mainFlete, _mainFletesActual);
     }
 
     @Override
@@ -778,21 +934,61 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
     }
 
     private void loadDatosChofer() {
-        drChofer = database.getReference(Constants.FB_KEY_MAIN_CHOFERES)
+        DatabaseReference drChoferSpinner = database.getReference(Constants.FB_KEY_MAIN_CHOFERES)
                 .child(firebaseIdChofer);
 
         /**Metodo que llama la lista**/
-        drChofer.addListenerForSingleValueEvent(new ValueEventListener() {
+        drChoferSpinner.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                Choferes chofer = dataSnapshot.getValue(Choferes.class);
+                Choferes choferSeleccionado = dataSnapshot.getValue(Choferes.class);
 
-                txtLicencia.setText(chofer.getNumeroDeLicencia());
-                txtCelular.setText(chofer.getCelular1());
+                txtLicencia.setText(choferSeleccionado.getNumeroDeLicencia());
+                txtCelular.setText(choferSeleccionado.getCelular1());
 
-                _choferActual = chofer;
+                fabPerfil.setVisibility(View.GONE);
+                bctPerfil.setVisibility(View.GONE);
+
+                if (null == choferSeleccionado.getImagenURL()) choferSeleccionado.setImagenURL("");
+
+                if (!choferSeleccionado.getImagenURL().isEmpty()) {
+
+                    final ProgressDialog pdThumbnail = new ProgressDialog(getContext());
+                    pdThumbnail.setMessage(getString(R.string.default_loading_msg));
+                    pdThumbnail.setIndeterminate(false);
+                    pdThumbnail.setCancelable(false);
+                    pdThumbnail.show();
+
+                    StorageReference storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(choferSeleccionado.getImagenURL());
+
+                    bctPerfil.setVisibility(View.VISIBLE);
+
+                    final long ONE_MEGABYTE = 1024 * 1024;
+                    storageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                        @Override
+                        public void onSuccess(byte[] bytes) {
+                            Bitmap decodedByte = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                            bctPerfil.setImageBitmap(decodedByte);
+
+                            pdThumbnail.dismiss();
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            fabPerfil.setVisibility(View.VISIBLE);
+                            bctPerfil.setVisibility(View.GONE);
+                            pdThumbnail.dismiss();
+                            Log.i(TAG, "addOnSuccessListener : " + exception.getMessage());
+                        }
+                    });
+                } else {
+                    fabPerfil.setVisibility(View.VISIBLE);
+                }
+
+                _choferActual = choferSeleccionado;
             }
 
             @Override

@@ -22,6 +22,7 @@
     <!--Item Menu -->
     <string name="default_item_menu_title_inicio">Inicio</string>
     <string name="default_item_menu_title_administracion">Administración</string>
+    <string name="default_item_menu_title_colaboradores">Colaboradores</string>
     <string name="default_item_menu_title_clientes">Clientes</string>
     <string name="default_item_menu_title_bodegas">Bodegas</string>
     <string name="default_item_menu_title_transportistas">Transportistas</string>
@@ -42,6 +43,8 @@
     <string name="default_send_email_confirmatio_msg">Enviando email de registro</string>
     <string name="default_alert_dialog_aceptar">Aceptar</string>
     <string name="default_alert_dialog_cancelar">Cancelar</string>
+    <string name="default_alert_dialog_si">Si</string>
+    <string name="default_alert_dialog_no">No</string>
 
     <!--Form title-->
     <string name="default_form_title_edit">Editar</string>

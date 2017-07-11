@@ -1,6 +1,5 @@
 package com.indev.chaol.fragments;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -54,7 +53,6 @@ public class ListadoAgendaFragment extends Fragment implements View.OnClickListe
     private FloatingActionButton fabAgendas;
     private MaterialCalendarView mvcAgenda;
     private TextView txtSelectedDay;
-    private ProgressDialog pDialog;
 
     private static Usuarios _SESSION_USER;
 
@@ -91,8 +89,6 @@ public class ListadoAgendaFragment extends Fragment implements View.OnClickListe
 
         mvcAgenda.setOnDateChangedListener(this);
         fabAgendas.setOnClickListener(this);
-
-        this.onPreRender();
 
         return view;
     }
@@ -151,6 +147,7 @@ public class ListadoAgendaFragment extends Fragment implements View.OnClickListe
                 break;
             default:
                 /**Sin restricciones para el admin**/
+                participation = false;
                 break;
         }
 
@@ -177,11 +174,6 @@ public class ListadoAgendaFragment extends Fragment implements View.OnClickListe
 
         _calendarFirebases = new HashMap<>();
 
-        pDialog = new ProgressDialog(getContext());
-        pDialog.setMessage(getString(R.string.default_loading_msg));
-        pDialog.setIndeterminate(false);
-        pDialog.setCancelable(false);
-        pDialog.show();
 
         listener = new ValueEventListener() {
             @Override
@@ -192,6 +184,8 @@ public class ListadoAgendaFragment extends Fragment implements View.OnClickListe
                 List<CalendarDay> dotGOBCalendar = new ArrayList<>();
 
                 _calendarFirebases = new HashMap<>();
+
+                mvcAgenda.removeDecorators();
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 
@@ -384,15 +378,22 @@ public class ListadoAgendaFragment extends Fragment implements View.OnClickListe
                 mvcAgenda.addDecorator(new EventDecorator(dotGBCalendar, Color.GRAY, Color.BLACK));
                 mvcAgenda.addDecorator(new EventDecorator(dotGOBCalendar, Color.GRAY, Color.YELLOW, Color.BLACK));
 
+                fabAgendas.setVisibility(View.GONE);
+
+                switch (_SESSION_USER.getTipoDeUsuario()) {
+                    case Constants.FB_KEY_ITEM_ADMINISTRADOR:
+                    case Constants.FB_KEY_ITEM_TIPO_USUARIO_COLABORADOR:
+                    case Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE:
+                        fabAgendas.setVisibility(View.VISIBLE);
+                        break;
+                }
+
                 setCurrentDate();
                 openFragment(mvcAgenda.getSelectedDate());
-
-                pDialog.dismiss();
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                pDialog.dismiss();
             }
         };
 
@@ -415,8 +416,6 @@ public class ListadoAgendaFragment extends Fragment implements View.OnClickListe
     }
 
     public void onPreRender() {
-        //this.setCurrentDate();
-        //this.openFragment(mvcAgenda.getSelectedDate());
     }
 
     public void setCurrentDate() {
