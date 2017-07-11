@@ -3,9 +3,11 @@ package com.indev.chaol.fragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -45,6 +47,8 @@ import com.indev.chaol.utils.Constants;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
+
 
 /**
  * Created by saurett on 24/02/2017.
@@ -54,12 +58,16 @@ public class PerfilClientesFragment extends Fragment implements View.OnClickList
 
     private static final String TAG = PerfilClientesFragment.class.getName();
 
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    private Boolean CHANGE_PHOTO = false;
+
     private BootstrapCircleThumbnail bctPerfil;
-    private Button btnTitulo;
+    private Button btnTitulo, btnCamara;
     private EditText txtNombre, txtRFC, txtEstado, txtCiudad, txtColonia, txtCodigoPostal, txtCalle, txtNumInt, txtNumExt, txtTelefono, txtCelular, txtCorreoElectronico, txtPassword;
     private LinearLayout linearLayoutPassword;
     private Spinner spinnerMetodoPago;
-    private FloatingActionButton fabClientes, fabPerfil;;
+    private FloatingActionButton fabClientes, fabPerfil;
+    ;
     private ProgressDialog pDialog;
 
     private static List<String> metodosPagoList;
@@ -80,10 +88,13 @@ public class PerfilClientesFragment extends Fragment implements View.OnClickList
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_registro_clientes, container, false);
 
+        _MAIN_DECODE = (DecodeExtraParams) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
+
         /**Obtiene la instancia compartida del objeto FirebaseAuth**/
         mAuth = FirebaseAuth.getInstance();
 
         bctPerfil = (BootstrapCircleThumbnail) view.findViewById(R.id.bct_cliente_perfil);
+        btnCamara = (Button) view.findViewById(R.id.btn_camara_registro_clientes);
         btnTitulo = (Button) view.findViewById(R.id.btn_titulo_clientes);
         txtNombre = (EditText) view.findViewById(R.id.txt_clientes_nombre);
         txtRFC = (EditText) view.findViewById(R.id.txt_clientes_rfc);
@@ -106,10 +117,9 @@ public class PerfilClientesFragment extends Fragment implements View.OnClickList
         fabClientes = (FloatingActionButton) view.findViewById(R.id.fab_clientes);
         fabPerfil = (FloatingActionButton) view.findViewById(R.id.fab_img_cliente_perfil);
 
+        btnCamara.setOnClickListener(this);
         fabClientes.setOnClickListener(this);
         spinnerMetodoPago.setOnItemSelectedListener(this);
-
-        _MAIN_DECODE = (DecodeExtraParams) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
 
         this.onPreRender();
 
@@ -265,6 +275,9 @@ public class PerfilClientesFragment extends Fragment implements View.OnClickList
                     this.validationRegister();
                 }
                 break;
+            case R.id.btn_camara_registro_clientes:
+                this.dispatchTakePictureIntent();
+                break;
         }
     }
 
@@ -332,6 +345,7 @@ public class PerfilClientesFragment extends Fragment implements View.OnClickList
     private void updateUserCliente() {
 
         Clientes cliente = new Clientes();
+        Bitmap bitmap = null;
 
         cliente.setNombre(txtNombre.getText().toString().trim());
         cliente.setRFC(txtRFC.getText().toString().trim());
@@ -351,8 +365,14 @@ public class PerfilClientesFragment extends Fragment implements View.OnClickList
         cliente.setFechaDeCreacion(_clienteActual.getFechaDeCreacion());
         cliente.setEstatus(_clienteActual.getEstatus());
 
+        if (CHANGE_PHOTO) {
+            bctPerfil.setDrawingCacheEnabled(true);
+            bctPerfil.buildDrawingCache();
+            bitmap = bctPerfil.getDrawingCache();
+        }
+
         /**metodo principal para actualizar usuario**/
-        activityInterface.updateUserCliente(cliente);
+        activityInterface.updateUserCliente(cliente, bitmap);
     }
 
     private void showQuestion() {
@@ -429,4 +449,28 @@ public class PerfilClientesFragment extends Fragment implements View.OnClickList
             }
         }
     }
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+
+            fabPerfil.setVisibility(View.GONE);
+            bctPerfil.setVisibility(View.VISIBLE);
+
+            bctPerfil.setImageBitmap(imageBitmap);
+
+            CHANGE_PHOTO = true;
+        }
+    }
+
+
 }

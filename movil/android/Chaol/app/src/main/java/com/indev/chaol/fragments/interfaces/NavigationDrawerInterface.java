@@ -1,5 +1,7 @@
 package com.indev.chaol.fragments.interfaces;
 
+import android.graphics.Bitmap;
+
 import com.indev.chaol.models.Administradores;
 import com.indev.chaol.models.Choferes;
 import com.indev.chaol.models.Clientes;
@@ -31,11 +33,11 @@ public interface NavigationDrawerInterface {
     /**Permite actualizar usuarios tipo cliente**/
     void updateUserColaborador(Administradores colaborador);
     /**Permite actualizar usuarios tipo cliente**/
-    void updateUserCliente(Clientes cliente);
+    void updateUserCliente(Clientes cliente, Bitmap bitmap);
     /**Permite actualizar usuarios tipo transportista**/
     void updateUserTransportista(Transportistas transportista);
     /**Permite actualizar usuarios tipo chofer**/
-    void updateUserChofer(Choferes chofer);
+    void updateUserChofer(Choferes chofer, Bitmap bitmap);
     /**Permite actualizar usuarios tipo administrador**/
     void updateUserAdministrador(Administradores administrador);
 }

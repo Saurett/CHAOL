@@ -3,9 +3,11 @@ package com.indev.chaol.fragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -45,6 +47,8 @@ import com.indev.chaol.utils.Constants;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
+
 
 /**
  * Created by saurett on 24/02/2017.
@@ -54,8 +58,11 @@ public class PerfilChoferesFragment extends Fragment implements View.OnClickList
 
     private static final String TAG = RegistroChoferesFragment.class.getName();
 
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    private Boolean CHANGE_PHOTO = false;
+
     private BootstrapCircleThumbnail bctPerfil;
-    private Button btnTitulo;
+    private Button btnTitulo, btnCamara;
     private EditText txtNombre, txtNumeroLicencia, txtNSS, txtCURP, txtEstado, txtCiudad, txtColonia, txtCodigoPostal, txtCalle, txtNumInt, txtNumExt, txtTelefono, txtCelular1, txtCelular2, txtCorreoElectronico, txtPassword;
     private Spinner spinnerEmpresa;
     private LinearLayout linearLayoutPassword;
@@ -89,6 +96,7 @@ public class PerfilChoferesFragment extends Fragment implements View.OnClickList
         mAuth = FirebaseAuth.getInstance();
 
         bctPerfil = (BootstrapCircleThumbnail) view.findViewById(R.id.bct_chofer_perfil);
+        btnCamara = (Button) view.findViewById(R.id.btn_camara_registro_choferes);
         btnTitulo = (Button) view.findViewById(R.id.btn_titulo_choferes);
         txtNombre = (EditText) view.findViewById(R.id.txt_choferes_nombre);
         txtNumeroLicencia = (EditText) view.findViewById(R.id.txt_choferes_licencia);
@@ -114,6 +122,7 @@ public class PerfilChoferesFragment extends Fragment implements View.OnClickList
         fabChoferes = (FloatingActionButton) view.findViewById(R.id.fab_choferes);
         fabPerfil = (FloatingActionButton) view.findViewById(R.id.fab_img_chofer_perfil);
         fabChoferes.setOnClickListener(this);
+        btnCamara.setOnClickListener(this);
 
         database = FirebaseDatabase.getInstance();
         drTransportistas = database.getReference(Constants.FB_KEY_MAIN_TRANSPORTISTAS);
@@ -187,7 +196,9 @@ public class PerfilChoferesFragment extends Fragment implements View.OnClickList
         }
     }
 
-    /**Asigna los valores de los transportista a su combo**/
+    /**
+     * Asigna los valores de los transportista a su combo
+     **/
     private void onCargarSpinnerTransportistas() {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
                 R.layout.text_spinner, transportistasList);
@@ -332,6 +343,9 @@ public class PerfilChoferesFragment extends Fragment implements View.OnClickList
                     this.validationRegister();
                 }
                 break;
+            case R.id.btn_camara_registro_choferes:
+                this.dispatchTakePictureIntent();
+                break;
         }
     }
 
@@ -366,7 +380,9 @@ public class PerfilChoferesFragment extends Fragment implements View.OnClickList
 
     }
 
-    /**Verifica los campos obligatorios para editar**/
+    /**
+     * Verifica los campos obligatorios para editar
+     **/
     private void validationEditer() {
 
         Boolean authorized = true;
@@ -397,6 +413,7 @@ public class PerfilChoferesFragment extends Fragment implements View.OnClickList
     private void updateUserChofer() {
 
         Choferes chofer = new Choferes();
+        Bitmap bitmap = null;
 
         chofer.setNombre(txtNombre.getText().toString().trim());
         //chofer.setEmpresaTransportista(spinnerEmpresa.getSelectedItem().toString().trim());
@@ -420,8 +437,14 @@ public class PerfilChoferesFragment extends Fragment implements View.OnClickList
         chofer.setFirebaseIdDelTransportista(_choferActual.getFirebaseIdDelTransportista());
         chofer.setEstatus(_choferActual.getEstatus());
 
+        if (CHANGE_PHOTO) {
+            bctPerfil.setDrawingCacheEnabled(true);
+            bctPerfil.buildDrawingCache();
+            bitmap = bctPerfil.getDrawingCache();
+        }
+
         /**metodo principal para actualizar usuario**/
-        activityInterface.updateUserChofer(chofer);
+        activityInterface.updateUserChofer(chofer,bitmap);
     }
 
 
@@ -453,5 +476,27 @@ public class PerfilChoferesFragment extends Fragment implements View.OnClickList
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+
+            fabPerfil.setVisibility(View.GONE);
+            bctPerfil.setVisibility(View.VISIBLE);
+
+            bctPerfil.setImageBitmap(imageBitmap);
+
+            CHANGE_PHOTO = true;
+        }
     }
 }

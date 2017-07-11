@@ -3,8 +3,11 @@ package com.indev.chaol.fragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -20,6 +23,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.beardedhen.androidbootstrap.BootstrapCircleThumbnail;
 import com.indev.chaol.MainRegisterActivity;
 import com.indev.chaol.R;
 import com.indev.chaol.models.Clientes;
@@ -30,6 +34,8 @@ import com.indev.chaol.utils.Constants;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
+
 
 /**
  * Created by saurett on 24/02/2017.
@@ -37,10 +43,14 @@ import java.util.List;
 
 public class RegistroLoginClientesFragment extends Fragment implements View.OnClickListener, DialogInterface.OnClickListener, Spinner.OnItemSelectedListener {
 
-    private Button btnTitulo;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    private Boolean CHANGE_PHOTO = false;
+
+    private BootstrapCircleThumbnail bctPerfil;
+    private Button btnTitulo, btnCamara;
     private EditText txtNombre, txtRFC, txtEstado, txtCiudad, txtColonia, txtCodigoPostal, txtCalle, txtNumInt, txtNumExt, txtTelefono, txtCelular, txtEmail, txtPassword;
     private Spinner spinnerMetodoPago;
-    private FloatingActionButton fabClientes;
+    private FloatingActionButton fabClientes, fabPerfil;
     private ProgressDialog pDialog;
 
     private static List<String> metodosPagoList;
@@ -55,6 +65,9 @@ public class RegistroLoginClientesFragment extends Fragment implements View.OnCl
         View view = inflater.inflate(R.layout.fragment_registro_clientes, container, false);
 
         btnTitulo = (Button) view.findViewById(R.id.btn_titulo_clientes);
+        btnCamara = (Button) view.findViewById(R.id.btn_camara_registro_clientes);
+
+        bctPerfil = (BootstrapCircleThumbnail) view.findViewById(R.id.bct_cliente_perfil);
 
         txtNombre = (EditText) view.findViewById(R.id.txt_clientes_nombre);
         txtRFC = (EditText) view.findViewById(R.id.txt_clientes_rfc);
@@ -73,9 +86,10 @@ public class RegistroLoginClientesFragment extends Fragment implements View.OnCl
         spinnerMetodoPago = (Spinner) view.findViewById(R.id.spinner_clientes_metodo_pago);
 
         fabClientes = (FloatingActionButton) view.findViewById(R.id.fab_clientes);
+        fabPerfil = (FloatingActionButton) view.findViewById(R.id.fab_img_cliente_perfil);
 
+        btnCamara.setOnClickListener(this);
         fabClientes.setOnClickListener(this);
-
         spinnerMetodoPago.setOnItemSelectedListener(this);
 
         _MAIN_DECODE = (DecodeExtraParams) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
@@ -128,6 +142,8 @@ public class RegistroLoginClientesFragment extends Fragment implements View.OnCl
             case Constants.ACCION_REGISTRAR:
                 /**Modifica valores predeterminados de ciertos elementos**/
                 btnTitulo.setText(getString(Constants.TITLE_FORM_ACTION.get(_MAIN_DECODE.getAccionFragmento())));
+                fabPerfil.setVisibility(View.VISIBLE);
+                bctPerfil.setVisibility(View.GONE);
                 break;
             default:
                 /**Modifica valores predeterminados de ciertos elementos**/
@@ -145,6 +161,9 @@ public class RegistroLoginClientesFragment extends Fragment implements View.OnCl
                 } else {
                     this.validationRegister();
                 }
+                break;
+            case R.id.btn_camara_registro_clientes:
+                this.dispatchTakePictureIntent();
                 break;
         }
     }
@@ -193,6 +212,7 @@ public class RegistroLoginClientesFragment extends Fragment implements View.OnCl
     private void createSimpleValidUser() {
 
         Clientes clientes = new Clientes();
+        Bitmap bitmap = null;
 
         clientes.setNombre(txtNombre.getText().toString().trim());
         clientes.setRFC(txtRFC.getText().toString().trim());
@@ -209,8 +229,14 @@ public class RegistroLoginClientesFragment extends Fragment implements View.OnCl
         clientes.setCorreoElectronico(txtEmail.getText().toString().trim());
         clientes.setPassword(txtPassword.getText().toString().trim());
 
+        if (CHANGE_PHOTO) {
+            bctPerfil.setDrawingCacheEnabled(true);
+            bctPerfil.buildDrawingCache();
+            bitmap = bctPerfil.getDrawingCache();
+        }
+
         /**metodo principal para crear usuario**/
-        activityInterface.createUserCliente(clientes);
+        activityInterface.createUserCliente(clientes,bitmap);
     }
 
     private void showQuestion() {
@@ -276,5 +302,27 @@ public class RegistroLoginClientesFragment extends Fragment implements View.OnCl
 
         spinnerMetodoPago.setAdapter(adapter);
         spinnerMetodoPago.setSelection(0);
+    }
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+
+            fabPerfil.setVisibility(View.GONE);
+            bctPerfil.setVisibility(View.VISIBLE);
+
+            bctPerfil.setImageBitmap(imageBitmap);
+
+            CHANGE_PHOTO = true;
+        }
     }
 }

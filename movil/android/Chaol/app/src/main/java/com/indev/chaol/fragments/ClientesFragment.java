@@ -158,7 +158,7 @@ public class ClientesFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.item_switch_activar_cliente:
                 Clientes cliente = (Clientes) decodeItem.getItemModel();
-                navigationDrawerInterface.updateUserCliente(cliente);
+                navigationDrawerInterface.updateUserCliente(cliente, null);
                 break;
         }
     }

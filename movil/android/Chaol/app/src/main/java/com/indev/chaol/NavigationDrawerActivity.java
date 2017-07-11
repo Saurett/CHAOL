@@ -1,5 +1,7 @@
 package com.indev.chaol;
 
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.PersistableBundle;
 import android.provider.Settings.Secure;
 import android.app.ProgressDialog;
@@ -27,6 +29,10 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -38,6 +44,9 @@ import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
 import com.indev.chaol.models.Administradores;
 import com.indev.chaol.models.Agendas;
@@ -53,10 +62,12 @@ import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
 import com.indev.chaol.utils.DateTimeUtils;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, NavigationDrawerInterface, DialogInterface.OnClickListener, DrawerLayout.DrawerListener {
@@ -83,7 +94,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference dbUsuarioValido;
     private ValueEventListener listenerSession;
-    private static String topics;
+    private FirebaseOptions opts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +124,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
         /**Obtiene la instancia compartida del objeto FirebaseAuth**/
         mAuth = FirebaseAuth.getInstance();
+        opts = FirebaseApp.getInstance().getOptions();
 
         switch (_SESSION_USER.getTipoDeUsuario()) {
             case Constants.FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR:
@@ -668,17 +680,17 @@ public class NavigationDrawerActivity extends AppCompatActivity
     }
 
     @Override
-    public void updateUserCliente(Clientes cliente) {
+    public void updateUserCliente(Clientes cliente, Bitmap bitmap) {
         pDialog = new ProgressDialog(NavigationDrawerActivity.this);
         pDialog.setMessage(getString(R.string.default_loading_msg));
         pDialog.setIndeterminate(false);
         pDialog.setCancelable(false);
         pDialog.show();
 
-        this.firebaseUpdateCliente(cliente);
+        this.firebaseUpdateCliente(cliente, bitmap);
     }
 
-    private void firebaseUpdateCliente(Clientes cliente) {
+    private void firebaseUpdateCliente(final Clientes cliente, final Bitmap bitmap) {
         FirebaseUser user = mAuth.getCurrentUser();
 
         String firebaseID = (cliente.getFirebaseId() == null) ? user.getUid() : cliente.getFirebaseId();
@@ -697,16 +709,68 @@ public class NavigationDrawerActivity extends AppCompatActivity
         dbCliente.child(cliente.getFirebaseId()).child(Constants.FB_KEY_ITEM_CLIENTE).setValue(cliente, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                pDialog.dismiss();
+
+                if (null == bitmap) pDialog.dismiss();
 
                 if (databaseError == null) {
-                    Toast.makeText(getApplicationContext(),
-                            "Actualizado correctamente...", Toast.LENGTH_SHORT).show();
+
+                    if (null != bitmap) {
+                        updatePictureCliente(cliente, bitmap);
+                    } else {
+                        Toast.makeText(getApplicationContext(),
+                                "Actualizado correctamente...", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
 
         Log.i(TAG, "firebaseUpdateCliente: Actualizado correctamente" + user.getUid());
+    }
+
+    private void updatePictureCliente(final Clientes cliente, Bitmap bitmap) {
+
+        StorageReference storage = FirebaseStorage.getInstance().getReferenceFromUrl("gs://" + opts.getStorageBucket());
+        String fileName = cliente.getFirebaseId() + ".jpg";
+        /** Create a reference to 'fileName'**/
+        final StorageReference mountainImagesRef = storage.child("FotosDePerfil/" + fileName);
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        UploadTask uploadTask = mountainImagesRef.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                pDialog.dismiss();
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                cliente.setImagenURL(mountainImagesRef.toString());
+
+                /**obtiene la instancia como cliente**/
+                DatabaseReference dbCliente =
+                        FirebaseDatabase.getInstance().getReference()
+                                .child(Constants.FB_KEY_MAIN_CLIENTES)
+                                .child(cliente.getFirebaseId())
+                                .child(Constants.FB_KEY_ITEM_CLIENTE);
+
+                cliente.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
+
+                Map<String, Object> actualizar = new HashMap<>();
+
+                actualizar.put("imagenURL", cliente.getImagenURL());
+                actualizar.put("fechaDeEdicion", DateTimeUtils.getTimeStamp());
+
+                dbCliente.updateChildren(actualizar);
+
+                pDialog.dismiss();
+
+                Toast.makeText(getApplicationContext(),
+                        "Actualizado correctamente...", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -775,17 +839,17 @@ public class NavigationDrawerActivity extends AppCompatActivity
     }
 
     @Override
-    public void updateUserChofer(Choferes chofer) {
+    public void updateUserChofer(Choferes chofer, Bitmap bitmap) {
         pDialog = new ProgressDialog(NavigationDrawerActivity.this);
         pDialog.setMessage(getString(R.string.default_loading_msg));
         pDialog.setIndeterminate(false);
         pDialog.setCancelable(false);
         pDialog.show();
 
-        this.firebaseUpdateChofer(chofer);
+        this.firebaseUpdateChofer(chofer, bitmap);
     }
 
-    private void firebaseUpdateChofer(final Choferes chofer) {
+    private void firebaseUpdateChofer(final Choferes chofer, final Bitmap bitmap) {
 
         FirebaseUser user = mAuth.getCurrentUser();
 
@@ -823,11 +887,16 @@ public class NavigationDrawerActivity extends AppCompatActivity
                             .child(Constants.FB_KEY_ITEM_CHOFER).child(chofer.getFirebaseId()).setValue(chofer, new DatabaseReference.CompletionListener() {
                         @Override
                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                            pDialog.dismiss();
+
+                            if (null == bitmap) pDialog.dismiss();
 
                             if (databaseError == null) {
-                                Toast.makeText(getApplicationContext(),
-                                        "Actualizado correctamente...", Toast.LENGTH_SHORT).show();
+                                if (null != bitmap) {
+                                    updatePictureChofer(chofer, bitmap);
+                                } else {
+                                    Toast.makeText(getApplicationContext(),
+                                            "Actualizado correctamente...", Toast.LENGTH_SHORT).show();
+                                }
                             }
                         }
                     });
@@ -837,6 +906,57 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
         Log.i(TAG, "firebaseRegistroChoferes: Actualizado correctamente" + user.getUid());
 
+    }
+
+    private void updatePictureChofer(final Choferes chofer, Bitmap bitmap) {
+        StorageReference storage = FirebaseStorage.getInstance().getReferenceFromUrl("gs://" + opts.getStorageBucket());
+        String fileName = chofer.getFirebaseId() + ".jpg";
+        /** Create a reference to 'fileName'**/
+        final StorageReference mountainImagesRef = storage.child("FotosDePerfil/" + fileName);
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        UploadTask uploadTask = mountainImagesRef.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                pDialog.dismiss();
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                chofer.setImagenURL(mountainImagesRef.toString());
+
+                /**obtiene la instancia como cliente**/
+                DatabaseReference dbCliente =
+                        FirebaseDatabase.getInstance().getReference()
+                                .child(Constants.FB_KEY_MAIN_CHOFERES)
+                                .child(chofer.getFirebaseId());
+
+                chofer.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
+
+                DatabaseReference dbTransportista =
+                        FirebaseDatabase.getInstance().getReference()
+                                .child(Constants.FB_KEY_MAIN_TRANSPORTISTAS)
+                                .child(chofer.getFirebaseIdDelTransportista())
+                                .child(Constants.FB_KEY_ITEM_CHOFER).child(chofer.getFirebaseId());
+
+                Map<String, Object> actualizar = new HashMap<>();
+
+                actualizar.put("imagenURL", chofer.getImagenURL());
+                actualizar.put("fechaDeEdicion", DateTimeUtils.getTimeStamp());
+
+                dbCliente.updateChildren(actualizar);
+                dbTransportista.updateChildren(actualizar);
+
+                pDialog.dismiss();
+
+                Toast.makeText(getApplicationContext(),
+                        "Actualizado correctamente...", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

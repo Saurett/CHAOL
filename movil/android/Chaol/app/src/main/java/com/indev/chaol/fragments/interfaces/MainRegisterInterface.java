@@ -1,5 +1,7 @@
 package com.indev.chaol.fragments.interfaces;
 
+import android.graphics.Bitmap;
+
 import com.indev.chaol.models.Administradores;
 import com.indev.chaol.models.Bodegas;
 import com.indev.chaol.models.Choferes;
@@ -32,11 +34,11 @@ public interface MainRegisterInterface {
     /**Permite crear usuarios tipo colaboradores**/
     void createUserColaborador(Administradores colaborador);
     /**Permite crear usuarios tipo cliente**/
-    void createUserCliente(Clientes cliente);
+    void createUserCliente(Clientes cliente, Bitmap bitmap);
     /**Permite crear usuarios tipo transportista**/
     void createUserTransportista(Transportistas transportista);
     /**Permite crear usuarios tipo chofer**/
-    void createUserChofer(Choferes chofer);
+    void createUserChofer(Choferes chofer, Bitmap bitmap);
     /**Permite crear tractores**/
     void createTractores(Tractores tractor);
     /**Permite editar tractores**/
@@ -52,11 +54,11 @@ public interface MainRegisterInterface {
     /**Permite editar administrador**/
     void updateAdministrador(Administradores colaborador);
     /**Permite editar clientes**/
-    void updateCliente(Clientes cliente);
+    void updateCliente(Clientes cliente, Bitmap bitmap);
     /**Permite editar bodegas**/
     void updateTransportista(Transportistas transportista);
     /**Permite editar bodegas**/
-    void updateChofer(Choferes chofer);
+    void updateChofer(Choferes chofer,Bitmap bitmap);
     /**Permite crear la solicitud de cotizacion**/
     void createSolicitudCotizacion(Fletes flete, Bodegas _bodegaCargaActual, Bodegas _bodegaDescargaActual);
     /**Permite actualizar la solicitud de cotizacion**/

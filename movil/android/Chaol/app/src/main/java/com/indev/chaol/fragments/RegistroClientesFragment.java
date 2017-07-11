@@ -3,10 +3,12 @@ package com.indev.chaol.fragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -46,6 +48,8 @@ import com.indev.chaol.utils.Constants;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
+
 
 /**
  * Created by saurett on 24/02/2017.
@@ -55,8 +59,11 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
 
     private static final String TAG = RegistroClientesFragment.class.getName();
 
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    private Boolean CHANGE_PHOTO = false;
+
     private BootstrapCircleThumbnail bctPerfil;
-    private Button btnTitulo;
+    private Button btnTitulo, btnCamara;
     private EditText txtNombre, txtRFC, txtEstado, txtCiudad, txtColonia, txtCodigoPostal, txtCalle, txtNumInt, txtNumExt, txtTelefono, txtCelular, txtCorreoElectronico, txtPassword;
     private LinearLayout linearLayoutPassword;
     private Spinner spinnerMetodoPago;
@@ -86,6 +93,7 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
 
         bctPerfil = (BootstrapCircleThumbnail) view.findViewById(R.id.bct_cliente_perfil);
         btnTitulo = (Button) view.findViewById(R.id.btn_titulo_clientes);
+        btnCamara = (Button) view.findViewById(R.id.btn_camara_registro_clientes);
         txtNombre = (EditText) view.findViewById(R.id.txt_clientes_nombre);
         txtRFC = (EditText) view.findViewById(R.id.txt_clientes_rfc);
         txtEstado = (EditText) view.findViewById(R.id.txt_clientes_estado);
@@ -108,6 +116,7 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
         fabPerfil = (FloatingActionButton) view.findViewById(R.id.fab_img_cliente_perfil);
 
         fabClientes.setOnClickListener(this);
+        btnCamara.setOnClickListener(this);
 
         spinnerMetodoPago.setOnItemSelectedListener(this);
 
@@ -153,6 +162,8 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
             case Constants.ACCION_REGISTRAR:
                 /**Modifica valores predeterminados de ciertos elementos**/
                 btnTitulo.setText(getString(Constants.TITLE_FORM_ACTION.get(_MAIN_DECODE.getAccionFragmento())));
+                fabPerfil.setVisibility(View.VISIBLE);
+                bctPerfil.setVisibility(View.GONE);
                 break;
             default:
                 /**Modifica valores predeterminados de ciertos elementos**/
@@ -312,6 +323,9 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
                     this.validationRegister();
                 }
                 break;
+            case R.id.btn_camara_registro_clientes:
+                this.dispatchTakePictureIntent();
+                break;
         }
     }
 
@@ -382,6 +396,7 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
 
     private void createSimpleValidUser() {
         Clientes clientes = new Clientes();
+        Bitmap bitmap = null;
 
         clientes.setNombre(txtNombre.getText().toString().trim());
         clientes.setRFC(txtRFC.getText().toString().trim());
@@ -398,13 +413,20 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
         clientes.setCorreoElectronico(txtCorreoElectronico.getText().toString().trim());
         clientes.setPassword(txtPassword.getText().toString().trim());
 
+        if (CHANGE_PHOTO) {
+            bctPerfil.setDrawingCacheEnabled(true);
+            bctPerfil.buildDrawingCache();
+            bitmap = bctPerfil.getDrawingCache();
+        }
+
         /**metodo principal para crear usuario**/
-        activityInterface.createUserCliente(clientes);
+        activityInterface.createUserCliente(clientes,bitmap);
     }
 
     private void updateUserCliente() {
 
         Clientes cliente = new Clientes();
+        Bitmap bitmap = null;
 
         cliente.setNombre(txtNombre.getText().toString().trim());
         cliente.setRFC(txtRFC.getText().toString().trim());
@@ -425,8 +447,14 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
         cliente.setFechaDeCreacion(_clienteActual.getFechaDeCreacion());
         cliente.setEstatus(_clienteActual.getEstatus());
 
+        if (CHANGE_PHOTO) {
+            bctPerfil.setDrawingCacheEnabled(true);
+            bctPerfil.buildDrawingCache();
+            bitmap = bctPerfil.getDrawingCache();
+        }
+
         /**metodo principal para actualizar usuario**/
-        activityInterface.updateCliente(cliente);
+        activityInterface.updateCliente(cliente, bitmap);
     }
 
     private void showQuestion() {
@@ -457,5 +485,27 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+
+            fabPerfil.setVisibility(View.GONE);
+            bctPerfil.setVisibility(View.VISIBLE);
+
+            bctPerfil.setImageBitmap(imageBitmap);
+
+            CHANGE_PHOTO = true;
+        }
     }
 }

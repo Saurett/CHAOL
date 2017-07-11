@@ -3,9 +3,12 @@ package com.indev.chaol.fragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -22,6 +25,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.beardedhen.androidbootstrap.BootstrapCircleThumbnail;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,6 +41,8 @@ import com.indev.chaol.utils.Constants;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
+
 
 /**
  * Created by saurett on 24/02/2017.
@@ -46,10 +52,14 @@ public class RegistroLoginChoferesFragment extends Fragment implements View.OnCl
 
     private static final String TAG = RegistroLoginChoferesFragment.class.getName();
 
-    private Button btnTitulo;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    private Boolean CHANGE_PHOTO = false;
+
+    private BootstrapCircleThumbnail bctPerfil;
+    private Button btnTitulo, btnCamara;
     private EditText txtNombre, txtNumeroLicencia, txtNSS, txtCURP, txtEstado, txtCiudad, txtColonia, txtCodigoPostal, txtCalle, txtNumInt, txtNumExt, txtTelefono, txtCelular1, txtCelular2, txtCorreoElectronico, txtPassword;
     private Spinner spinnerEmpresa;
-    private FloatingActionButton fabChoferes;
+    private FloatingActionButton fabChoferes, fabPerfil;
     private ProgressDialog pDialog;
 
     private static List<String> transportistasList;
@@ -66,7 +76,11 @@ public class RegistroLoginChoferesFragment extends Fragment implements View.OnCl
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_registro_choferes, container, false);
 
+        _MAIN_DECODE = (DecodeExtraParams) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
+
+        bctPerfil = (BootstrapCircleThumbnail) view.findViewById(R.id.bct_chofer_perfil);
         btnTitulo = (Button) view.findViewById(R.id.btn_titulo_choferes);
+        btnCamara = (Button) view.findViewById(R.id.btn_camara_registro_choferes);
         txtNombre = (EditText) view.findViewById(R.id.txt_choferes_nombre);
         txtNumeroLicencia = (EditText) view.findViewById(R.id.txt_choferes_licencia);
         txtNSS = (EditText) view.findViewById(R.id.txt_choferes_nss);
@@ -140,11 +154,11 @@ public class RegistroLoginChoferesFragment extends Fragment implements View.OnCl
         });
 
         fabChoferes = (FloatingActionButton) view.findViewById(R.id.fab_choferes);
+        fabPerfil = (FloatingActionButton) view.findViewById(R.id.fab_img_chofer_perfil);
 
         fabChoferes.setOnClickListener(this);
         spinnerEmpresa.setOnItemSelectedListener(this);
-
-        _MAIN_DECODE = (DecodeExtraParams) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
+        btnCamara.setOnClickListener(this);
 
         this.onPreRender();
 
@@ -189,6 +203,8 @@ public class RegistroLoginChoferesFragment extends Fragment implements View.OnCl
             case Constants.ACCION_REGISTRAR:
                 /**Modifica valores predeterminados de ciertos elementos**/
                 btnTitulo.setText(getString(Constants.TITLE_FORM_ACTION.get(_MAIN_DECODE.getAccionFragmento())));
+                fabPerfil.setVisibility(View.VISIBLE);
+                bctPerfil.setVisibility(View.GONE);
                 break;
             default:
                 /**Modifica valores predeterminados de ciertos elementos**/
@@ -236,6 +252,9 @@ public class RegistroLoginChoferesFragment extends Fragment implements View.OnCl
                     this.validationRegister();
                 }
                 break;
+            case R.id.btn_camara_registro_choferes:
+                this.dispatchTakePictureIntent();
+                break;
         }
     }
 
@@ -278,6 +297,7 @@ public class RegistroLoginChoferesFragment extends Fragment implements View.OnCl
     private void createSimpleValidUser() {
 
         Choferes chofer = new Choferes();
+        Bitmap bitmap = null;
 
         chofer.setNombre(txtNombre.getText().toString().trim());
         chofer.setNumeroDeLicencia(txtNumeroLicencia.getText().toString().trim());
@@ -298,8 +318,14 @@ public class RegistroLoginChoferesFragment extends Fragment implements View.OnCl
 
         chofer.setFirebaseIdDelTransportista(getSelectTransportista());
 
+        if (CHANGE_PHOTO) {
+            bctPerfil.setDrawingCacheEnabled(true);
+            bctPerfil.buildDrawingCache();
+            bitmap = bctPerfil.getDrawingCache();
+        }
+
         /**metodo principal para crear usuario**/
-        activityInterface.createUserChofer(chofer);
+        activityInterface.createUserChofer(chofer, bitmap);
     }
 
     private void showQuestion() {
@@ -333,5 +359,27 @@ public class RegistroLoginChoferesFragment extends Fragment implements View.OnCl
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+
+            fabPerfil.setVisibility(View.GONE);
+            bctPerfil.setVisibility(View.VISIBLE);
+
+            bctPerfil.setImageBitmap(imageBitmap);
+
+            CHANGE_PHOTO = true;
+        }
     }
 }
