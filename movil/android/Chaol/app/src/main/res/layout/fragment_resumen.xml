@@ -1,0 +1,975 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@null"
+    android:clipToPadding="false"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_resumen_fletes"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/colorPanelRegistroFletes"
+            android:text="RESUMEN"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimaryText" />
+
+        <LinearLayout
+            android:id="@+id/resumen_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/item_resumen_cliente"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="20dp">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center|end"
+                    android:layout_marginLeft="2dp"
+                    android:layout_weight="1"
+                    android:text="Cliente"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/txt_resumen_cliente"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:hint="Cliente"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textSize="14sp"
+                    android:theme="@style/AppTheme.Form" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight="1"
+                    android:text="Fecha Salida"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/txt_resumen_fecha_salida"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:drawableRight="@mipmap/ic_date_range_white_18dp"
+                    android:drawableTint="@color/colorPrimary"
+                    android:editable="false"
+                    android:hint="Fecha salida"
+                    android:inputType="none"
+                    android:maxLines="1"
+                    android:textSize="14sp"
+                    android:theme="@style/AppTheme.Form" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight="1"
+                    android:text="Hora Salida"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/txt_resumen_hora_salida"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:drawableRight="@mipmap/ic_access_time_white_18dp"
+                    android:drawableTint="@color/colorPrimary"
+                    android:editable="false"
+                    android:hint="Hora salida"
+                    android:inputType="none"
+                    android:maxLines="1"
+                    android:textSize="14sp"
+                    android:theme="@style/AppTheme.Form" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/item_resumen_bodega_carga"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="20dp">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center|end"
+                    android:layout_marginLeft="2dp"
+                    android:layout_weight="1"
+                    android:text="Bodega de Carga"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14sp" />
+
+                <Spinner
+                    android:id="@+id/spinner_resumen_bodega_carga"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:maxLines="1"
+                    android:theme="@style/AppTheme.Form" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="20dp">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center|end"
+                    android:layout_marginLeft="2dp"
+                    android:layout_weight="1"
+                    android:text="Estado"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14sp" />
+
+                <Spinner
+                    android:id="@+id/spinner_resumen_origen_estado"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:maxLines="1"
+                    android:theme="@style/AppTheme.Form" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight="1"
+                    android:text="Ciudad"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/txt_resumen_ciudad_carga"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:hint="Ciudad"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textSize="14sp"
+                    android:theme="@style/AppTheme.Form" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight="1"
+                    android:text="Colonia"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/txt_resumen_colonia_carga"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:hint="Colonia"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textSize="14sp"
+                    android:theme="@style/AppTheme.Form" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight="1"
+                    android:text="Codigo Postal"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/txt_resumen_codigo_postal_carga"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:hint="Codigo Postal"
+                    android:inputType="number"
+                    android:maxLength="5"
+                    android:maxLines="1"
+                    android:textSize="14sp"
+                    android:theme="@style/AppTheme.Form" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight="1"
+                    android:text="Calle"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/txt_resumen_calle_carga"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:hint="Calle"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textSize="14sp"
+                    android:theme="@style/AppTheme.Form" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight="1"
+                    android:text="Número Interior"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/txt_resumen_num_int_carga"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:hint="Número Interior"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textSize="14sp"
+                    android:theme="@style/AppTheme.Form" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight="1"
+                    android:text="Número Exterior"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/txt_resumen_num_ext_carga"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:hint="Número Exterior"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textSize="14sp"
+                    android:theme="@style/AppTheme.Form" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight="1"
+                    android:text="Precio"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/txt_resumen_cotizacion"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:hint="Precio"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textSize="14sp"
+                    android:theme="@style/AppTheme.Form" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Embarque"
+                    android:textAlignment="center"
+                    android:textSize="20dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_margin="5dp"
+                    android:background="@color/colorPrimaryDark" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight="1"
+                    android:text="Carga"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/txt_resumen_carga"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:hint="Carga"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textSize="14sp"
+                    android:theme="@style/AppTheme.Form" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/item_resumen_bodega_descarga"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="20dp">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center|end"
+                    android:layout_marginLeft="2dp"
+                    android:layout_weight="1"
+                    android:text="Bodega de descarga"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14sp" />
+
+                <Spinner
+                    android:id="@+id/spinner_resumen_bodega_descarga"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:maxLines="1"
+                    android:theme="@style/AppTheme.Form" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="20dp">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center|end"
+                    android:layout_marginLeft="2dp"
+                    android:layout_weight="1"
+                    android:text="Estado"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14sp" />
+
+                <Spinner
+                    android:id="@+id/spinner_resumen_destino_estado"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:maxLines="1"
+                    android:theme="@style/AppTheme.Form" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight="1"
+                    android:text="Ciudad"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/txt_resumen_ciudad_destino"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:hint="Ciudad"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textSize="14sp"
+                    android:theme="@style/AppTheme.Form" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight="1"
+                    android:text="Colonia"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/txt_resumen_colonia_destino"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:hint="Colonia"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textSize="14sp"
+                    android:theme="@style/AppTheme.Form" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight="1"
+                    android:text="Codigo Postal"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/txt_resumen_codigo_postal_destino"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:hint="Codigo Postal"
+                    android:inputType="number"
+                    android:maxLength="5"
+                    android:maxLines="1"
+                    android:textSize="14sp"
+                    android:theme="@style/AppTheme.Form" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight="1"
+                    android:text="Calle"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/txt_resumen_calle_destino"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:hint="Calle"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textSize="14sp"
+                    android:theme="@style/AppTheme.Form" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight="1"
+                    android:text="Número Interior"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/txt_resumen_num_int_destino"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:hint="Número Interior"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textSize="14sp"
+                    android:theme="@style/AppTheme.Form" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight="1"
+                    android:text="Número Exterior"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/txt_resumen_num_ext_destino"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:hint="Número Exterior"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textSize="14sp"
+                    android:theme="@style/AppTheme.Form" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Transportista"
+                    android:textAlignment="center"
+                    android:textSize="20dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_margin="5dp"
+                    android:background="@color/colorPrimaryDark" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight="1"
+                    android:text="Transportista"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/txt_resumen_transportista"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:hint="Transportista"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textSize="14sp"
+                    android:theme="@style/AppTheme.Form" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight="1"
+                    android:text="Chofer"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/txt_resumen_chofer"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:hint="Chofer"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textSize="14sp"
+                    android:theme="@style/AppTheme.Form" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight="1"
+                    android:text="Número de licencia"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/txt_resumen_licencia"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:hint="Número de licencia"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textSize="14sp"
+                    android:theme="@style/AppTheme.Form" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight="1"
+                    android:text="Tractor"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/txt_resumen_tractor"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:hint="Tractor"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textSize="14sp"
+                    android:theme="@style/AppTheme.Form" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight="1"
+                    android:text="Placas"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/txt_resumen_placas_tractor"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:hint="Placas"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textSize="14sp"
+                    android:theme="@style/AppTheme.Form" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight="1"
+                    android:text="Remolque"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/txt_resumen_remolque"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:hint="Remolque"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textSize="14sp"
+                    android:theme="@style/AppTheme.Form" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight="1"
+                    android:text="Placas"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/txt_resumen_remolque_placas"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:hint="Placas"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textSize="14sp"
+                    android:theme="@style/AppTheme.Form" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

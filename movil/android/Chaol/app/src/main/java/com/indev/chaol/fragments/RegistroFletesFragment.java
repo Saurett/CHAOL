@@ -32,7 +32,7 @@ public class RegistroFletesFragment extends Fragment implements View.OnClickList
     private Button btnTitulo;
     private static BootstrapProgressBar fleteProgressBar;
     private MainRegisterInterface activityInterface;
-    private static FrameLayout frameCotizacion, frameAsignacion, frameEquipo, frameProceso;
+    private static FrameLayout frameResumen, frameCotizacion, frameAsignacion, frameEquipo, frameProceso;
 
     private static DecodeExtraParams _MAIN_DECODE = new DecodeExtraParams();
 
@@ -42,6 +42,7 @@ public class RegistroFletesFragment extends Fragment implements View.OnClickList
 
         _MAIN_DECODE = (DecodeExtraParams) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
 
+        frameResumen = (FrameLayout) view.findViewById(R.id.fragment_resumen_container);
         frameCotizacion = (FrameLayout) view.findViewById(R.id.fragment_cotizacion_container);
         frameAsignacion = (FrameLayout) view.findViewById(R.id.fragment_asignacion_container);
         frameEquipo = (FrameLayout) view.findViewById(R.id.fragment_equipo_container);
@@ -55,6 +56,7 @@ public class RegistroFletesFragment extends Fragment implements View.OnClickList
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction mainFragment = fragmentManager.beginTransaction();
 
+        mainFragment.replace(R.id.fragment_resumen_container, new ResumenFragment(), Constants.RESUMEN_CONTAINER);
         mainFragment.replace(R.id.fragment_datos_generales_container, new FletesDatosGeneralesFragment(), Constants.DATOS_GENERALES_FLETES_CONTAINER);
         mainFragment.replace(R.id.fragment_cotizacion_container, new FletesCotizacionFragment(), Constants.COTIZACION_FLETES_CONTAINER);
         mainFragment.replace(R.id.fragment_asignacion_container, new FletesAsignacionFragment(), Constants.ASIGNACION_FLETES_CONTAINER);
@@ -140,6 +142,8 @@ public class RegistroFletesFragment extends Fragment implements View.OnClickList
     public static void setFleteProgressBar(int progress) {
         fleteProgressBar.setProgress(progress);
     }
+
+    public static void setFrameResumen(int visible) { frameResumen.setVisibility(visible);}
 
     public static void setFrameCotizacion(int visible) { frameCotizacion.setVisibility(visible);}
 

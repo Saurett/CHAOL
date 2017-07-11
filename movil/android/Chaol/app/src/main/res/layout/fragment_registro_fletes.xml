@@ -50,6 +50,13 @@
             android:orientation="vertical">
 
             <FrameLayout
+                android:id="@+id/fragment_resumen_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:background="@null"/>
+
+            <FrameLayout
                 android:id="@+id/fragment_datos_generales_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

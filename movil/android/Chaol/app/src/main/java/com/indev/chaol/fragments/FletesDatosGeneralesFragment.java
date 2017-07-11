@@ -211,7 +211,6 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
         txtNumExtCarga.setTag(txtNumExtCarga.getKeyListener());
         txtNumExtCarga.setKeyListener(null);
 
-        spinnerBodegaDescarga.setEnabled(false);
         spinnerDestinoEstado.setEnabled(false);
 
         txtCiudadDescarga.setTag(txtCiudadDescarga.getKeyListener());

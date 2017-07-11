@@ -188,6 +188,7 @@ public final class Constants {
     public static final String PANEL_REMOLQUES_CONTAINER = "panel_remolques_container";
 
     /**Fragmentos para registro de fletes**/
+    public static final String RESUMEN_CONTAINER = "resumen_container";
     public static final String DATOS_GENERALES_FLETES_CONTAINER = "datos_generales_fletes_container";
     public static final String COTIZACION_FLETES_CONTAINER = "cotizacion_fletes_container";
     public static final String ASIGNACION_FLETES_CONTAINER = "asignacion_fletes_container";
@@ -199,6 +200,7 @@ public final class Constants {
     public static final List<String>  FLETES_TAG_FRAGMENTS;
     static {
         FLETES_TAG_FRAGMENTS = new ArrayList<>();
+        FLETES_TAG_FRAGMENTS.add(RESUMEN_CONTAINER);
         FLETES_TAG_FRAGMENTS.add(DATOS_GENERALES_FLETES_CONTAINER);
         FLETES_TAG_FRAGMENTS.add(COTIZACION_FLETES_CONTAINER);
         FLETES_TAG_FRAGMENTS.add(ASIGNACION_FLETES_CONTAINER);
