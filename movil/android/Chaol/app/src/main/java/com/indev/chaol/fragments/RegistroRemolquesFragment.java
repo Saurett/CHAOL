@@ -367,7 +367,7 @@ public class RegistroRemolquesFragment extends Fragment implements View.OnClickL
         remolque.setNumeroDeSerie(txtNumSerie.getText().toString().trim());
         remolque.setPlaca(txtPlaca.getText().toString().trim());
         remolque.setIdGPS(txtIdGPS.getText().toString().trim());
-        remolque.setTipoRemolque(spinnerTipoRemolque.getSelectedItem().toString());
+        remolque.setTipoDeRemolque(spinnerTipoRemolque.getSelectedItem().toString());
 
         remolque.setFirebaseIdDelTransportista(getSelectTransportista());
 
@@ -385,7 +385,7 @@ public class RegistroRemolquesFragment extends Fragment implements View.OnClickL
         remolque.setNumeroDeSerie(txtNumSerie.getText().toString().trim());
         remolque.setPlaca(txtPlaca.getText().toString().trim());
         remolque.setIdGPS(txtIdGPS.getText().toString().trim());
-        remolque.setTipoRemolque(spinnerTipoRemolque.getSelectedItem().toString());
+        remolque.setTipoDeRemolque(spinnerTipoRemolque.getSelectedItem().toString());
 
         remolque.setFechaDeCreacion(_remolqueActual.getFechaDeCreacion());
         remolque.setFirebaseId(_remolqueActual.getFirebaseId());
@@ -510,7 +510,7 @@ public class RegistroRemolquesFragment extends Fragment implements View.OnClickL
                 Remolques remolque = (Remolques) _MAIN_DECODE.getDecodeItem().getItemModel();
                 for (TiposRemolques tipoRemolque : tiposRemolques) {
                     item++;
-                    if (tipoRemolque.getTipoRemolque().equals(remolque.getTipoRemolque())) {
+                    if (tipoRemolque.getTipoRemolque().equals(remolque.getTipoDeRemolque())) {
                         break;
                     }
                 }
@@ -519,7 +519,7 @@ public class RegistroRemolquesFragment extends Fragment implements View.OnClickL
             Remolques remolque = (Remolques) _MAIN_DECODE.getDecodeItem().getItemModel();
             for (TiposRemolques tipoRemolque : tiposRemolques) {
                 item++;
-                if (tipoRemolque.getTipoRemolque().equals(remolque.getTipoRemolque())) {
+                if (tipoRemolque.getTipoRemolque().equals(remolque.getTipoDeRemolque())) {
                     break;
                 }
             }

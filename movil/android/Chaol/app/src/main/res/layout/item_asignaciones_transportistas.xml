@@ -52,6 +52,15 @@
                 android:background="@mipmap/ic_done_white_48dp"
                 android:backgroundTint="@color/colorAccent" />
 
+            <Button
+                android:id="@+id/item_btn_eliminar_asinacion_transportista"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@mipmap/ic_delete_white_48dp"
+                android:backgroundTint="@color/colorAccent" />
+
 
         </LinearLayout>
 

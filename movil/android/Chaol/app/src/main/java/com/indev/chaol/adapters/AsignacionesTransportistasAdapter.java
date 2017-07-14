@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.indev.chaol.R;
 import com.indev.chaol.fragments.AsignacionTransportistasFragment;
-import com.indev.chaol.fragments.TransportistasFragment;
 import com.indev.chaol.models.DecodeItem;
 import com.indev.chaol.models.Transportistas;
 import com.indev.chaol.utils.Constants;
@@ -33,6 +32,7 @@ public class AsignacionesTransportistasAdapter extends RecyclerView.Adapter<Asig
         Button btnPerfil;
         Button btnAutorizar;
         Button btnAutorizado;
+        Button btnEliminado;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -41,6 +41,8 @@ public class AsignacionesTransportistasAdapter extends RecyclerView.Adapter<Asig
             btnPerfil = (Button) itemView.findViewById(R.id.item_btn_perfil_asignacion_transportista);
             btnAutorizar = (Button) itemView.findViewById(R.id.item_btn_autorizar_asinacion_transportista);
             btnAutorizado = (Button) itemView.findViewById(R.id.item_btn_autorizado_transportista);
+            btnEliminado = (Button) itemView.findViewById(R.id.item_btn_eliminar_asinacion_transportista);
+
         }
     }
 
@@ -102,6 +104,14 @@ public class AsignacionesTransportistasAdapter extends RecyclerView.Adapter<Asig
             }
         });
         holder.btnAutorizar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                decodeItem.setIdView(view.getId());
+                AsignacionTransportistasFragment.onListenerAction(decodeItem);
+            }
+        });
+
+        holder.btnEliminado.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 decodeItem.setIdView(view.getId());

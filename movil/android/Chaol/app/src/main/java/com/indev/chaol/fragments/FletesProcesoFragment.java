@@ -85,8 +85,6 @@ public class FletesProcesoFragment extends Fragment implements View.OnClickListe
 
         RegistroFletesFragment.setFrameProgreso(View.GONE);
 
-        this.onPreRender();
-
         return view;
     }
 
@@ -98,6 +96,8 @@ public class FletesProcesoFragment extends Fragment implements View.OnClickListe
     @Override
     public void onStart() {
         super.onStart();
+
+        this.onPreRender();
     }
 
     @Override
@@ -207,7 +207,8 @@ public class FletesProcesoFragment extends Fragment implements View.OnClickListe
                         btnRecibido.setVisibility(View.GONE);
 
                         switch (_SESSION_USER.getTipoDeUsuario()) {
-                            case Constants.FB_KEY_ITEM_ADMINISTRADOR:
+                            case Constants.FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR:
+                            case Constants.FB_KEY_ITEM_TIPO_USUARIO_COLABORADOR:
                                 btnIniciar.setVisibility(View.VISIBLE);
                                 break;
                             case Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA:
@@ -237,8 +238,13 @@ public class FletesProcesoFragment extends Fragment implements View.OnClickListe
                         btnRecibido.setVisibility(View.GONE);
 
                         switch (_SESSION_USER.getTipoDeUsuario()) {
-                            case Constants.FB_KEY_ITEM_ADMINISTRADOR:
+                            case Constants.FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR:
+                            case Constants.FB_KEY_ITEM_TIPO_USUARIO_COLABORADOR:
                                 btnEntregado.setVisibility(View.VISIBLE);
+                                btnRecibido.setVisibility(View.VISIBLE);
+                                break;
+                            case Constants.FB_KEY_ITEM_TIPO_USUARIO_CLIENTE:
+                                btnRecibido.setVisibility(View.VISIBLE);
                                 break;
                             case Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA:
                                 Transportistas transportista = _mainFletesActual.getTransportistaSeleccionado();
@@ -456,7 +462,7 @@ public class FletesProcesoFragment extends Fragment implements View.OnClickListe
                 switch (remolque.getEstatus()) {
                     case Constants.FB_KEY_ITEM_ESTATUS_ACTIVO:
                     case Constants.FB_KEY_ITEM_ESTATUS_LIBRE:
-                        remolque.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_LIBRE);
+                        remolque.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_ASIGNADO);
                         _mainFletesActual.setRemolqueSeleccionado(remolque);
                         completeUpdate();
                         break;
@@ -520,12 +526,18 @@ public class FletesProcesoFragment extends Fragment implements View.OnClickListe
 
 
     private void validationRecibido() {
-        Boolean authorized = true;
+        Boolean authorized;
 
         String estatus = _mainFletesActual.getFlete().getEstatus();
 
-        if (!estatus.equals(Constants.FB_KEY_ITEM_STATUS_ENTREGADO)) {
-            authorized = false;
+        switch (estatus) {
+            case Constants.FB_KEY_ITEM_STATUS_EN_PROGRESO:
+            case Constants.FB_KEY_ITEM_STATUS_ENTREGADO:
+                authorized = true;
+                break;
+            default:
+                authorized = false;
+                break;
         }
 
         if (authorized) {
@@ -549,7 +561,11 @@ public class FletesProcesoFragment extends Fragment implements View.OnClickListe
     private void updateEntregado() {
         MainFletes mainFlete = _mainFletesActual;
         Fletes flete = _mainFletesActual.getFlete();
+
         flete.setEstatus(Constants.FB_KEY_ITEM_STATUS_ENTREGADO);
+        mainFlete.getChoferSeleccionado().setEstatus(Constants.FB_KEY_ITEM_ESTATUS_LIBRE);
+        mainFlete.getTractorSeleccionado().setEstatus(Constants.FB_KEY_ITEM_ESTATUS_LIBRE);
+        mainFlete.getRemolqueSeleccionado().setEstatus(Constants.FB_KEY_ITEM_ESTATUS_LIBRE);
         mainFlete.setFlete(flete);
 
         activityInterface.updateSolicitudEnvio(mainFlete);
@@ -558,10 +574,14 @@ public class FletesProcesoFragment extends Fragment implements View.OnClickListe
     private void updateRecibido() {
         MainFletes mainFlete = _mainFletesActual;
         Fletes flete = _mainFletesActual.getFlete();
+
+        if (flete.getEstatus().equals(Constants.FB_KEY_ITEM_STATUS_EN_PROGRESO)) {
+            mainFlete.getChoferSeleccionado().setEstatus(Constants.FB_KEY_ITEM_ESTATUS_LIBRE);
+            mainFlete.getTractorSeleccionado().setEstatus(Constants.FB_KEY_ITEM_ESTATUS_LIBRE);
+            mainFlete.getRemolqueSeleccionado().setEstatus(Constants.FB_KEY_ITEM_ESTATUS_LIBRE);
+        }
+
         flete.setEstatus(Constants.FB_KEY_ITEM_STATUS_FINALIZADO);
-        mainFlete.getChoferSeleccionado().setEstatus(Constants.FB_KEY_ITEM_ESTATUS_LIBRE);
-        mainFlete.getTractorSeleccionado().setEstatus(Constants.FB_KEY_ITEM_ESTATUS_LIBRE);
-        mainFlete.getRemolqueSeleccionado().setEstatus(Constants.FB_KEY_ITEM_ESTATUS_LIBRE);
         mainFlete.setFlete(flete);
 
         activityInterface.updateSolicitudEnvio(mainFlete);

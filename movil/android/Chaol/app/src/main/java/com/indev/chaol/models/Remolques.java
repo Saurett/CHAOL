@@ -14,7 +14,7 @@ public class Remolques implements Serializable {
     private String numeroDeSerie;
     private String placa;
     private String IdGPS;
-    private String tipoRemolque;
+    private String tipoDeRemolque;
 
     private String firebaseId;
     private String firebaseIdDelTransportista;
@@ -27,14 +27,14 @@ public class Remolques implements Serializable {
 
     }
 
-    public Remolques(String numeroEconomico, String marca, String modelo, String numeroDeSerie, String placa, String idGPS, String tipoRemolque, String firebaseId, String firebaseIdDelTransportista, String estatus, Long fechaDeCreacion, Long fechaDeEdicion) {
+    public Remolques(String numeroEconomico, String marca, String modelo, String numeroDeSerie, String placa, String idGPS, String tipoDeRemolque, String firebaseId, String firebaseIdDelTransportista, String estatus, Long fechaDeCreacion, Long fechaDeEdicion) {
         this.numeroEconomico = numeroEconomico;
         this.marca = marca;
         this.modelo = modelo;
         this.numeroDeSerie = numeroDeSerie;
         this.placa = placa;
         this.IdGPS = idGPS;
-        this.tipoRemolque = tipoRemolque;
+        this.tipoDeRemolque = tipoDeRemolque;
         this.firebaseId = firebaseId;
         this.firebaseIdDelTransportista = firebaseIdDelTransportista;
         this.estatus = estatus;
@@ -90,12 +90,12 @@ public class Remolques implements Serializable {
         IdGPS = idGPS;
     }
 
-    public String getTipoRemolque() {
-        return tipoRemolque;
+    public String getTipoDeRemolque() {
+        return tipoDeRemolque;
     }
 
-    public void setTipoRemolque(String tipoRemolque) {
-        this.tipoRemolque = tipoRemolque;
+    public void setTipoDeRemolque(String tipoDeRemolque) {
+        this.tipoDeRemolque = tipoDeRemolque;
     }
 
     public String getFirebaseId() {

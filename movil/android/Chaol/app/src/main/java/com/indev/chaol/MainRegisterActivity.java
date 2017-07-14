@@ -16,7 +16,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
@@ -314,11 +313,11 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
     }
 
     @Override
-    public void showQuestion() {
+    public void showQuestion(String message) {
         AlertDialog.Builder ad = new AlertDialog.Builder(this);
 
-        ad.setTitle("Autorizar");
-        ad.setMessage("¿Esta seguro que desea autorizar transportista?");
+        ad.setTitle("Transportistas");
+        ad.setMessage(message);
         ad.setCancelable(false);
         ad.setNegativeButton("Cancelar", this);
         ad.setPositiveButton("Aceptar", this);
@@ -334,6 +333,9 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 switch (this.getDecodeItem().getIdView()) {
                     case R.id.item_btn_autorizar_asinacion_transportista:
                         operation = Constants.WS_KEY_AUTORIZAR_TRANSPORTISTAS;
+                        break;
+                    case R.id.item_btn_eliminar_asinacion_transportista:
+                        operation = Constants.WS_KEY_ELIMINAR_TRANSPORTISTAS;
                         break;
                 }
 
@@ -355,6 +357,12 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         switch (operation) {
             case Constants.WS_KEY_AUTORIZAR_TRANSPORTISTAS:
                 this.firebaseAutorizarTransportista();
+                break;
+            case Constants.WS_KEY_ELIMINAR_TRANSPORTISTAS:
+                this.firebaseEliminarTransportista();
+                break;
+            default:
+                pDialog.dismiss();
                 break;
         }
     }
@@ -588,6 +596,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         transportista.setContraseña(null);
         transportista.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_INACTIVO);
         transportista.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
+        transportista.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
 
         dbTransportista.child(user.getUid()).child(Constants.FB_KEY_ITEM_TRANSPORTISTA).setValue(transportista, new DatabaseReference.CompletionListener() {
             @Override
@@ -687,6 +696,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         chofer.setContraseña(null);
         chofer.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_INACTIVO);
         chofer.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
+        chofer.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
         chofer.setImagenURL("");
 
         dbChofer.child(chofer.getFirebaseId()).setValue(chofer, new DatabaseReference.CompletionListener() {
@@ -784,7 +794,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         tractor.setFirebaseId(remolqueKey);
         tractor.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_LIBRE);
         tractor.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
-        tractor.setFirebaseIdDelTransportista(null);
+        tractor.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
 
         dbTransportista.child(Constants.FB_KEY_MAIN_TRACTORES).child(tractor.getFirebaseId())
                 .setValue(tractor, new DatabaseReference.CompletionListener() {
@@ -825,7 +835,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         remolque.setFirebaseId(remolqueKey);
         remolque.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_LIBRE);
         remolque.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
-        remolque.setFirebaseIdDelTransportista(null);
+        remolque.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
 
         dbTransportista.child(Constants.FB_KEY_MAIN_REMOLQUES).child(remolque.getFirebaseId())
                 .setValue(remolque, new DatabaseReference.CompletionListener() {
@@ -959,6 +969,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         cliente.setEstatus(cliente.getEstatus());
         cliente.setPassword(null);
         cliente.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
+        cliente.setImagenURL(cliente.getImagenURL());
 
         dbCliente.child(cliente.getFirebaseId()).child(Constants.FB_KEY_ITEM_CLIENTE).setValue(cliente, new DatabaseReference.CompletionListener() {
             @Override
@@ -1118,6 +1129,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         chofer.setFirebaseId(firebaseID);
         chofer.setContraseña(null);
         chofer.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
+        chofer.setImagenURL(chofer.getImagenURL());
 
         dbChofer.child(chofer.getFirebaseId()).setValue(chofer, new DatabaseReference.CompletionListener() {
             @Override
@@ -1138,7 +1150,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                                     .child(Constants.FB_KEY_MAIN_TRANSPORTISTAS);
 
                     dbTransportista.child(chofer.getFirebaseIdDelTransportista())
-                            .child(Constants.FB_KEY_ITEM_CHOFER).child(chofer.getFirebaseId()).setValue(chofer, new DatabaseReference.CompletionListener() {
+                            .child(Constants.FB_KEY_MAIN_CHOFERES).child(chofer.getFirebaseId()).setValue(chofer, new DatabaseReference.CompletionListener() {
                         @Override
                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
@@ -1196,7 +1208,8 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                         FirebaseDatabase.getInstance().getReference()
                                 .child(Constants.FB_KEY_MAIN_TRANSPORTISTAS)
                                 .child(chofer.getFirebaseIdDelTransportista())
-                                .child(Constants.FB_KEY_ITEM_CHOFER).child(chofer.getFirebaseId());
+                                .child(Constants.FB_KEY_MAIN_CHOFERES)
+                                .child(chofer.getFirebaseId());
 
                 Map<String, Object> actualizar = new HashMap<>();
 
@@ -1602,6 +1615,57 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         Log.i(TAG, "firebaseAutorizarTransportista: Actualizado correctamente" + flete.getFirebaseId());
     }
 
+    private void firebaseEliminarTransportista() {
+        final Fletes flete = AsignacionTransportistasFragment.getMainFletes().getFlete();
+        final Transportistas transportistaActual = (Transportistas) getDecodeItem().getItemModel();
+
+        Boolean eliminado;
+
+        switch (flete.getEstatus()) {
+            case Constants.FB_KEY_ITEM_STATUS_EN_PROGRESO:
+            case Constants.FB_KEY_ITEM_STATUS_ENTREGADO:
+            case Constants.FB_KEY_ITEM_STATUS_FINALIZADO:
+            case Constants.FB_KEY_ITEM_STATUS_CANCELADO:
+                eliminado = false;
+                break;
+            default:
+                eliminado = true;
+                break;
+        }
+
+        if (eliminado) {
+            int total = 0;
+
+            for (Transportistas transportista : AsignacionTransportistasFragment.getTransportistasList()) {
+                if (!transportista.getFirebaseId().equals(transportistaActual.getFirebaseId())) {
+                    total++;
+                }
+            }
+
+            flete.setEstatus((total == 0) ? Constants.FB_KEY_ITEM_STATUS_ESPERANDO_POR_TRANSPORTISTA : flete.getEstatus());
+
+            Transportistas transportistaSeleccionado = AsignacionTransportistasFragment.getTransportistaSeleccionado();
+
+            if (null != transportistaSeleccionado.getFirebaseId()) {
+                /**Elimina todos los transportistas, por que el transportista seleecionado limpia las condiciones atte carlos de la mora**/
+
+                if (transportistaSeleccionado.getFirebaseId().equals(_SESSION_USER.getFirebaseId())) {
+                    flete.setEstatus(Constants.FB_KEY_ITEM_STATUS_ESPERANDO_POR_TRANSPORTISTA);
+                    removeSolicitudTransportistaSeleccionado(flete, transportistaActual.getFirebaseId());
+                } else {
+                    /**Elimina solo al transportista seleccionado*/
+                    removeSolicitudTransportistaInteresado(flete, transportistaActual.getFirebaseId());
+                }
+            } else {
+                /**Elimina solo al transportista seleccionado*/
+                removeSolicitudTransportistaInteresado(flete, transportistaActual.getFirebaseId());
+            }
+        } else {
+            Toast.makeText(getApplicationContext(),
+                    "No es posible eliminar al transportista...", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     @Override
     public void removeSolicitudTransportistaInteresado(final Fletes flete, String firebaseIDTransportistaInteresado) {
         pDialog = new ProgressDialog(MainRegisterActivity.this);
@@ -1941,10 +2005,13 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
         switch (mainFletes.getFlete().getEstatus()) {
             case Constants.FB_KEY_ITEM_STATUS_EN_PROGRESO:
+            case Constants.FB_KEY_ITEM_STATUS_ENTREGADO:
             case Constants.FB_KEY_ITEM_STATUS_FINALIZADO:
-                updateMainChofer(mainFletes);
-                updateMainTractores(mainFletes);
-                updateMainRemolques(mainFletes);
+
+                if (null != mainFletes.getChoferSeleccionado().getEstatus()) updateMainChofer(mainFletes);
+                if (null != mainFletes.getTractorSeleccionado().getEstatus()) updateMainTractores(mainFletes);
+                if (null != mainFletes.getRemolqueSeleccionado().getEstatus()) updateMainRemolques(mainFletes);
+
                 break;
         }
 
@@ -1970,6 +2037,20 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         actualizacion.put("/fechaDeEdicion", DateTimeUtils.getTimeStamp());
 
         dbChofer.updateChildren(actualizacion);
+
+        final DatabaseReference dbChoferFlete =
+                FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.FB_KEY_MAIN_TRANSPORTISTAS)
+                        .child(mainFletes.getTransportistaSeleccionado().getFirebaseId())
+                        .child(Constants.FB_KEY_MAIN_CHOFERES)
+                        .child(mainFletes.getChoferSeleccionado().getFirebaseId());
+
+        Map<String, Object> actualizacionFlete = new HashMap<>();
+
+        actualizacionFlete.put("/estatus", mainFletes.getChoferSeleccionado().getEstatus());
+        actualizacionFlete.put("/fechaDeEdicion", DateTimeUtils.getTimeStamp());
+
+        dbChoferFlete.updateChildren(actualizacionFlete);
     }
 
     private void updateMainTractores(MainFletes mainFletes) {

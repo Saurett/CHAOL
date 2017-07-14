@@ -1,14 +1,12 @@
 package com.indev.chaol;
 
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.os.PersistableBundle;
-import android.provider.Settings.Secure;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -55,6 +53,7 @@ import com.indev.chaol.models.Choferes;
 import com.indev.chaol.models.Clientes;
 import com.indev.chaol.models.DecodeExtraParams;
 import com.indev.chaol.models.DecodeItem;
+import com.indev.chaol.models.MainFletes;
 import com.indev.chaol.models.Remolques;
 import com.indev.chaol.models.Tractores;
 import com.indev.chaol.models.Transportistas;
@@ -67,7 +66,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, NavigationDrawerInterface, DialogInterface.OnClickListener, DrawerLayout.DrawerListener {
@@ -197,7 +195,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
     protected void onStart() {
         super.onStart();
 
-
         switch (_SESSION_USER.getTipoDeUsuario()) {
             case Constants.FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR:
             case Constants.FB_KEY_ITEM_TIPO_USUARIO_COLABORADOR:
@@ -270,7 +267,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
     @Override
     protected void onStop() {
         super.onStop();
-
+        MainActivity.navigationActive = false;
         dbUsuarioValido.removeEventListener(listenerSession);
     }
 
@@ -705,6 +702,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         cliente.setEstatus(cliente.getEstatus());
         cliente.setPassword(null);
         cliente.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
+        cliente.setImagenURL(cliente.getImagenURL());
 
         dbCliente.child(cliente.getFirebaseId()).child(Constants.FB_KEY_ITEM_CLIENTE).setValue(cliente, new DatabaseReference.CompletionListener() {
             @Override
@@ -864,6 +862,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         chofer.setFirebaseId(firebaseID);
         chofer.setContraseña(null);
         chofer.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
+        chofer.setImagenURL(chofer.getImagenURL());
 
         dbChofer.child(chofer.getFirebaseId()).setValue(chofer, new DatabaseReference.CompletionListener() {
             @Override
@@ -884,7 +883,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
                                     .child(Constants.FB_KEY_MAIN_TRANSPORTISTAS);
 
                     dbTransportista.child(chofer.getFirebaseIdDelTransportista())
-                            .child(Constants.FB_KEY_ITEM_CHOFER).child(chofer.getFirebaseId()).setValue(chofer, new DatabaseReference.CompletionListener() {
+                            .child(Constants.FB_KEY_MAIN_CHOFERES).child(chofer.getFirebaseId()).setValue(chofer, new DatabaseReference.CompletionListener() {
                         @Override
                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
@@ -941,7 +940,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
                         FirebaseDatabase.getInstance().getReference()
                                 .child(Constants.FB_KEY_MAIN_TRANSPORTISTAS)
                                 .child(chofer.getFirebaseIdDelTransportista())
-                                .child(Constants.FB_KEY_ITEM_CHOFER).child(chofer.getFirebaseId());
+                                .child(Constants.FB_KEY_MAIN_CHOFERES)
+                                .child(chofer.getFirebaseId());
 
                 Map<String, Object> actualizar = new HashMap<>();
 
@@ -1037,6 +1037,9 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 break;
             case Constants.WS_KEY_BUSCAR_FLETES:
                 openExternalActivity(Constants.ACCION_EDITAR, MainRegisterActivity.class);
+                pDialog.dismiss();
+                break;
+            default:
                 pDialog.dismiss();
                 break;
         }
@@ -1379,7 +1382,15 @@ public class NavigationDrawerActivity extends AppCompatActivity
                         FirebaseMessaging.getInstance().unsubscribeFromTopic("transportistas");
                         break;
                 }
+                MainActivity.navigationActive = false;
                 FirebaseAuth.getInstance().signOut();
+
+                /*
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                */
+
                 finish();
             }
         });

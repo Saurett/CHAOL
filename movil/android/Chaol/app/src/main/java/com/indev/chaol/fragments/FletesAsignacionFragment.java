@@ -258,6 +258,8 @@ public class FletesAsignacionFragment extends Fragment implements View.OnClickLi
     private void validationCancelar() {
         Boolean authorized = true;
 
+        //Validar el estatus
+
         if (authorized) {
             this.updateCancelacion();
         }

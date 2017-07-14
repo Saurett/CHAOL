@@ -1,12 +1,14 @@
 package com.indev.chaol.fragments;
 
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -40,11 +42,14 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.indev.chaol.MainRegisterActivity;
 import com.indev.chaol.R;
+import com.indev.chaol.Services.FileServices;
 import com.indev.chaol.models.Clientes;
 import com.indev.chaol.models.DecodeExtraParams;
 import com.indev.chaol.models.MetodosPagos;
 import com.indev.chaol.utils.Constants;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,7 +65,10 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
     private static final String TAG = RegistroClientesFragment.class.getName();
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int CROP_IMAGE_ACTIVITY_REQUEST_CODE = 2;
     private Boolean CHANGE_PHOTO = false;
+    private String mCurrentPhotoPath;
+    private String mCurrentPhotoPathCROP;
 
     private BootstrapCircleThumbnail bctPerfil;
     private Button btnTitulo, btnCamara;
@@ -446,6 +454,7 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
         cliente.setFirebaseId(_clienteActual.getFirebaseId());
         cliente.setFechaDeCreacion(_clienteActual.getFechaDeCreacion());
         cliente.setEstatus(_clienteActual.getEstatus());
+        cliente.setImagenURL(_clienteActual.getImagenURL());
 
         if (CHANGE_PHOTO) {
             bctPerfil.setDrawingCacheEnabled(true);
@@ -489,23 +498,86 @@ public class RegistroClientesFragment extends Fragment implements View.OnClickLi
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
         if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+
+            File photoFile = null;
+            try {
+                photoFile = FileServices.createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+            }
+
+            if (null != photoFile) {
+                mCurrentPhotoPath = photoFile.getAbsolutePath();
+                takePictureIntent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            }
         }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
 
             fabPerfil.setVisibility(View.GONE);
             bctPerfil.setVisibility(View.VISIBLE);
 
-            bctPerfil.setImageBitmap(imageBitmap);
+            try {
+                Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                File f = new File(mCurrentPhotoPath);
+                Uri contentUri = Uri.fromFile(f);
+                mediaScanIntent.setData(contentUri);
+                getActivity().sendBroadcast(mediaScanIntent);
+                performCrop(contentUri);
+            } catch (Exception e) {
+                Toast.makeText(getContext(), "No es posible obtener la foto, intente nuevamente...", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
+        }
 
-            CHANGE_PHOTO = true;
+        if (requestCode == CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                try {
+                    CHANGE_PHOTO = FileServices.setPic(bctPerfil, mCurrentPhotoPathCROP);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private void performCrop(Uri picUri) {
+        try {
+            Intent cropIntent = new Intent("com.android.camera.action.CROP");
+            cropIntent.setDataAndType(picUri, "image/*");
+            cropIntent.putExtra("crop", "true");
+            cropIntent.putExtra("aspectX", 1);
+            cropIntent.putExtra("aspectY", 1);
+            cropIntent.putExtra("outputX", 300);
+            cropIntent.putExtra("outputY", 300);
+            // retrieve data on return
+            cropIntent.putExtra("return-data", true);
+
+            File photoFile = null;
+            try {
+                photoFile = FileServices.createImageFile();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
+            if (photoFile != null) {
+                try {
+                    mCurrentPhotoPathCROP = photoFile.getAbsolutePath();
+                    File f = new File(mCurrentPhotoPathCROP);
+                    cropIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+                    startActivityForResult(cropIntent, CROP_IMAGE_ACTIVITY_REQUEST_CODE);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(getContext(), "Tus dispositivo no soporta esta acción ...", Toast.LENGTH_SHORT).show();
         }
     }
 }

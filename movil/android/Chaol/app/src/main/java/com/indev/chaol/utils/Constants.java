@@ -103,6 +103,9 @@ public final class Constants {
 
 
     /**Key Extraparam**/
+    public static String KEY_MAIN_EMAIL = "key_main_email";
+    public static String KEY_MAIN_PASSWORD = "key_main_password";
+    public static String KEY_MAIN_RECORDAR = "key_main_recordar";
     public static String KEY_MAIN_DECODE = "key_main_decode";
     public static String KEY_SESSION_USER = "key_session_users";
 

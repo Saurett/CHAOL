@@ -139,6 +139,8 @@ public class AsignacionTransportistasFragment extends Fragment implements View.O
                     Transportistas transportista = psSeleccionado.getValue(Transportistas.class);
                     firebaseIdTransportistaSeleccionado = transportista.getFirebaseId();
 
+                    FletesAsignacionFragment.showMessageAsignacion(View.VISIBLE, "En espera de autorizar transportista");
+
                     switch (_SESSION_USER.getTipoDeUsuario()) {
                         case Constants.FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR:
                         case Constants.FB_KEY_ITEM_TIPO_USUARIO_COLABORADOR:
@@ -223,7 +225,10 @@ public class AsignacionTransportistasFragment extends Fragment implements View.O
                 activityInterface.openExternalActivity(Constants.ACCION_VER, MainRegisterActivity.class);
                 break;
             case R.id.item_btn_autorizar_asinacion_transportista:
-                activityInterface.showQuestion();
+                activityInterface.showQuestion("¿Esta seguro que desea autorizar transportista?");
+                break;
+            case R.id.item_btn_eliminar_asinacion_transportista:
+                activityInterface.showQuestion("¿Esta seguro que desea eliminar transportista?");
                 break;
         }
     }
