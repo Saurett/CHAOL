@@ -2,12 +2,15 @@ package com.indev.chaol;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Paint;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
@@ -33,12 +36,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.indev.chaol.Services.FileServices;
 import com.indev.chaol.models.DecodeExtraParams;
 import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
 import com.indev.chaol.utils.DateTimeUtils;
 import com.indev.chaol.utils.ErrorMessages;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -52,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Switch recordar;
     private TextInputEditText txtUsername, txtPassword, txtEmail;
-    private Button btnLogin, btnRegister, btnForgotPassword, btnBack, btnSendEmail;
+    private Button btnLogin, btnRegister, btnForgotPassword, btnBack, btnSendEmail, btnCondiciones;
     private LinearLayout formForgot, formLogin;
 
     private ProgressDialog pDialog;
@@ -83,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnForgotPassword = (Button) findViewById(R.id.btn_forgot_password);
         btnSendEmail = (Button) findViewById(R.id.btn_send_email);
         btnBack = (Button) findViewById(R.id.btn_back_login);
+        btnCondiciones = (Button) findViewById(R.id.btn_condiciones);
 
         /**Obtiene la instancia compartida del objeto FirebaseAuth**/
         mAuth = FirebaseAuth.getInstance();
@@ -95,21 +102,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (user != null) {
 
                     //if (!navigationActive) {
-                        if (!user.isEmailVerified()) {
-                            user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        //Si el email se envio correctamente cierra sessión
-                                        Toast.makeText(getApplicationContext(),
-                                                "Correo de activación enviado...", Toast.LENGTH_LONG).show();
-                                    }
+                    if (!user.isEmailVerified()) {
+                        user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    //Si el email se envio correctamente cierra sessión
+                                    Toast.makeText(getApplicationContext(),
+                                            "Correo de activación enviado...", Toast.LENGTH_LONG).show();
                                 }
-                            });
-                        }
+                            }
+                        });
+                    }
 
-                        // User is signed in
-                        checkIfEmailVerified();
+                    // User is signed in
+                    checkIfEmailVerified();
                     //}
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                 } else {
@@ -129,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnSendEmail.setOnClickListener(this);
         btnBack.setOnClickListener(this);
         recordar.setOnClickListener(this);
+        btnCondiciones.setOnClickListener(this);
 
         checkAndRequestPermissions();
 
@@ -181,9 +189,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.switch_recordar:
                 this.recordarPassword();
                 break;
+            case R.id.btn_condiciones:
+                this.showCondiciones();
+                break;
             default:
                 break;
         }
+    }
+
+    private void showCondiciones() {
+        /*
+        File file = new File("https://firebasestorage.googleapis.com/v0/b/chaol-75d99.appspot.com/o/Documentos%2Fterminos_y_condiciones.pdf?alt=media&token=878e3a1e-0308-47c6-b47d-57112d29831d");
+        Uri uriFile = Uri.fromFile(file);
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.setDataAndType(uriFile, "application/pdf");
+        startActivity(intent);
+        */
+
+        /**
+         * Opcion # 1
+         * Se abre el navegador y se descarga el archivo
+         * */
+        /*Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        startActivity(browserIntent);
+        */
+
+        /**
+         * Opcion # 2
+         * Se descarga local y se abre el pdf
+         */
+        AsyncCallWS document = new AsyncCallWS();
+        document.execute();
+
     }
 
     private void recordarPassword() {
@@ -422,6 +460,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      **/
     private void onPreRender() {
         btnForgotPassword.setPaintFlags(btnForgotPassword.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        btnCondiciones.setPaintFlags(btnCondiciones.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
     }
 
     private void cleanLoginForm() {
@@ -433,6 +472,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private boolean checkAndRequestPermissions() {
         int cameraPermission = ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA);
         int writeStoragePermission = ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int callPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE);
 
         List<String> listPermissionsNeeded = new ArrayList<>();
 
@@ -442,6 +482,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (writeStoragePermission != PackageManager.PERMISSION_GRANTED) {
             listPermissionsNeeded.add(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+
+        if (callPermission != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.CALL_PHONE);
         }
 
         if (!listPermissionsNeeded.isEmpty()) {
@@ -464,6 +508,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // Initialize the map with both permissions
                 perms.put(android.Manifest.permission.CAMERA, PackageManager.PERMISSION_GRANTED);
                 perms.put(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
+                perms.put(Manifest.permission.CALL_PHONE, PackageManager.PERMISSION_GRANTED);
 
                 // Fill with actual results from user
                 if (grantResults.length > 0) {
@@ -471,7 +516,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         perms.put(permissions[i], grantResults[i]);
                     // Check for both permissions
                     if (perms.get(android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
-                            && perms.get(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                            && perms.get(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+                            && perms.get(Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
                         Log.d("Permission", "camera & write storage services permission granted");
                         // process the normal flow
                         //else any one or both the permissions are not granted
@@ -481,7 +527,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                        // shouldShowRequestPermissionRationale will return true
                         //show the dialog or snackbar saying its necessary and try again otherwise proceed with setup.
                         if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.CAMERA)
-                                || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                                || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CALL_PHONE)) {
                             showDialogOK("Acciones de permiso de cámara necesarios para esta aplicación",
                                     new DialogInterface.OnClickListener() {
                                         @Override
@@ -516,5 +563,58 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setNegativeButton("Cancel", okListener)
                 .create()
                 .show();
+    }
+
+    private class AsyncCallWS extends AsyncTask<Void, Void, Boolean> {
+
+        private String realPath;
+
+        private AsyncCallWS() {
+            realPath = "";
+        }
+
+        @Override
+        protected void onPreExecute() {
+            pDialog = new ProgressDialog(MainActivity.this);
+            pDialog.setMessage(getString(R.string.default_loading_msg));
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            Boolean validOperation = false;
+            try {
+                String uriDownload = FileServices.downloadFile(Constants.KEY_URL_PDF);
+                realPath = FileServices.getPath(getApplicationContext(), Uri.parse(uriDownload));
+                validOperation = (null != realPath);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return validOperation;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            try {
+                pDialog.dismiss();
+                if (aBoolean) {
+                    File file = new File(realPath);
+                    Uri uriFile = Uri.fromFile(file);
+
+                    Intent intent = new Intent();
+                    intent.setAction(Intent.ACTION_VIEW);
+                    intent.setDataAndType(uriFile, "application/pdf");
+                    startActivity(intent);
+                }
+            } catch (ActivityNotFoundException e) {
+                Toast.makeText(MainActivity.this, "Es necesario instalar una aplicación para leer PDF", Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.indev.chaol.utils;
 import android.support.v4.app.Fragment;
 
 import com.indev.chaol.R;
+import com.indev.chaol.fragments.ContactUsFragment;
 import com.indev.chaol.fragments.ListadoAgendaFragment;
 import com.indev.chaol.fragments.ListadoBodegasFragment;
 import com.indev.chaol.fragments.ListadoChoferesFragment;
@@ -108,6 +109,7 @@ public final class Constants {
     public static String KEY_MAIN_RECORDAR = "key_main_recordar";
     public static String KEY_MAIN_DECODE = "key_main_decode";
     public static String KEY_SESSION_USER = "key_session_users";
+    public static final String KEY_URL_PDF = "https://firebasestorage.googleapis.com/v0/b/chaol-75d99.appspot.com/o/Documentos%2Fterminos_y_condiciones.pdf?alt=media&token=878e3a1e-0308-47c6-b47d-57112d29831d";
 
     /**Dias de la semana**/
     public static String LUNES = "Lun.";
@@ -234,6 +236,7 @@ public final class Constants {
 
     /**Fragmento alternativo**/
     public static final String FRAGMENT_MAIN_PERFIL = "fragment_main_perfil";
+    public static final String FRAGMENT_MAIN_CONTACT_US = "fragment_main_contact_us";
 
     /**
      * Fragmentos secundario para listados
@@ -274,6 +277,7 @@ public final class Constants {
         ITEM_FRAGMENT.put(R.id.menu_item_remolques, FRAGMENT_LISTADO_REMOLQUES);
         ITEM_FRAGMENT.put(R.id.menu_item_agenda, FRAGMENT_LISTADO_AGENDA);
         ITEM_FRAGMENT.put(R.id.menu_item_perfil, FRAGMENT_MAIN_PERFILES);
+        ITEM_FRAGMENT.put(R.id.menu_item_contact_us, FRAGMENT_MAIN_CONTACT_US);
         ITEM_FRAGMENT.put(R.id.item_btn_editar_colaboradores, FRAGMENT_COLABORADORES_REGISTER);
         ITEM_FRAGMENT.put(R.id.item_btn_editar_cliente, FRAGMENT_MAIN_REGISTER);
         ITEM_FRAGMENT.put(R.id.item_btn_editar_bodega, FRAGMENT_BODEGAS_REGISTER);
@@ -317,6 +321,7 @@ public final class Constants {
         TAG_FRAGMENT.put(FRAGMENT_LISTADO_TRACTORES, new ListadoTractoresFragment());
         TAG_FRAGMENT.put(FRAGMENT_LISTADO_AGENDA, new ListadoAgendaFragment());
         TAG_FRAGMENT.put(FRAGMENT_LISTADO_REMOLQUES, new ListadoRemolquesFragment());
+        TAG_FRAGMENT.put(FRAGMENT_MAIN_CONTACT_US, new ContactUsFragment());
         TAG_FRAGMENT.put(FRAGMENT_COLABORADORES_REGISTER, new RegistroColaboradoresFragment());
         TAG_FRAGMENT.put(FRAGMENT_MAIN_REGISTER, new RegistroClientesFragment());
         TAG_FRAGMENT.put(FRAGMENT_BODEGAS_REGISTER, new RegistroBodegasFragment());

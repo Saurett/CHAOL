@@ -418,6 +418,11 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 this.closeFragment(this.getLastFragment());
                 this.openFragment(Constants.ITEM_FRAGMENT.get(id));
                 break;
+            case R.id.menu_item_contact_us:
+                setTitle(item.getTitle());
+                this.closeFragment(this.getLastFragment());
+                this.openFragment(Constants.ITEM_FRAGMENT.get(id));
+                break;
             case R.id.menu_item_cerrar_session:
                 deleteDevice();
                 break;
