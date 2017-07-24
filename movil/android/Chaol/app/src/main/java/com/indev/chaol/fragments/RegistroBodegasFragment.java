@@ -9,7 +9,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -154,7 +153,6 @@ public class RegistroBodegasFragment extends Fragment implements View.OnClickLis
             public void onCancelled(DatabaseError databaseError) {
                 // Failed to read value
                 pDialog.dismiss();
-                Log.w(TAG, "Failed to read value.", databaseError.toException());
             }
         });
 

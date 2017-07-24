@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -17,14 +16,12 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -50,12 +47,8 @@ import com.indev.chaol.models.Transportistas;
 import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,8 +60,6 @@ import static android.app.Activity.RESULT_OK;
  */
 
 public class RegistroChoferesFragment extends Fragment implements View.OnClickListener, AlertDialog.OnClickListener {
-
-    private static final String TAG = RegistroChoferesFragment.class.getName();
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int CROP_IMAGE_ACTIVITY_REQUEST_CODE = 2;
@@ -187,7 +178,6 @@ public class RegistroChoferesFragment extends Fragment implements View.OnClickLi
             public void onCancelled(DatabaseError databaseError) {
                 // Failed to read value
                 pDialog.dismiss();
-                Log.w(TAG, "Failed to read value.", databaseError.toException());
             }
         });
 
@@ -285,7 +275,6 @@ public class RegistroChoferesFragment extends Fragment implements View.OnClickLi
                             fabPerfil.setVisibility(View.VISIBLE);
                             bctPerfil.setVisibility(View.GONE);
                             pdThumbnail.dismiss();
-                            Log.i(TAG, "addOnSuccessListener : " + exception.getMessage());
                         }
                     });
                 } else {

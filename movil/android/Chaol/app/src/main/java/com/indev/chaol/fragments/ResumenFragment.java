@@ -6,7 +6,6 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,8 +53,6 @@ import java.util.Locale;
  */
 
 public class ResumenFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
-
-    private static final String TAG = ResumenFragment.class.getName();
 
     private Button btnTitulo;
     private LinearLayout linearLayoutClientes, linearLayout;
@@ -332,8 +329,6 @@ public class ResumenFragment extends Fragment implements View.OnClickListener, A
                 txtPlacasRemolque.setTag(txtPlacasRemolque.getKeyListener());
                 txtPlacasRemolque.setKeyListener(null);
 
-                Log.i(TAG, "onPreRenderEditar: " + dataSnapshot.getKey());
-
                 _mainFletesActual = new MainFletes();
 
                 _mainFletesActual.setFlete(flete);
@@ -517,7 +512,6 @@ public class ResumenFragment extends Fragment implements View.OnClickListener, A
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Failed to read value
-                Log.w(TAG, "Failed to read value.", databaseError.toException());
             }
         });
     }
@@ -552,7 +546,6 @@ public class ResumenFragment extends Fragment implements View.OnClickListener, A
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Failed to read value
-                Log.w(TAG, "Failed to read value.", databaseError.toException());
             }
         });
     }

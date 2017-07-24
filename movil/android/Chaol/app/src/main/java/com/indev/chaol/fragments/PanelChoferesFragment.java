@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,8 +31,6 @@ import com.indev.chaol.utils.Constants;
  */
 
 public class PanelChoferesFragment extends Fragment implements View.OnClickListener {
-
-    private static final String TAG = PanelChoferesFragment.class.getName();
 
     private Button btnTitulo;
     private TextView txtNumAsignado, txtNumNoAutorizado, txtNumLibre;
@@ -107,7 +104,6 @@ public class PanelChoferesFragment extends Fragment implements View.OnClickListe
                         case Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO:
                             break;
                         default:
-                            Log.i(TAG,"Chofer perdido " + chofer.getFirebaseId() + " " + chofer.getEstatus());
                             break;
                     }
                 }

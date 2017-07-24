@@ -1,6 +1,5 @@
 package com.indev.chaol.fragments;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

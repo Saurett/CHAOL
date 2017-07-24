@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +20,6 @@ import com.indev.chaol.R;
  */
 
 public class ContactFragment extends Fragment implements View.OnClickListener {
-
-    private static final String TAG = ContactFragment.class.getName();
 
     private TextInputEditText txtTelefono, txtCorreoElectronico;
     private Button btnCall, btnEmail;
@@ -83,7 +80,6 @@ public class ContactFragment extends Fragment implements View.OnClickListener {
                 try {
                     startActivity(Intent.createChooser(email, "Choose an Email client :"));
                 } catch (ActivityNotFoundException e) {
-                    Log.d(TAG, "onClick: Es necesario tener un cliente de email");
                     Toast.makeText(getActivity(), "Es necesario tener una aplicación de Email ...", Toast.LENGTH_SHORT).show();
                 }
                 break;

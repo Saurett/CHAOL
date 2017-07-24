@@ -9,7 +9,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,8 +44,6 @@ import java.util.List;
  */
 
 public class RegistroRemolquesFragment extends Fragment implements View.OnClickListener, DialogInterface.OnClickListener, AdapterView.OnItemSelectedListener {
-
-    private static final String TAG = RegistroRemolquesFragment.class.getName();
 
     private Button btnTitulo;
     private EditText txtNumEconomico, txtMarca, txtModelo, txtNumSerie, txtPlaca, txtIdGPS;
@@ -151,7 +148,6 @@ public class RegistroRemolquesFragment extends Fragment implements View.OnClickL
             public void onCancelled(DatabaseError databaseError) {
                 // Failed to read value
                 pDialog.dismiss();
-                Log.w(TAG, "Failed to read value.", databaseError.toException());
             }
         });
 
@@ -482,7 +478,6 @@ public class RegistroRemolquesFragment extends Fragment implements View.OnClickL
         tiposRemolques = new ArrayList<>();
         tiposRemolquesList.add("Seleccione ...");
 
-        //TODO Metodo para llamar al servidor
         tiposRemolquesList.add("Caja Refrijerada");
         tiposRemolquesList.add("Caja Seca");
 

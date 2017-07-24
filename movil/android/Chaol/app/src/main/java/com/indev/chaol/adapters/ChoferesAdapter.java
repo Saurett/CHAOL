@@ -10,10 +10,8 @@ import android.widget.TextView;
 
 import com.indev.chaol.R;
 import com.indev.chaol.fragments.ChoferesFragment;
-import com.indev.chaol.fragments.ClientesFragment;
 import com.indev.chaol.models.Choferes;
 import com.indev.chaol.models.DecodeItem;
-import com.indev.chaol.models.Transportistas;
 import com.indev.chaol.utils.Constants;
 
 import java.util.ArrayList;

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,8 +32,6 @@ import com.indev.chaol.utils.Constants;
  */
 
 public class PanelRemolquesFragment extends Fragment implements View.OnClickListener {
-
-    private static final String TAG = PanelRemolquesFragment.class.getName();
 
     private Button btnTitulo;
     private TextView txtNumAsignado, txtNumLibre;
@@ -108,8 +105,6 @@ public class PanelRemolquesFragment extends Fragment implements View.OnClickList
                                 txtNumAsignado.setText(String.valueOf(countAsignado));
                                 break;
                             default:
-                                Log.i(TAG, "Remolque perdido " + remolque.getFirebaseId() + " " + remolque.getEstatus()
-                                        + " en transportista " + transportista.getFirebaseId());
                                 break;
                         }
 

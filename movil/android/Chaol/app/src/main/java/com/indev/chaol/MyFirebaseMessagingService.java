@@ -8,7 +8,6 @@ import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v7.app.NotificationCompat;
-import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -30,10 +29,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
             String titulo = remoteMessage.getNotification().getTitle();
             String texto = remoteMessage.getNotification().getBody();
-
-            Log.d(TAG, "NOTIFICACION RECIBIDA");
-            Log.d(TAG, "Título: " + titulo);
-            Log.d(TAG, "Texto: " + texto);
 
             //Opcional: mostramos la notificación en la barra de estado
             sendNotification(titulo, texto);

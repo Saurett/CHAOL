@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -20,7 +21,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.TextAppearanceSpan;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -53,7 +53,6 @@ import com.indev.chaol.models.Choferes;
 import com.indev.chaol.models.Clientes;
 import com.indev.chaol.models.DecodeExtraParams;
 import com.indev.chaol.models.DecodeItem;
-import com.indev.chaol.models.MainFletes;
 import com.indev.chaol.models.Remolques;
 import com.indev.chaol.models.Tractores;
 import com.indev.chaol.models.Transportistas;
@@ -69,8 +68,6 @@ import java.util.Map;
 
 public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, NavigationDrawerInterface, DialogInterface.OnClickListener, DrawerLayout.DrawerListener {
-
-    private static final String TAG = NavigationDrawerActivity.class.getName();
 
     /**
      * Variable que almacena el ultimo item que fue seleccionado en el navigation
@@ -116,7 +113,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
         }
 
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-        Log.d(TAG, "Token actualizado: " + refreshedToken);
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
 
@@ -141,10 +137,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                 } else {
                     // User is signed out
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
             }
         };
@@ -677,8 +671,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 }
             }
         });
-
-        Log.i(TAG, "firebaseUpdateColaborador: Actualizado correctamente" + user.getUid());
     }
 
     @Override
@@ -726,8 +718,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 }
             }
         });
-
-        Log.i(TAG, "firebaseUpdateCliente: Actualizado correctamente" + user.getUid());
     }
 
     private void updatePictureCliente(final Clientes cliente, Bitmap bitmap) {
@@ -836,9 +826,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 }
             }
         });
-
-
-        Log.i(TAG, "firebaseRegistroTransportista: Registrado correctamente" + user.getUid());
     }
 
     @Override
@@ -907,9 +894,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 }
             }
         });
-
-        Log.i(TAG, "firebaseRegistroChoferes: Actualizado correctamente" + user.getUid());
-
     }
 
     private void updatePictureChofer(final Choferes chofer, Bitmap bitmap) {
@@ -1000,9 +984,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 }
             }
         });
-
-        Log.i(TAG, "firebaseRegistroChoferes: Actualizado correctamente" + user.getUid());
-
     }
 
     /**
@@ -1076,8 +1057,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 }
             }
         });
-
-        Log.i(TAG, "firebaseDeleteColaborador: Eliminado correctamente" + colaborador.getFirebaseId());
     }
 
     /**
@@ -1107,8 +1086,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 }
             }
         });
-
-        Log.i(TAG, "firebaseDeleteCliente: Eliminado correctamente" + cliente.getFirebaseId());
     }
 
     /**
@@ -1139,8 +1116,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 }
             }
         });
-
-        Log.i(TAG, "firebaseDeleteCliente: Eliminado correctamente" + bodega.getFirebaseIdBodega());
     }
 
     /**
@@ -1171,8 +1146,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 }
             }
         });
-
-        Log.i(TAG, "firebaseDeleteTransportista: Eliminado correctamente" + transportista.getFirebaseId());
     }
 
     /**
@@ -1226,8 +1199,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 }
             }
         });
-
-        Log.i(TAG, "firebaseDeleteChofer: Eliminado correctamente" + chofer.getFirebaseId());
     }
 
     /**
@@ -1259,8 +1230,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 }
             }
         });
-
-        Log.i(TAG, "firebaseDeleteRemolque: Eliminado correctamente" + tractor.getFirebaseId());
     }
 
     /**
@@ -1292,8 +1261,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 }
             }
         });
-
-        Log.i(TAG, "firebaseDeleteRemolque: Eliminado correctamente" + remolque.getFirebaseId());
     }
 
     private void firebaseDeleteFlete() {
@@ -1322,9 +1289,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 }
             }
         });
-
-        Log.i(TAG, "firebaseDeleteFlete: Eliminado correctamente" + agenda.getFirebaseID());
-
     }
 
     @Override
@@ -1387,15 +1351,14 @@ public class NavigationDrawerActivity extends AppCompatActivity
                         FirebaseMessaging.getInstance().unsubscribeFromTopic("transportistas");
                         break;
                 }
+
+                SharedPreferences prefsSession = getSharedPreferences(Constants.KEY_PREF_SESSION, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefsSession.edit();
+                editor.clear();
+                editor.commit();
+
                 MainActivity.navigationActive = false;
                 FirebaseAuth.getInstance().signOut();
-
-                /*
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                */
-
                 finish();
             }
         });

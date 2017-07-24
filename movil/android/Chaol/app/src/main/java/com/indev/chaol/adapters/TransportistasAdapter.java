@@ -9,7 +9,6 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.indev.chaol.R;
-import com.indev.chaol.fragments.ClientesFragment;
 import com.indev.chaol.fragments.TransportistasFragment;
 import com.indev.chaol.models.DecodeItem;
 import com.indev.chaol.models.Transportistas;

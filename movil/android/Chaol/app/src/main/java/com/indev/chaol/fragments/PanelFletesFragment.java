@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.indev.chaol.MainActivity;
 import com.indev.chaol.MainRegisterActivity;
 import com.indev.chaol.R;
 import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
@@ -38,8 +36,6 @@ import java.util.List;
  */
 
 public class PanelFletesFragment extends Fragment implements View.OnClickListener {
-
-    private static final String TAG = PanelFletesFragment.class.getName();
 
     private Button btnTitulo;
     private TextView txtNumPorCotizar, txtNumEsperandoTransportista, txtNumTransportistaPorConfirmar, txtNumUnidadesPorAsignar, txtNumEnvioPorIniciar, txtNumEnProgreso, txtNumEntregado, txtNumFinalizado, txtNumCancelado;
@@ -116,8 +112,6 @@ public class PanelFletesFragment extends Fragment implements View.OnClickListene
                     firebaseIDransportista = "";
                     firebaseIDChofer = "";
                     firebaseIDTransportistas = new ArrayList<>();
-
-                    Log.i(TAG,"addValueEventListener Flete " + postSnapshot.getKey());
 
                     Fletes flete = postSnapshot.child(Constants.FB_KEY_MAIN_FLETE).getValue(Fletes.class);
                     Bodegas bodegaCarga = postSnapshot.child(Constants.FB_KEY_MAIN_BODEGA_DE_CARGA).getValue(Bodegas.class);

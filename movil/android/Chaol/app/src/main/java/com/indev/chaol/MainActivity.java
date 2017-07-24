@@ -19,7 +19,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -40,11 +39,9 @@ import com.indev.chaol.Services.FileServices;
 import com.indev.chaol.models.DecodeExtraParams;
 import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
-import com.indev.chaol.utils.DateTimeUtils;
 import com.indev.chaol.utils.ErrorMessages;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -52,7 +49,6 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String TAG = MainActivity.class.getName();
     public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
     public static Boolean navigationActive = false;
 
@@ -66,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private SharedPreferences prefs;
+    private SharedPreferences prefsSession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +70,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        prefs = getSharedPreferences("firebasePreferences", Context.MODE_PRIVATE);
+        prefs = getSharedPreferences(Constants.KEY_PREF_FIREBASE, Context.MODE_PRIVATE);
+        prefsSession = getSharedPreferences(Constants.KEY_PREF_SESSION, Context.MODE_PRIVATE);
 
         /**Se inicializan los compotentes a utilizar**/
         formForgot = (LinearLayout) findViewById(R.id.form_forgot);
@@ -101,7 +99,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
 
-                    //if (!navigationActive) {
                     if (!user.isEmailVerified()) {
                         user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
@@ -117,11 +114,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     // User is signed in
                     checkIfEmailVerified();
-                    //}
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                } else {
-                    // User is signed out
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
             }
         };
@@ -139,16 +131,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnCondiciones.setOnClickListener(this);
 
         checkAndRequestPermissions();
-
-        Log.i(TAG, " Unix Stamp " + DateTimeUtils.getTimeStamp());
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
-        //FirebaseAuth.getInstance().signOut();
 
+        mAuth.addAuthStateListener(mAuthListener);
+        FirebaseAuth.getInstance().signOut();
+
+        Boolean session = prefsSession.getBoolean(Constants.KEY_MAIN_SESSION,false);
         String correo = prefs.getString(Constants.KEY_MAIN_EMAIL, "");
         String password = prefs.getString(Constants.KEY_MAIN_PASSWORD, "");
         Boolean recordarPassword = prefs.getBoolean(Constants.KEY_MAIN_RECORDAR, false);
@@ -156,12 +148,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtUsername.setText(correo);
         txtPassword.setText(password);
         recordar.setChecked(recordarPassword);
+
+        if (session) {
+            txtUsername.setText(prefsSession.getString(Constants.KEY_MAIN_EMAIL, ""));
+            txtPassword.setText(prefsSession.getString(Constants.KEY_MAIN_PASSWORD, ""));
+            this.validationLogin();
+        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        //navigationActive = false;
         if (mAuthListener != null) mAuth.removeAuthStateListener(mAuthListener);
     }
 
@@ -221,7 +218,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          */
         AsyncCallWS document = new AsyncCallWS();
         document.execute();
-
     }
 
     private void recordarPassword() {
@@ -271,13 +267,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
                             // If sign in fails, display a message to the user. If sign in succeeds
                             // the auth state listener will be notified and logic to handle the
                             // signed in user can be handled in the listener.
                             if (!task.isSuccessful()) {
                                 pDialog.dismiss();
-                                Log.w(TAG, "signInWithEmail:failed", task.getException());
                                 Toast.makeText(getApplicationContext(),
                                         ErrorMessages.showErrorMessage(task.getException()),
                                         Toast.LENGTH_SHORT).show();
@@ -320,7 +314,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         public void onComplete(@NonNull Task<Void> task) {
                             pDialog.dismiss();
                             if (task.isSuccessful()) {
-                                Log.d(TAG, "Email sent.");
                                 Toast.makeText(getApplicationContext(), "Enviamos un correo de restauración para recuperar su contraseña",
                                         Toast.LENGTH_SHORT).show();
                                 cleanLoginForm();
@@ -387,6 +380,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 if (dataSnapshot.exists()) {
                     String tipoUsuario = dataSnapshot.getValue(String.class);
+
+                    Boolean isSession = prefsSession.getBoolean(Constants.KEY_MAIN_SESSION,false);
+
+                    if (!isSession) {
+                        SharedPreferences.Editor session = prefsSession.edit();
+                        session.putString(Constants.KEY_MAIN_EMAIL, txtUsername.getText().toString());
+                        session.putString(Constants.KEY_MAIN_PASSWORD, txtPassword.getText().toString());
+                        session.putBoolean(Constants.KEY_MAIN_SESSION, true);
+                        session.commit();
+                    }
 
                     if (recordar.isChecked()) {
                         SharedPreferences.Editor editor = prefs.edit();
@@ -500,7 +503,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        Log.d("Permission", "Permission callback called-------");
         switch (requestCode) {
             case REQUEST_ID_MULTIPLE_PERMISSIONS: {
 
@@ -518,11 +520,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if (perms.get(android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
                             && perms.get(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
                             && perms.get(Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
-                        Log.d("Permission", "camera & write storage services permission granted");
                         // process the normal flow
                         //else any one or both the permissions are not granted
                     } else {
-                        Log.d("Permission", "Some permissions are not granted ask again ");
                         //permission is denied (this is the first time, when "never ask again" is not checked) so ask again explaining the usage of permission
 //                        // shouldShowRequestPermissionRationale will return true
                         //show the dialog or snackbar saying its necessary and try again otherwise proceed with setup.

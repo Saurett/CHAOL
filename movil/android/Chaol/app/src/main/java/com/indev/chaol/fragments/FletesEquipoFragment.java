@@ -11,7 +11,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,8 +55,6 @@ import java.util.List;
  */
 
 public class FletesEquipoFragment extends Fragment implements View.OnClickListener, DialogInterface.OnClickListener, AdapterView.OnItemSelectedListener {
-
-    private static final String TAG = FletesEquipoFragment.class.getName();
 
     private BootstrapCircleThumbnail bctPerfil;
     private Button btnTitulo, btnGuardar, btnActualizar;
@@ -309,8 +306,6 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                Log.i(TAG, "onPreRenderEditar: " + dataSnapshot.getKey());
-
                 _mainFletesActual = new MainFletes();
 
                 Fletes flete = dataSnapshot.child(Constants.FB_KEY_MAIN_FLETE).getValue(Fletes.class);
@@ -357,7 +352,6 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
                                 fabPerfil.setVisibility(View.VISIBLE);
                                 bctPerfil.setVisibility(View.GONE);
                                 pdThumbnail.dismiss();
-                                Log.i(TAG, "addOnSuccessListener : " + exception.getMessage());
                             }
                         });
                     } else {
@@ -548,8 +542,6 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 
-                    Log.i(TAG, "addListenerForSingleValueEvent Choferes : " + postSnapshot.getKey());
-
                     Choferes chofer = postSnapshot.getValue(Choferes.class);
 
                     if (chofer.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ACTIVO)
@@ -572,8 +564,6 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", databaseError.toException());
             }
         });
     }
@@ -594,8 +584,6 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
                 tractoresList.add("Seleccione ...");
 
                 for (DataSnapshot psTractor : dataSnapshot.child(Constants.FB_KEY_MAIN_TRACTORES).getChildren()) {
-
-                    Log.i(TAG, "addListenerForSingleValueEvent Tractores : " + dataSnapshot.getKey());
 
                     Tractores tractor = psTractor.getValue(Tractores.class);
 
@@ -621,7 +609,6 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.w(TAG, "Failed to read value.", databaseError.toException());
             }
         });
     }
@@ -642,8 +629,6 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
                 remolquesList.add("Seleccione ...");
 
                 for (DataSnapshot psRemolques : dataSnapshot.child(Constants.FB_KEY_MAIN_REMOLQUES).getChildren()) {
-
-                    Log.i(TAG, "addListenerForSingleValueEvent Transportista : " + dataSnapshot.getKey());
 
                     Remolques remolque = psRemolques.getValue(Remolques.class);
 
@@ -669,8 +654,6 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", databaseError.toException());
             }
         });
     }
@@ -981,7 +964,6 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
                             fabPerfil.setVisibility(View.VISIBLE);
                             bctPerfil.setVisibility(View.GONE);
                             pdThumbnail.dismiss();
-                            Log.i(TAG, "addOnSuccessListener : " + exception.getMessage());
                         }
                     });
                 } else {
@@ -993,7 +975,6 @@ public class FletesEquipoFragment extends Fragment implements View.OnClickListen
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.w(TAG, "Failed to read value.", databaseError.toException());
             }
         });
     }

@@ -1,6 +1,5 @@
 package com.indev.chaol.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,7 +11,6 @@ import android.view.ViewGroup;
 import com.indev.chaol.R;
 import com.indev.chaol.models.DecodeExtraParams;
 import com.indev.chaol.models.DecodeItem;
-import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
 
 

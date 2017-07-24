@@ -1,6 +1,5 @@
 package com.indev.chaol.fragments;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -23,17 +22,11 @@ import com.google.firebase.database.ValueEventListener;
 import com.indev.chaol.MainRegisterActivity;
 import com.indev.chaol.R;
 import com.indev.chaol.models.Agendas;
-import com.indev.chaol.models.Bodegas;
 import com.indev.chaol.models.DecodeExtraParams;
 import com.indev.chaol.models.Fletes;
 import com.indev.chaol.models.MainFletes;
 import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
-import com.indev.chaol.utils.DateTimeUtils;
-import com.prolificinteractive.materialcalendarview.CalendarDay;
-
-import java.sql.Time;
-import java.util.Calendar;
 
 
 /**

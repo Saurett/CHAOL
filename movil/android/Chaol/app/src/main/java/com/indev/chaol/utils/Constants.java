@@ -104,12 +104,15 @@ public final class Constants {
 
 
     /**Key Extraparam**/
-    public static String KEY_MAIN_EMAIL = "key_main_email";
-    public static String KEY_MAIN_PASSWORD = "key_main_password";
-    public static String KEY_MAIN_RECORDAR = "key_main_recordar";
-    public static String KEY_MAIN_DECODE = "key_main_decode";
-    public static String KEY_SESSION_USER = "key_session_users";
+    public static final String KEY_MAIN_EMAIL = "key_main_email";
+    public static final String KEY_MAIN_PASSWORD = "key_main_password";
+    public static final String KEY_MAIN_RECORDAR = "key_main_recordar";
+    public static final String KEY_MAIN_SESSION = "key_main_session";
+    public static final String KEY_MAIN_DECODE = "key_main_decode";
+    public static final String KEY_SESSION_USER = "key_session_users";
     public static final String KEY_URL_PDF = "https://firebasestorage.googleapis.com/v0/b/chaol-75d99.appspot.com/o/Documentos%2Fterminos_y_condiciones.pdf?alt=media&token=878e3a1e-0308-47c6-b47d-57112d29831d";
+    public static final String KEY_PREF_FIREBASE = "firebasePreferences";
+    public static final String KEY_PREF_SESSION = "sessionPreferences";
 
     /**Dias de la semana**/
     public static String LUNES = "Lun.";

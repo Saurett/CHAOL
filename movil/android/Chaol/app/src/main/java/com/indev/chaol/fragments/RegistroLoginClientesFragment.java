@@ -39,7 +39,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 
@@ -285,7 +284,6 @@ public class RegistroLoginClientesFragment extends Fragment implements View.OnCl
         metodosPagos = new ArrayList<>();
         metodosPagoList.add("Seleccione ...");
 
-        //TODO Metodo para llamar al servidor
         metodosPagoList.add("Efectivo");
         metodosPagoList.add("Cheque");
         metodosPagoList.add("Transferencia Electronica");

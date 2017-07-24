@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +38,6 @@ import com.indev.chaol.models.DecodeExtraParams;
 import com.indev.chaol.models.Estados;
 import com.indev.chaol.models.Fletes;
 import com.indev.chaol.models.MainFletes;
-import com.indev.chaol.models.Remolques;
 import com.indev.chaol.models.TiposRemolques;
 import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
@@ -60,8 +58,6 @@ import java.util.Locale;
  */
 
 public class FletesDatosGeneralesFragment extends Fragment implements View.OnClickListener, DialogInterface.OnClickListener, AdapterView.OnItemSelectedListener {
-
-    private static final String TAG = FletesDatosGeneralesFragment.class.getName();
 
     private Button btnTitulo, btnSolicitarCotizacion, btnActualizar;
     private LinearLayout linearLayoutClientes, linearLayout, linearLayoutZone, linearLayoutIDFlete;
@@ -286,7 +282,6 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
             public void onCancelled(DatabaseError databaseError) {
                 // Failed to read value
                 pDialog.dismiss();
-                Log.w(TAG, "Failed to read value.", databaseError.toException());
             }
         });
 
@@ -358,8 +353,6 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
 
                 Fletes flete = dataSnapshot.child(Constants.FB_KEY_MAIN_FLETE).getValue(Fletes.class);
                 Bodegas bodegaCarga = dataSnapshot.child(Constants.FB_KEY_MAIN_BODEGA_DE_CARGA).getValue(Bodegas.class);
-
-                Log.i(TAG, "onPreRenderEditar: " + dataSnapshot.getKey());
 
                 _mainFletesActual = new MainFletes();
 
@@ -625,7 +618,6 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
         tiposRemolques = new ArrayList<>();
         tiposRemolquesList.add("Seleccione ...");
 
-        //TODO Metodo para llamar al servidor
         tiposRemolquesList.add("Caja Refrijerada");
         tiposRemolquesList.add("Caja Seca");
 
@@ -898,7 +890,6 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
             public void onCancelled(DatabaseError databaseError) {
                 // Failed to read value
                 pDialog.dismiss();
-                Log.w(TAG, "Failed to read value.", databaseError.toException());
             }
         });
     }
@@ -934,7 +925,6 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
             public void onCancelled(DatabaseError databaseError) {
                 // Failed to read value
                 pDialog.dismiss();
-                Log.w(TAG, "Failed to read value.", databaseError.toException());
             }
         });
     }

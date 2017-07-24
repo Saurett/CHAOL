@@ -12,7 +12,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -63,8 +62,6 @@ import java.util.List;
 import java.util.Map;
 
 public class MainRegisterActivity extends AppCompatActivity implements MainRegisterInterface, View.OnClickListener, DialogInterface.OnClickListener {
-
-    private static final String TAG = MainRegisterActivity.class.getName();
 
     private static Button btnFormCliente, btnFormTransportista, btnFormChofer;
     private static LinearLayout linearLayoutSwitch;
@@ -132,10 +129,8 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     //User is signed in
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                 } else {
                     // User is signed out
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
 
             }
@@ -406,8 +401,6 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
-
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
@@ -436,8 +429,6 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
-
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
@@ -495,9 +486,6 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 }
             }
         });
-
-
-        Log.i(TAG, "firebaseRegistroCliente: Registrado correctamente" + user.getUid());
     }
 
     /**
@@ -546,9 +534,6 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 }
             }
         });
-
-
-        Log.i(TAG, "firebaseRegistroCliente: Registrado correctamente" + user.getUid());
     }
 
     @Override
@@ -563,8 +548,6 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
-
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
@@ -640,8 +623,6 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
             }
         });
-
-        Log.i(TAG, "firebaseRegistroTransportista: Registrado correctamente" + user.getUid());
     }
 
 
@@ -657,9 +638,6 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-
-                        Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
-
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
@@ -941,8 +919,6 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 }
             }
         });
-
-        Log.i(TAG, "firebaseUpdateCliente: Actualizado correctamente" + firebaseID);
     }
 
     @Override
@@ -989,8 +965,6 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 }
             }
         });
-
-        Log.i(TAG, "firebaseUpdateCliente: Actualizado correctamente" + firebaseID);
     }
 
     private void updatePictureCliente(final Clientes cliente, Bitmap bitmap) {
@@ -1099,9 +1073,6 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 }
             }
         });
-
-
-        Log.i(TAG, "firebaseUpdateTransportista: Actualizado correctamente" + firebaseID);
     }
 
 
@@ -1170,9 +1141,6 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 }
             }
         });
-
-        Log.i(TAG, "firebaseUpdateChofer: Actualizado correctamente" + firebaseID);
-
     }
 
     private void updatePictureChofer(final Choferes chofer, Bitmap bitmap) {
@@ -1253,9 +1221,6 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 }
             }
         });
-
-        Log.i(TAG, "firebaseRegistroChoferes: Actualizado correctamente" + user.getUid());
-
     }
 
     @Override
@@ -1292,9 +1257,6 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 }
             }
         });
-
-        Log.i(TAG, "firebaseUpdateRemolque: Actualizado correctamente" + tractor.getFirebaseId());
-
     }
 
     @Override
@@ -1331,9 +1293,6 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 }
             }
         });
-
-        Log.i(TAG, "firebaseUpdateRemolque: Actualizado correctamente" + remolque.getFirebaseId());
-
     }
 
     private void createBodegaCarga(final String firebaseID, final Bodegas _bodegaCargaActual, final Bodegas _bodegaDescargaActual) {
@@ -1398,8 +1357,6 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                         }
                     }
                 });
-
-        Log.i(TAG, "createBodegaDescarga: Creado correctamente" + firebaseID);
     }
 
     @Override
@@ -1498,8 +1455,6 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 }
             }
         });
-
-        Log.i(TAG, "updateSolicitudCotizacion: Actualizado correctamente" + flete.getFirebaseId());
     }
 
     @Override
@@ -1555,9 +1510,6 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 }
             }
         });
-
-        Log.i(TAG, "updateSolicitudTransportistaInteresado: Actualizado correctamente" + flete.getFirebaseId());
-
     }
 
     private void firebaseAutorizarTransportista() {
@@ -1611,8 +1563,6 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 }
             }
         });
-
-        Log.i(TAG, "firebaseAutorizarTransportista: Actualizado correctamente" + flete.getFirebaseId());
     }
 
     private void firebaseEliminarTransportista() {
@@ -2016,9 +1966,6 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         }
 
         this.updateMain(mainFletes);
-
-        Log.i(TAG, "updateSolicitudEnvio: Actualizado correctamente" + mainFletes.getFlete().getFirebaseId());
-
     }
 
     private void updateMainChofer(MainFletes mainFletes) {

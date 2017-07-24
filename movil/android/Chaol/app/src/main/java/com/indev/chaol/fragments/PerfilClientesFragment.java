@@ -15,7 +15,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,8 +59,6 @@ import static android.app.Activity.RESULT_OK;
  */
 
 public class PerfilClientesFragment extends Fragment implements View.OnClickListener, DialogInterface.OnClickListener, Spinner.OnItemSelectedListener {
-
-    private static final String TAG = PerfilClientesFragment.class.getName();
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int CROP_IMAGE_ACTIVITY_REQUEST_CODE = 2;
@@ -232,7 +229,6 @@ public class PerfilClientesFragment extends Fragment implements View.OnClickList
                             fabPerfil.setVisibility(View.VISIBLE);
                             bctPerfil.setVisibility(View.GONE);
                             pdThumbnail.dismiss();
-                            Log.i(TAG, "addOnSuccessListener : " + exception.getMessage());
                         }
                     });
                 } else {
