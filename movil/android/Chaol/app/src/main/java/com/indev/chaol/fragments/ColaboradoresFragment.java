@@ -24,6 +24,8 @@ import com.indev.chaol.models.DecodeItem;
 import com.indev.chaol.utils.Constants;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -71,6 +73,13 @@ public class ColaboradoresFragment extends Fragment implements View.OnClickListe
      * Carga el listado predeterminado de firebase
      **/
     private void onPreRenderClientes() {
+
+        Collections.sort(administradoresList, new Comparator<Administradores>() {
+            @Override
+            public int compare(Administradores o1, Administradores o2) {
+                return (o1.getNombre().compareTo(o2.getNombre()));
+            }
+        });
 
         colaboradoresAbapter.addAll(administradoresList);
 

@@ -24,6 +24,8 @@ import com.indev.chaol.models.Transportistas;
 import com.indev.chaol.utils.Constants;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -66,6 +68,13 @@ public class TransportistasFragment extends Fragment implements View.OnClickList
      * Carga el listado predeterminado de firebase
      **/
     private void onPreRenderTransportistas() {
+
+        Collections.sort(transportistasList, new Comparator<Transportistas>() {
+            @Override
+            public int compare(Transportistas o1, Transportistas o2) {
+                return (o1.getNombre().compareTo(o2.getNombre()));
+            }
+        });
 
         transportistasAdapter.addAll(transportistasList);
 

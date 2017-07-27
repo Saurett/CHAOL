@@ -26,6 +26,8 @@ import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -70,6 +72,14 @@ public class BodegasFragment extends Fragment implements View.OnClickListener {
 
     /**Carga el listado predeterminado de firebase**/
     private void onPreRenderBodegas() {
+
+        Collections.sort(bodegasList, new Comparator<Bodegas>() {
+            @Override
+            public int compare(Bodegas o1, Bodegas o2) {
+                return (o1.getNombreDeLaBodega().compareTo(o2.getNombreDeLaBodega()));
+            }
+        });
+
 
         bodegasAdapter.addAll(bodegasList);
 
@@ -118,6 +128,7 @@ public class BodegasFragment extends Fragment implements View.OnClickListener {
 
                         if (bodega.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ACTIVO)) {
                             bodega.setFirebaseIdDelCliente(postSnapshot.getKey());
+                            bodega.setNombreDeLaBodega(cliente.getNombre() + " - " + bodega.getNombreDeLaBodega());
                             bodegasList.add(bodega);
                         }
                     }

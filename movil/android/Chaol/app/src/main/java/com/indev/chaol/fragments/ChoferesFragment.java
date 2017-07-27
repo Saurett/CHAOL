@@ -21,10 +21,14 @@ import com.indev.chaol.adapters.ChoferesAdapter;
 import com.indev.chaol.fragments.interfaces.NavigationDrawerInterface;
 import com.indev.chaol.models.Choferes;
 import com.indev.chaol.models.DecodeItem;
+import com.indev.chaol.models.Remolques;
+import com.indev.chaol.models.Transportistas;
 import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -62,7 +66,7 @@ public class ChoferesFragment extends Fragment implements View.OnClickListener {
 
         /**Obtiene la instancia compartida del objeto FirebaseAuth**/
         database = FirebaseDatabase.getInstance();
-        drChoferes = database.getReference(Constants.FB_KEY_MAIN_CHOFERES);
+        drChoferes = database.getReference(Constants.FB_KEY_MAIN_TRANSPORTISTAS);
 
         return view;
     }
@@ -71,6 +75,13 @@ public class ChoferesFragment extends Fragment implements View.OnClickListener {
      * Carga el listado predeterminado de firebase
      **/
     private void onPreRenderChoferes() {
+
+        Collections.sort(choferesList, new Comparator<Choferes>() {
+            @Override
+            public int compare(Choferes o1, Choferes o2) {
+                return (o1.getNombre().compareTo(o2.getNombre()));
+            }
+        });
 
         choferesAdapter.addAll(choferesList);
         recyclerViewChoferes.setAdapter(choferesAdapter);
@@ -101,16 +112,28 @@ public class ChoferesFragment extends Fragment implements View.OnClickListener {
                 choferesList = new ArrayList<>();
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    Choferes chofer = postSnapshot.getValue(Choferes.class);
 
-                    if (_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA)) {
-                        if (!_SESSION_USER.getFirebaseId().equals(chofer.getFirebaseIdDelTransportista())) continue;
-                    }
+                    for (DataSnapshot psRemolques : postSnapshot.child(Constants.FB_KEY_MAIN_CHOFERES).getChildren()) {
+                        Choferes chofer = psRemolques.getValue(Choferes.class);
 
-                    if (!chofer.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO)) {
-                        choferesList.add(chofer);
+                        DataSnapshot psTransportista = postSnapshot.child(Constants.FB_KEY_ITEM_TRANSPORTISTA);
+                        Transportistas transportista = psTransportista.getValue(Transportistas.class);
+
+                        if (!Constants.FB_KEY_ITEM_ESTATUS_ACTIVO.equals(transportista.getEstatus())) break;
+
+                        if (_SESSION_USER.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_TRANSPORTISTA)) {
+                            if (!_SESSION_USER.getFirebaseId().equals(postSnapshot.getKey())) continue;
+                        }
+
+                        if (!chofer.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO)) {
+                            chofer.setFirebaseIdDelTransportista(postSnapshot.getKey());
+                            chofer.setNombre(transportista.getNombre() + " - " + chofer.getNombre());
+                            choferesList.add(chofer);
+                        }
                     }
                 }
+
+
 
                 onPreRenderChoferes();
             }

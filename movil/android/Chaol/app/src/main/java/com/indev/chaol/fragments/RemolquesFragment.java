@@ -26,6 +26,8 @@ import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -70,6 +72,13 @@ public class RemolquesFragment extends Fragment implements View.OnClickListener 
 
     /**Carga el listado predeterminado de firebase**/
     private void onPreRenderRemolques() {
+
+        Collections.sort(remolquesList, new Comparator<Remolques>() {
+            @Override
+            public int compare(Remolques o1, Remolques o2) {
+                return (o1.getNumeroEconomico().compareTo(o2.getNumeroEconomico()));
+            }
+        });
 
         remolquesAdapter.addAll(remolquesList);
         recyclerViewRemolques.setAdapter(remolquesAdapter);
@@ -116,6 +125,7 @@ public class RemolquesFragment extends Fragment implements View.OnClickListener 
 
                         if (!remolque.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO)) {
                             remolque.setFirebaseIdDelTransportista(postSnapshot.getKey());
+                            remolque.setNumeroEconomico(transportista.getNombre() + " - " + remolque.getNumeroEconomico());
                             remolquesList.add(remolque);
                         }
                     }

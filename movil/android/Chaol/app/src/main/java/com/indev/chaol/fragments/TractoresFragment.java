@@ -27,6 +27,8 @@ import com.indev.chaol.models.Usuarios;
 import com.indev.chaol.utils.Constants;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -71,6 +73,13 @@ public class TractoresFragment extends Fragment implements View.OnClickListener 
 
     /**Carga el listado predeterminado de firebase**/
     private void onPreRenderTractores() {
+
+        Collections.sort(tractoresList, new Comparator<Tractores>() {
+            @Override
+            public int compare(Tractores o1, Tractores o2) {
+                return (o1.getNumeroEconomico().compareTo(o2.getNumeroEconomico()));
+            }
+        });
 
         tractoresAdapter.addAll(tractoresList);
 
@@ -119,6 +128,7 @@ public class TractoresFragment extends Fragment implements View.OnClickListener 
                         if (!tractor.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO)) {
 
                             tractor.setFirebaseIdDelTransportista(postSnapshot.getKey());
+                            tractor.setNumeroEconomico(transportista.getNombre() + " - " + tractor.getNumeroEconomico());
                             tractoresList.add(tractor);
                         }
                     }

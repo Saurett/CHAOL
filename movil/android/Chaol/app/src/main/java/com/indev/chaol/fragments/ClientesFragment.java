@@ -24,6 +24,8 @@ import com.indev.chaol.models.DecodeItem;
 import com.indev.chaol.utils.Constants;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -72,6 +74,13 @@ public class ClientesFragment extends Fragment implements View.OnClickListener {
      **/
     private void onPreRenderClientes() {
 
+        Collections.sort(clientesList, new Comparator<Clientes>() {
+            @Override
+            public int compare(Clientes o1, Clientes o2) {
+                return (o1.getNombre().compareTo(o2.getNombre()));
+            }
+        });
+
         clientesAdapter.addAll(clientesList);
 
         recyclerViewClientes.setAdapter(clientesAdapter);
@@ -82,6 +91,7 @@ public class ClientesFragment extends Fragment implements View.OnClickListener {
         if (clientesList.size() == 0) {
             Toast.makeText(getActivity(), "La lista se encuentra vacía", Toast.LENGTH_SHORT).show();
         }
+
 
         adapter = clientesAdapter;
     }

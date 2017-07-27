@@ -85,6 +85,8 @@ public class AgendasFragment extends Fragment implements View.OnClickListener {
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 
+                    if (null == _FIREBASE_LIST) continue;
+
                     if (!_FIREBASE_LIST.contains(postSnapshot.getKey())) continue;
 
                     Fletes flete = postSnapshot.child(Constants.FB_KEY_MAIN_FLETE).getValue(Fletes.class);
