@@ -277,7 +277,7 @@ public class ResumenFragment extends Fragment implements View.OnClickListener, A
 
                 Fletes flete = dataSnapshot.child(Constants.FB_KEY_MAIN_FLETE).getValue(Fletes.class);
                 Bodegas bodegaCarga = dataSnapshot.child(Constants.FB_KEY_MAIN_BODEGA_DE_CARGA).getValue(Bodegas.class);
-
+                Bodegas bodegaDescarga = dataSnapshot.child(Constants.FB_KEY_MAIN_BODEGA_DE_DESCARGA).getValue(Bodegas.class);
 
 
                 for (DataSnapshot dsTransportista : dataSnapshot.child(Constants.FB_KEY_ITEM_ESTATUS_TRANSPORTISTA_SELECCIONADO).getChildren()) {
@@ -333,6 +333,7 @@ public class ResumenFragment extends Fragment implements View.OnClickListener, A
 
                 _mainFletesActual.setFlete(flete);
                 _mainFletesActual.setBodegaDeCarga(bodegaCarga);
+                _mainFletesActual.setBodedaDeDescarga(bodegaDescarga);
 
                 /**Cargar información del flete**/
                 String date = DateTimeUtils.getParseTimeStamp(flete.getFechaDeSalida());
@@ -576,7 +577,7 @@ public class ResumenFragment extends Fragment implements View.OnClickListener, A
         if (_MAIN_DECODE.getAccionFragmento() == Constants.ACCION_EDITAR) {
             for (Bodegas bodegaDescarga : bodegasDescargas) {
                 item++;
-                if (_mainFletesActual.getBodegaDeCarga().getFirebaseIdBodega()
+                if (_mainFletesActual.getBodedaDeDescarga().getFirebaseIdBodega()
                         .equals(bodegaDescarga.getFirebaseIdBodega())) {
                     break;
                 }

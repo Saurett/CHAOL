@@ -24,7 +24,8 @@
                 android:background="@drawable/border_form"
                 android:orientation="vertical">
 
-                <com.prolificinteractive.materialcalendarview.MaterialCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
+                <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/calendarView_agenda"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"

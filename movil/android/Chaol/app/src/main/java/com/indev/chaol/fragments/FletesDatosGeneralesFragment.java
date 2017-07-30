@@ -353,11 +353,17 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
 
                 Fletes flete = dataSnapshot.child(Constants.FB_KEY_MAIN_FLETE).getValue(Fletes.class);
                 Bodegas bodegaCarga = dataSnapshot.child(Constants.FB_KEY_MAIN_BODEGA_DE_CARGA).getValue(Bodegas.class);
+                Bodegas bodegaDescarga = dataSnapshot.child(Constants.FB_KEY_MAIN_BODEGA_DE_DESCARGA).getValue(Bodegas.class);
 
                 _mainFletesActual = new MainFletes();
 
                 _mainFletesActual.setFlete(flete);
                 _mainFletesActual.setBodegaDeCarga(bodegaCarga);
+                _mainFletesActual.setBodedaDeDescarga(bodegaDescarga);
+                firebaseIdCliente = bodegaCarga.getFirebaseIdDelCliente();
+
+                loadBodegaCarga();
+                loadBodegaDescarga();
 
                 /**Cargar información del flete**/
                 String date = DateTimeUtils.getParseTimeStamp(flete.getFechaDeSalida());
@@ -367,6 +373,7 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
                 linearLayoutIDFlete.setVisibility(View.VISIBLE);
                 txtIDFlete.setText(_mainFletesActual.getFlete().getIdFlete());
 
+                /*
                 if (null != clientesList && null != clientes) {
                     onCargarSpinnerClientes();
                 } else {
@@ -383,7 +390,21 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
                     clientesList.add(cliente.getNombre());
 
                     onCargarSpinnerClientes();
-                }
+                }*/
+
+                clientesList = new ArrayList<>();
+                clientes = new ArrayList<>();
+
+                clientesList.add("Seleccione ...");
+
+                Clientes cliente = new Clientes();
+                cliente.setFirebaseId(bodegaCarga.getFirebaseIdDelCliente());
+                cliente.setNombre(flete.getCliente());
+
+                clientes.add(cliente);
+                clientesList.add(cliente.getNombre());
+
+                onCargarSpinnerClientes();
 
                 myCalendar.set(calendarDay.getYear(), calendarDay.getMonth(), calendarDay.getDay());
                 updateTxtDate(); /**Actualiza la fecha del calendario**/
@@ -400,7 +421,6 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
                 txtNumEmbarque.setText(_mainFletesActual.getFlete().getNumeroDeEmbarque());
                 txtDestinatario.setText(_mainFletesActual.getFlete().getDestinatario());
                 /**Combo se hace en el evento onCargarSpinnerBodegaDescarga**/
-
 
                 txtNumEmbarque.setText(flete.getNumeroDeEmbarque());
 
@@ -593,11 +613,6 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
         };
 
         dbFlete.addValueEventListener(listenerFletes);
-
-        /**Modifica valores predeterminados de ciertos elementos**/
-        //btnTitulo.setText(getString(Constants.TITLE_FORM_ACTION.get(_MAIN_DECODE.getAccionFragmento())));
-        //fabClientes.setImageDrawable(getResources().getDrawable(R.mipmap.ic_mode_edit_white_18dp));
-
     }
 
     private void onCargarSpinnerTiposRemolques() {
@@ -812,8 +827,10 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
                     Clientes cliente = clientes.get(position - 1);
                     firebaseIdCliente = cliente.getFirebaseId();
 
-                    this.loadBodegaCarga();
-                    this.loadBodegaDescarga();
+                    if (_MAIN_DECODE.getAccionFragmento() == Constants.ACCION_REGISTRAR) {
+                        this.loadBodegaCarga();
+                        this.loadBodegaDescarga();
+                    }
                 } else {
 
                     bodegasCargasList = new ArrayList<>();
@@ -995,7 +1012,7 @@ public class FletesDatosGeneralesFragment extends Fragment implements View.OnCli
         if (_MAIN_DECODE.getAccionFragmento() == Constants.ACCION_EDITAR) {
             for (Bodegas bodegaDescarga : bodegasDescargas) {
                 item++;
-                if (_mainFletesActual.getBodegaDeCarga().getFirebaseIdBodega()
+                if (_mainFletesActual.getBodedaDeDescarga().getFirebaseIdBodega()
                         .equals(bodegaDescarga.getFirebaseIdBodega())) {
                     break;
                 }
